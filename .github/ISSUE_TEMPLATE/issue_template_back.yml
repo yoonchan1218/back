@@ -1,77 +1,161 @@
-name: ⚙️ Service 개발/수정 요청
-description: Spring Backend Service 단위의 개발 또는 수정 작업을 위한 템플릿입니다.
+name: ⚙️ Service 개발/수정
+description: Spring Backend Service 단위의 개발 또는 수정 작업을 요청합니다.
 title: "[Service] "
-labels: ["backend", "feature"]
+labels: ["backend", "service"]
 assignees: []
 body:
   - type: markdown
     attributes:
       value: |
-        ## Service 작업 요청
-        새로운 Service 로직을 추가하거나 기존 로직을 수정할 때 작성합니다.
+        ## 🛠️ Service 작업 요청서
+        > 새로운 Service 로직을 추가하거나 기존 로직을 수정할 때 작성합니다.
+        
+        ---
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: 📁 대상 모듈
+      description: 작업 대상 모듈을 선택해주세요.
+      options:
+        - main (메인/로그인/회원가입)
+        - community (커뮤니티/QnA)
+        - corporate (기업 마이페이지)
+        - enterprise (기업 지원자 관리)
+        - experience (체험 프로그램)
+        - mypage (개인 마이페이지)
+        - point (포인트 시스템)
+        - program (프로그램 등록)
+        - skill-log (스킬로그/대시보드)
+        - common (공통 모듈)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: work-type
+    attributes:
+      label: 🔧 작업 유형
+      description: 작업 유형을 선택해주세요.
+      options:
+        - 🆕 신규 개발
+        - ✏️ 기존 수정
+        - 🔄 리팩토링
+        - 🐛 버그 수정
+    validations:
+      required: true
 
   - type: input
     id: service-name
     attributes:
-      label: Service Name (Class/Method)
-      description: 작업 대상 Service 클래스명 혹은 메서드명을 적어주세요.
-      placeholder: ex) MemberService.join()
+      label: 📌 Service 클래스/메서드명
+      description: 작업 대상 Service 클래스명 또는 메서드명을 입력해주세요.
+      placeholder: "예: MemberService.join() 또는 ExperienceService"
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: 작업 개요 (Description)
-      description: 이 Service가 수행해야 할 비즈니스 로직의 목적과 내용을 상세히 기술해주세요.
+      label: 📝 작업 개요
+      description: Service가 수행해야 할 비즈니스 로직의 목적과 내용을 상세히 기술해주세요.
       placeholder: |
-        - 회원 가입 시 중복 아이디 체크 로직을 수행합니다.
-        - 비밀번호는 암호화하여 DB에 저장해야 합니다.
+        ### 목적
+        - 회원 가입 시 중복 아이디 체크 로직 구현
+        
+        ### 상세 내용
+        - 비밀번호는 BCrypt로 암호화하여 DB에 저장
+        - 이메일 인증 여부 확인 후 가입 처리
+        - 가입 완료 시 웰컴 포인트 100P 지급
     validations:
       required: true
 
   - type: input
     id: api-endpoint
     attributes:
-      label: 연관 API Endpoint (Optional)
-      description: 이 Service와 연결되는 Controller의 엔드포인트가 있다면 적어주세요.
-      placeholder: POST /api/v1/members/join
+      label: 🔗 연관 API Endpoint
+      description: 이 Service와 연결되는 Controller 엔드포인트가 있다면 입력해주세요.
+      placeholder: "POST /api/v1/members/join"
     validations:
       required: false
 
   - type: textarea
-    id: technical-spec
+    id: request-dto
     attributes:
-      label: 기술 명세 (Technical Specs)
-      description: DTO 구조, 트랜잭션 처리, Validation 등 기술적인 요구사항을 적어주세요.
+      label: 📥 Request DTO
+      description: 요청 DTO 구조를 정의해주세요.
       value: |
-        ### Request DTO
-        - Field: 
-        
-        ### Response DTO
-        - Field: 
-        
-        ### Transaction & Exception
-        - @Transactional(readOnly = false)
-        - 예외 처리: 
+        ```java
+        public class ExampleRequestDto {
+            private String field1;  // 설명
+            private Integer field2; // 설명
+        }
+        ```
     validations:
-      required: true
+      required: false
+
+  - type: textarea
+    id: response-dto
+    attributes:
+      label: 📤 Response DTO
+      description: 응답 DTO 구조를 정의해주세요.
+      value: |
+        ```java
+        public class ExampleResponseDto {
+            private Long id;        // 설명
+            private String result;  // 설명
+        }
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: transaction-exception
+    attributes:
+      label: ⚠️ 트랜잭션 & 예외 처리
+      description: 트랜잭션 설정 및 예외 처리 요구사항을 작성해주세요.
+      value: |
+        ### 트랜잭션
+        - [ ] @Transactional
+        - [ ] @Transactional(readOnly = true)
+        
+        ### 예외 처리
+        - 중복 아이디: `DuplicateIdException`
+        - 인증 실패: `AuthenticationException`
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: 🔄 연관 컴포넌트
+      description: 의존하는 Repository, 다른 Service 등을 나열해주세요.
+      placeholder: |
+        - MemberRepository
+        - PointService
+        - EmailService
+    validations:
+      required: false
 
   - type: textarea
     id: references
     attributes:
-      label: 참고 자료 (References)
-      description: 관련된 기획 문서, UI 디자인, 혹은 참고할 레퍼런스 링크를 첨부해주세요.
+      label: 📎 참고 자료
+      description: 기획 문서, UI 디자인, 참고 링크 등을 첨부해주세요.
+      placeholder: |
+        - Figma: https://...
+        - 기획서: https://...
     validations:
       required: false
 
   - type: checkboxes
     id: checklist
     attributes:
-      label: 체크리스트 (Definition of Done)
-      description: 작업 완료 조건을 체크해주세요.
+      label: ✅ 완료 조건 (Definition of Done)
+      description: 작업 완료 시 체크해주세요.
       options:
-        - label: 비즈니스 로직 구현 완료
-        - label: Unit Test (JUnit/Mockito) 작성 및 통과
-        - label: Swagger/API 문서 업데이트
-        - label: 코드 리뷰 반영
+        - label: "비즈니스 로직 구현 완료"
+        - label: "Unit Test 작성 및 통과 (JUnit/Mockito)"
+        - label: "통합 테스트 완료"
+        - label: "Swagger/API 문서 업데이트"
+        - label: "코드 리뷰 완료"
+        - label: "develop 브랜치 머지"
