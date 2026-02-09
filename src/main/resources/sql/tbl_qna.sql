@@ -10,4 +10,6 @@ create table tbl_qna
     constraint fk_qna_member foreign key (member_id) references tbl_individual_member (id)
 );
 
+select * from tbl_qna;
+
 

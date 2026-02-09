@@ -11,6 +11,6 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-  mapper-locations: classpath*:/mapper/*.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.app.trycatch.domain; com.app.trycatch.dto;
   type-handlers-package: com.app.trycatch.mybatis.handler

@@ -1,7 +1,7 @@
 package com.app.trycatch.dto.qna;
 
 import com.app.trycatch.common.enumeration.qna.QnaStatus;
-import com.app.trycatch.domain.qna.QnAVO;
+import com.app.trycatch.domain.qna.QnaVO;
 import lombok.*;
 
 @Getter
@@ -12,7 +12,7 @@ import lombok.*;
 public class QnaDTO {
     private Long id;
     private Long memberId;
-    private String qnatitle;
+    private String qnaTitle;
     private String qnaContent;
     private int qnaViewCount;
     private QnaStatus qnaStatus;
@@ -24,11 +24,11 @@ public class QnaDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
-    public QnAVO toQnaVO() {
-        return QnAVO.builder()
+    public QnaVO toQnaVO() {
+        return QnaVO.builder()
                 .id(id)
                 .memberId(memberId)
-                .qnatitle(qnatitle)
+                .qnaTitle(qnaTitle)
                 .qnaContent(qnaContent)
                 .qnaViewCount(qnaViewCount)
                 .qnaStatus(qnaStatus)
@@ -37,7 +37,6 @@ public class QnaDTO {
                 .build();
     }
 
-    public
 
 
 }

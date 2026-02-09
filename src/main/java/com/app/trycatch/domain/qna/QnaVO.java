@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-public class QnAVO extends Period {
+public class QnaVO extends Period {
     private Long id;
     private Long memberId;
-    private String qnatitle;
+    private String qnaTitle;
     private String qnaContent;
     private int qnaViewCount;
     private QnaStatus qnaStatus;
