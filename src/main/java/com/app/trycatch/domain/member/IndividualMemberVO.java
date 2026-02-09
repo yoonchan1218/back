@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 public class IndividualMemberVO {
     private Long id;
+    private String individualMemberBirth;
     private String individualMemberEducation;
     private int individualMemberPoint;
     private int individualMemberLevel;

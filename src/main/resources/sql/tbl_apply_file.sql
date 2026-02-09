@@ -1,3 +1,4 @@
+
 create table tbl_apply_file
 (
     id               bigint unsigned primary key comment '파일 ID (tbl_file.id)',

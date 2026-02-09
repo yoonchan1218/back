@@ -1,4 +1,5 @@
 -- ============================================================
+
 create table tbl_corp_team_member
 (
     id                          bigint unsigned primary key comment '팀원 ID',

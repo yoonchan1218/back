@@ -14,7 +14,6 @@ public class MemberVO extends Period {
     private Long id;
     private String memberId;
     private String memberPassword;
-    private String memberBirth;
     private Gender memberGender;
     private String memberName;
     private String memberEmail;

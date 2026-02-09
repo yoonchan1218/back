@@ -1,5 +1,6 @@
 -- ============================================================
 
+
 create table tbl_corp_notification
 (
     id                        bigint unsigned auto_increment primary key comment '알림 ID',

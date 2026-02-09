@@ -6,3 +6,4 @@ create table tbl_skill_log_report
     skill_log_report_target_id     bigint unsigned not null comment '신고 대상 ID',
     constraint fk_skill_log_report foreign key (id) references tbl_report (id)
 ) comment '기술 블로그 리포트 서브타입';
+

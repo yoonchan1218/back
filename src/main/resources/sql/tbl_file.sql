@@ -1,4 +1,5 @@
 -- ============================================================
+
 create table tbl_file
 (
     id               bigint unsigned auto_increment primary key comment '파일 ID',

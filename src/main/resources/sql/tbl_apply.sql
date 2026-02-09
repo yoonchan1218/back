@@ -1,3 +1,4 @@
+
 create table tbl_apply
 (
     id                        bigint unsigned auto_increment primary key comment '지원 ID',

@@ -3,7 +3,6 @@ create table tbl_member
     id                     bigint unsigned auto_increment primary key comment '회원 ID',
     member_id              varchar(255)         not null unique comment '로그인 ID',
     member_password        varchar(255)         not null comment '비밀번호',
-    member_birth           date                 not null comment '생년월일',
     member_gender          enum ('man','women') not null comment '성별',
     member_name            varchar(255)         not null comment '이름',
     member_email           varchar(255)         not null unique comment '이메일',

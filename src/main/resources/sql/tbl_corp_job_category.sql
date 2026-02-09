@@ -7,3 +7,4 @@ create table tbl_corp_job_category
     constraint fk_corp_job_cat_category foreign key (experience_program_job_category_id) references tbl_experience_program_job_category (id) ,
     unique key uk_corp_job_cat (corp_id, experience_program_job_category_id)
 ) comment '기업-직무카테고리 N:N';
+

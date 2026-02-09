@@ -16,6 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 public class IndividualMemberDTO {
     private Long id;
+    private String individualMemberBirth;
     private String individualMemberEducation;
     private int individualMemberPoint;
     private int individualMemberLevel;
@@ -23,7 +24,6 @@ public class IndividualMemberDTO {
     private int individualMemberQuestionCount;
     private String memberId;
     private String memberPassword;
-    private String memberBirth;
     private Gender memberGender;
     private String memberName;
     private String memberEmail;
@@ -46,7 +46,6 @@ public class IndividualMemberDTO {
                 .id(id)
                 .memberId(memberId)
                 .memberPassword(memberPassword)
-                .memberBirth(memberBirth)
                 .memberGender(memberGender)
                 .memberName(memberName)
                 .memberEmail(memberEmail)
@@ -63,6 +62,7 @@ public class IndividualMemberDTO {
     public IndividualMemberVO toIndividualMemberVO() {
         return IndividualMemberVO.builder()
                 .id(id)
+                .individualMemberBirth(individualMemberBirth)
                 .individualMemberEducation(individualMemberEducation)
                 .individualMemberPoint(individualMemberPoint)
                 .individualMemberLevel(individualMemberLevel)

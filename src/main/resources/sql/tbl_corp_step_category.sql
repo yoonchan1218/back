@@ -1,3 +1,4 @@
+
 create table tbl_corp_step_category
 (
     id                                   bigint unsigned auto_increment primary key,

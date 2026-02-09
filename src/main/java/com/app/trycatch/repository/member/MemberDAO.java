@@ -1,0 +1,28 @@
+package com.app.trycatch.repository.member;
+
+import com.app.trycatch.domain.member.MemberVO;
+import com.app.trycatch.domain.member.OAuthVO;
+import com.app.trycatch.mapper.member.MemberMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class MemberDAO {
+    private final MemberMapper memberMapper;
+
+    // 개인회원 가입
+    public void saveIndividual(MemberVO memberVO) {
+        memberMapper.insertIndividual(memberVO);
+    }
+
+    // 기업회원 가입
+    public void saveCorp(MemberVO memberVO) {
+        memberMapper.insertCorp(memberVO);
+    }
+
+    // 소셜 로그인 정보 저장
+    public void saveOauth(OAuthVO oAuthVO) {
+        memberMapper.insertOauth(oAuthVO);
+    }
+}

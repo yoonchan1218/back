@@ -24,20 +24,24 @@ public class IndividualMemberTests {
     public void testInsert(){
         IndividualMemberDTO individualMemberDTO = new IndividualMemberDTO();
         log.info("{}............",individualMemberDTO);
-        individualMemberDTO.setMemberId("test22");
-        individualMemberDTO.setMemberPassword("12344");
-        individualMemberDTO.setMemberBirth("2000-02-02");
+        individualMemberDTO.setMemberId("test222");
+        individualMemberDTO.setMemberPassword("2222");
         individualMemberDTO.setMemberGender(Gender.Man);
-        individualMemberDTO.setMemberName("김태형");
-        individualMemberDTO.setMemberEmail("test12@gmail.com");
-        individualMemberDTO.setMemberPhone("010-2555-3434");
+        individualMemberDTO.setMemberName("스티브 잡스");
+        individualMemberDTO.setMemberEmail("test12222@gmail.com");
+        individualMemberDTO.setMemberPhone("010-2224-1222");
         individualMemberDTO.setMemberAgreePrivacy(true);
         individualMemberDTO.setMemberAgreeMarketing(true);
+        individualMemberDTO.setProvider(Provider.THREETIER);
+
         MemberVO memberVO = individualMemberDTO.toMemberVO();
         memberMapper.insertIndividual(memberVO);
 
         individualMemberDTO.setId(memberVO.getId());
+        individualMemberDTO.setIndividualMemberBirth("1999-11-11");
 
         individualMemberMapper.insert(individualMemberDTO.toIndividualMemberVO());
+
+        memberMapper.insertOauth(individualMemberDTO.toOAuthVO());
     }
 }
