@@ -1,4 +1,3 @@
--- ============================================================
 create table tbl_corp
 (
     id                               bigint unsigned primary key comment '기업 ID (tbl_member.id)',
@@ -18,8 +17,6 @@ create table tbl_corp
     corp_vision                      text comment '개요 및 비전',
     constraint fk_corp_member foreign key (id) references tbl_member (id)
 ) comment '매니저 && 기업';
-
-
 
 
 
