@@ -1,4 +1,3 @@
--- ============================================================
 create table tbl_corp
 (
     id                               bigint unsigned primary key comment '기업 ID (tbl_member.id)',
@@ -21,8 +20,6 @@ create table tbl_corp
 
 select * from tbl_corp;
 select * from tbl_address;
-
-
 
 
 

@@ -1,0 +1,20 @@
+package com.app.trycatch.domain.qna;
+
+import com.app.trycatch.audit.Period;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+@Getter
+@ToString(callSuper=true)
+@EqualsAndHashCode(of="id")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
+public class QnaCommentVO extends Period {
+    private Long id;
+    private Long qnaId;
+    private Long memberId;
+    private Long qnaCommentParent;
+    private String commentContent;
+    private int qnaCommentLikeCount;
+}
