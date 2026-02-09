@@ -7,8 +7,6 @@ create table tbl_qna
     qna_content          text            not null comment '내용',
     qna_view_count       int                           default 0 comment '조회수',
     qna_status           enum ('published', 'deleted') default 'published' comment '상태',
-    created_datetime     datetime                      default current_timestamp,
-    updated_datetime     datetime                      default current_timestamp,
     constraint fk_qna_member foreign key (member_id) references tbl_individual_member (id)
 );
 
