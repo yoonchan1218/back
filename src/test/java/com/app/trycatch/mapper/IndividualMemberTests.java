@@ -24,11 +24,11 @@ public class IndividualMemberTests {
     public void testInsert(){
         IndividualMemberDTO individualMemberDTO = new IndividualMemberDTO();
         log.info("{}............",individualMemberDTO);
-        individualMemberDTO.setMemberId("test222");
+        individualMemberDTO.setMemberId("test123");
         individualMemberDTO.setMemberPassword("2222");
         individualMemberDTO.setMemberGender(Gender.Man);
         individualMemberDTO.setMemberName("스티브 잡스");
-        individualMemberDTO.setMemberEmail("test12222@gmail.com");
+        individualMemberDTO.setMemberEmail("test12345@gmail.com");
         individualMemberDTO.setMemberPhone("010-2224-1222");
         individualMemberDTO.setMemberAgreePrivacy(true);
         individualMemberDTO.setMemberAgreeMarketing(true);

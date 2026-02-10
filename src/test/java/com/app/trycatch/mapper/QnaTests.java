@@ -17,9 +17,9 @@ public class QnaTests {
     @Test
     public void testInsert(){
         QnaDTO qnaDTO = new QnaDTO();
-        qnaDTO.setIndividualMemberId(1L);
-        qnaDTO.setQnaContent("테스트1");
-        qnaDTO.setQnaTitle("테스트제목1");
+        qnaDTO.setIndividualMemberId(4L);
+        qnaDTO.setQnaContent("테스트2");
+        qnaDTO.setQnaTitle("테스트제목2");
         qnaDTO.setQnaStatus(QnaStatus.PUBLISHED);
         qnaMapper.insert(qnaDTO.toQnaVO());
     }

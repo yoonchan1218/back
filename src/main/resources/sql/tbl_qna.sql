@@ -11,6 +11,8 @@ create table tbl_qna
 );
 
 select * from tbl_qna;
-set FOREIGN_KEY_CHECKS = 0;
+
+set FOREIGN_KEY_CHECKS = 1;
+
 drop table tbl_qna;
 

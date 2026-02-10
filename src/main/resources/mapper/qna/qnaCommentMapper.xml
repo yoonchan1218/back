@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.trycatch.mapper.qna.QnaCommentMapper">
+    <insert id="insert">
+        insert into tbl_qna_comment(qna_id, member_id, qna_comment_parent, qna_comment_content, qna_comment_like_count,)
+        values (#{qnaId},#{memberId},#{qnaCommentParent},#{qnaCommentContent},#{qnaCommentLikeCount})
+    </insert>
+</mapper>
