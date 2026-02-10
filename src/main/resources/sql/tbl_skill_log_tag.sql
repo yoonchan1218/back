@@ -10,3 +10,4 @@ create table tbl_skill_log_tag
 ) comment '기술 블로그-태그 N:N';
 
 
+select * from tbl_skill_log_tag;

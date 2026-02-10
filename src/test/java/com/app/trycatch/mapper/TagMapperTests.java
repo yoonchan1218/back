@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 @SpringBootTest
 @Slf4j
 public class TagMapperTests {
@@ -18,11 +20,17 @@ public class TagMapperTests {
     public void testInert() {
         TagDTO tagDTO = new TagDTO();
         TagVO tagVO = null;
-        tagDTO.setTagName("태그2");
 
+        tagDTO.setTagName("태그3");
         tagVO = tagDTO.toVO();
-        tagMapper.insert(tagVO);
 
-        log.info("{}.............", tagVO.getId());
+        tagMapper.insert(tagVO);
+        log.info("{}..............", tagVO.getId());
+    }
+
+    @Test
+    public void testSelectByTagName() {
+        Optional<TagVO> foundTag = tagMapper.selectByTagName("태그1");
+        log.info("{}", foundTag.orElse(null));
     }
 }

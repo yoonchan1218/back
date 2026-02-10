@@ -27,7 +27,7 @@ public class SkillLogDTO {
 
 //    experienceProgram
     private Long experienceProgramId;
-//    체험 공고 제목, 해당 기업, 공고 이미지 필요
+//    참여한 체험 공고 제목, 해당 기업 이름, 로고 이미지 필요
 
 //    tag 목록
     private List<TagDTO> tags = new ArrayList<>();
