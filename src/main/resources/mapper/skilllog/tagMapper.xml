@@ -5,6 +5,12 @@
         insert into tbl_tag(tag_name)
         values(#{tagName})
     </insert>
+
+    <select id="selectByTagName">
+        select id, tag_name, created_datetime, updated_datetime
+        from tbl_tag
+        where tag_name = #{tagName}
+    </select>
 </mapper>
 
 
