@@ -6,11 +6,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Provider {
-    THREETIER("threetier"), KAKAO("kakao");
+    TRYCATCH("trycatch"), KAKAO("kakao");
 
     private String value;
 
-    private static final Map<String, Provider> STATUS_MAP =
+    private static final Map<String, Provider> Provider_MAP =
             Arrays.stream(Provider.values()).collect(Collectors.toMap(Provider::getValue, Function.identity()));
 
     Provider(String value) {
@@ -18,7 +18,7 @@ public enum Provider {
     }
 
     public static Provider getProvider(String value) {
-        return STATUS_MAP.get(value);
+        return Provider_MAP.get(value);
     }
 
     public String getValue() {
