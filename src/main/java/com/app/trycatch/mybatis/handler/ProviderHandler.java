@@ -23,8 +23,8 @@ public class ProviderHandler implements TypeHandler<Provider> {
     @Override
     public Provider getResult(ResultSet rs, String columnName) throws SQLException {
         switch (rs.getString(columnName)) {
-            case "threetier":
-                return Provider.THREETIER;
+            case "trycatch":
+                return Provider.TRYCATCH;
             case "kakao":
                 return Provider.KAKAO;
         }
@@ -34,8 +34,8 @@ public class ProviderHandler implements TypeHandler<Provider> {
     @Override
     public Provider getResult(ResultSet rs, int columnIndex) throws SQLException {
         switch (rs.getString(columnIndex)) {
-            case "threetier":
-                return Provider.THREETIER;
+            case "trycatch":
+                return Provider.TRYCATCH;
             case "kakao":
                 return Provider.KAKAO;
         }
@@ -45,8 +45,8 @@ public class ProviderHandler implements TypeHandler<Provider> {
     @Override
     public Provider getResult(CallableStatement cs, int columnIndex) throws SQLException {
         switch (cs.getString(columnIndex)) {
-            case "threetier":
-                return Provider.THREETIER;
+            case "trycatch":
+                return Provider.TRYCATCH;
             case "kakao":
                 return Provider.KAKAO;
         }
