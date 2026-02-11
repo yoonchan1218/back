@@ -1,3 +1,11 @@
+// 질문·글쓰기 버튼 → create-menu 토글
+const createMenu = document.querySelector(".navi-top-area .create-menu");
+const btnQuestion = document.querySelector(".btn-question");
+
+btnQuestion.addEventListener("click", (e) => {
+    createMenu.classList.toggle("tooltip-open");
+});
+
 //체크박스-드롭다운 연동
 //체크박스와 드롭다운 매칭 (체크 해제 시 드롭다운 비활성화)
 const checkboxLis = document.querySelectorAll(
@@ -66,7 +74,6 @@ jobCheckDrop.addEventListener("click", (e) => {
     document
         .querySelector(".layer-box-wrap.corporation.innerScroll")
         .classList.remove("open");
-    document.querySelector(".layer-box-wrap.alumni").classList.remove("open");
     // 직무선배 드롭다운 열기/닫기
     jobCheckDropDown.classList.toggle("open");
 });
@@ -93,15 +100,6 @@ myJobButton.addEventListener("click", (e) => {
     myJobToggle.classList.toggle("tooltip-open");
 });
 
-const uniToggle = document.querySelector(
-    ".subtitle-wrap.has-tooltip.devQnaWriteUnivLayerTooltip",
-);
-
-const uniToggleButton = uniToggle.querySelector("button");
-
-uniToggleButton.addEventListener("click", (e) => {
-    uniToggle.classList.toggle("tooltip-open");
-});
 
 const layerContJob = document.querySelector(
     ".layer-cont.devRecentSearchBizJobtype",
@@ -143,48 +141,7 @@ jobToggleSelected.forEach((jobToggleSelected) => {
     });
 });
 
-// 동문선배(로그인)
-const thirdCheckButton = document.getElementById("lb_targetCheck1");
-const uniCheckDrop = document.querySelector(
-    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton",
-);
 
-const layerBox = document.querySelector(".layer-box-wrap.alumni");
-const layerBoxButton = document.querySelector(
-    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton ",
-);
-const layerBoxCancelButton = document.querySelector(
-    ".btn-layer-close.qnaSpB.devQnaWriteUnivLayerClose",
-);
-const uniLabelTag = document.querySelector(".devUnivItem label");
-
-// 동문선배 이벤트(로그인)
-thirdCheckButton.addEventListener("click", (e) => {
-    uniCheckDrop.classList.toggle("on");
-});
-
-layerBoxButton.addEventListener("click", (e) => {
-    // 다른 드롭다운 닫기
-    document
-        .querySelector(".layer-box-wrap.job.innerScroll")
-        .classList.remove("open");
-    document
-        .querySelector(".layer-box-wrap.job-directInput")
-        .classList.remove("open");
-    document
-        .querySelector(".layer-box-wrap.corporation.innerScroll")
-        .classList.remove("open");
-    // 동문선배 드롭다운 열기
-    layerBox.classList.add("open");
-});
-
-layerBoxCancelButton.addEventListener("click", (e) => {
-    layerBox.classList.remove("open");
-});
-
-uniLabelTag.addEventListener("click", (e) => {
-    layerBox.classList.remove("open");
-});
 
 const corpSeniorDropdownDiv = document.querySelector(
     ".layer-box-wrap.corporation.innerScroll",
@@ -201,7 +158,6 @@ corpSeniorDropdown.addEventListener("click", (e) => {
     document
         .querySelector(".layer-box-wrap.job-directInput")
         .classList.remove("open");
-    document.querySelector(".layer-box-wrap.alumni").classList.remove("open");
     // 기업선배 드롭다운 열기
     corpSeniorDropdownDiv.classList.add("open");
 });
@@ -225,51 +181,8 @@ corpInput.addEventListener("input", (e) => {
         corpInputDiv.classList.remove("focus");
     }
 });
-// // 체험공고 클릭
-
-// // 체험공고 버튼(주석부분 사용x 변수선언 겹쳐서 남겨놓음)
-const ExperienceAnnouncementClick = document.querySelector(
-    ".icon-recruit.qnaSpB.btn-layer-open",
-);
-// // 공고 레이어
-const ExperienceAnnouncementLayer = document.querySelector(".opening-layer");
-
-// // 갔다온 체험
-const handsOnExperience = document.getElementById("recentRecruit");
-
-// ExperienceAnnouncementClick.addEventListener("click", (e) => {
-//     ExperienceAnnouncementLayer.classList.toggle("open");
-//     ExperienceAnnouncementClick.classList.toggle("on");
-//     handsOnExperience.style.display =
-//         handsOnExperience.style.display === "block" ? "none" : "block";
-// });
-
-// // 체크 개수에 따라 버튼 달라지기
-// NodeList.prototype.filter = Array.prototype.filter;
-// const applyAttachRecruitBtn = document.querySelector(".apply.attachRecruitBtn");
-// console.log(applyAttachRecruitBtn);
-// let resultChecked = 0;
-// const checkboxes = document.querySelectorAll("input[type=checkbox]");
-
-// checkboxes.forEach((checkbox) => {
-//     checkbox.addEventListener("change", (e) => {
-//         const count = checkboxes.filter((checkbox) => checkbox.checked).length;
-//         applyAttachRecruitBtn.classList.toggle("on", count !== 0);
-//         applyAttachRecruitBtn.textContent =
-//             count === 0 ? "첨부하기" : `공고 ${count}건 첨부하기`;
-//     });
-// });
 // X 버튼(공용)
 const btnLayerCloses = document.querySelectorAll(".btn-layer-close.qnaSpB");
-
-btnLayerCloses.forEach((btnLayerClose) => {
-    btnLayerClose.addEventListener("click", (e) => {
-        ExperienceAnnouncementClick.classList.remove("on");
-        ExperienceAnnouncementLayer.classList.remove("open");
-        handsOnExperience.style.display =
-            handsOnExperience.style.display === "block" ? "none" : "block";
-    });
-});
 // 링크
 
 // 링크 버튼
@@ -455,7 +368,7 @@ const jobCheckboxForApply = document.getElementById("lb_targetCheck2");
 
 jobApplyButton.addEventListener("click", (e) => {
     const selectedRadio = document.querySelector(
-        'input[name="Part_Ctgr_Code"]:checked',
+        'input[name="jobCategorySmallId"]:checked',
     );
 
     if (selectedRadio) {

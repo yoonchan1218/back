@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 * {
@@ -249,7 +249,7 @@ h1, h2, h3, h4, h5, h6 {
 .qnaSpB:before, .qnaSpA:after, .qnaSpM:before, .qnaSpM:after{
     content: "";
     display: inline-block;
-    background-image: url(/static/images/sp_qna_recolor_star20_fixed.png);
+    background-image: url(/images/sp_qna_recolor_star20_fixed.png);
     background-repeat: no-repeat;
     background-position: 0 0;
     vertical-align: middle;
@@ -815,7 +815,7 @@ h1, h2, h3, h4, h5, h6 {
     top: -6px;
     width: 9px;
     height: 6px;
-    background-image: url(/static/images/sp_qna_recolor_star20_fixed.png);
+    background-image: url(/images/sp_qna_recolor_star20_fixed.png);
     background-position: -278px 0;
 }
 

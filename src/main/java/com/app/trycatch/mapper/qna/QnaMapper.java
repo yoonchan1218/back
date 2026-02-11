@@ -8,7 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface QnaMapper {
-    public void insert(QnaDTO qnaDTO);
+    void insert(QnaVO qnaVO);
     QnaDTO selectById(Long id);
     List<QnaDTO> selectAll();
+    void increaseViewCount(Long id);
+    void delete(Long id);
 }

@@ -5,4 +5,13 @@
         insert into tbl_qna_comment(id, corp_id, qna_comment_parent, qna_comment_content, qna_comment_like_count)
         values (#{id},#{corpId},#{qnaCommentParent},#{qnaCommentContent},#{qnaCommentLikeCount})
     </insert>
+
+    <select id="selectByQnaId" resultType="QnaCommentDTO">
+        select * from tbl_qna_comment where id = #{qnaId} order by created_datetime asc
+    </select>
+
+    <delete id="delete">
+        delete from tbl_qna_comment where id = #{id}
+    </delete>
+
 </mapper>

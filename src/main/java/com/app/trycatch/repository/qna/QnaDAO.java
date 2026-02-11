@@ -12,8 +12,8 @@ public class QnaDAO {
     private final QnaMapper qnaMapper;
 
 //    작성
-    public void save(QnaDTO qnaDTO) {
-        qnaMapper.insert(qnaDTO);
+    public void save(QnaVO qnaVO) {
+        qnaMapper.insert(qnaVO);
     }
 
 

@@ -5,5 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface QnaCommentLikesMapper {
-    public void insert (QnaCommentLikesVO qnaCommentLikesVO);
+    void insert(QnaCommentLikesVO qnaCommentLikesVO);
+    void delete(Long id);
+    int countByCommentId(Long commentId);
 }

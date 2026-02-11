@@ -6,9 +6,20 @@
         values(#{individualMemberId},#{qnaTitle},#{qnaContent},#{jobCategorySmallId},#{jobCategoryName},#{qnaViewCount},#{qnaStatus})
     </insert>
 
-    <select id="selectCategorySmallName" resultType="string">
-        SELECT job_category_small_name
-        FROM tbl_qna_job_category_small
-        WHERE id = #{categoryId}
+    <select id="selectById" resultType="QnaDTO">
+        select * from tbl_qna where id = #{id} and qna_status = 'published'
     </select>
+
+    <select id="selectAll" resultType="QnaDTO">
+        select * from tbl_qna where qna_status = 'published' order by id desc
+    </select>
+
+    <update id="increaseViewCount">
+        update tbl_qna set qna_view_count = qna_view_count + 1 where id = #{id}
+    </update>
+
+    <update id="delete">
+        update tbl_qna set qna_status = 'deleted' where id = #{id}
+    </update>
+
 </mapper>

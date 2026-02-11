@@ -41,6 +41,4 @@ public class QnaDTO {
                 .build();
     }
 
-
-
 }

@@ -48,7 +48,7 @@
                     <div class="reasonBx">
                         <div class="qnaFormBx qnaTxaBx devTplSchPh">
                             <span class="ph">신고 사유 설명이 필요하신 경우 작성해 주세요.</span>
-                            <textarea cols="20" id="lb_reason_8" maxlength="2000" name="" rows="2" class="qnaTxaTx" title="신고 사유 설명 작성"></textarea>
+                            <textarea cols="20" id="lb_reason_8" maxlength="2000" name="reportContent" rows="2" class="qnaTxaTx" title="신고 사유 설명 작성"></textarea>
                         </div>
                     </div>
                 </fieldset>
@@ -386,7 +386,7 @@
                                   form 태그부터-->
                                <form action="" method="post" oncopy="return false" oncut="return false" onpaste="return false">
                                         <fieldset>
-                                            <input type="hidden" name="Qstn_No" value="128418">
+                                            <input type="hidden" name="qnaId" value="128418">
                                             <input type="hidden" name="W_Type_Code" id="W_Type_Code" value="2">
                                             <input type="hidden" name="Img_Path" id="Img_Path">
                                             <input type="hidden" name="Emtcon_Path" id="Emtcon_Path">
@@ -394,7 +394,7 @@
                                             <div class="uiPlaceholder">
                                                 <span class="ph ph_1" style="display: block;">솔직하고 따뜻한 댓글을 남겨주세요.</span>
                                                     <span class="ph ph_2" style="display: none;">-개인정보를 공유 및 요청하거나, 명예 훼손, 무단광고, 불법정보 유포 시 이에 대한 민형사상 책임은 작성자에게 있습니다.<br>-부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.</span>
-                                                <textarea class="devTxtAreaAnswerWrite" name="Cntnt" maxlength="1000" title="답변쓰기"></textarea>
+                                                <textarea class="devTxtAreaAnswerWrite" name="qnaCommentContent" maxlength="1000" title="답변쓰기"></textarea>
                                             </div>
                                             <div class="btnWrap">
                                                 <div class="answer-util-wrap">
@@ -442,7 +442,7 @@
                                                 <!-- <textarea
                                                     onclick=""
                                                     class="devTxtAreaAnswerWrite"
-                                                    name="Cntnt"
+                                                    name="qnaCommentContent"
                                                     maxlength="1000"
                                                     title="답변쓰기"
                                                 ></textarea>
@@ -536,7 +536,7 @@
                     <div class="uiPlaceholder focus">
                         <span class="ph ph_1" style="display: none;">솔직하고 따뜻한 답변을 남겨주세요.</span>
                         <span class="ph ph_2" style="display: none;">솔직하고 따뜻한 답변을 남겨주세요.<br>*휴대폰번호, 메일주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리 될 수 있습니다.</span>
-                        <textarea name="Cntnt" maxlength="1000" title="답변쓰기"></textarea>
+                        <textarea name="qnaCommentContent" maxlength="1000" title="답변쓰기"></textarea>
                             </div>
                                 <div class="btnWrap">
                                     <div class="answer-util-wrap">
@@ -599,7 +599,7 @@
                 <legend>댓글하기 입력</legend>
                 <div class="uiPlaceholder">
                     <span class="ph ph_2" style="display:none;">댓글을 입력해주세요.<br>*휴대폰번호, 메일주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리 될 수 있습니다.</span>
-                    <textarea name="Cntnt" maxlength="1000" title="답변쓰기">좋은 정보 감사합니다!</textarea>
+                    <textarea name="qnaCommentContent" maxlength="1000" title="답변쓰기">좋은 정보 감사합니다!</textarea>
                         </div>
                             <div class="btnWrap">
                                 <div class="answer-util-wrap">
@@ -665,7 +665,7 @@
                         <legend>댓글하기 입력</legend>
                         <div class="uiPlaceholder focus">
                             <span class="ph ph_2" style="display: none;">댓글을 입력해주세요.<br>*휴대폰번호, 메일주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리 될 수 있습니다.</span>
-                            <textarea name="Cntnt" maxlength="1000" title="답변쓰기">sp~</textarea>
+                            <textarea name="qnaCommentContent" maxlength="1000" title="답변쓰기">sp~</textarea>
                             </div>
                             <div class="btnWrap">
                                 <div class="answer-util-wrap">
@@ -714,7 +714,7 @@
                     개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게<br> 있습니다.
                     부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
                          </span>
-                        <textarea name="" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
+                        <textarea name="qnaCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
                     </div>
                     <div class="btnWrap">
                         <div class="answer-util-wrap">
@@ -850,7 +850,7 @@
                                                                 있습니다.</span
                                                             >
                                                             <textarea
-                                                                name="Cntnt"
+                                                                name="qnaCommentContent"
                                                                 maxlength="1000"
                                                                 title="답변쓰기"
                                                             ></textarea>
@@ -964,7 +964,7 @@
                                                                     개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게<br> 있습니다.
                                                                     부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
                                                                              </span>
-                                                                                <textarea name="" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
+                                                                                <textarea name="qnaCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
                                                                             </div>
                                                                             <div class="btnWrap">
                                                                                 <div class="answer-util-wrap">
@@ -1047,7 +1047,7 @@
                                                                 </span>
 
                                                                 <textarea
-                                                                    name=""
+                                                                    name="qnaCommentContent"
                                                                     maxlength="1000"
                                                                     class="devComtWrite"
                                                                     title="답변쓰기"
@@ -1256,7 +1256,7 @@
                                                                 있습니다.</span
                                                             >
                                                             <textarea
-                                                                name="Cntnt"
+                                                                name="qnaCommentContent"
                                                                 maxlength="1000"
                                                                 title="답변쓰기"
                                                             ></textarea>
@@ -1389,7 +1389,7 @@
                                                                     개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게<br> 있습니다.
                                                                     부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
                                                                              </span>
-                                                                                <textarea name="" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
+                                                                                <textarea name="qnaCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
                                                                             </div>
                                                                             <div class="btnWrap">
                                                                                 <div class="answer-util-wrap">
@@ -1434,7 +1434,7 @@
                     개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게<br> 있습니다.
                     부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
                 </span>
-                <textarea name="" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
+                <textarea name="qnaCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
             </div>
             <div class="btnWrap">
                 <div class="answer-util-wrap">
