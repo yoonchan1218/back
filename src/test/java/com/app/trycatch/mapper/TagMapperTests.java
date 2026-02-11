@@ -19,18 +19,9 @@ public class TagMapperTests {
     @Test
     public void testInert() {
         TagDTO tagDTO = new TagDTO();
-        TagVO tagVO = null;
-
-        tagDTO.setTagName("태그3");
-        tagVO = tagDTO.toVO();
-
-        tagMapper.insert(tagVO);
-        log.info("{}..............", tagVO.getId());
+        tagDTO.setTagName("태그1");
+        tagDTO.setSkillLogId(8L);
+        tagMapper.insert(tagDTO.toVO());
     }
 
-    @Test
-    public void testSelectByTagName() {
-        Optional<TagVO> foundTag = tagMapper.selectByTagName("태그1");
-        log.info("{}", foundTag.orElse(null));
-    }
 }

@@ -18,3 +18,4 @@ create table tbl_skill_log
 select * from tbl_skill_log;
 set foreign_key_checks = 1;
 drop table tbl_skill_log;
+delete from tbl_skill_log;

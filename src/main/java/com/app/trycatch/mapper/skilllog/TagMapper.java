@@ -8,6 +8,4 @@ import java.util.Optional;
 @Mapper
 public interface TagMapper {
     public void insert(TagVO tagVO);
-
-    public Optional<TagVO> selectByTagName(String tagName);
 }

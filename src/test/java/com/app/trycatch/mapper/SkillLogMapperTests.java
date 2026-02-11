@@ -17,18 +17,15 @@ public class SkillLogMapperTests {
     @Test
     public void testInsert() {
         SkillLogDTO skillLogDTO = new SkillLogDTO();
-        SkillLogVO skillLogVO = null;
 
         skillLogDTO.setMemberId(1L);
         skillLogDTO.setExperienceProgramId(2L);
-        skillLogDTO.setSkillLogTitle("기술 블로그 테스트2");
-        skillLogDTO.setSkillLogContent("내용2");
+        skillLogDTO.setSkillLogTitle("기술 블로그 테스트1");
+        skillLogDTO.setSkillLogContent("내용1");
 
-        skillLogVO = skillLogDTO.toSkillLogVO();
+        skillLogMapper.insert(skillLogDTO);
 
-        skillLogMapper.insert(skillLogVO);
-
-        log.info("{}................", skillLogVO.getId());
+        log.info("{}................", skillLogDTO.getId());
 
     }
 }

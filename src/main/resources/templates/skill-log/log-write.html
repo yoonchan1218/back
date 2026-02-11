@@ -4,9 +4,9 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>log-write</title>
-        <link rel="stylesheet" href="/static/css/community/header.css" />
-        <link rel="stylesheet" href="/static/css/community/footer.css" />
-        <link rel="stylesheet" href="/static/css/skill-log/log-write.css" />
+        <link rel="stylesheet" href="/css/community/header.css" />
+        <link rel="stylesheet" href="/css/community/footer.css" />
+        <link rel="stylesheet" href="/css/skill-log/log-write.css" />
     </head>
     <body>
         <!-- 네비게이션 -->
@@ -132,7 +132,8 @@
                     <div class="lyWriteBoard">
                         <!-- 글쓰기 시작(제목, 내용) -->
                         <div class="writeBoxWrap">
-                            <form name="skil-log-write-form">
+                            <form action="/skill-log/write" method="post" name="skil-log-write-form">
+<!--                                <input type="hidden" name="memberId" th:value="${session.member.id}">-->
                                 <fieldset>
                                     <legend>제목 등록하기</legend>
                                     <div class="jkTxInput">
@@ -141,6 +142,7 @@
                                                 type="text"
                                                 class="jkSchInp devQnaWriteTitle"
                                                 placeholder="블로그 제목을 입력해주세요."
+                                                name="skillLogTitle"
                                             />
                                         </p>
                                     </div>
@@ -422,15 +424,15 @@
                                             허용되지 않는 이미지 형식이 있어
                                             제외됩니다.
                                         </div>
-                                        <textarea
-                                            id="editorQnaText"
-                                            style="width: 100%; display: none"
-                                            class="devQnaWriteCntnt"
-                                            title="내용 입력"
-                                        >
-                                        &lt;p&gt;&lt;/p&gt;
-                                    </textarea
-                                        >
+<!--                                        <textarea-->
+<!--                                            id="editorQnaText"-->
+<!--                                            style="width: 100%; display: none"-->
+<!--                                            class="devQnaWriteCntnt"-->
+<!--                                            title="내용 입력"-->
+<!--                                        >-->
+<!--                                        &lt;p&gt;&lt;/p&gt;-->
+<!--                                    </textarea-->
+<!--                                        >-->
                                         <!-- 실질적인 내용 작성하는 곳 -->
                                         <div>
                                             <div class="addFileAndLink"></div>
@@ -439,6 +441,7 @@
                                                 class="devQnaWriteCntnt custom-editor"
                                                 placeholder="내용을 입력해주세요.
     *휴대폰 번호, 메일 주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리될 수 있습니다"
+                                                name="skillLogContent"
                                             ></textarea>
                                         </div>
                                     </div>
@@ -494,5 +497,5 @@
             </div>
         </div>
     </body>
-    <script src="../../static/js/skill-log/log-write.js"></script>
+    <script src="/js/skill-log/write/event.js"></script>
 </html>

@@ -233,7 +233,7 @@ NodeList.prototype.filter = Array.prototype.filter;
 const addTag = document.querySelector("#devTags");
 const inputTag = document.querySelector(".tag-input");
 const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-const arTagName = [];
+let arTagName = [];
 addTag.addEventListener("keyup", (e) => {
     const tagDivs = document.querySelectorAll(".tagDiv");
     const tag = addTag.value;
@@ -269,7 +269,7 @@ addTag.addEventListener("keyup", (e) => {
         // 너비 재조정
         adjustInputWidth();
 
-    //     arTagName.push(tag);
+        arTagName.push(tag);
     }
 });
 
@@ -292,8 +292,8 @@ function adjustInputWidth() {
 // 태그 삭제
 inputTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("tagDiv")) {
+        arTagName = arTagName.filter((tagName) => tagName !== e.target.textContent.slice(1));
         e.target.remove();
-    //     arTag.splice()
     }
 });
 
@@ -307,24 +307,28 @@ const writeContent = document.querySelector(".devQnaWriteCntnt.custom-editor");
 admitButton.addEventListener("click", (e) => {
     if (!confirm("등록하시겠습니까?")) {
         e.preventDefault();
-    }
-    if (!writeTitle.value) {
-        alert("제목을 입력해주세요");
-        e.preventDefault();
-    } else if (!writeContent.value) {
-        alert("내용을 입력해주세요");
-        e.preventDefault();
     } else {
-        alert("등록되었습니다.");
-        //     form태그에 input태그 생성
-        //
-        // arTagName.forEach((tagName) => {
-        //     // document.createElement("input");
-        //     // text += `<input name=tags[0].tagName value=${tag}>`
-        // })
+        if (!writeTitle.value) {
+            alert("제목을 입력해주세요");
+            e.preventDefault();
+        } else if (!writeContent.value) {
+            alert("내용을 입력해주세요");
+            e.preventDefault();
+        } else {
+            alert("등록되었습니다.");
+            //     form태그에 input태그 생성
+            arTagName.forEach((tagName, i) => {
+                const input = document.createElement("input");
+                input.setAttribute("name", `tags[${i}].tagName`);
+                input.value = tagName;
 
-        location.href = "";
+                skilLogForm.appendChild(input);
+            })
+
+            skilLogForm.submit();
+        }
     }
+
 });
 
 // 취소하기 버튼

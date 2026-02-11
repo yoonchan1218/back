@@ -11,15 +11,13 @@ import lombok.*;
 public class TagDTO {
     private Long id;
     private String tagName;
-    private String createdDatetime;
-    private String updatedDatetime;
+    private Long skillLogId;
 
     public TagVO toVO() {
         return TagVO.builder()
                 .id(id)
                 .tagName(tagName)
-                .createdDatetime(createdDatetime)
-                .updatedDatetime(updatedDatetime)
+                .skillLogId(skillLogId)
                 .build();
     }
 }

@@ -5,11 +5,13 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString(callSuper = true)
+@ToString
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
-public class TagVO extends Period {
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+public class TagVO {
     private Long id;
     private String tagName;
+    private Long skillLogId;
 }
