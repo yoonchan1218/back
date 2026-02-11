@@ -23,9 +23,9 @@ public class GenderHandler implements TypeHandler<Gender> {
     @Override
     public Gender getResult(ResultSet rs, String columnName) throws SQLException {
         switch (rs.getString(columnName)) {
-            case "active":
-                return Gender.Man;
-            case "inactive":
+            case "man":
+                return Gender.MAN;
+            case "women":
                 return Gender.WOMEN;
         }
         return null;
@@ -34,9 +34,9 @@ public class GenderHandler implements TypeHandler<Gender> {
     @Override
     public Gender getResult(ResultSet rs, int columnIndex) throws SQLException {
         switch (rs.getString(columnIndex)) {
-            case "active":
-                return Gender.Man;
-            case "inactive":
+            case "man":
+                return Gender.MAN;
+            case "women":
                 return Gender.WOMEN;
         }
         return null;
@@ -45,9 +45,9 @@ public class GenderHandler implements TypeHandler<Gender> {
     @Override
     public Gender getResult(CallableStatement cs, int columnIndex) throws SQLException {
         switch (cs.getString(columnIndex)) {
-            case "active":
-                return Gender.Man;
-            case "inactive":
+            case "man":
+                return Gender.MAN;
+            case "women":
                 return Gender.WOMEN;
         }
         return null;

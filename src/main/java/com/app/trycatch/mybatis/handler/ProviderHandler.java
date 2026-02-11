@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@MappedTypes(Status.class)
+@MappedTypes(Provider.class)
 public class ProviderHandler implements TypeHandler<Provider> {
 
     @Override

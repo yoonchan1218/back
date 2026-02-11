@@ -33,7 +33,7 @@ public class IndividualMemberServiceTests {
         IndividualMemberDTO individualMemberDTO = new IndividualMemberDTO();
         individualMemberDTO.setMemberId("test12312");
         individualMemberDTO.setMemberPassword("2333");
-        individualMemberDTO.setMemberGender(Gender.Man);
+        individualMemberDTO.setMemberGender(Gender.MAN);
         individualMemberDTO.setMemberName("젠슨 킴");
         individualMemberDTO.setMemberEmail("test335@gmail.com");
         individualMemberDTO.setMemberPhone("010-3334-2323");

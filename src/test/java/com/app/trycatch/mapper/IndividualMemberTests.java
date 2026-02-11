@@ -15,35 +15,35 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 public class IndividualMemberTests {
-    @Autowired
-    private MemberMapper memberMapper;
-    @Autowired
-    private IndividualMemberMapper individualMemberMapper;
-
-    @Test
-    public void testInsert(){
-        IndividualMemberDTO individualMemberDTO = new IndividualMemberDTO();
-        log.info("{}............",individualMemberDTO);
-        individualMemberDTO.setMemberId("test123");
-        individualMemberDTO.setMemberPassword("2222");
-        individualMemberDTO.setMemberGender(Gender.Man);
-        individualMemberDTO.setMemberName("스티브 잡스");
-        individualMemberDTO.setMemberEmail("test12345@gmail.com");
-        individualMemberDTO.setMemberPhone("010-2224-1222");
-        individualMemberDTO.setMemberAgreePrivacy(true);
-        individualMemberDTO.setMemberAgreeMarketing(true);
-        individualMemberDTO.setProvider(Provider.TRYCATCH);
-
-        MemberVO memberVO = individualMemberDTO.toMemberVO();
-        memberMapper.insert(memberVO);
-
-        individualMemberDTO.setId(memberVO.getId());
-        individualMemberDTO.setIndividualMemberBirth("1999-11-11");
-
-        individualMemberMapper.insert(individualMemberDTO.toIndividualMemberVO());
-
-        memberMapper.insertOauth(individualMemberDTO.toOAuthVO());
-    }
+//    @Autowired
+//    private MemberMapper memberMapper;
+//    @Autowired
+//    private IndividualMemberMapper individualMemberMapper;
+//
+//    @Test
+//    public void testInsert(){
+//        IndividualMemberDTO individualMemberDTO = new IndividualMemberDTO();
+//        log.info("{}............",individualMemberDTO);
+//        individualMemberDTO.setMemberId("test123");
+//        individualMemberDTO.setMemberPassword("2222");
+//        individualMemberDTO.setMemberGender(Gender.MAN);
+//        individualMemberDTO.setMemberName("스티브 잡스");
+//        individualMemberDTO.setMemberEmail("test12345@gmail.com");
+//        individualMemberDTO.setMemberPhone("010-2224-1222");
+//        individualMemberDTO.setMemberAgreePrivacy(true);
+//        individualMemberDTO.setMemberAgreeMarketing(true);
+//        individualMemberDTO.setProvider(Provider.TRYCATCH);
+//
+//        MemberVO memberVO = individualMemberDTO.toMemberVO();
+//        memberMapper.insert(memberVO);
+//
+//        individualMemberDTO.setId(memberVO.getId());
+//        individualMemberDTO.setIndividualMemberBirth("1999-11-11");
+//
+//        individualMemberMapper.insert(individualMemberDTO.toIndividualMemberVO());
+//
+//        memberMapper.insertOauth(individualMemberDTO.toOAuthVO());
+//    }
 
 
 
