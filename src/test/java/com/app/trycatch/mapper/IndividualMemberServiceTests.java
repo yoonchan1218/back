@@ -39,7 +39,7 @@ public class IndividualMemberServiceTests {
         individualMemberDTO.setMemberPhone("010-3334-2323");
         individualMemberDTO.setMemberAgreePrivacy(true);
         individualMemberDTO.setMemberAgreeMarketing(true);
-        individualMemberDTO.setProvider(Provider.THREETIER);
+        individualMemberDTO.setProvider(Provider.TRYCATCH);
         individualMemberDTO.setIndividualMemberBirth("1999-11-11");
         individualMemberService.joinIndividual(individualMemberDTO);
 
