@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum Gender {
-    Man("man"), WOMEN("women");
+    MAN("man"), WOMEN("women");
 
     private String value;
 

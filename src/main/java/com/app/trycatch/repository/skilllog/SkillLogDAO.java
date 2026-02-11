@@ -1,6 +1,7 @@
 package com.app.trycatch.repository.skilllog;
 
 import com.app.trycatch.domain.skilllog.SkillLogVO;
+import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class SkillLogDAO {
     private final SkillLogMapper skillLogMapper;
 
-    public void save(SkillLogVO skillLogVO) {
-        skillLogMapper.insert(skillLogVO);
+    public void save(SkillLogDTO skillLogDTO) {
+        skillLogMapper.insert(skillLogDTO);
     }
 }

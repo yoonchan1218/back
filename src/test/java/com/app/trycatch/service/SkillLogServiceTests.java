@@ -1,7 +1,5 @@
 package com.app.trycatch.service;
 
-import com.app.trycatch.domain.skilllog.SkillLogTagVO;
-import com.app.trycatch.domain.skilllog.SkillLogVO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import com.app.trycatch.dto.skilllog.TagDTO;
 import com.app.trycatch.service.skilllog.SkillLogService;
@@ -24,9 +22,8 @@ public class SkillLogServiceTests {
     public void testWrite() {
         SkillLogDTO skillLogDTO = new SkillLogDTO();
 
-//        화면에서 받아온 값이 없으니, 직접 tags에 값을 넣어준다.
         List<TagDTO> tags = new ArrayList<>();
-        IntStream.range(4, 6).forEach((index) -> {
+        IntStream.range(1, 3).forEach((index) -> {
             TagDTO tagDTO = new TagDTO();
             tagDTO.setTagName("태그" + index);
 
@@ -34,11 +31,9 @@ public class SkillLogServiceTests {
         });
         skillLogDTO.setTags(tags);
 
-//        skillLogDTO에도 값을 설정한다.
         skillLogDTO.setMemberId(1L);
-//        skillLogDTO.setExperienceProgramId(2L);
-        skillLogDTO.setSkillLogTitle("기술 블로그 테스트5");
-        skillLogDTO.setSkillLogContent("내용5");
+        skillLogDTO.setSkillLogTitle("기술 블로그 테스트2");
+        skillLogDTO.setSkillLogContent("내용2");
 
         skillLogService.write(skillLogDTO);
     }

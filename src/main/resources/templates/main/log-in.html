@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>log-in</title>
-        <link rel="stylesheet" href="../../static/css/main/log-in.css" />
+        <link rel="stylesheet" href="/css/main/log-in.css" />
     </head>
     <body id="login" class="login bg-gray">
         <p id="skipNavigation"><a href="#content">메뉴 건너뛰기</a></p>
@@ -20,7 +20,7 @@
                 <div class="secLogin">
                     <div id="lottie-model">
                         <img
-                            src="../../static/images/logo.png"
+                            src="/images/logo.png"
                             style="
                                 width: 260px;
                                 height: 130px;
@@ -34,7 +34,7 @@
                             name="form"
                             id="login-form"
                             method="post"
-                            action="/Login/Login.asp"
+                            action="/main/log-in"
                         >
                             <fieldset class="login-form">
                                 <legend class="blind">로그인 입력폼</legend>
@@ -145,7 +145,7 @@
                                         type="text"
                                         class="inpTxt input-id"
                                         placeholder="NO.1 TRY-CATCH 통합 ID"
-                                        name="M_ID"
+                                        name="memberId"
                                         id="M_ID"
                                         size="16"
                                         maxlength="20"
@@ -164,7 +164,7 @@
                                         type="password"
                                         class="inpTxt input-password"
                                         placeholder="비밀번호"
-                                        name="M_PWD"
+                                        name="memberPassword"
                                         id="M_PWD"
                                         size="16"
                                         title="비밀번호 입력"
@@ -197,7 +197,7 @@
                                                 class="skip"
                                             />
                                             <label for="lb_idSave"
-                                                >로그인 유지</label
+                                                >아이디 저장</label
                                             >
                                         </div>
                                     </div>
@@ -252,19 +252,6 @@
                                             >
                                         </li>
                                     </ul>
-                                </section>
-                                <section class="login-join">
-                                    <a href="" target="_new">아이디 찾기</a>
-                                    <a href="" target="_new">비밀번호 찾기</a>
-                                    <a id="link_regist" href="" target="_new"
-                                        >회원가입
-                                        <div class="div-tooltip-msg">
-                                            <strong
-                                                >하나로 통하는 통합회원
-                                                가입</strong
-                                            ><br />2026 취업/체험 유망포털
-                                        </div>
-                                    </a>
                                 </section>
                             </fieldset>
                         </form>
@@ -450,7 +437,7 @@
             <!-- footer //-->
         </div>
     </body>
-    <script src="../../static/js/main/log-in.js"></script>
+    <script src="/js/main/log-in.js"></script>
     <script
         src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.9/kakao.min.js"
         integrity="sha384-JpLApTkB8lPskhVMhT+m5Ln8aHlnS0bsIexhaak0jOhAkMYedQoVghPfSpjNi9K1"

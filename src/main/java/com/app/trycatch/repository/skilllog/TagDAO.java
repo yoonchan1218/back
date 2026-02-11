@@ -15,8 +15,4 @@ public class TagDAO {
     public void save(TagVO tagVO) {
         tagMapper.insert(tagVO);
     }
-
-    public Optional<TagVO> findByTagName(String tagName) {
-        return tagMapper.selectByTagName(tagName);
-    }
 }
