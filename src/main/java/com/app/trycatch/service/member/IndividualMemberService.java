@@ -1,5 +1,6 @@
 package com.app.trycatch.service.member;
 
+import com.app.trycatch.common.enumeration.member.Provider;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.repository.member.IndividualMemberDAO;
@@ -33,6 +34,11 @@ public class IndividualMemberService {
         memberDAO.save(memberVO);
 
         individualMemberDTO.setId(memberVO.getId());
+
+        if (individualMemberDTO.getProvider() == null) {
+            individualMemberDTO.setProvider(Provider.TRYCATCH);
+        }
+
         memberDAO.saveOauth(individualMemberDTO.toOAuthVO());
         individualMemberDAO.save(individualMemberDTO.toIndividualMemberVO());
     }

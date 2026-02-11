@@ -156,7 +156,7 @@ mbrBtnRegist.addEventListener("click", (e) => {
 
     // 성별 검증
     const genderChecked = document.querySelector(
-        'input[name="M_Gender"]:checked',
+        'input[name="memberGender"]:checked',
     );
     const genderNotice = document.getElementById("notice_msg_gender");
     if (!genderChecked) {
@@ -185,60 +185,7 @@ mbrBtnRegist.addEventListener("click", (e) => {
     }
 });
 
-// 인증번호 전송
-const verificationCodeSend = document.querySelector(
-    ".button.buttonSendCertification",
-);
-const phoneRegexp = /^01[016789]-?\d{3,4}-?\d{4}$/;
-const PhoneNumber = document.getElementById("M_Phone");
-const phoneNotice = document.getElementById("notice_msg_phone");
 
-verificationCodeSend.addEventListener("click", (e) => {
-    if (phoneRegexp.test(PhoneNumber.value)) {
-        phoneNotice.innerHTML = "인증번호가 전송되었습니다.";
-        phoneNotice.classList.add("success");
-        phoneNotice.style.display = "block";
-        setTimeout(() => {
-            phoneNotice.classList.remove("success");
-            phoneNotice.style.display = "none";
-        }, 1500);
-    }
-});
-
-// 인증번호 재전송
-const btnReSendCert = document.getElementById("btnReSendCert");
-btnReSendCert.addEventListener("click", (e) => {
-    if (phoneRegexp.test(PhoneNumber.value)) {
-        phoneNotice.innerHTML = "인증번호가 재전송되었습니다.";
-        phoneNotice.classList.add("success");
-        phoneNotice.style.display = "block";
-        setTimeout(() => {
-            phoneNotice.classList.remove("success");
-            phoneNotice.style.display = "none";
-        }, 1500);
-    } else {
-        phoneNotice.innerHTML = "휴대폰 번호를 입력해주세요";
-        phoneNotice.classList.add("failure");
-        phoneNotice.style.display = "block";
-    }
-});
-
-// 인증번호 확인
-const verificationCode = document.getElementById("Certify_Num");
-const verificationCodeCheck = document.getElementById("btnCheckCert");
-const verificationCodeNotice = document.getElementById("notice_msg_certify");
-
-verificationCodeCheck.addEventListener("click", (e) => {
-    if (verificationCode.value === "000000") {
-        verificationCodeNotice.innerHTML = "인증이 완료되었습니다.";
-        verificationCodeNotice.classList.add("success");
-        verificationCodeNotice.style.display = "block";
-        setTimeout(() => {
-            verificationCodeNotice.classList.remove("success");
-            verificationCodeNotice.style.display = "none";
-        }, 1500);
-    }
-});
 
 // 체크박스 (input 요소에 이벤트 걸기)
 const inputChkAll = document.getElementById("lb_chk_all");

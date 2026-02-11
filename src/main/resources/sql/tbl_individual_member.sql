@@ -10,5 +10,6 @@ create table tbl_individual_member
     constraint fk_individual_member foreign key (id) references tbl_member (id)
 ) comment '개인회원 서브타입';
 
-set FOREIGN_KEY_CHECKS = 1;
+
+set FOREIGN_KEY_CHECKS = 0;
 drop table tbl_individual_member;
