@@ -1,16 +1,17 @@
 package com.app.trycatch.domain.qna;
 
+
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString
+@ToString(callSuper=true)
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-public class QnaJobCategoryVO {
+@SuperBuilder
+public class QnaJobCategoryBigVO {
     private Long id;
-    private String jobCategoryName;
-    private String jobCategoryCode;
-    private Long jobCategoryBigId;
+    private String jobCategoryBigName;
+    private String jobCategoryBigCode;
 }

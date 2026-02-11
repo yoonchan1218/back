@@ -5,4 +5,10 @@
         insert into tbl_qna(individual_member_id,qna_title,qna_content,job_category_small_id,job_category_name,qna_view_count,qna_status)
         values(#{individualMemberId},#{qnaTitle},#{qnaContent},#{jobCategorySmallId},#{jobCategoryName},#{qnaViewCount},#{qnaStatus})
     </insert>
+
+    <select id="selectCategorySmallName" resultType="string">
+        SELECT job_category_small_name
+        FROM tbl_qna_job_category_small
+        WHERE id = #{categoryId}
+    </select>
 </mapper>

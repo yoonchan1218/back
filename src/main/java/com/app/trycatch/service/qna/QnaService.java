@@ -1,19 +1,16 @@
-package com.app.trycatch.repository.qna;
+package com.app.trycatch.service.qna;
 
 import com.app.trycatch.domain.qna.QnaVO;
 import com.app.trycatch.mapper.qna.QnaMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service
 @RequiredArgsConstructor
-public class QnaDAO {
+public class QnaService {
     private final QnaMapper qnaMapper;
 
-//    작성
-    public void save(QnaVO qnaVO) {
+    public void writeQna(QnaVO qnaVO) {
         qnaMapper.insert(qnaVO);
     }
-
-
 }
