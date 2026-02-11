@@ -12,3 +12,4 @@ select * from tbl_tag;
 
 set foreign_key_checks = 1;
 drop table tbl_tag;
+
