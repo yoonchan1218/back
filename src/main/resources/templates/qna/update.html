@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>update</title>
+    <link rel="stylesheet" href="/css/qna/header.css" />
+    <link rel="stylesheet" href="/css/qna/footer.css" />
     <link rel="stylesheet" href="/css/qna/update.css">
 </head>
 <body>
+        <header th:replace="~{/qna/header.html::header}"></header>
         <!-- 네비게이션 -->
         <div id="wrap">
            <div class="side-navigation">
@@ -362,6 +365,9 @@
                 <!-- // content -->
             </div>
         </div>
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
 </body>
 <script src="/js/qna/update.js"></script>
+<script src="/js/qna/header-event.js"></script>
+<script src="/js/qna/footer.js"></script>
 </html>

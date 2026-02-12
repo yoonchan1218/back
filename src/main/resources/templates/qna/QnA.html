@@ -4,9 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link rel="stylesheet" href="/css/qna/header.css" />
+        <link rel="stylesheet" href="/css/qna/footer.css" />
         <link rel="stylesheet" href="/css/qna/QnA.css" />
     </head>
     <body>
+        <header th:replace="~{/qna/header.html::header}"></header>
         <!-- 메인 시작 -->
         <div id="wrap">
             <div class="side-navigation">
@@ -658,119 +661,60 @@
                         </div>
                         <div class="listWrap">
                             <ul style="display: block">
-                                <li class="background-blue">
-                                    <div class="topArea recommend">
-                                        <div class="defualt-tag-item red">
-                                            추천
-                                        </div>
-                                        <div
-                                            class="labelSwiper swiper-container swiper-container-horizontal"
-                                        >
-                                            <div
-                                                class="labelBx swiper-wrapper"
-                                                style="
-                                                    transition-duration: 0ms;
-                                                    transform: translate3d(
-                                                        0px,
-                                                        0px,
-                                                        0px
-                                                    );
-                                                "
-                                            >
-                                                <!-- 링크 연결 : 클릭 시 각 그룹 홈으로 이동  -->
-                                                <a
-                                                    href=""
-                                                    class="label swiper-slide swiper-slide-active"
-                                                    target="_blank"
-                                                    >try-catch(유)</a
-                                                >
+                                <li th:each="qna : ${qnaWithPaging.qnas}">
+                                    <div class="topArea" th:if="${qna.jobCategoryName != null and qna.jobCategoryName != ''}">
+                                        <div class="labelSwiper swiper-container swiper-container-horizontal">
+                                            <div class="labelBx swiper-wrapper">
+                                                <a th:href="@{/qna/detail(id=${qna.id})}"
+                                                   class="label swiper-slide swiper-slide-active"
+                                                   th:text="${qna.jobCategoryName}">
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- [Dev] 방문한 링크 : visited 클래스 추가 -->
                                     <div class="contArea">
-                                        <!-- [Dev] 이미지 포함 컨텐츠 : image 클래스 추가 -->
-                                        <a href="" class="post-type">
+                                        <a th:href="@{/qna/detail(id=${qna.id})}" class="post-type">
                                             <div class="post-title">
-                                                <span class="lineOne"
-                                                    >test</span
-                                                >
+                                                <span class="lineOne" th:text="${qna.qnaTitle}"></span>
                                             </div>
                                             <div class="post-summary">
-                                                <span class="lineTwo"
-                                                    >test
-                                                </span>
+                                                <span class="lineTwo" th:text="${qna.qnaContent}"></span>
                                             </div>
                                         </a>
-
                                         <div class="post-cell-box">
                                             <span class="cell">
-                                                <i class="qnaSpB icon-view-eye"
-                                                    >조회수</i
-                                                >
-                                                27442
+                                                <i class="qnaSpB icon-view-eye">조회수</i>
+                                                <span th:text="${qna.qnaViewCount}"></span>
                                             </span>
-                                            <button
-                                                type="button"
-                                                class="cell devQstnListLike"
-                                                data-likecnt="14"
-                                                data-qstnno="128418"
-                                            >
-                                                <i class="qnaSpB icon-like"
-                                                    >좋아요</i
-                                                >
-                                                <em>14</em>
-                                            </button>
-                                            <!-- [Dev] 신규 답변의 경우 icnNew 클래스 추가 -->
                                             <span class="cell">
-                                                <i
-                                                    class="qnaSpB icon-answer-bubble"
-                                                    >답변</i
-                                                ><span class="num">4</span>
+                                                <i class="qnaSpB icon-answer-bubble">답변</i>
+                                                <span class="num">0</span>
                                             </span>
-                                            <span class="cell"
-                                                >2024-07-02 수정</span
-                                            >
+                                            <span class="cell" th:text="${qna.createdDatetime}"></span>
                                         </div>
-                                        <!-- [Dev] 북마크 툴팁 show - class tooltip-open 추가 -->
                                         <div class="post-util has-tooltip">
                                             <div class="post-util-item">
-                                                <!-- [Dev] 북마크 - class on 추가/제거 -->
-                                                <button
-                                                    type="button"
-                                                    class="devQnaDetailBookmark btnBookmark qnaSpB"
-                                                    data-qstn-no="128418"
-                                                >
+                                                <button type="button"
+                                                        class="devQnaDetailBookmark btnBookmark qnaSpB"
+                                                        th:data-qstn-no="${qna.id}">
                                                     북마크
                                                 </button>
-                                                <div
-                                                    class="book-mark-layer tooltip-layer qnaSpA"
-                                                >
-                                                    <p class="txt">
-                                                        내 프로필 &gt; 북마크 에
-                                                        추가되었습니다
-                                                    </p>
+                                                <div class="book-mark-layer tooltip-layer qnaSpA">
+                                                    <p class="txt">내 프로필 &gt; 북마크 에 추가되었습니다</p>
                                                 </div>
                                             </div>
                                             <div class="post-util-item">
-                                                <button
-                                                    type="button"
-                                                    class="icon-more-button qnaSpB devQnaListPopupMenuButton"
-                                                >
+                                                <button type="button"
+                                                        class="icon-more-button qnaSpB devQnaListPopupMenuButton">
                                                     더보기
                                                 </button>
-                                                <div
-                                                    class="view-more-layer devQnaListPopupMenu"
-                                                >
+                                                <div class="view-more-layer devQnaListPopupMenu">
                                                     <ul>
                                                         <li>
-                                                            <a
-                                                                href="javascript:;"
-                                                                class="view-more-item devSingo"
-                                                                data-idfno="128418"
-                                                                data-type="1"
-                                                                >신고</a
-                                                            >
+                                                            <a href="javascript:;"
+                                                               class="view-more-item devSingo"
+                                                               th:data-idfno="${qna.id}"
+                                                               data-type="1">신고</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -778,268 +722,26 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="topArea">
-                                        <div
-                                            class="labelSwiper swiper-container swiper-container-horizontal"
-                                        >
-                                            <div
-                                                class="labelBx swiper-wrapper"
-                                                style="
-                                                    transition-duration: 0ms;
-                                                    transform: translate3d(
-                                                        0px,
-                                                        0px,
-                                                        0px
-                                                    );
-                                                "
-                                            >
-                                                <a
-                                                    href=""
-                                                    class="label swiper-slide swiper-slide-active"
-                                                    target="_blank"
-                                                    >생산직종사자</a
-                                                >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contArea">
-                                        <a href="" class="post-type">
-                                            <div class="post-title">
-                                                <span class="lineOne"
-                                                    >test</span
-                                                >
-                                            </div>
-                                            <div class="post-summary">
-                                                <span class="lineTwo"
-                                                    >test
-                                                </span>
-                                            </div>
-                                        </a>
-                                        <div class="post-cell-box">
-                                            <span class="cell">
-                                                <i class="qnaSpB icon-view-eye"
-                                                    >조회수</i
-                                                >
-                                                6
-                                            </span>
-                                            <button
-                                                type="button"
-                                                class="cell devQstnListLike"
-                                                data-likecnt="0"
-                                                data-qstnno="152907"
-                                            >
-                                                <i class="qnaSpB icon-like"
-                                                    >좋아요</i
-                                                >
-                                                <em>0</em>
-                                            </button>
-                                            <!-- [Dev] 신규 답변의 경우 icnNew 클래스 추가 -->
-                                            <span class="cell">
-                                                <i
-                                                    class="qnaSpB icon-answer-bubble"
-                                                    >답변</i
-                                                ><span class="num">0</span>
-                                            </span>
-
-                                            <span class="cell"
-                                                >37분 전 작성</span
-                                            >
-                                        </div>
-                                        <!-- [Dev] 북마크 툴팁 show - class tooltip-open 추가 -->
-                                        <div class="post-util has-tooltip">
-                                            <div class="post-util-item">
-                                                <!-- [Dev] 북마크 - class on 추가/제거 -->
-                                                <button
-                                                    type="button"
-                                                    class="devQnaDetailBookmark btnBookmark qnaSpB"
-                                                    data-qstn-no="152907"
-                                                >
-                                                    북마크
-                                                </button>
-                                                <div
-                                                    class="book-mark-layer tooltip-layer qnaSpA"
-                                                >
-                                                    <p class="txt">
-                                                        내 프로필 &gt; 북마크 에
-                                                        추가되었습니다
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="post-util-item">
-                                                <button
-                                                    type="button"
-                                                    class="icon-more-button qnaSpB devQnaListPopupMenuButton"
-                                                >
-                                                    더보기
-                                                </button>
-                                                <div
-                                                    class="view-more-layer devQnaListPopupMenu"
-                                                >
-                                                    <ul>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:;"
-                                                                class="view-more-item devSingo"
-                                                                data-idfno="152907"
-                                                                data-type="1"
-                                                                >신고</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- // 리스트 영역 -->
-                                <li>
-                                    <div class="topArea">
-                                        <div
-                                            class="labelSwiper swiper-container swiper-container-horizontal"
-                                        >
-                                            <div
-                                                class="labelBx swiper-wrapper"
-                                                style="
-                                                    transition-duration: 0ms;
-                                                    transform: translate3d(
-                                                        0px,
-                                                        0px,
-                                                        0px
-                                                    );
-                                                "
-                                            >
-                                                <a
-                                                    href=""
-                                                    class="label swiper-slide swiper-slide-active"
-                                                    target="_blank"
-                                                    >포장·가공담당자</a
-                                                >
-                                            </div>
-                                        </div>
-                                        <span class="point qnaSpB">5</span>
-                                    </div>
-                                    <div class="contArea">
-                                        <a
-                                            href=""
-                                            class="post-type"
-                                        >
-                                            <div class="post-title">
-                                                <i class="icoQ_on qnaSpB">Q</i>
-                                                <span class="lineOne"
-                                                    >test
-                                                </span>
-                                            </div>
-                                            <div class="post-summary">
-                                                <span class="lineTwo"
-                                                    >test;
-                                                </span>
-                                            </div>
-                                        </a>
-                                        <div class="post-cell-box">
-                                            <span class="cell">
-                                                <i class="qnaSpB icon-view-eye"
-                                                    >조회수</i
-                                                >
-                                                24
-                                            </span>
-                                            <button
-                                                type="button"
-                                                class="cell devQstnListLike"
-                                                data-likecnt="0"
-                                                data-qstnno="152903"
-                                            >
-                                                <i class="qnaSpB icon-like"
-                                                    >좋아요</i
-                                                >
-                                                <em>0</em>
-                                            </button>
-                                            <!-- [Dev] 신규 답변의 경우 icnNew 클래스 추가 -->
-                                            <span class="cell">
-                                                <i
-                                                    class="qnaSpB icon-answer-bubble"
-                                                    >답변</i
-                                                ><span class="num">0</span>
-                                            </span>
-
-                                            <span class="cell"
-                                                >10시간 전 작성</span
-                                            >
-                                        </div>
-                                        <!-- [Dev] 북마크 툴팁 show - class tooltip-open 추가 -->
-                                        <div class="post-util has-tooltip">
-                                            <div class="post-util-item">
-                                                <!-- [Dev] 북마크 - class on 추가/제거 -->
-                                                <button
-                                                    type="button"
-                                                    class="devQnaDetailBookmark btnBookmark qnaSpB"
-                                                    data-qstn-no="152903"
-                                                >
-                                                    북마크
-                                                </button>
-                                                <div
-                                                    class="book-mark-layer tooltip-layer qnaSpA"
-                                                >
-                                                    <p class="txt">
-                                                        내 프로필 &gt; 북마크 에
-                                                        추가되었습니다
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="post-util-item">
-                                                <button
-                                                    type="button"
-                                                    class="icon-more-button qnaSpB devQnaListPopupMenuButton"
-                                                >
-                                                    더보기
-                                                </button>
-                                                <div
-                                                    class="view-more-layer devQnaListPopupMenu"
-                                                >
-                                                    <ul>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:;"
-                                                                class="view-more-item devDelete"
-                                                                data-idfno="152903"
-                                                                data-type="1"
-                                                                >삭제</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- // 리스트 영역 -->
                             </ul>
-                            <!--?xml version="1.0" encoding="utf-16"?-->
                             <div class="tplPagination newVer" role="navigation">
                                 <ul>
-                                    <li>
-                                        <span class="now">1</span>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href=""
-                                            >2</a
-                                        >
+                                    <li th:each="i : ${#numbers.sequence(qnaWithPaging.criteria.startPage, qnaWithPaging.criteria.endPage)}">
+                                        <span th:if="${i == qnaWithPaging.criteria.page}" class="now" th:text="${i}"></span>
+                                        <a th:unless="${i == qnaWithPaging.criteria.page}"
+                                           th:href="@{/qna/list(page=${i})}"
+                                           th:text="${i}"></a>
                                     </li>
                                 </ul>
-                                <p>
-                                    <a
-                                        href=""
-                                        class="tplBtn btnPgnNext"
-                                        >다음<i class="ico"> </i
-                                    ></a>
+                                <p th:if="${qnaWithPaging.criteria.hasMore}">
+                                    <a th:href="@{/qna/list(page=${qnaWithPaging.criteria.endPage + 1})}"
+                                       class="tplBtn btnPgnNext">다음<i class="ico"> </i></a>
                                 </p>
                             </div>
                             <input
                                 id="devPagerInfo"
                                 type="hidden"
                                 data-main-type="3"
-                                data-page="1"
+                                th:data-page="${qnaWithPaging.criteria.page}"
                                 data-page-size="20"
                             />
                         </div>
@@ -1191,8 +893,11 @@
     <input type="hidden" name="hdnReportType" value="1">
 </div>
           <!-- 신고 팝업창 -->
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="/js/qna/QnA.js"></script>
+    <script src="/js/qna/header-event.js"></script>
+    <script src="/js/qna/footer.js"></script>
 </html>

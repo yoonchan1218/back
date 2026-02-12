@@ -94,11 +94,14 @@ searchDetailButton.addEventListener("click", (e) => {
 const myJobToggle = document.querySelector(
     ".subtitle-wrap.has-tooltip.devQnaWriteBizJobtypeLayerTooltip",
 );
-const myJobButton = myJobToggle.querySelector("button");
-
-myJobButton.addEventListener("click", (e) => {
-    myJobToggle.classList.toggle("tooltip-open");
-});
+if (myJobToggle) {
+    const myJobButton = myJobToggle.querySelector("button");
+    if (myJobButton) {
+        myJobButton.addEventListener("click", (e) => {
+            myJobToggle.classList.toggle("tooltip-open");
+        });
+    }
+}
 
 
 const layerContJob = document.querySelector(
@@ -106,23 +109,23 @@ const layerContJob = document.querySelector(
 );
 
 // 전체삭제 버튼 클릭 이벤트(서버쪽 해야할 코드)
-// document.addEventListener("click", (e) => {
-//     if (e.target.closest(".btnAllDel.devQnaWriteBizJobtypeAllDeleteButton")) {
-//         const layerContJob = document.querySelector(
-//             ".layer-cont.devRecentSearchBizJobtype",
-//         );
-//         const emptySearchResult = document.querySelector(
-//             ".layer-cont.devRecentSearchBizJobtypeEmpty",
-//         );
+document.addEventListener("click", (e) => {
+    if (e.target.closest(".btnAllDel.devQnaWriteBizJobtypeAllDeleteButton")) {
+        const layerContJob = document.querySelector(
+            ".layer-cont.devRecentSearchBizJobtype",
+        );
+        const emptySearchResult = document.querySelector(
+            ".layer-cont.devRecentSearchBizJobtypeEmpty",
+        );
 
-//         // ✅ searchList 안의 내용 전부 삭제!
-//         const searchList = layerContJob.querySelector(".searchList");
-//         searchList.innerHTML = "";
+        // searchList 안의 내용 전부 삭제!
+        const searchList = layerContJob.querySelector(".searchList");
+        searchList.innerHTML = "";
 
-//         layerContJob.style.display = "none";
-//         emptySearchResult.style.display = "block";
-//     }
-// });
+        layerContJob.style.display = "none";
+        emptySearchResult.style.display = "block";
+    }
+});
 // 적용 버튼
 const jobApplyButton = document.querySelector(
     ".btn-apply.devQnaWriteBizJobtypeApplyButton",
@@ -314,6 +317,9 @@ const addPicture = document.querySelector(".icon-photo.qnaSpB.btn-layer-open");
 // 숨겨진 파일 input
 const photoInput = document.getElementById("photoInput");
 
+// 파일 누적 관리용 DataTransfer
+const dataTransfer = new DataTransfer();
+
 // 버튼 클릭 → 숨겨진 input 클릭
 addPicture.addEventListener("click", () => {
     photoInput.click();
@@ -330,15 +336,20 @@ photoInput.addEventListener("change", (e) => {
         return;
     }
 
+    // DataTransfer에 파일 누적 후 photoInput.files 갱신
+    dataTransfer.items.add(file);
+    photoInput.files = dataTransfer.files;
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.addEventListener("load", (v) => {
         const path = v.target.result;
+        const fileName = file.name;
 
-        // 이미지를 화면에 추가
+        // 이미지를 화면에 추가 (data-file-name으로 삭제 시 매칭)
         textarea.innerHTML += `
-            <div class="attach-wrap attach-image">
+            <div class="attach-wrap attach-image" data-file-name="${fileName}">
                 <div class="attach-box type-image">
                     <img src="${path}" alt="첨부 이미지">
                 </div>
@@ -346,15 +357,30 @@ photoInput.addEventListener("change", (e) => {
             </div>
         `;
     });
-
-    // 같은 파일 다시 선택 가능하도록 초기화
-    e.target.value = "";
 });
 
-// 이미지 삭제 (이벤트 위임)
+// 이미지 삭제 (이벤트 위임) - DataTransfer에서도 제거
 textarea.addEventListener("click", (e) => {
     if (e.target.classList.contains("remove-button")) {
-        e.target.closest(".attach-wrap").remove();
+        const wrap = e.target.closest(".attach-wrap");
+        const fileName = wrap.dataset.fileName;
+
+        // attach-image(파일 첨부)인 경우 DataTransfer에서도 제거
+        if (wrap.classList.contains("attach-image") && fileName) {
+            const newDt = new DataTransfer();
+            for (const f of dataTransfer.files) {
+                if (f.name !== fileName) {
+                    newDt.items.add(f);
+                }
+            }
+            dataTransfer.items.clear();
+            for (const f of newDt.files) {
+                dataTransfer.items.add(f);
+            }
+            photoInput.files = dataTransfer.files;
+        }
+
+        wrap.remove();
     }
 });
 
@@ -380,6 +406,10 @@ jobApplyButton.addEventListener("click", (e) => {
         jobSelectResult.dataset.bizjobtypeName = jobName;
         jobSelectResult.dataset.bizjobtypeCode = jobCode;
         jobSelectResult.textContent = jobName;
+
+        // 폼 hidden input에 값 세팅
+        document.getElementById("hiddenJobCategorySmallId").value = jobCode;
+        document.getElementById("hiddenJobCategoryName").value = jobName;
 
         // 최근검색에 추가하는 코드 (서버 연동 시 주석 해제)
         // addToRecentSearch(jobName, jobCode);
@@ -510,8 +540,6 @@ categoryGroups.forEach((group) => {
 // 나의직무 / 최근검색 바로 적용
 // 직무선배
 const layerBoxJob = document.querySelector(".layer-box-wrap.job.innerScroll");
-// 나의직무/최근검색 버튼들 (직무선배 내부의 searchList 안의 qnaSpB만)
-const quickSelectButtons = layerBoxJob.querySelectorAll(".searchList .qnaSpB");
 // 드롭다운 트리거 버튼
 const jobTriggerBtn = document.querySelector(
     ".btn-select.devQnaWriteBizJobtypeDropDownButton",
@@ -519,28 +547,75 @@ const jobTriggerBtn = document.querySelector(
 // 직무선배 체크박스
 const jobCheckboxForQuick = document.getElementById("lb_targetCheck2");
 
-quickSelectButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        const jobName = btn.textContent.trim();
+// 이벤트 위임: 동적으로 추가되는 최근검색 항목도 처리
+layerBoxJob.addEventListener("click", (e) => {
+    const btn = e.target.closest(".searchList .devBizJobtypeMyItem button.qnaSpB");
+    if (!btn) return;
 
-        // 드롭다운 버튼 텍스트 변경
-        if (jobTriggerBtn) {
-            jobTriggerBtn.textContent = jobName;
-        }
+    const item = btn.closest(".devBizJobtypeMyItem");
+    const jobName = item.dataset.bizjobtypeName;
+    const jobCode = item.dataset.bizjobtypeCode;
 
-        // 모달 닫기
-        if (layerBoxJob) {
-            layerBoxJob.classList.remove("open");
-        }
+    // 드롭다운 버튼 텍스트/dataset 변경
+    if (jobTriggerBtn) {
+        jobTriggerBtn.textContent = jobName;
+        jobTriggerBtn.dataset.bizjobtypeName = jobName;
+        jobTriggerBtn.dataset.bizjobtypeCode = jobCode;
+    }
 
-        // 직무선배 체크박스 체크 + 드롭다운 활성화
-        if (jobCheckboxForQuick) {
-            jobCheckboxForQuick.checked = true;
-        }
-        if (jobTriggerBtn) {
-            jobTriggerBtn.classList.add("on");
-        }
-    });
+    // 폼 hidden input에 값 세팅
+    document.getElementById("hiddenJobCategorySmallId").value = jobCode;
+    document.getElementById("hiddenJobCategoryName").value = jobName;
+
+    // 모달 닫기
+    layerBoxJob.classList.remove("open");
+
+    // 직무선배 체크박스 체크 + 드롭다운 활성화
+    if (jobCheckboxForQuick) { jobCheckboxForQuick.checked = true; }
+    if (jobTriggerBtn) { jobTriggerBtn.classList.add("on"); }
+});
+
+// 동문선배(로그인)
+const thirdCheckButton = document.getElementById("lb_targetCheck1");
+const uniCheckDrop = document.querySelector(
+    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton",
+);
+
+const layerBox = document.querySelector(".layer-box-wrap.alumni");
+const layerBoxButton = document.querySelector(
+    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton ",
+);
+const layerBoxCancelButton = document.querySelector(
+    ".btn-layer-close.qnaSpB.devQnaWriteUnivLayerClose",
+);
+const uniLabelTag = document.querySelector(".devUnivItem label");
+
+// 동문선배 이벤트(로그인)
+thirdCheckButton.addEventListener("click", (e) => {
+    uniCheckDrop.classList.toggle("on");
+});
+
+layerBoxButton.addEventListener("click", (e) => {
+    // 다른 드롭다운 닫기
+    document
+        .querySelector(".layer-box-wrap.job.innerScroll")
+        .classList.remove("open");
+    document
+        .querySelector(".layer-box-wrap.job-directInput")
+        .classList.remove("open");
+    document
+        .querySelector(".layer-box-wrap.corporation.innerScroll")
+        .classList.remove("open");
+    // 동문선배 드롭다운 열기
+    layerBox.classList.add("open");
+});
+
+layerBoxCancelButton.addEventListener("click", (e) => {
+    layerBox.classList.remove("open");
+});
+
+uniLabelTag.addEventListener("click", (e) => {
+    layerBox.classList.remove("open");
 });
 
 // 기업선배 드롭다운
@@ -590,19 +665,25 @@ const writeTitle = document.querySelector(".jkSchInp.devQnaWriteTitle");
 const writeContent = document.querySelector(".devQnaWriteCntnt.custom-editor");
 
 admitButton.addEventListener("click", (e) => {
-    if (!confirm("수정 하시겠습니까?")) {
-        e.preventDefault();
-    }
     if (!writeTitle.value) {
         alert("제목을 입력해주세요");
-        e.preventDefault();
-    } else if (!writeContent.value) {
-        alert("내용을 입력해주세요");
-        e.preventDefault();
-    } else {
-        alert("수정 완료되었습니다.");
-        location.href = "";
+        return;
     }
+    if (!writeContent.value) {
+        alert("내용을 입력해주세요");
+        return;
+    }
+    if (!confirm("등록 하시겠습니까?")) {
+        return;
+    }
+    // 폼 제출 직전에 현재 선택된 카테고리를 hidden input에 최종 세팅
+    const checkedRadio = document.querySelector('input[name="jobCategorySmallId"]:checked');
+    if (checkedRadio) {
+        const item = checkedRadio.closest(".devBizJobtypeItem");
+        document.getElementById("hiddenJobCategorySmallId").value = item.dataset.bizjobtypeCode;
+        document.getElementById("hiddenJobCategoryName").value = item.dataset.bizjobtypeName;
+    }
+    admitButton.closest("form").submit();
 });
 
 // 취소하기 버튼

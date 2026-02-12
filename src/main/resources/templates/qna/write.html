@@ -4,9 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link rel="stylesheet" href="/css/qna/header.css" />
+        <link rel="stylesheet" href="/css/qna/footer.css" />
         <link rel="stylesheet" href="/css/qna/write.css" />
     </head>
     <body>
+        <header th:replace="~{/qna/header.html::header}"></header>
         <!-- 네비게이션 -->
         <div id="wrap">
             <div class="side-navigation">
@@ -126,7 +129,7 @@
                                 data-tab="2"
                                 class=""
                                 devalert="0"
-                                >인기<span class="qnaSpA icnNew">새글</span></a
+                                >내 QnA 목록</a
                             ></strong
                         >
                         <a href="" class="button-more qnaSpA" target="_blank"
@@ -239,18 +242,41 @@
                                             </p>
                                         </div>
                                     </li>
+                                    <li>
+                                        <input
+                                                type="checkbox"
+                                                id="lb_targetCheck1"
+                                                data-has-univ="False"
+                                                class="skip"
+                                                checked=""
+                                        />
+                                        <label
+                                                for="lb_targetCheck1"
+                                                class="qnaSpB"
+                                        >동문선배</label
+                                        >
+                                        <div
+                                                class="tooltip-box qnaSpA devQnaWriteUnivTooltip"
+                                                style="display: none"
+                                        >
+                                            <p class="txt">
+                                                동문 선택 후, 질문대상으로
+                                                설정하실 수 있습니다.
+                                            </p>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="selectListArea">
                                 <ul>
                                     <li>
                                         <button
-                                            data-bizjobtype-name="웹기획"
+                                            data-bizjobtype-name="직무 또는 산업을 선택해주세요"
                                             data-bizjobtype-code="1000186"
                                             type="button"
                                             class="btn-select qnaSpA devQnaWriteBizJobtypeDropDownButton on devQnaWriteBizJobtypeLayer"
                                         >
-                                            웹기획
+                                            직무/산업 선택
                                         </button>
                                         <div
                                             class="layer-box-wrap job innerScroll"
@@ -267,95 +293,6 @@
                                                 </button>
                                             </div>
                                             <div class="layer-cont-wrap">
-                                                <div class="layer-cont">
-                                                    <div
-                                                        class="subtitle-wrap has-tooltip devQnaWriteBizJobtypeLayerTooltip"
-                                                    >
-                                                        <span class="subtitle"
-                                                            >나의직무</span
-                                                        >
-                                                        <button
-                                                            type="button"
-                                                            class="select-tooltip qnaSpA"
-                                                        >
-                                                            <span class="skip"
-                                                                >나의직무 설명
-                                                                보기</span
-                                                            >
-                                                        </button>
-                                                        <div
-                                                            class="tooltip-layer qnaSpB"
-                                                        >
-                                                            <p class="txt">
-                                                                나의 기본
-                                                                이력서에 등록된
-                                                                희망직무 또는
-                                                                경력직무
-                                                            </p>
-                                                            <button
-                                                                type="button"
-                                                                class="btn-tooltip-close qnaSpB"
-                                                            >
-                                                                <span
-                                                                    class="skip"
-                                                                    >닫기</span
-                                                                >
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <ul
-                                                        class="searchList inner-scroll-box"
-                                                    >
-                                                        <li
-                                                            class="devBizJobtypeMyItem"
-                                                            data-bizjobtype-name="웹기획"
-                                                            data-bizjobtype-code="1000186"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="qnaSpB"
-                                                            >
-                                                                웹기획
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="devBizJobtypeMyItem"
-                                                            data-bizjobtype-name="백엔드개발자"
-                                                            data-bizjobtype-code="1000229"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="qnaSpB"
-                                                            >
-                                                                백엔드개발자
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="devBizJobtypeMyItem"
-                                                            data-bizjobtype-name="카페·레스토랑매니저"
-                                                            data-bizjobtype-code="1000302"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="qnaSpB"
-                                                            >
-                                                                카페·레스토랑매니저
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="devBizJobtypeMyItem"
-                                                            data-bizjobtype-name="홀서버"
-                                                            data-bizjobtype-code="1000303"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="qnaSpB"
-                                                            >
-                                                                홀서버
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                                
                                                 <div
                                                     class="layer-cont devRecentSearchBizJobtype"
@@ -8223,6 +8160,94 @@
                                             </button>
                                         </div>
                                     </li>
+                                    <li>
+                                        <!-- [Dev] 버튼 클릭 시 클래스 on 추가 -->
+                                        <button
+                                                data-univ-name="test"
+                                                data-univ-code="U0110"
+                                                type="button"
+                                                class="btn-select qnaSpA devQnaWriteUnivLayer devQnaWriteUnivDropDownButton"
+                                        >
+                                            test
+                                        </button>
+                                        <!-- layer-box-wrap : 클래스 open 추가 시 레이어 노출 -->
+                                        <div class="layer-box-wrap alumni">
+                                            <p class="layer-header">
+                                                동문 선택
+                                            </p>
+                                            <div class="layer-cont">
+                                                <div
+                                                        class="subtitle-wrap has-tooltip devQnaWriteUnivLayerTooltip"
+                                                >
+                                                    <span class="subtitle"
+                                                    >나의동문</span
+                                                    >
+                                                    <button
+                                                            type="button"
+                                                            class="select-tooltip qnaSpA"
+                                                    >
+                                                        <span class="skip"
+                                                        >나의동문 설명
+                                                            보기</span
+                                                        >
+                                                    </button>
+                                                    <div
+                                                            class="tooltip-layer qnaSpB"
+                                                    >
+                                                        <p class="txt">
+                                                            나의 기본 이력서에
+                                                            등록된 학력(대학교,
+                                                            대학원)
+                                                        </p>
+                                                        <button
+                                                                type="button"
+                                                                class="btn-tooltip-close qnaSpB"
+                                                        >
+                                                            <span class="skip"
+                                                            >닫기</span
+                                                            >
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <ul
+                                                        class="listWrap radioCommWrap"
+                                                >
+                                                    <li
+                                                            class="devUnivItem"
+                                                            data-univ-name="test"
+                                                            data-univ-code="U0110"
+                                                    >
+                                                        <input
+                                                                type="radio"
+                                                                name="lb_university"
+                                                                id="lb_university_1"
+                                                                class="skip"
+                                                                checked=""
+                                                        />
+                                                        <label
+                                                                for="lb_university_1"
+                                                                class="qnaSpB"
+                                                        >
+                                                            <span
+                                                                    class="txt_name"
+                                                            >test</span
+                                                            >
+                                                            <span
+                                                                    class="txt_info"
+                                                            >졸업</span
+                                                            >
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <button
+                                                    type="button"
+                                                    class="btn-layer-close qnaSpB devQnaWriteUnivLayerClose"
+                                            >
+                                                <span class="blind">닫기</span>
+                                            </button>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="noticeListArea">
@@ -8242,7 +8267,9 @@
                         <!-- 글쓰기 시작(제목, 내용) -->
                          <!-- writeBoxWrap -->
                         <div class="writeBoxWrap">
-                            <form>
+                            <form action="/qna/write" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="hiddenJobCategorySmallId" name="jobCategorySmallCode">
+                                <input type="hidden" id="hiddenJobCategoryName" name="jobCategoryName">
                                 <fieldset>
                                     <legend>질문 등록하기</legend>
                                     <div class="jkTxInput">
@@ -8288,7 +8315,7 @@
                                                 <button type="button" class="icon-photo qnaSpB btn-layer-open">
                                                     사진
                                                 </button>
-                                                <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                                                <input type="file" id="photoInput" name="file" accept="image/*" style="display: none;">
                                             </li>
                                          </ul>
                                         </div>
@@ -8302,7 +8329,7 @@
                                             허용되지 않는 이미지 형식이 있어
                                             제외됩니다.
                                         </div>
-                                        <textarea id="editorQnaText" name="qnaContent" style="width: 100%; display: none" class="devQnaWriteCntnt" title="내용 입력">                                        &lt;p&gt;&lt;/p&gt;
+                                        <textarea id="editorQnaText" style="width: 100%; display: none" class="devQnaWriteCntnt" title="내용 입력">                                        &lt;p&gt;&lt;/p&gt;
                                     </textarea>
                                         <!-- 실질적인 내용 작성하는 곳 -->
                                         <div>
@@ -8338,6 +8365,9 @@
                 <!-- // content -->
             </div>
         </div>
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
     <script src="/js/qna/write-event.js"></script>
+    <script src="/js/qna/header-event.js"></script>
+    <script src="/js/qna/footer.js"></script>
 </html>

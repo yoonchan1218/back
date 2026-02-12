@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 
@@ -537,7 +537,7 @@ legend {
     height: 36px;
     border: none;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url(/static/images/search_icon.png);
+    background-image: url(images/search_icon.png);
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 20px 20px;
@@ -1837,7 +1837,7 @@ button, input, select {
     display: block;
     width: 80px;
     height: 80px;
-    background: url(/static/images/try-catch-char.png) 0 0 no-repeat;
+    background: url(/images/try-catch-char.png) 0 0 no-repeat;
     background-size: 80px auto;
     margin-right: 16px;
 }
@@ -2028,7 +2028,7 @@ button, input, select {
     height: 24px;
     margin-right: 5px;
     content: "";
-    background-image: url(/static/images/corp-icon.png);
+    background-image: url(/images/corp-icon.png);
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: contain;
@@ -2040,7 +2040,7 @@ button, input, select {
     height: 24px;
     margin-right: 5px;
     content: "";
-    background-image: url(/static/images/user-icon.png);
+    background-image: url(/images/user-icon.png);
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: contain;
