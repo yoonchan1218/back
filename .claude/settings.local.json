@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git -C \"C:\\\\gb_0900_ljs\\\\spring\\\\workspace\\\\trycatch\" status)"
-    ]
-  }
-}
