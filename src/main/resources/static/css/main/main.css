@@ -19,19 +19,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 body, button, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, input, li, ol, p, table, td, textarea, th, ul {
@@ -1619,31 +1619,31 @@ body .grand_banner_bg>.grand_banner_wrap {
 }
 
 .grand_banner_wrap.smartfit_banner_wrap .smartfit_list .smartfit_item:first-of-type {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/static/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
-    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/static/images/smartfit_main_bg01.jpg) 50%/contain no-repeat;
-    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
+    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
+    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/images/smartfit_main_bg01.jpg) 50%/contain no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg01.jpg) 50% / contain no-repeat;
 }
 
 .grand_banner_wrap.smartfit_banner_wrap .smartfit_list .smartfit_item:nth-of-type(2) {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/static/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
-    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/static/images/smartfit_main_bg02.jpg) 50%/contain no-repeat;
-    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
+    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
+    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/images/smartfit_main_bg02.jpg) 50%/contain no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg02.jpg) 50% / contain no-repeat;
 }
 
 .grand_banner_wrap.smartfit_banner_wrap .smartfit_list .smartfit_item:nth-of-type(3) {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/static/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
-    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/static/images/smartfit_main_bg03.jpg) 50%/contain no-repeat;
-    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
+    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
+    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/images/smartfit_main_bg03.jpg) 50%/contain no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg03.jpg) 50% / contain no-repeat;
 }
 
 .grand_banner_wrap.smartfit_banner_wrap .smartfit_list .smartfit_item:last-of-type {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/static/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
-    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/static/images/smartfit_main_bg04.jpg) 50%/contain no-repeat;
-    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/static/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .24)), to(rgba(0, 0, 0, .24))), url(/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
+    background: -webkit-linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
+    background: -moz-linear-gradient(rgba(0,0,0,.24),rgba(0,0,0,.24)),url(/images/smartfit_main_bg04.jpg) 50%/contain no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .24), rgba(0, 0, 0, .24)), url(/images/smartfit_main_bg04.jpg) 50% / contain no-repeat;
 }
 
 .grand_banner_wrap.smartfit_banner_wrap .smartfit_list .smartfit_item:hover {
@@ -2955,19 +2955,19 @@ body .btn_more_header {
 }
 
 .l-wrap-bottom.l-gamejob-wrap .l-gamejob .item .company.bg1 {
-    background: #837d6d url(/static/images/bg-gamejob1.jpg) no-repeat 0 0;
+    background: #837d6d url(/images/bg-gamejob1.jpg) no-repeat 0 0;
 }
 
 .l-wrap-bottom.l-gamejob-wrap .l-gamejob .item .company.bg2 {
-    background: #507c7c url(/static/images/bg-gamejob2.jpg) no-repeat 0 0;
+    background: #507c7c url(/images/bg-gamejob2.jpg) no-repeat 0 0;
 }
 
 .l-wrap-bottom.l-gamejob-wrap .l-gamejob .item .company.bg3 {
-    background: #978c38 url(/static/images/bg-gamejob3.jpg) no-repeat 0 0;
+    background: #978c38 url(/images/bg-gamejob3.jpg) no-repeat 0 0;
 }
 
 .l-wrap-bottom.l-gamejob-wrap .l-gamejob .item .company.bg4 {
-    background: #717999 url(/static/images/bg-gamejob4.jpg) no-repeat 0 0;
+    background: #717999 url(/images/bg-gamejob4.jpg) no-repeat 0 0;
 }
 
 .l-wrap-bottom.l-gamejob-wrap .l-gamejob .item ul {

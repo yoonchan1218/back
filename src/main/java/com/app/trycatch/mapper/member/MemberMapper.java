@@ -29,4 +29,7 @@ public interface MemberMapper {
 
     //      주소 id 추가
     public void updateAddressIdById(Long id);
+
+    //    로그인
+    public Optional<MemberVO> selectMemberForLogin(MemberDTO memberDTO);
 }

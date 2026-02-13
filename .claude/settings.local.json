@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::OpenRead\\(''C:\\\\Users\\\\pigch\\\\Desktop\\\\gb_0900_kyc\\\\spring\\\\강의자료\\\\spring_day07\\\\threetier.zip''\\).Entries | ForEach-Object { $_FullName }\")",
+      "Bash(powershell -Command \"[System.IO.Compression.ZipFile]::OpenRead\\(''threetier.zip''\\).Entries.FullName\")",
+      "Bash(tar:*)",
+      "Bash(where:*)",
+      "Bash(unzip:*)",
+      "Bash(./gradlew clean build:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(powershell -Command \"Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::OpenRead\\(''C:\\\\Users\\\\pigch\\\\Desktop\\\\gb_0900_kyc\\\\spring\\\\강의자료\\\\spring_day09\\\\threetier_v1.zip''\\).Entries | ForEach-Object { $_FullName }\")",
+      "Bash(powershell -Command:*)"
+    ]
+  }
+}

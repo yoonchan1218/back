@@ -36,3 +36,8 @@ companyButton.addEventListener("click", (e) => {
     kakaoLogin.style.display = "none";
 });
 
+// 로그인 실패 시 에러 메시지 표시
+if (login === "fail") {
+    document.querySelector(".login-input").classList.add("error");
+}
+

@@ -24,6 +24,7 @@ public class MemberDTO{
     private String createdDatetime;
     private String updatedDatetime;
     private Provider provider;
+    private boolean remember;
 
     public MemberVO toMemberVO() {
         return MemberVO.builder()

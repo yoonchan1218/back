@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -151,7 +151,7 @@
                                         maxlength="20"
                                         title="아이디 입력"
                                         style="ime-mode: inactive"
-                                        value=""
+                                        th:value="${rememberMemberId}"
                                         required=""
                                     />
                                     <label
@@ -173,7 +173,7 @@
                                     <button type="submit" class="login-button">
                                         로그인
                                     </button>
-                                    <div class="text-error"></div>
+                                    <div class="text-error">아이디 또는 비밀번호를 다시 확인해주세요.</div>
                                     <!-- CapsLock 레이어 - <div class="login-capslock" 에 on 클래스 추가 시 활성화 -->
                                     <div class="login-capslock" id="ipNotice">
                                         <em>Caps Lock</em>이 켜져 있습니다.<span
@@ -191,10 +191,11 @@
                                         >
                                             <input
                                                 type="checkbox"
-                                                name="lb_idSave"
+                                                name="remember"
                                                 id="lb_idSave"
-                                                value="Y"
+                                                value="true"
                                                 class="skip"
+                                                th:checked="${remember}"
                                             />
                                             <label for="lb_idSave"
                                                 >아이디 저장</label
@@ -437,21 +438,11 @@
             <!-- footer //-->
         </div>
     </body>
+    <script th:inline="javascript">const login = [[${login}]];</script>
     <script src="/js/main/log-in.js"></script>
-    <script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.9/kakao.min.js"
-        integrity="sha384-JpLApTkB8lPskhVMhT+m5Ln8aHlnS0bsIexhaak0jOhAkMYedQoVghPfSpjNi9K1"
-        crossorigin="anonymous"
-    ></script>
     <script>
-        // 카카오 SDK 초기화 (JavaScript 키 사용)
-        Kakao.init("4fbe7db4268bd8e66a1f8645394e6280");
-
         document.querySelector(".kakao").addEventListener("click", () => {
-            Kakao.Auth.authorize({
-                redirectUri: "http://127.0.0.1:3000/templates/main/log-in.html",
-                scope: "profile_nickname, profile_image", // 필요한 동의항목
-            });
+            location.href = "https://kauth.kakao.com/oauth/authorize?client_id=edeefdf5ab96d36811571fbd1e56a4cf&redirect_uri=http://localhost:10000/main/kakao-join&response_type=code";
         });
     </script>
 </html>

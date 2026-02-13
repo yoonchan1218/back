@@ -42,4 +42,9 @@ public class MemberDAO {
     public void updateAddressIdById(Long id) {
         memberMapper.updateAddressIdById(id);
     }
+
+    // 로그인
+    public Optional<MemberVO> findForLogin(MemberDTO memberDTO) {
+        return memberMapper.selectMemberForLogin(memberDTO);
+    }
 }

@@ -6,12 +6,14 @@ import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.service.member.CorpService;
 import com.app.trycatch.service.member.IndividualMemberService;
 import com.app.trycatch.service.oauth.KakaoService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,7 @@ public class MemberController {
     private final IndividualMemberService individualMemberService;
     private final CorpService corpService;
     private final KakaoService kakaoService;
-    private HttpSession session;
+    private final HttpSession session;
 
     @GetMapping("individual-join")
     public String goIndividualJoinForm(){
@@ -58,7 +60,8 @@ public class MemberController {
         IndividualMemberDTO kakaoInfo = kakaoService.kakaoLogin(code);
 
         if (kakaoInfo.getId() != null) {
-            return "redirect:/main/log-in";
+            session.setAttribute("member", kakaoInfo);
+            return "redirect:/main/main";
         }
 
         model.addAttribute("memberEmail", kakaoInfo.getMemberEmail());
@@ -77,9 +80,43 @@ public class MemberController {
         return new RedirectView("/main/log-in");
     }
 
+    @GetMapping("main")
+    public String goMainPage() {
+        return "main/main";
+    }
+
     @GetMapping("log-in")
-    public String goLoginForm(){
+    public String goLoginForm(
+            @CookieValue(name = "remember", required = false) boolean remember,
+            @CookieValue(name = "remember-member-id", required = false) String rememberMemberId,
+            Model model) {
+        model.addAttribute("remember", remember);
+        model.addAttribute("rememberMemberId", rememberMemberId);
         return "main/log-in";
+    }
+
+    @PostMapping("log-in")
+    public RedirectView login(MemberDTO memberDTO, HttpServletResponse response) {
+        session.setAttribute("member", individualMemberService.login(memberDTO));
+
+        Cookie rememberMemberIdCookie = new Cookie("remember-member-id", memberDTO.getMemberId());
+        Cookie rememberCookie = new Cookie("remember", String.valueOf(memberDTO.isRemember()));
+
+        rememberMemberIdCookie.setPath("/");
+        rememberCookie.setPath("/");
+
+        if (memberDTO.isRemember()) {
+            rememberMemberIdCookie.setMaxAge(60 * 60 * 24 * 30);
+            rememberCookie.setMaxAge(60 * 60 * 24 * 30);
+        } else {
+            rememberMemberIdCookie.setMaxAge(0);
+            rememberCookie.setMaxAge(0);
+        }
+
+        response.addCookie(rememberMemberIdCookie);
+        response.addCookie(rememberCookie);
+
+        return new RedirectView("/main/main");
     }
 
     @GetMapping("/check-email")

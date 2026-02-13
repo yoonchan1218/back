@@ -1,14 +1,17 @@
 package com.app.trycatch.service.member;
 
 import com.app.trycatch.common.enumeration.member.Provider;
+import com.app.trycatch.common.exception.LoginFailException;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.repository.member.IndividualMemberDAO;
 import com.app.trycatch.repository.member.MemberDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -61,5 +64,23 @@ public class IndividualMemberService {
         individualMemberDAO.save(individualMemberDTO.toIndividualMemberVO());
     }
 
+    //    로그인
+    public MemberDTO login(MemberDTO memberDTO) {
+        Optional<MemberVO> foundMember = memberDAO.findForLogin(memberDTO);
+        return toDTO(foundMember.orElseThrow(LoginFailException::new));
+    }
 
+    public MemberDTO toDTO(MemberVO memberVO) {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(memberVO.getId());
+        memberDTO.setMemberId(memberVO.getMemberId());
+        memberDTO.setMemberName(memberVO.getMemberName());
+        memberDTO.setMemberEmail(memberVO.getMemberEmail());
+        memberDTO.setMemberPhone(memberVO.getMemberPhone());
+        memberDTO.setAddressId(memberVO.getAddressId());
+        memberDTO.setMemberStatus(memberVO.getMemberStatus());
+        memberDTO.setCreatedDatetime(memberVO.getCreatedDatetime());
+        memberDTO.setUpdatedDatetime(memberVO.getUpdatedDatetime());
+        return memberDTO;
+    }
 }

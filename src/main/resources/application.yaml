@@ -1,5 +1,9 @@
 server:
   port: 10000
+  servlet:
+    session:
+      tracking-modes: cookie
+      timeout: 30m
 
 spring:
   servlet:
