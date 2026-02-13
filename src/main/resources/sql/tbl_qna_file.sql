@@ -5,3 +5,5 @@ create table tbl_qna_file
     constraint fk_qna_file foreign key (id) references tbl_file (id) ,
     constraint fk_qna_file_qna foreign key (qna_id) references tbl_qna (id)
 ) comment 'QnA 파일 서브타입';
+
+select * from tbl_qna_file;

@@ -84,19 +84,23 @@ const bookMarkLayer = document.querySelector(
     ".book-mark-layer.tooltip-layer.qnaSpA",
 );
 
-buttonBookMark.addEventListener("click", (e) => {
-    if (!buttonBookMark.classList.contains("on")) {
-        bookMarkLayer.style.display = "block"; // 먼저 보이게
-        bookMarkLayer.style.opacity = "1";
-        setTimeout(() => {
-            bookMarkLayer.style.opacity = "0";
-            setTimeout(() => {
-                bookMarkLayer.style.display = "none"; // 사라진 후 숨김
-            }, 300); // transition 시간만큼 대기
-        }, 975);
-    }
-    buttonBookMark.classList.toggle("on");
-});
+if (buttonBookMark) {
+    buttonBookMark.addEventListener("click", (e) => {
+        if (!buttonBookMark.classList.contains("on")) {
+            if (bookMarkLayer) {
+                bookMarkLayer.style.display = "block"; // 먼저 보이게
+                bookMarkLayer.style.opacity = "1";
+                setTimeout(() => {
+                    bookMarkLayer.style.opacity = "0";
+                    setTimeout(() => {
+                        bookMarkLayer.style.display = "none"; // 사라진 후 숨김
+                    }, 300); // transition 시간만큼 대기
+                }, 975);
+            }
+        }
+        buttonBookMark.classList.toggle("on");
+    });
+}
 // 신고 열리는 버튼들 (모든 버튼 선택)
 const reportActiveButtons = document.querySelectorAll(
     ".icon-more-button.qnaSpB.devQnaListPopupMenuButton",

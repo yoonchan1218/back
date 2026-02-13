@@ -33,8 +33,9 @@ public class QnaService {
     public void write(QnaVO qnaVO, ArrayList<MultipartFile> files) {
         qnaDAO.save(qnaVO);
         String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        files.forEach(file -> {
-            if (file.getOriginalFilename().isEmpty()) return;
+        boolean firstFile = true;
+        for (MultipartFile file : files) {
+            if (file.getOriginalFilename().isEmpty()) continue;
             FileDTO fileDTO = new FileDTO();
             fileDTO.setFilePath(todayPath);
             fileDTO.setFileName(UUID.randomUUID() + "_" + file.getOriginalFilename());
@@ -45,6 +46,10 @@ public class QnaService {
             );
             fileDAO.save(fileDTO);
             qnaFileDAO.save(fileDTO.getId(), qnaVO.getId());
+            if (firstFile) {
+                qnaMapper.updateFileId(qnaVO.getId(), fileDTO.getId());
+                firstFile = false;
+            }
             File dir = new File("C:/file/" + todayPath);
             if (!dir.exists()) dir.mkdirs();
             try {
@@ -52,7 +57,7 @@ public class QnaService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }
     }
 
     public QnaWithPagingDTO list(int page) {

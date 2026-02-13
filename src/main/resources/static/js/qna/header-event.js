@@ -26,13 +26,15 @@ const headerFooterDetailButton = document.querySelector(
 );
 
 // ✅ 수정: mouseenter, mouseleave
-headerFooterDetailButton.addEventListener("mouseenter", (e) => {
-    headerFooterActive.classList.add("active");
-});
+if (headerFooterDetailButton) {
+    headerFooterDetailButton.addEventListener("mouseenter", (e) => {
+        if (headerFooterActive) headerFooterActive.classList.add("active");
+    });
 
-headerFooterDetailButton.addEventListener("mouseleave", (e) => {
-    headerFooterActive.classList.remove("active");
-});
+    headerFooterDetailButton.addEventListener("mouseleave", (e) => {
+        if (headerFooterActive) headerFooterActive.classList.remove("active");
+    });
+}
 
 // 기업 서비스에 마우스 올렸을 때 class open 추가 삭제
 // const userCorp = document.querySelector(".userNav .corp");
@@ -78,12 +80,14 @@ serviceNavDrop.addEventListener("mouseleave", () => {
 
 // 로그아웃 버튼 배경색(로그인)
 const logoutButton = document.querySelector(".btnRowWrap");
-logoutButton.addEventListener("mouseenter", (e) => {
-    e.target.style.backgroundColor = "#F8F8F8";
-});
-logoutButton.addEventListener("mouseleave", (e) => {
-    e.target.style.backgroundColor = "#fff";
-});
+if (logoutButton) {
+    logoutButton.addEventListener("mouseenter", (e) => {
+        e.target.style.backgroundColor = "#F8F8F8";
+    });
+    logoutButton.addEventListener("mouseleave", (e) => {
+        e.target.style.backgroundColor = "#fff";
+    });
+}
 
 // 알림 자세히보기 버튼 색변화(로그인)
 const notifyButton = document.getElementById("js-bell");
@@ -91,96 +95,111 @@ const notifyToggleAttached = document.querySelector(".popup-notification");
 const notifyToggleOpen = document.querySelector(
     ".userNav-item.notification.devLiNotification",
 );
-notifyButton.addEventListener("click", (e) => {
-    notifyToggleAttached.classList.toggle("attached");
-});
-
-notifyButton.addEventListener("mouseenter", (e) => {
-    notifyToggleOpen.classList.add("open");
-});
-notifyButton.addEventListener("mouseleave", (e) => {
-    notifyToggleOpen.classList.remove("open");
-});
+if (notifyButton) {
+    notifyButton.addEventListener("click", (e) => {
+        if (notifyToggleAttached) notifyToggleAttached.classList.toggle("attached");
+    });
+    notifyButton.addEventListener("mouseenter", (e) => {
+        if (notifyToggleOpen) notifyToggleOpen.classList.add("open");
+    });
+    notifyButton.addEventListener("mouseleave", (e) => {
+        if (notifyToggleOpen) notifyToggleOpen.classList.remove("open");
+    });
+}
 
 // 검색창 자동완성 관련 (로그인)
 const searchToolDiv = document.querySelector(".autoSearch");
 const searchInput = document.getElementById("stext");
-
-// 검색창 클릭시 클래스 추가(로그인)
-searchInput.addEventListener("click", (e) => {
-    searchToolDiv.classList.add("autoSearchDisabledClose");
-});
-
-// keyup 이벤트 - 자동완성 꺼진 상태면 무시(로그인)
 const searchBox = document.querySelector(
     "#headerWrap #header .headInner .search",
 );
-searchInput.addEventListener("keyup", (e) => {
-    if (searchToolDiv.classList.contains("autoSearchDisabled")) {
-        return;
-    }
 
-    if (searchInput.value.length > 0) {
-        searchToolDiv.classList.add("autoSearchShow");
-        searchBox.classList.add("searchOpen"); // 추가
-    } else {
-        searchToolDiv.classList.remove("autoSearchShow");
-        searchBox.classList.remove("searchOpen"); // 추가
-    }
-});
+if (searchInput) {
+    // 검색창 클릭시 클래스 추가(로그인)
+    searchInput.addEventListener("click", (e) => {
+        if (searchToolDiv) searchToolDiv.classList.add("autoSearchDisabledClose");
+    });
+
+    // keyup 이벤트 - 자동완성 꺼진 상태면 무시(로그인)
+    searchInput.addEventListener("keyup", (e) => {
+        if (!searchToolDiv) return;
+        if (searchToolDiv.classList.contains("autoSearchDisabled")) {
+            return;
+        }
+        if (searchInput.value.length > 0) {
+            searchToolDiv.classList.add("autoSearchShow");
+            if (searchBox) searchBox.classList.add("searchOpen");
+        } else {
+            searchToolDiv.classList.remove("autoSearchShow");
+            if (searchBox) searchBox.classList.remove("searchOpen");
+        }
+    });
+}
+
 // 자동완성 끄기 버튼
 const autoCompleteOffBtn = document.getElementById("devAcOff");
-autoCompleteOffBtn.addEventListener("click", (e) => {
-    const isConfirmed = confirm(
-        "검색어 자동완성 기능을 중지합니다.\n사용을 원하실 경우 검색창 내 ▼버튼을 클릭하세요.",
-    );
-    if (isConfirmed) {
-        searchToolDiv.classList.remove("autoSearchShow");
-        searchToolDiv.classList.add("autoSearchDisabled");
-        searchToolDiv.classList.add("autoSearchDisabledClose"); // ← 이 줄 추가!
-        searchBox.classList.remove("searchOpen");
-    }
-});
+if (autoCompleteOffBtn) {
+    autoCompleteOffBtn.addEventListener("click", (e) => {
+        const isConfirmed = confirm(
+            "검색어 자동완성 기능을 중지합니다.\n사용을 원하실 경우 검색창 내 ▼버튼을 클릭하세요.",
+        );
+        if (isConfirmed && searchToolDiv) {
+            searchToolDiv.classList.remove("autoSearchShow");
+            searchToolDiv.classList.add("autoSearchDisabled");
+            searchToolDiv.classList.add("autoSearchDisabledClose");
+            if (searchBox) searchBox.classList.remove("searchOpen");
+        }
+    });
+}
 
 // 화살표 버튼 (창 열기)
 const arrowOpenBtn = document.querySelector("#btnArrow_C button");
-arrowOpenBtn.addEventListener("click", (e) => {
-    searchToolDiv.classList.remove("autoSearchDisabledClose");
-    searchBox.classList.add("searchOpen"); // 추가
-});
+if (arrowOpenBtn) {
+    arrowOpenBtn.addEventListener("click", (e) => {
+        if (searchToolDiv) searchToolDiv.classList.remove("autoSearchDisabledClose");
+        if (searchBox) searchBox.classList.add("searchOpen");
+    });
+}
 
 // 화살표 버튼 (창 닫기)
 const arrowCloseBtn = document.querySelector("#btnArrow_O button");
-arrowCloseBtn.addEventListener("click", (e) => {
-    searchToolDiv.classList.add("autoSearchDisabledClose");
-    searchBox.classList.remove("searchOpen"); // 추가
-});
+if (arrowCloseBtn) {
+    arrowCloseBtn.addEventListener("click", (e) => {
+        if (searchToolDiv) searchToolDiv.classList.add("autoSearchDisabledClose");
+        if (searchBox) searchBox.classList.remove("searchOpen");
+    });
+}
 
 // 자동완성 켜기 버튼
 const autoCompleteOnBtn = document.getElementById("devAcOn");
-autoCompleteOnBtn.addEventListener("click", (e) => {
-    searchToolDiv.classList.remove(
-        "autoSearchDisabled",
-        "autoSearchDisabledClose",
-    );
+if (autoCompleteOnBtn) {
+    autoCompleteOnBtn.addEventListener("click", (e) => {
+        if (searchToolDiv) {
+            searchToolDiv.classList.remove("autoSearchDisabled", "autoSearchDisabledClose");
+        }
+        if (searchInput && searchInput.value.length > 0) {
+            if (searchToolDiv) searchToolDiv.classList.add("autoSearchShow");
+            if (searchBox) searchBox.classList.add("searchOpen");
+        } else {
+            if (searchBox) searchBox.classList.remove("searchOpen");
+        }
+    });
+}
 
-    if (searchInput.value.length > 0) {
-        searchToolDiv.classList.add("autoSearchShow");
-        searchBox.classList.add("searchOpen"); // 추가
-    } else {
-        searchBox.classList.remove("searchOpen"); // 추가
-    }
-});
 // 닫기 버튼 (로그인, 자동완성 켜진 상태에서)
 const closeBtn = document.getElementById("devAcInfoClose2");
-closeBtn.addEventListener("click", (e) => {
-    searchToolDiv.classList.remove("autoSearchShow");
-    searchBox.classList.remove("searchOpen"); // ← 이 줄 추가!
-});
+if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+        if (searchToolDiv) searchToolDiv.classList.remove("autoSearchShow");
+        if (searchBox) searchBox.classList.remove("searchOpen");
+    });
+}
 
 // 닫기 버튼 (자동완성 꺼진 상태에서)
 const closeBtn2 = document.getElementById("devAcInfoClose");
-closeBtn2.addEventListener("click", (e) => {
-    searchToolDiv.classList.add("autoSearchDisabledClose");
-    searchBox.classList.remove("searchOpen");
-});
+if (closeBtn2) {
+    closeBtn2.addEventListener("click", (e) => {
+        if (searchToolDiv) searchToolDiv.classList.add("autoSearchDisabledClose");
+        if (searchBox) searchBox.classList.remove("searchOpen");
+    });
+}

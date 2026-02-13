@@ -225,87 +225,90 @@
                             </ul>
                             <!-- 공통부분(상단 네비게이션) -->
                             <!-- //비로그인 상단(로그인, 회원가입, 별충전, 기업서비스)// -->
-                            <!-- my 홈일경우 클래스 myPage -->
-                            <!-- <ul id="devMyPage" class="userNav">
-                                <ul class="userNav">
-                                    <li class="userNav-item login">
-                                        <a
-                                            href=""
-                                            class="txt-button login-button"
-                                            >로그인</a
-                                        >
-                                    </li>
-                                    <li class="userNav-item join">
-                                        <a
-                                            href=""
-                                            class="txt-button join-button"
-                                            >회원가입</a
-                                        >
-                                    </li>
-                                    <li class="userNav-item star">
-                                        <a
-                                            href=""
-                                            class="txt-button star-button"
-                                            >별 포인트</a
-                                        >
-                                    </li>
-                                    <li class="userNav-item corp">
-                                        <a href="" target="_blank"
-                                            ><span class="spGnb"
-                                                >기업서비스</span
-                                            ></a
-                                        >
-                                        <div class="lyMyArea">
-                                            <div class="myInner">
-                                                <div class="lyRow">
-                                                    <div class="btnRowWrap">
-                                                        <a href=""
-                                                            >기업회원 로그인</a
-                                                        >
-                                                    </div>
+                            <ul th:unless="${loginMember != null}" class="userNav">
+                                <li class="userNav-item login">
+                                    <a
+                                        href="/main/log-in"
+                                        class="txt-button login-button"
+                                        >로그인</a
+                                    >
+                                </li>
+                                <li class="userNav-item join">
+                                    <a
+                                        href="/main/individual-join"
+                                        class="txt-button join-button"
+                                        >회원가입</a
+                                    >
+                                </li>
+                                <li class="userNav-item star">
+                                    <a
+                                        href=""
+                                        class="txt-button star-button"
+                                        >별 포인트</a
+                                    >
+                                </li>
+                                <li class="userNav-item corp">
+                                    <a href="" target="_blank"
+                                        ><span class="spGnb"
+                                            >기업서비스</span
+                                        ></a
+                                    >
+                                    <div class="lyMyArea">
+                                        <div class="myInner">
+                                            <div class="lyRow">
+                                                <div class="btnRowWrap">
+                                                    <a href=""
+                                                        >기업회원 로그인</a
+                                                    >
                                                 </div>
-                                                <div class="myLists">
-                                                    <ul>
-                                                        <li>
-                                                            <a href=""
-                                                                ><span
-                                                                    class="tx"
-                                                                    >기업회원
-                                                                    홈</span
-                                                                ></a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href=""
-                                                                ><span
-                                                                    class="tx"
-                                                                    >공고등록</span
-                                                                ></a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href=""
-                                                                ><span
-                                                                    class="tx"
-                                                                    >공고·지원자
-                                                                    관리</span
-                                                                ></a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href=""
-                                                                ><span
-                                                                    class="tx"
-                                                                    >기업회원
-                                                                    서비스
-                                                                    안내</span
-                                                                ></a
-                                                            >
-                                                        </li>
-                                                    </ul> -->
+                                            </div>
+                                            <div class="myLists">
+                                                <ul>
+                                                    <li>
+                                                        <a href=""
+                                                            ><span
+                                                                class="tx"
+                                                                >기업회원
+                                                                홈</span
+                                                            ></a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a href=""
+                                                            ><span
+                                                                class="tx"
+                                                                >공고등록</span
+                                                            ></a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a href=""
+                                                            ><span
+                                                                class="tx"
+                                                                >공고·지원자
+                                                                관리</span
+                                                            ></a
+                                                        >
+                                                    </li>
+                                                    <li>
+                                                        <a href=""
+                                                            ><span
+                                                                class="tx"
+                                                                >기업회원
+                                                                서비스
+                                                                안내</span
+                                                            ></a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                             <!-- 비로그인 상단(로그인,회원가입,별충전,기업서비스 드롭다운)// -->
                             <!-- //로그인 상단(알림,개인서비스) -->
-                            <ul id="devMyPage" class="userNav">
+                            <ul id="devMyPage" class="userNav" th:if="${loginMember != null}">
                                 <ul class="userNav" style="">
                                     <li
                                         class="userNav-item notification devLiNotification"

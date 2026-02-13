@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.qna.QnaMapper">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_qna(individual_member_id,qna_title,qna_content,job_category_small_id,job_category_name)
-        values(#{individualMemberId},#{qnaTitle},#{qnaContent},#{jobCategorySmallId},#{jobCategoryName})
+        insert into tbl_qna(individual_member_id,qna_title,qna_content,job_category_small_id,job_category_name,company_name,college_friend)
+        values(#{individualMemberId},#{qnaTitle},#{qnaContent},#{jobCategorySmallId},#{jobCategoryName},#{companyName},#{collegeFriend})
     </insert>
 
     <select id="selectById" resultType="QnaDTO">
@@ -27,5 +27,17 @@
     <update id="delete">
         update tbl_qna set qna_status = 'deleted' where id = #{id}
     </update>
+
+    <update id="updateFileId">
+        update tbl_qna set qna_file_id = #{fileId} where id = #{id}
+    </update>
+
+    <select id="selectCorpByKeyword" resultType="com.app.trycatch.dto.qna.CorpNameKeywordDTO">
+        select id as corpId, corp_company_name as corpName
+        from tbl_corp
+        where corp_company_name like concat(#{keyword}, '%')
+        order by corp_company_name
+        limit 20
+    </select>
 
 </mapper>

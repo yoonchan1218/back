@@ -1329,6 +1329,10 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
 }
 
+.keyword-search-item .companyName .text_on {
+    color: #006E3F;
+}
+
 .selectListArea .layer-box-wrap.corporation .keywordSearch .searchLayer {
     z-index: 3;
     display: none;

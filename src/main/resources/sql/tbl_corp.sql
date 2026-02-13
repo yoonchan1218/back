@@ -25,6 +25,10 @@ drop table tbl_corp;
 select * from tbl_corp;
 select * from tbl_address;
 
+SELECT * FROM tbl_member;
+
+
+
 
 
 

@@ -178,79 +178,128 @@ const corpInputDiv = document.querySelector(
 const corpInput = corpInputDiv.querySelector(
     ".schInp.devQnaWriteCompanyLayerSearchInput",
 );
-corpInput.addEventListener("input", (e) => {
-    corpInputDiv.classList.add("focus");
-    if (!corpInput.value) {
-        corpInputDiv.classList.remove("focus");
+const corpSearchDiv = corpInputDiv.querySelector(".devQnaWriteCompanyLayerSearchDiv");
+const corpSearchUl = corpSearchDiv.querySelector("ul");
+
+// 4개 높이(약 44px * 4 = 176px)로 스크롤 제한
+corpSearchUl.style.maxHeight = "176px";
+corpSearchUl.style.overflowY = "auto";
+
+corpInput.addEventListener("keyup", (e) => {
+    corpInputDiv.classList.toggle("focus", !!corpInput.value);
+
+    const keyword = corpInput.value.trim();
+    if (!keyword) {
+        corpSearchDiv.style.display = "none";
+        corpSearchUl.innerHTML = "";
+        return;
     }
+
+    fetch(`/qna/search-company?keyword=${encodeURIComponent(keyword)}`)
+        .then(res => res.json())
+        .then(data => {
+            corpSearchUl.innerHTML = "";
+            if (data.length === 0) {
+                corpSearchDiv.style.display = "none";
+                return;
+            }
+            data.forEach(corp => {
+                const rest = corp.corpName.replace(keyword, "");
+                const li = document.createElement("li");
+                li.classList.add("devQnaWriteCompanyRecentItem");
+                li.dataset.bizName = corp.corpName;
+                li.innerHTML = `
+                    <button type="button" class="qnaSpB">
+                        <span class="point">${keyword}</span><span>${rest}</span>
+                    </button>`;
+                li.querySelector("button").addEventListener("click", () => {
+                    selectCorpItem(corp.corpName);
+                });
+                corpSearchUl.appendChild(li);
+            });
+            corpSearchDiv.style.display = "block";
+        });
 });
+
+function selectCorpItem(corpName) {
+    if (corpTriggerBtn) corpTriggerBtn.textContent = corpName;
+    document.getElementById("hiddenCompanyName").value = corpName;
+    if (layerBoxCorp) layerBoxCorp.classList.remove("open");
+    if (corpCheckboxForQuick) corpCheckboxForQuick.checked = true;
+    if (corpTriggerBtn) corpTriggerBtn.classList.add("on");
+    corpSearchDiv.style.display = "none";
+    corpSearchUl.innerHTML = "";
+    corpInput.value = "";
+}
 // X 버튼(공용)
 const btnLayerCloses = document.querySelectorAll(".btn-layer-close.qnaSpB");
-// 링크
-
-// 링크 버튼
-const iconBtnLayerOpen = document.querySelector(
-    ".icon-link.qnaSpB.btn-layer-open",
-);
-// 링크 레이어
-const linkLayer = document.querySelector(".layer-box-wrap.link-layer");
-
-// 링크 레이어 X버튼
-btnLayerCloses.forEach((btnLayerClose) => {
-    btnLayerClose.addEventListener("click", (e) => {
-        linkLayer.classList.remove("open");
-        iconBtnLayerOpen.classList.remove("on");
-    });
-});
-
-// 링크 클릭
-iconBtnLayerOpen.addEventListener("click", (e) => {
-    linkLayer.classList.toggle("open");
-    iconBtnLayerOpen.classList.toggle("on");
-});
-
-const urlRegex = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
-
-const inputText = document.querySelector(
-    ".jkSchInput.keywordSearch.keywordSearchLink p input[type=text]",
-);
-const findButton = document.querySelector(".btnSch.qnaSpB.devSearchLink");
-
-// 로딩
-const loading = document.querySelector(".loading");
-
-// url 검사 함수 (중복 코드 방지)
-function checkUrl() {
-    if (urlRegex.test(inputText.value)) {
-        loading.style.display = "block";
-        setTimeout(() => {
-            loading.style.display = "none";
-            const a = document.querySelector(".ApiOpenGraphResult");
-            a.innerHTML = `
-                <a href="#" class="attach-box type-link">
-                    <div class="thumb-img-area">
-                        <span>링크</span>
-                    </div>
-                    <div class="link-textarea">
-                        <textarea class="corp-name" name="" id="devAttachLinkTitle" cols="20" rows="5" maxlength="51" placeholder="링크 제목을 입력하세요."></textarea>
-                    </div>
-                </a>
-            `;
-        }, 1800);
-    } else {
-        alert("URL을 입력해주세요");
-    }
-}
-
-// 버튼 클릭
-findButton.addEventListener("click", checkUrl);
-
-// 엔터키 입력
-inputText.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        checkUrl();
-    }
-});
+// // 링크
+//
+// // 링크 버튼
+// const iconBtnLayerOpen = document.querySelector(
+//     ".icon-link.qnaSpB.btn-layer-open",
+// );
+// // 링크 레이어
+// const linkLayer = document.querySelector(".layer-box-wrap.link-layer");
+//
+// // 링크 레이어 X버튼
+// btnLayerCloses.forEach((btnLayerClose) => {
+//     btnLayerClose.addEventListener("click", (e) => {
+//         if (linkLayer) linkLayer.classList.remove("open");
+//         if (iconBtnLayerOpen) iconBtnLayerOpen.classList.remove("on");
+//     });
+// });
+//
+// // 링크 클릭
+// if (iconBtnLayerOpen) {
+//     iconBtnLayerOpen.addEventListener("click", (e) => {
+//         if (linkLayer) linkLayer.classList.toggle("open");
+//         iconBtnLayerOpen.classList.toggle("on");
+//     });
+// }
+//
+// const urlRegex = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+//
+// const inputText = document.querySelector(
+//     ".jkSchInput.keywordSearch.keywordSearchLink p input[type=text]",
+// );
+// const findButton = document.querySelector(".btnSch.qnaSpB.devSearchLink");
+//
+// // 로딩
+// const loading = document.querySelector(".loading");
+//
+// // url 검사 함수 (중복 코드 방지)
+// function checkUrl() {
+//     if (urlRegex.test(inputText.value)) {
+//         loading.style.display = "block";
+//         setTimeout(() => {
+//             loading.style.display = "none";
+//             const a = document.querySelector(".ApiOpenGraphResult");
+//             a.innerHTML = `
+//                 <a href="#" class="attach-box type-link">
+//                     <div class="thumb-img-area">
+//                         <span>링크</span>
+//                     </div>
+//                     <div class="link-textarea">
+//                         <textarea class="corp-name" name="" id="devAttachLinkTitle" cols="20" rows="5" maxlength="51" placeholder="링크 제목을 입력하세요."></textarea>
+//                     </div>
+//                 </a>
+//             `;
+//         }, 1800);
+//     } else {
+//         alert("URL을 입력해주세요");
+//     }
+// }
+//
+// // 버튼 클릭
+// findButton.addEventListener("click", checkUrl);
+//
+// // 엔터키 입력
+// inputText.addEventListener("keydown", (e) => {
+//     if (e.key === "Enter") {
+//         checkUrl();
+//     }
+// });
 
 // 링크 첨부하기 버튼 활성화
 
@@ -260,54 +309,57 @@ const linkTitleInput = document.querySelector(".ApiOpenGraphResult");
 const attachButton = document.querySelector(".apply.attachLinkBtn");
 
 // 입력할 때마다 체크
-linkTitleInput.addEventListener("input", (e) => {
-    // 링크 제목에 들어갈 변수 담기
-
-    if (e.target.value) {
-        attachButton.classList.add("on");
-    } else {
-        attachButton.classList.remove("on");
-    }
-});
+if (linkTitleInput) {
+    linkTitleInput.addEventListener("input", (e) => {
+        // 링크 제목에 들어갈 변수 담기
+        if (e.target.value) {
+            if (attachButton) attachButton.classList.add("on");
+        } else {
+            if (attachButton) attachButton.classList.remove("on");
+        }
+    });
+}
 
 // 링크 추가
 const textarea = document.querySelector(".addFileAndLink");
-attachButton.addEventListener("click", (e) => {
-    const getText = document.getElementById("devAttachLinkTitle");
-    const getURL = document.querySelector(
-        ".jkSchInput.keywordSearch.keywordSearchLink p.inpWrap input.schInp",
-    );
-    if (attachButton.classList.contains("on")) {
-        linkLayer.classList.remove("open");
-        iconBtnLayerOpen.classList.remove("on");
+if (attachButton) {
+    attachButton.addEventListener("click", (e) => {
+        const getText = document.getElementById("devAttachLinkTitle");
+        const getURL = document.querySelector(
+            ".jkSchInput.keywordSearch.keywordSearchLink p.inpWrap input.schInp",
+        );
+        if (attachButton.classList.contains("on")) {
+            if (linkLayer) linkLayer.classList.remove("open");
+            if (iconBtnLayerOpen) iconBtnLayerOpen.classList.remove("on");
 
-        textarea.innerHTML += `
-            <div class="attach-wrap">
-                <a href="#" class="attach-box type-link">
-                    <span class="thumb-img-area">
-                        <span>링크</span>
-                    </span>
-                <div class="corp-info-area qnaSpA">
-                    <p class="content">${getText.value}</p>
-                    <span class="content-url">${getURL.value}</span>
+            textarea.innerHTML += `
+                <div class="attach-wrap">
+                    <a href="#" class="attach-box type-link">
+                        <span class="thumb-img-area">
+                            <span>링크</span>
+                        </span>
+                    <div class="corp-info-area qnaSpA">
+                        <p class="content">${getText.value}</p>
+                        <span class="content-url">${getURL.value}</span>
+                    </div>
+                </a>
+                <button type="button" class="remove-button qnaSpB">삭제하기</button>
                 </div>
-            </a>
-            <button type="button" class="remove-button qnaSpB">삭제하기</button>
-            </div>
-        `;
-    }
-    const a = document.querySelector(".ApiOpenGraphResult");
-    a.innerHTML = "";
-    getText.value = "";
-    getURL.value = "";
-
-    textarea.addEventListener("click", (e) => {
-        if (e.target.classList.contains("remove-button")) {
-            console.log("들어옴");
-            e.target.closest(".attach-wrap").remove();
+            `;
         }
+        const a = document.querySelector(".ApiOpenGraphResult");
+        if (a) a.innerHTML = "";
+        if (getText) getText.value = "";
+        if (getURL) getURL.value = "";
+
+        textarea.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remove-button")) {
+                console.log("들어옴");
+                e.target.closest(".attach-wrap").remove();
+            }
+        });
     });
-});
+}
 
 // 링크 삭제
 const removeLink = document.querySelector(".attach-box.type-link");
@@ -615,6 +667,11 @@ layerBoxCancelButton.addEventListener("click", (e) => {
 });
 
 uniLabelTag.addEventListener("click", (e) => {
+    const item = e.target.closest(".devUnivItem");
+    if (item) {
+        const univName = item.dataset.univName;
+        document.getElementById("hiddenCollegeFriend").value = univName;
+    }
     layerBox.classList.remove("open");
 });
 
@@ -635,12 +692,16 @@ const corpCheckboxForQuick = document.getElementById("lb_targetCheck3");
 
 corpQuickSelectButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-        const corpName = btn.textContent.trim();
+        const item = btn.closest(".devQnaWriteCompanyRecentItem");
+        const corpName = item ? item.dataset.bizName : btn.textContent.trim();
 
         // 드롭다운 버튼 텍스트 변경
         if (corpTriggerBtn) {
             corpTriggerBtn.textContent = corpName;
         }
+
+        // hidden input 세팅
+        document.getElementById("hiddenCompanyName").value = corpName;
 
         // 모달 닫기
         if (layerBoxCorp) {
