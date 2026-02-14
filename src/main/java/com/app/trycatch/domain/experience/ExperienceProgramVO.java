@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 public class ExperienceProgramVO extends Period {
     private Long id;
     private Long corpId;
-    private Long addressId;
     private String experienceProgramTitle;
     private String experienceProgramDescription;
     private String experienceProgramLevel;
