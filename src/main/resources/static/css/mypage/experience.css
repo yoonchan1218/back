@@ -6,19 +6,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 
@@ -389,7 +389,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     width: 9px;
     height: 5px;
     margin-top: -3px;
-    background: url(/static/images/mtu_sp_form.png) no-repeat 0 -185px;
+    background: url(/images/mtu_sp_form.png) no-repeat 0 -185px;
 }
 
 .mtuDropdown .list {
@@ -547,7 +547,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     height: 84px;
     border-radius: 50%;
     overflow: hidden;
-    background: url(/static/images/default_photo.png) no-repeat center;
+    background: url(/images/default_photo.png) no-repeat center;
     background-size: contain;
     border: 3px solid #fff;
     box-sizing: border-box;
@@ -568,7 +568,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     z-index: 1;
     width: 30px;
     height: 30px;
-    background: url(/static/images/icon_camera.png) no-repeat center;
+    background: url(/images/icon_camera.png) no-repeat center;
     background-size: contain;
     border-radius: 50%;
 }
@@ -1056,7 +1056,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .tplBtn:before, .tplBtn:after, .tplBtnTy {
     position: relative;
     display: inline-block;
-    background: url(/static/images/tpl_sp_btn.png) no-repeat;
+    background: url(/images/tpl_sp_btn.png) no-repeat;
     vertical-align: middle;
 }
 
@@ -1133,7 +1133,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .tplBtn:before, .tplBtn:after, .tplBtnTy {
     position: relative;
     display: inline-block;
-    background-image: url(/static/images/tpl_sp_btn.png);
+    background-image: url(/images/tpl_sp_btn.png);
     background-repeat: no-repeat;
     vertical-align: middle;
 }
@@ -1328,7 +1328,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .mtuSpImg, .mtuSpImgAfter:after, .mtuSpImgBefore:before {
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
     overflow: hidden;
@@ -1346,14 +1346,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .mtuSpImg, .mtuSpImgAfter:after, .mtuSpImgBefore:before {
     overflow: hidden;
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
 }
 
 .mtuSpImg, .mtuSpImgBefore:before, .mtuSpImgAfter:after {
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
     overflow: hidden;
@@ -1740,7 +1740,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .tplIcn:before, .tplIcn:after, .tplIcnTy {
     display: inline-block;
-    background: url(/static/images/tpl_sp_icn_recolor_006e3f.png) no-repeat;
+    background: url(/images/tpl_sp_icn_recolor_006e3f.png) no-repeat;
     line-height: normal;
     vertical-align: middle;
 }
@@ -2709,7 +2709,7 @@ input[type=date], input[type=file], input[type=number], input[type=password], in
 
 .mtcBtnB:before, .mtcBtnM:before {
     display: inline-block;
-    background: url(/static/images/mtc_sp_btn_recolor_006e3f.png) no-repeat;
+    background: url(/images/mtc_sp_btn_recolor_006e3f.png) no-repeat;
     vertical-align: middle;
     box-sizing: border-box;
 }
@@ -3018,7 +3018,7 @@ input[type=date], input[type=file], input[type=number], input[type=password], in
     height: 0;
     padding-top: 17px;
     overflow: hidden;
-    background: url(/static/images/mbr_tpl_icon_1.gif) no-repeat 6px -24px;
+    background: url(/images/mbr_tpl_icon_1.gif) no-repeat 6px -24px;
 }
 
 .mtuLayer_1 .arrow {
@@ -3027,7 +3027,7 @@ input[type=date], input[type=file], input[type=number], input[type=password], in
     left: 10px;
     width: 9px;
     height: 6px;
-    background: url(/static/images/mtu_tpl_icon_2_recolor_006e3f.gif) no-repeat -30px 0;
+    background: url(/images/mtu_tpl_icon_2_recolor_006e3f.gif) no-repeat -30px 0;
 }
 
 .mtuLayer_1 .arrowTop {

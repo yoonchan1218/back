@@ -1,48 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>change-my-information</title>
-        <link rel="stylesheet" href="/static/css/mypage/change-my-information.css">
+        <link rel="stylesheet" href="/css/mypage/change-my-information.css">
     </head>
     <body class="mbrSubMng mbrSubMngGG mbrSubMngInfo">
-        <!-- 헤더 시작 -->
+        <!-- 개인회원 관리 헤더 시작 -->
         <div id="header">
             <div class="gnbWrap gnbWrap_mMng">
                 <div id="gnb">
-                    <!--// 개인회원 -->
+                    <!--// 로고 영역 -->
                     <h1>
                         <a class="logo" href=""
-                            ><img alt="try-catch" src="/static/images/logo.png" height="39" /></a>
-                        <span class="bar"
-                            ><span class="title"
-                                ><img
-                                    src="/static/images/h_mng_gg.gif"
+                            ><img alt="try-catch" src="/images/logo.png" height="39" /></a>
+                        <span class="bar">
+                            <span class="title">
+                                <img
+                                    src="/images/h_mng_gg.gif"
                                     width="117"
                                     height="23"
-                                    alt="회원정보 관리" /></span
-                        ></span>
+                                    alt="member title"
+                                />
+                            </span>
+                        </span>
                     </h1>
 
-                    <h2 class="skip">주요링크</h2>
+                    <h2 class="skip">개인회원 관리 메뉴</h2>
                     <ul class="lnb">
                         <li>
                             <a href="">개인회원 홈</a>
                         </li>
-                        <li><a href="">고객센터</a></li>
+                        <li><a href="">회원정보 수정</a></li>
                     </ul>
                     <div class="secNav">
                         <ol>
                             <li class="mn1">
-                                <a href=""><span></span>개인정보 수정</a>
+                                <a href="/mypage/change-my-information"><span></span>개인회원 정보수정/기본정보수정</a>
                             </li>
-                            <li class="mn2">
-                                <a href=""><span></span>비밀번호변경</a>
-                            </li>
-
                             <li class="mn3 end">
-                                <a href="" target="_blank"
+                                <a href="/mypage/unsubscribe"
                                     ><span></span>회원탈퇴</a
                                 >
                             </li>
@@ -51,17 +49,18 @@
                 </div>
             </div>
         </div>
-        <!-- 헤더 끝 -->
-        <!-- 개인정보 수정 메인 시작 -->
+        <!-- 개인회원 관리 헤더 끝 -->
+        <!-- 개인회원 정보수정 본문 시작 -->
         <div id="wrap">
             <!--// Contents Area -->
             <div id="container">
                 <div id="content">
-                    <h1 class="skip">회원정보 수정</h1>
+                    <h1 class="skip">개인회원 정보수정</h1>
                     <form
                         name="form"
                         method="post"
-                        action=""
+                        action="/mypage/change-my-information"
+                        th:object="${profile}"
                     >
                         <input
                             type="hidden"
@@ -125,28 +124,27 @@
                             value="202002"
                         />
                         <fieldset>
-                            <legend>회원정보 수정 입력폼</legend>
+                            <legend>개인회원 정보수정 입력영역</legend>
                             <div class="mbrSec mbrMngInfo">
                                 <h2 class="mbrHeading2">
                                     <img
-                                        src="/static/images/mbr_h_mng_gg.gif"
-                                        alt="회원정보 수정"
+                                        src="/images/mbr_h_mng_gg.gif"
+                                        alt="member info title"
                                     />
                                 </h2>
                                 <div class="mbrTplDesc">
                                     <p>
-                                        회원님의 정보를 수정·확인하실 수
-                                        있습니다.
+                                        회원정보를 수정합니다. 정확한 정보를 입력해주세요.
                                     </p>
                                 </div>
 
                                 <div class="mbrTplData2">
                                     <table
-                                        summary="이 표는 회원정보 수정 입력폼으로 아이디, 비밀번호, 비밀번호확인, 이름, 생년월일/성별, 연락처, 이메일을 나타내고 있습니다."
+                                        summary="profile edit form"
                                     >
                                         <caption>
                                             <span class="skip"
-                                                >회원정보 수정 입력폼</span
+                                                >개인회원 정보수정 입력영역</span
                                             >
                                         </caption>
                                         <colgroup>
@@ -169,16 +167,15 @@
                                                         <strong
                                                             >test</strong
                                                         >
-                                                        <a href="javascript:;" id="btnKaLogin" class="kakao">카카오 로그인</a>
+                                                        <a href="javascript:;" id="btnKaLogin" class="kakao">카카오 연동</a>
                                                         <span class="fbTxt"
                                                             ><span
                                                                 class="socialIcn"
                                                             ></span
-                                                            >카카오에 연결되어
-                                                            있습니다.</span
+                                                            >카카오 연동 후 아이디 변경이 불가능합니다.</span
                                                         >
-                                                        <!-- 카카오 연결 아닐 시 -->
-                                                        <!-- 카카오 연결 아닐 시 -->
+                                                        <!-- 카카오 연동 해제 -->
+                                                        <!-- 카카오 연동 해제 -->
                                                     </div>
                                                 </td>
                                             </tr>
@@ -188,8 +185,8 @@
                                                     <span class="blank"></span
                                                     >이름
                                                     <img
-                                                        alt="필수입력사항"
-                                                        src="/static/images/icon_b.gif"
+                                                        alt="required"
+                                                        src="/images/icon_b.gif"
                                                     />
                                                 </th>
                                                 <td colspan="3">
@@ -201,7 +198,7 @@
                                                             name="M_Name"
                                                             size="12"
                                                             maxlength="12"
-                                                            value="test"
+                                                            th:value="*{memberName}"
                                                             style="width: 130px"
                                                         />
                                                         <div
@@ -215,9 +212,7 @@
                                                         >
                                                             <div class="desc">
                                                                 <p>
-                                                                    이름을
-                                                                    입력해
-                                                                    주세요.
+                                                                    올바른 정보를 입력해주세요.
                                                                 </p>
                                                             </div>
                                                             <span
@@ -232,14 +227,14 @@
                                                     <span class="blank"></span
                                                     >생년월일/성별
                                                     <img
-                                                        alt="필수입력사항"
-                                                        src="/static/images/icon_b.gif"
+                                                        alt="required"
+                                                        src="/images/icon_b.gif"
                                                     />
                                                 </th>
                                                 <td>
                                                     <div class="mbrHelpWrap">
                                                         <select
-                                                            title="출생연도 선택"
+                                                            title="birth year"
                                                             name="M_Year"
                                                             id="M_Year"
                                                             style="
@@ -250,7 +245,7 @@
                                                             class="ipSelect"
                                                         >
                                                             <option value="">
-                                                                출생연도
+                                                                년도 선택
                                                             </option>
 
                                                             <option
@@ -927,7 +922,7 @@
                                                             </option>
                                                         </select>
                                                         <select
-                                                            title="월 선택"
+                                                            title="education"
                                                             name="M_Month"
                                                             id="M_Month"
                                                             style="
@@ -993,7 +988,7 @@
                                                             </option>
                                                         </select>
                                                         <select
-                                                            title="일 선택"
+                                                            title="education detail"
                                                             name="M_Day"
                                                             id="M_Day"
                                                             style="
@@ -1173,10 +1168,7 @@
                                                         >
                                                             <div class="desc">
                                                                 <p>
-                                                                    생년월일,
-                                                                    성별을
-                                                                    입력해
-                                                                    주세요.
+                                                                    올바른 정보를 입력해주세요.
                                                                 </p>
                                                             </div>
                                                             <span
@@ -1190,10 +1182,10 @@
                                             <tr>
                                                 <th scope="row">
                                                     <span class="blank"></span
-                                                    >휴대폰번호
+                                                    >휴대폰
                                                     <img
-                                                        alt="필수입력사항"
-                                                        src="/static/images/icon_b.gif"
+                                                        alt="required"
+                                                        src="/images/icon_b.gif"
                                                     />
                                                 </th>
                                                 <td>
@@ -1205,7 +1197,7 @@
                                                                 >휴대폰</label
                                                             >
                                                             <select
-                                                                title="휴대폰 국번"
+                                                                title="mobile prefix"
                                                                 name="M_Hand_Phone1"
                                                                 id="M_Hand_Phone1"
                                                                 style="
@@ -1260,10 +1252,10 @@
                                                                 name="M_Hand_Phone2"
                                                                 id="M_Hand_Phone2"
                                                                 maxlength="4"
-                                                                title="휴대폰 앞자리"
+                                                                title="mobile middle"
                                                                 class="ipText ipTel ipNum devNoPh moveNext"
                                                                 onkeydown="
-                                                                  
+
                                                                 "
                                                                 value=""
                                                                 style="
@@ -1285,10 +1277,10 @@
                                                                 name="M_Hand_Phone3"
                                                                 id="M_Hand_Phone3"
                                                                 maxlength="4"
-                                                                title="휴대폰 뒷자리"
+                                                                title="mobile last"
                                                                 class="ipText ipTel ipNum devNoPh moveNext"
                                                                 onkeydown="
-                                                                    
+
                                                                 "
                                                                 value=""
                                                                 style="
@@ -1311,9 +1303,7 @@
                                                                     class="desc"
                                                                 >
                                                                     <p>
-                                                                        휴대폰번호를
-                                                                        입력해
-                                                                        주세요
+                                                                        올바른 정보를 입력해주세요.
                                                                     </p>
                                                                 </div>
                                                                 <span
@@ -1327,7 +1317,7 @@
                                             <tr>
                                                 <th scope="row">
                                                     <span class="blank"></span
-                                                    >전화번호
+                                                    >일반전화(선택)
                                                 </th>
                                                 <td class="contact">
                                                     <div class="mbrHelpWrap">
@@ -1335,10 +1325,10 @@
                                                             <label
                                                                 for="M_Home_Phone1"
                                                                 class="blind"
-                                                                >전화번호</label
+                                                                >일반전화(선택)</label
                                                             >
                                                             <select
-                                                                title="지역번호 선택"
+                                                                title="area code"
                                                                 name="M_Home_Phone1"
                                                                 id="M_Home_Phone1"
                                                                 style="
@@ -1347,14 +1337,13 @@
                                                                 "
                                                                 class="ipSelect"
                                                                 onchange="
-                                                                   
+
                                                                 "
                                                             >
                                                                 <option
                                                                     value=""
                                                                 >
-                                                                    지역번호
-                                                                    선택
+                                                                    지역번호 선택
                                                                 </option>
                                                                 <option
                                                                     value="02"
@@ -1449,10 +1438,10 @@
                                                                 <option
                                                                     value="etc"
                                                                 >
-                                                                    직접입력
+                                                                    기타(직접입력)
                                                                 </option>
                                                             </select>
-                                                            <!--셀렉트박스에서 선택-->
+                                                            <!--기타(직접입력)-->
                                                             <span
                                                                 class="delimiter"
                                                                 id="M_Home_Phone4"
@@ -1463,10 +1452,10 @@
                                                                 name="M_Home_Phone2"
                                                                 id="M_Home_Phone2"
                                                                 maxlength="4"
-                                                                title="전화번호 앞자리"
+                                                                title="home phone middle"
                                                                 class="ipText moveNext"
                                                                 onkeydown="
-                                                                    
+
                                                                 "
                                                                 value=""
                                                                 style="
@@ -1483,10 +1472,10 @@
                                                                 name="M_Home_Phone3"
                                                                 id="M_Home_Phone3"
                                                                 maxlength="4"
-                                                                title="전화번호 뒷자리"
+                                                                title="home phone last"
                                                                 class="ipText moveNext"
                                                                 onkeydown="
-                                                                    
+
                                                                 "
                                                                 value=""
                                                                 style="
@@ -1495,7 +1484,7 @@
                                                                 nextid="Email_ID"
                                                             />
 
-                                                            <!--직접입력 선택-->
+                                                            <!--기타(직접입력)-->
                                                             <span
                                                                 class="delimiter"
                                                                 id="M_Home_Phone6"
@@ -1509,14 +1498,14 @@
                                                                 name="M_Home_Phone_Etc"
                                                                 id="M_Home_Phone_Etc"
                                                                 maxlength="20"
-                                                                title="전화번호 지역번호+전화번호 앞자리+전화번호 뒷자리"
+                                                                title="home phone full"
                                                                 style="
                                                                     width: 260px;
                                                                     display: none;
                                                                 "
                                                                 class="ipText"
                                                                 onkeydown="
-                                                                 
+
                                                                 "
                                                                 value=""
                                                             />
@@ -1530,8 +1519,8 @@
                                                     <label for="Email_ID"
                                                         >이메일
                                                         <img
-                                                            alt="필수입력사항"
-                                                            src="/static/images/icon_b.gif"
+                                                            alt="required"
+                                                            src="/images/icon_b.gif"
                                                     /></label>
                                                 </th>
                                                 <td>
@@ -1549,7 +1538,7 @@
                                                             maxlength="30"
                                                             style="width: 150px"
                                                             class="ipText"
-                                                            value=""
+                                                            th:value="${profile.memberEmail != null ? #strings.arraySplit(profile.memberEmail, '@')[0] : ''}"
                                                         />
                                                         <span class="delimiter"
                                                             >@</span
@@ -1558,26 +1547,23 @@
                                                             type="text"
                                                             name="Email_Addr_Text"
                                                             id="Email_Addr_Text"
-                                                            title="이메일 서비스 입력"
+                                                            title="email domain"
                                                             maxlength="25"
                                                             class="ipText"
                                                             style="width: 150px"
-                                                            onkeyup="
-                                                               
-                                                            "
-                                                            value=""
+                                                            th:value="${profile.memberEmail != null ? #strings.arraySplit(profile.memberEmail, '@')[1] : ''}"
                                                         />
                                                         <select
-                                                            title="이메일 사업자"
+                                                            title="email provider"
                                                             name="Email_Addr"
                                                             id="Email_Addr"
                                                             onchange="
-                                                               
+
                                                             "
                                                             class="ipSelect"
                                                         >
                                                             <option value="">
-                                                                선택하세요
+                                                                직접입력
                                                             </option>
                                                             <option
                                                                 value="naver.com"
@@ -1613,7 +1599,7 @@
                                                                 value="etc"
                                                                 selected=""
                                                             >
-                                                                직접입력
+                                                                기타(직접입력)
                                                             </option>
                                                         </select>
                                                         <div
@@ -1627,9 +1613,7 @@
                                                         >
                                                             <div class="desc">
                                                                 <p>
-                                                                    이메일을
-                                                                    입력해
-                                                                    주세요
+                                                                    올바른 정보를 입력해주세요.
                                                                 </p>
                                                             </div>
                                                             <span
@@ -1644,7 +1628,7 @@
                                                 <th scope="row">
                                                     <span class="blank"></span>
                                                     <label for="postcheck"
-                                                        >우편번호</label
+                                                        >주소(선택)</label
                                                     >
                                                 </th>
                                                 <td colspan="3">
@@ -1680,10 +1664,10 @@
                                                             value=""
                                                             readonly="true"
                                                             onfocus="
-                                                               
+
                                                             "
                                                             onclick="
-                                                               
+
                                                             "
                                                         />
                                                         <span>
@@ -1692,8 +1676,8 @@
                                                                 type="button"
                                                             >
                                                                 <img
-                                                                    src="/static/images/btn_jk_add_search.gif"
-                                                                    alt="주소 검색"
+                                                                    src="/images/btn_jk_add_search.gif"
+                                                                    alt="search address"
                                                                 />
                                                             </button>
                                                         </span>
@@ -1708,10 +1692,7 @@
                                                         >
                                                             <div class="desc">
                                                                 <p>
-                                                                    주소 검색을
-                                                                    위해 버튼을
-                                                                    클릭해
-                                                                    주세요.
+                                                                    올바른 정보를 입력해주세요.
                                                                 </p>
                                                             </div>
                                                             <span
@@ -1737,9 +1718,9 @@
                                                                 marginheight="0"
                                                                 frameborder="no"
                                                                 scrolling="no"
-                                                                title="우편번호 검색"
+                                                                title="zipcode search"
                                                                 background="white"
-                                                            ></iframe> 주소 API 넣으면 됨 -->
+                                                            ></iframe> <!-- 다음 주소 API 사용 -->-->
                                                         </div>
                                                     </div>
                                                 </td>
@@ -1748,7 +1729,7 @@
                                                 <th scope="row">
                                                     <span class="blank"></span>
                                                     <label for="M_Addr_Text"
-                                                        >주소</label
+                                                        >상세주소</label
                                                     >
                                                 </th>
                                                 <td colspan="3">
@@ -1763,10 +1744,10 @@
                                                             readonly=""
                                                             value=""
                                                             onfocus="
-                                                               
+
                                                             "
                                                             onclick="
-                                                               
+
                                                             "
                                                         />
                                                         <input
@@ -1777,9 +1758,9 @@
                                                             class="ipText"
                                                             maxlength="35"
                                                             onfocus="
-                                                               
+
                                                             "
-                                                            value="상세주소를 입력해 주세요."
+                                                            value="나머지 주소를 입력해주세요."
                                                         />
                                                         <div
                                                             style="
@@ -1792,9 +1773,7 @@
                                                         >
                                                             <div class="desc">
                                                                 <p>
-                                                                    주소를
-                                                                    입력해
-                                                                    주세요.
+                                                                    올바른 정보를 입력해주세요.
                                                                 </p>
                                                             </div>
                                                             <span
@@ -1804,7 +1783,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <!-- [필수] 개인정보 수집 및 이용 동의-->
+                                            <!-- 개인회원 정보수정 테이블 끝 -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -1812,14 +1791,14 @@
                             <p class="mbrBtnFunc">
                                 <span class="mbrBtn mbrBtnModify_1"
                                     ><a onclick="" style="cursor: pointer"
-                                        ><span>수정하기</span></a
+                                        ><span>정보수정</span></a
                                     ></span
                                 >
                                 <span class="mbrBtn mbrBtnCancel_1">
                                     <button
                                         type="button"
                                         onclick="
-                                           
+
                                         "
                                     >
                                         <span>취소</span>
@@ -1827,12 +1806,15 @@
                                 >
                             </p>
                         </fieldset>
+                                            <input type="hidden" id="profileBirth" th:value="*{individualMemberBirth}">
+                        <input type="hidden" id="profileGender" th:value="*{individualMemberGender != null ? individualMemberGender.value : ''}">
+                        <input type="hidden" id="profilePhone" th:value="*{memberPhone}">
                     </form>
                 </div>
             </div>
         </div>
-        <!-- 개인정보 수정 메인 끝 -->
+        <!-- 개인회원 정보수정 본문 끝 -->
     </body>
-    <script src="/static/js/mypage/change-my-information.js"></script>
+    <script src="/js/mypage/change-my-information.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>

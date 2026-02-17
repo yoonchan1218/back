@@ -39,6 +39,6 @@
                address_id, member_status, member_agree_privacy, member_agree_marketing,
                created_datetime, updated_datetime
         from tbl_member
-        where member_id = #{memberId} and member_password = #{memberPassword}
+        where member_id = #{memberId} and member_password = #{memberPassword} and member_status = 'active'
     </select>
 </mapper>
