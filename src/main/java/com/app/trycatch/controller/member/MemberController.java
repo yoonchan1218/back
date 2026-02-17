@@ -155,4 +155,5 @@ public class MemberController {
     public boolean checkBusinessNumber(String corpBusinessNumber) {
         return corpService.checkBusinessNumber(corpBusinessNumber);
     }
+//    로그인 로그아웃 완료
 }
