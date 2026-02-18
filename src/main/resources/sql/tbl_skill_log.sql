@@ -24,4 +24,4 @@ select s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_lo
        s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime,member_name
 from tbl_member m join tbl_skill_log s
 on m.id = s.member_id
-where m.id
+where m.id;

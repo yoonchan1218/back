@@ -1,19 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.skilllog.SkillLogMapper">
+    <sql id="search">
+        <if test="search.keyword != null and search.keyword != ''.toString()">
+            (
+            skill_log_title like concat('%', #{search.keyword}, '%')
+            or
+            skill_log_content like concat('%', #{search.keyword}, '%')
+            )
+        </if>
+        <if test="search.tagNames != null">
+            and
+            t.skill_log_id in
+            (
+            select skill_log_id
+            from tbl_tag
+            where
+            tag_name in
+            <trim prefix="(" suffix=")">
+                <foreach item="tagName" collection="search.tagNames" separator=",">
+                    #{tagName}
+                </foreach>
+            </trim>
+            group by skill_log_id
+            having count(skill_log_id) = #{search.tagNamesSize}
+            )
+        </if>
+    </sql>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_skill_log(member_id, experience_program_id, skill_log_title, skill_log_content)
         values(#{memberId}, #{experienceProgramId}, #{skillLogTitle}, #{skillLogContent})
     </insert>
 
-    <select id="selectCountByMemberId" resultType="SKillLogAsideDTO">
-        select m.id, m.member_name, im.individual_member_level, count(s.id) as skill_log_count
+    <select id="selectProfileByMemberId" resultType="SkillLogAsideDTO">
+        select
+            m.id, m.member_name, im.individual_member_level, im.individual_member_point,
+            count(s.id) as skill_log_count, count(q.id) as question_count
         from tbl_member m join tbl_individual_member im
         on m.id = im.id
         left join tbl_skill_log s
         on m.id = s.member_id
+        left join tbl_qna q
+        on m.id = q.individual_member_id
         where m.id = #{id}
     </select>
+
+    <select id="selectAll">
+        select
+            distinct
+            m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
+            s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime
+        from tbl_member m join tbl_skill_log s
+        on m.id = s.member_id
+        left outer join tbl_tag t
+        on s.id = t.skill_log_id
+        <where>
+            <include refid="search"></include>
+        </where>
+        <if test="search.type != null">
+            <choose>
+                <when test="search.type == '인기'.toString()">
+                    order by s.skill_log_view_count desc
+                </when>
+                <otherwise>
+                    order by s.created_datetime desc
+                </otherwise>
+            </choose>
+        </if>
+        limit #{criteria.count} offset #{criteria.offset}
+    </select>
+
+    <select id="selectTotal">
+        select count(distinct s.id)
+        from tbl_skill_log s
+        join tbl_tag t
+        on s.id = t.skill_log_id
+        <where>
+            <include refid="search"></include>
+        </where>
+    </select>
+
+    <select id="selectById">
+        select
+            m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
+            s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime
+        from tbl_member m
+        join tbl_skill_log s
+        on m.id = s.member_id
+        where s.id = #{id}
+    </select>
+
+    <update id="updateSkillLogViewCount">
+        update tbl_skill_log
+        set skill_log_view_count = skill_log_view_count + 1
+        where id = #{id}
+    </update>
 </mapper>
 
 

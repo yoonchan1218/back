@@ -108,11 +108,15 @@ writeButton.addEventListener("click", (e) => {
 const URLCopy = document.querySelector(
     ".button.button-copy-url.button-popup-component",
 );
+const URLInput = document.getElementById("lbl_url_copy");
 
 // URL 복사 눌렀을 시 클래스 추가
 const URLCopyLayer = document.querySelector(".url-copy-layer");
 // 닫기 버튼
 const URLCopyLayerBefore = document.querySelector(".button.button-close");
+
+// URL 설정
+URLInput.value = window.location.href;
 
 // 클릭 시 "attached" 클래스 토글
 URLCopy.addEventListener("click", (e) => {
@@ -138,7 +142,11 @@ const qstnLikeButton = document.querySelector(".devQstnLike");
 // 버튼 눌렀을 때 클래스 "on" 토글
 if (qstnLikeButton) {
     qstnLikeButton.addEventListener("click", (e) => {
-        qstnLikeButton.classList.toggle("on");
+        if(qstnLikeButton.classList.contains("on")){
+            qstnLikeButton.classList.remove("on");
+        } else {
+            qstnLikeButton.classList.add("on");
+        }
     });
 }
 

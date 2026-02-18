@@ -17,8 +17,10 @@ public class Criteria {
     private int offset;
     private int count;
     private boolean hasMore;
+    private int total;
 
     public Criteria(int page, int total) {
+        this.total = total;
         rowCount = 20;
         pageCount = 10;
         count = rowCount + 1;

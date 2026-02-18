@@ -3,6 +3,7 @@ package com.app.trycatch.dto.skilllog;
 import com.app.trycatch.common.enumeration.skillLog.SkillLogStatus;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.domain.skilllog.SkillLogVO;
+import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,8 +26,13 @@ public class SkillLogDTO {
     private Long memberId;
     private String memberName;
 
+//    like
+    private int likeCount;
+    private boolean liked;
+
 //    experienceProgram
     private Long experienceProgramId;
+    private ExperienceProgramDTO experienceProgram;
 //    참여한 체험 공고 제목, 해당 기업 이름, 로고 이미지 필요
 
 //    tag 목록
@@ -55,6 +61,4 @@ public class SkillLogDTO {
                 .memberName(memberName)
                 .build();
     }
-
-//    experienceProgram toVO 만들어야함.
 }

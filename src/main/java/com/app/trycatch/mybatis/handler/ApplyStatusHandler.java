@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@MappedTypes(Status.class)
+@MappedTypes(ApplyStatus.class)
 public class ApplyStatusHandler implements TypeHandler<ApplyStatus> {
 
     @Override
@@ -29,6 +29,8 @@ public class ApplyStatusHandler implements TypeHandler<ApplyStatus> {
                 return ApplyStatus.DOCUMENT_PASS;
             case "document_fail":
                 return ApplyStatus.DOCUMENT_FAIL;
+            case "cancelled":
+                return ApplyStatus.CANCELLED;
         }
         return null;
     }
@@ -42,6 +44,8 @@ public class ApplyStatusHandler implements TypeHandler<ApplyStatus> {
                 return ApplyStatus.DOCUMENT_PASS;
             case "document_fail":
                 return ApplyStatus.DOCUMENT_FAIL;
+            case "cancelled":
+                return ApplyStatus.CANCELLED;
         }
         return null;
     }
@@ -55,6 +59,8 @@ public class ApplyStatusHandler implements TypeHandler<ApplyStatus> {
                 return ApplyStatus.DOCUMENT_PASS;
             case "document_fail":
                 return ApplyStatus.DOCUMENT_FAIL;
+            case "cancelled":
+                return ApplyStatus.CANCELLED;
         }
         return null;
     }

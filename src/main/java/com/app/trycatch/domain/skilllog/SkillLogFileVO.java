@@ -4,10 +4,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString(callSuper = true)
+@ToString
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class SkillLogFileVO {
     private Long id;
     private Long skillLogId;

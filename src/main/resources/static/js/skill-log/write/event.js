@@ -23,6 +23,20 @@ const ExperienceAnnouncementLayer = document.querySelector(".opening-layer");
 // 갔다온 체험
 const handsOnExperience = document.getElementById("recentRecruit");
 
+let page = 1;
+let keyword = "";
+
+// session에서 id 값 가져오기
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("memberId");
+
+skillLogService.getRecentExperienceProgramLogs(page, id, keyword, skillLogLayout.showExperienceProgramLogs);
+
+const moreButton = document.querySelector(".search-more-button");
+moreButton.addEventListener("click", (e) => {
+    skillLogService.getRecentExperienceProgramLogs(++page, id, keyword, skillLogLayout.showExperienceProgramLogs);
+});
+
 ExperienceAnnouncementClick.addEventListener("click", (e) => {
     ExperienceAnnouncementLayer.classList.toggle("open");
     ExperienceAnnouncementClick.classList.toggle("on");
@@ -35,15 +49,31 @@ NodeList.prototype.filter = Array.prototype.filter;
 const applyAttachRecruitBtn = document.querySelector(".apply.attachRecruitBtn");
 let resultChecked = 0;
 const checkboxes = document.querySelectorAll("input[type=checkbox]");
+const keywordSearchArea = document.querySelector("#recentRecruit .keyword-search-area");
 
-checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (e) => {
-        const count = checkboxes.filter((checkbox) => checkbox.checked).length;
-        applyAttachRecruitBtn.classList.toggle("on", count !== 0);
-        applyAttachRecruitBtn.textContent =
-            count === 0 ? "첨부하기" : `공고 ${count}건 첨부하기`;
-    });
-});
+keywordSearchArea.addEventListener("click", (e) => {
+    if(e.target.classList.contains("qnaSpB")) {
+        setTimeout(() => {
+            const inputs = document.querySelectorAll(".checkboxCommWrap input[type=checkbox]");
+            const noCheckedInputs = inputs.filter((input) =>
+                !input.checked || input.id !== e.target.getAttribute("for"));
+            let check = inputs.length !== noCheckedInputs.length;
+
+            noCheckedInputs.forEach((input) => input.checked = false);
+
+            applyAttachRecruitBtn.classList.toggle("on", check);
+        }, 0);
+    }
+})
+
+// checkboxes.forEach((checkbox) => {
+//     checkbox.addEventListener("change", (e) => {
+//         const count = checkboxes.filter((checkbox) => checkbox.checked).length;
+//         applyAttachRecruitBtn.classList.toggle("on", count !== 0);
+//         applyAttachRecruitBtn.textContent =
+//             count === 0 ? "첨부하기" : `공고 ${count}건 첨부하기`;
+//     });
+// });
 
 // X 버튼(공용)
 const btnLayerCloses = document.querySelectorAll(".btn-layer-close.qnaSpB");
@@ -199,12 +229,12 @@ photoInput.addEventListener("change", (e) => {
     if (files.length > 10) return alert("최대 10개의 파일만 올릴 수 있습니다.");
 
     // 등록했던 파일들 삭제
-    addFileAndLink.querySelectorAll(".attach-image").forEach((image) => {
+    textarea.querySelectorAll(".attach-image").forEach((image) => {
         image.remove();
         tempPhotoInputs = [];
     })
 
-    files.forEach((file, i) => {
+    for (const file of files) {
         // 이미지 파일인지 확인
         if (!file.type.startsWith("image/")) {
             alert("이미지 파일만 올릴 수 있습니다.");
@@ -217,27 +247,37 @@ photoInput.addEventListener("change", (e) => {
             photoInput.value = "";
             return;
         }
-
+    }
+    files.forEach((file, i) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
         reader.addEventListener("load", (v) => {
             const path = v.target.result;
 
-            // 이미지를 화면에 추가
-            textarea.innerHTML += `
-            <div class="attach-wrap attach-image">
+            const imageDiv = document.createElement("div");
+            imageDiv.classList.add("attach-wrap");
+            imageDiv.classList.add("attach-image");
+            imageDiv.innerHTML = `
                 <div class="attach-box type-image">
                     <img src="${path}" alt="첨부 이미지">
                 </div>
                 <button type="button" class="remove-button qnaSpB ${i}">삭제하기</button>
-            </div>
-        `;
+            `;
+            textarea.appendChild(imageDiv);
+
+            // // 이미지를 화면에 추가
+            // textarea.innerHTML += `
+            //     <div class="attach-wrap attach-image">
+            //         <div class="attach-box type-image">
+            //             <img src="${path}" alt="첨부 이미지">
+            //         </div>
+            //         <button type="button" class="remove-button qnaSpB ${i}">삭제하기</button>
+            //     </div>
+            // `;
         });
 
         tempPhotoInputs.push({id: i, file: file});
-
-        console.log(file);
     })
 });
 
@@ -352,6 +392,8 @@ admitButton.addEventListener("click", (e) => {
                 skilLogForm.appendChild(input);
             })
 
+            if(textarea)
+
             skilLogForm.submit();
         }
     }
@@ -375,6 +417,7 @@ const keywordSearch = document.querySelector(
     ".jkSchInput.keywordSearch.keywordSearchRecruit",
 );
 const keywordTextBox = document.getElementById("AJAX_TS_Search");
+const keywordSearchButton = document.querySelector(".devSearchRecruit");
 
 keywordTextBox.addEventListener("input", (e) => {
     keywordSearch.classList.add("focus");
@@ -383,11 +426,21 @@ keywordTextBox.addEventListener("input", (e) => {
     }
 });
 
-// 삭제 이벤트 - 한 번만 등록 (이벤트 위임)
-const addFileAndLink = document.querySelector(".addFileAndLink");
+keywordSearchButton.addEventListener("click", (e) => {
+    keyword = keywordTextBox.value;
+    skillLogService.getRecentExperienceProgramLogs(page, id, keyword, skillLogLayout.showExperienceProgramLogs);
+})
 
-addFileAndLink.addEventListener("click", (e) => {
+// 삭제 이벤트 - 한 번만 등록 (이벤트 위임)
+textarea.addEventListener("click", (e) => {
     if (e.target.classList.contains("remove-button")) {
+        if (e.target.closest(".attach-experience-program")) {
+            const checkedItem = document.querySelector(
+                '#recentRecruit .keyword-search-item input[type=checkbox]:checked',
+            );
+
+            checkedItem.checked = false;
+        }
         e.target.closest(".attach-wrap").remove();
     }
 });
@@ -396,43 +449,49 @@ addFileAndLink.addEventListener("click", (e) => {
 const attachRecruitBtn = document.querySelector(".attachRecruitBtn");
 
 attachRecruitBtn.addEventListener("click", (e) => {
+    // 이전에 첨부한 공고 삭제
+    const previousItem = document.querySelector(".attach-wrap.attach-experience-program");
+
     // 체크된 공고들 가져오기
-    const checkedItems = document.querySelectorAll(
-        '#recentRecruit .keyword-search-item input[type="checkbox"]:checked',
+    const checkedItem = document.querySelector(
+        '#recentRecruit .keyword-search-item input[type=checkbox]:checked',
     );
 
-    if (checkedItems.length === 0) {
+    if(previousItem) {
+        previousItem.remove();
+    }
+
+    if (!checkedItem) {
         alert("첨부할 공고를 선택해주세요.");
         return;
     }
 
-    checkedItems.forEach((checkbox) => {
-        const gno = checkbox.dataset.gno;
-        const cname = checkbox.dataset.cname;
-        const title = checkbox.dataset.title;
-        const logo =
-            checkbox.dataset.logo ||
-            "//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png";
+    const gno = checkedItem.dataset.gno;
+    const cname = checkedItem.dataset.cname;
+    const title = checkedItem.dataset.title;
+    const thumbnail =
+        checkedItem.dataset.thumbnail ||
+        "//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png";
 
-        addFileAndLink.innerHTML += `
-            <div class="attach-wrap" data-gno="${gno}">
-                <a href="/Recruit/GI_Read/${gno}" target="_blank" class="attach-box">
-                    <span class="thumb-img-area">
-                        <img src="${logo}" alt="${cname}" 
-                             onerror="this.src='//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png'">
-                    </span>
-                    <div class="corp-info-area qnaSpA">
-                        <p class="corp-name">${cname}</p>
-                        <p class="content">${title}</p>
-                    </div>
-                </a>
-                <button type="button" class="remove-button qnaSpB">삭제하기</button>
+    const itemDiv = document.createElement("div");
+    itemDiv.classList.add("attach-wrap");
+    itemDiv.classList.add("attach-experience-program");
+    itemDiv.setAttribute("data-gno", gno);
+
+    itemDiv.innerHTML += `
+        <a href="/Recruit/GI_Read/${gno}" target="_blank" class="attach-box">
+            <span class="thumb-img-area">
+                <img src="${thumbnail}" alt="${cname}" 
+                     onerror="this.src='//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png'">
+            </span>
+            <div class="corp-info-area qnaSpA">
+                <p class="corp-name">${cname}</p>
+                <p class="content">${title}</p>
             </div>
-        `;
-
-        // 체크 해제
-        checkbox.checked = false;
-    });
+        </a>
+        <button type="button" class="remove-button qnaSpB">삭제하기</button>
+    `;
+    textarea.appendChild(itemDiv);
 
     // 레이어 닫기
     ExperienceAnnouncementClick.classList.remove("on");

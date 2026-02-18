@@ -1,22 +1,45 @@
 package com.app.trycatch.repository.skilllog;
 
-import com.app.trycatch.domain.skilllog.SkillLogVO;
+import com.app.trycatch.common.pagination.Criteria;
+import com.app.trycatch.common.search.Search;
 import com.app.trycatch.dto.skilllog.SkillLogAsideDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class SkillLogDAO {
     private final SkillLogMapper skillLogMapper;
 
+//    추가
     public void save(SkillLogDTO skillLogDTO) {
         skillLogMapper.insert(skillLogDTO);
     }
+//    aside
+    public SkillLogAsideDTO findProfileByMemberId(Long id) {
+        return skillLogMapper.selectProfileByMemberId(id);
+    }
 
-    public SkillLogAsideDTO findCountByMemberId(Long id) {
-        return skillLogMapper.selectCountByMemberId(id);
+//    목록
+    public List<SkillLogDTO> findAll(Criteria criteria, Search search) {
+        return skillLogMapper.selectAll(criteria, search);
+    }
+//    전체 개수
+    public int findTotal(Search search) {
+        return skillLogMapper.selectTotal(search);
+    }
+
+//    조회
+    public Optional<SkillLogDTO> findById(Long id) {
+        return skillLogMapper.selectById(id);
+    }
+//    조회수 증가
+    public void setSkillLogViewCount(Long id) {
+        skillLogMapper.updateSkillLogViewCount(id);
     }
 }

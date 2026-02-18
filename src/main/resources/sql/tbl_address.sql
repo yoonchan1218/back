@@ -1,6 +1,6 @@
 create table tbl_address
 (
-    id               bigint unsigned  primary key comment '주소 ID',
+    id               bigint unsigned auto_increment primary key comment '주소 ID',
     address_zipcode  varchar(10) not null comment '우편번호',
     address_address  varchar(255) comment '주소',
     address_detail   varchar(255) comment '상세주소',
@@ -8,6 +8,7 @@ create table tbl_address
     updated_datetime datetime default current_timestamp
 ) comment '주소';
 
-select * from tbl_address;
-drop table  tbl_address;
+select *
+from tbl_address;
+drop table tbl_address;
 set FOREIGN_KEY_CHECKS = 1;

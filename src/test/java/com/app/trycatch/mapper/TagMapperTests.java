@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -24,4 +25,15 @@ public class TagMapperTests {
         tagMapper.insert(tagDTO.toVO());
     }
 
+    @Test
+    public void testSelectAllBySkillLogId() {
+        List<TagVO> tags = tagMapper.selectAllBySkillLogId(32L);
+        log.info("{}", tags);
+    }
+
+    @Test
+    public void testSelectAll() {
+        List<String> tagNames = tagMapper.selectAll();
+        log.info("{}", tagNames);
+    }
 }

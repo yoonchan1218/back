@@ -1,6 +1,10 @@
 package com.app.trycatch.service;
 
+import com.app.trycatch.common.pagination.Criteria;
+import com.app.trycatch.common.search.Search;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
+import com.app.trycatch.dto.skilllog.SkillLogLikeDTO;
+import com.app.trycatch.dto.skilllog.SkillLogWithPagingDTO;
 import com.app.trycatch.dto.skilllog.TagDTO;
 import com.app.trycatch.service.skilllog.SkillLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +55,45 @@ public class SkillLogServiceTests {
     }
 
     @Test
+    public void testRecentExperienceLogs() {
+        Search search = new Search();
+        log.info("{}", skillLogService.recentExperienceLogs(11L, 1, search));
+    }
+
+    @Test
     public void testAside() {
-        log.info("{}", skillLogService.aside(5L));
+        log.info("{}", skillLogService.aside(9L));
+    }
+
+    @Test
+    public void testList() {
+        Search search = new Search();
+        SkillLogWithPagingDTO skillLogWithPagingDTO = null;
+        String[] tagNames = new String[1];
+
+//        search.setKeyword("1");
+//        tagNames[0] = "태그";
+//        search.setTagNames(tagNames);
+        search.setType("인기");
+
+        skillLogWithPagingDTO = skillLogService.list(1, search);
+        skillLogWithPagingDTO.getSkillLogs().forEach((skillLogDTO) -> {
+            log.info("{}", skillLogDTO);
+        });
+    }
+
+    @Test
+    public void testDetail() {
+        SkillLogDTO skillLogDTO = skillLogService.detail(70L, 4L);
+        log.info("{}", skillLogDTO);
+    }
+
+    @Test
+    public void testLike() {
+        SkillLogLikeDTO skillLogLikeDTO = new SkillLogLikeDTO();
+        skillLogLikeDTO.setSkillLogId(70L);
+        skillLogLikeDTO.setMemberId(11L);
+
+        skillLogService.like(skillLogLikeDTO);
     }
 }

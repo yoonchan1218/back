@@ -8,12 +8,20 @@ import com.app.trycatch.mapper.skilllog.SkillLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class SkillLogFileDAO {
     private final SkillLogFileMapper skillLogFileMapper;
 
+//    추가
     public void save(SkillLogFileVO skillLogFileVO) {
         skillLogFileMapper.insert(skillLogFileVO);
+    }
+
+//    목록
+    public List<SkillLogFileDTO> findAllBySkillLogId(Long id) {
+        return skillLogFileMapper.selectAllBySkillLogId(id);
     }
 }
