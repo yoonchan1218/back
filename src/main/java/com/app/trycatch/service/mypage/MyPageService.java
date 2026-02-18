@@ -1,5 +1,6 @@
 package com.app.trycatch.service.mypage;
 
+import com.app.trycatch.common.exception.InputAllDataException;
 import com.app.trycatch.common.exception.MemberNotFoundException;
 import com.app.trycatch.common.exception.UnauthorizedMemberAccessException;
 import com.app.trycatch.dto.mypage.MyPageNotificationDTO;
@@ -27,6 +28,16 @@ public class MyPageService {
         if (myPageUpdateDTO.getId() != null && !memberId.equals(myPageUpdateDTO.getId())) {
             throw new UnauthorizedMemberAccessException();
         }
+
+        // 필수 정보 검증 (이름, 이메일, 휴대폰, 생년월일, 성별)
+        if (myPageUpdateDTO.getMemberName() == null || myPageUpdateDTO.getMemberName().isBlank() ||
+            myPageUpdateDTO.getMemberEmail() == null || myPageUpdateDTO.getMemberEmail().isBlank() ||
+            myPageUpdateDTO.getMemberPhone() == null || myPageUpdateDTO.getMemberPhone().isBlank() ||
+            myPageUpdateDTO.getIndividualMemberBirth() == null || myPageUpdateDTO.getIndividualMemberBirth().isBlank() ||
+            myPageUpdateDTO.getIndividualMemberGender() == null) {
+            throw new InputAllDataException();
+        }
+
         myPageUpdateDTO.setId(memberId);
         myPageDAO.updateMember(myPageUpdateDTO);
         if (myPageUpdateDTO.getIndividualMemberBirth() != null

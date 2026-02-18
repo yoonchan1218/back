@@ -1,5 +1,6 @@
 package com.app.trycatch.common.exception.handler;
 
+import com.app.trycatch.common.exception.InputAllDataException;
 import com.app.trycatch.common.exception.MemberNotFoundException;
 import com.app.trycatch.common.exception.UnauthorizedMemberAccessException;
 import com.app.trycatch.common.exception.UnsubscribeNameMismatchException;
@@ -10,6 +11,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @ControllerAdvice(basePackages = "com.app.trycatch.controller.mypage")
 public class MyPageExceptionHandler {
+    @ExceptionHandler(InputAllDataException.class)
+    protected RedirectView inputAllData(InputAllDataException exception, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("input", "fail");
+        return new RedirectView("/mypage/change-my-information");
+    }
+
     @ExceptionHandler(MemberNotFoundException.class)
     protected RedirectView memberNotFound(MemberNotFoundException exception, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("mypage", "member-not-found");

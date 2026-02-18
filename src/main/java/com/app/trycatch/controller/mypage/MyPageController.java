@@ -84,6 +84,17 @@ public class MyPageController {
         return new RedirectView("/main/log-in");
     }
 
+    @GetMapping("logout")
+    public RedirectView logout() {
+        Object member = session.getAttribute("member");
+        if (member instanceof MemberDTO memberDTO && memberDTO.getProvider() == com.app.trycatch.common.enumeration.member.Provider.KAKAO) {
+            session.invalidate();
+            return new RedirectView("https://kauth.kakao.com/oauth/logout?client_id=6c9664c00ac5573fa3d8f1caf80e67f3&logout_redirect_uri=http://localhost:10000/main/log-in");
+        }
+        session.invalidate();
+        return new RedirectView("/main/log-in");
+    }
+
     private Long getSessionMemberId() {
         Object member = session.getAttribute("member");
         if (member instanceof MemberDTO memberDTO && memberDTO.getId() != null) {

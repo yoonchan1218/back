@@ -5,6 +5,7 @@ package com.app.trycatch.service.oauth;
 
 import com.app.trycatch.common.enumeration.member.Provider;
 import com.app.trycatch.common.enumeration.member.Status;
+import com.app.trycatch.common.exception.LoginFailException;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.repository.member.IndividualMemberDAO;
@@ -155,7 +156,7 @@ public class KakaoService {
                     MemberVO memberVO = foundMember.get();
 //                    탈퇴(inactive) 회원은 로그인 차단
                     if(memberVO.getMemberStatus() == Status.INACTIVE){
-                        return kakaoInfo;
+                        throw new LoginFailException();
                     }
 //                    기존 회원 → id를 세팅하여 Controller에서 구분
                     IndividualMemberDTO existingMember = new IndividualMemberDTO();

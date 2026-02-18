@@ -30,9 +30,10 @@
                     <h2 class="skip">개인회원 관리 메뉴</h2>
                     <ul class="lnb">
                         <li>
-                            <a href="">개인회원 홈</a>
+                            <a href="/mypage/mypage">개인회원 홈</a>
                         </li>
-                        <li><a href="">회원정보 수정</a></li>
+                        <li><a href="/mypage/change-my-information">회원정보 수정</a></li>
+                        <li><a href="/mypage/logout">로그아웃</a></li>
                     </ul>
                     <div class="secNav">
                         <ol>
@@ -164,9 +165,7 @@
                                                 </th>
                                                 <td>
                                                     <div class="social_row">
-                                                        <strong
-                                                            >test</strong
-                                                        >
+                                                        <strong th:text="*{memberId}">test</strong>
                                                         <a href="javascript:;" id="btnKaLogin" class="kakao">카카오 연동</a>
                                                         <span class="fbTxt"
                                                             ><span
@@ -1815,6 +1814,12 @@
         </div>
         <!-- 개인회원 정보수정 본문 끝 -->
     </body>
-    <script src="/js/mypage/change-my-information.js"></script>
+    <script th:inline="javascript">
+        const inputStatus = [[${input}]];
+        if(inputStatus === 'fail'){
+            alert("필수항목을 모두 입력하세요.");
+        }
+    </script>
+    <script src="/js/mypage/event.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>
