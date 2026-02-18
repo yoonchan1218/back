@@ -67,4 +67,20 @@ public class SkillLogController {
         model.addAttribute("tags", tagService.selectAll());
         return "skill-log/list";
     }
+
+    @GetMapping("detail")
+    public String detail(Long id, Model model) {
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+
+        if(member instanceof IndividualMemberDTO) {
+            memberId = ((IndividualMemberDTO) member).getId();
+        } else if(member instanceof MemberDTO) {
+            memberId = ((MemberDTO) member).getId();
+        }
+
+        model.addAttribute("aside", skillLogService.aside(memberId));
+        model.addAttribute("skillLog", skillLogService.detail(id));
+        return "skill-log/detail";
+    }
 }

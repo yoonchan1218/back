@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface SkillLogMapper {
@@ -21,4 +22,9 @@ public interface SkillLogMapper {
     public List<SkillLogDTO> selectAll(@Param("criteria") Criteria criteria, @Param("search") Search search);
 //    전체 개수
     public int selectTotal(@Param("search") Search search);
+
+//    조회
+    public Optional<SkillLogDTO> selectById(Long id);
+//    조회수 증가
+    public void updateSkillLogViewCount(Long id);
 }

@@ -60,4 +60,14 @@ public class SkillLogMapperTests {
             log.info("{}", skillLog);
         });
     }
+
+    @Test
+    public void testSelectById() {
+        log.info("{}", skillLogMapper.selectById(66L).orElse(null));
+    }
+
+    @Test
+    public void testUpdateSkillLogViewCount() {
+        skillLogMapper.updateSkillLogViewCount(30L);
+    }
 }

@@ -10,4 +10,4 @@ create table tbl_skill_log_likes
     unique key uk_member_skill_log (member_id, skill_log_id)
 ) comment '기술 블로그 좋아요';
 
-
+select * from tbl_skill_log_likes;

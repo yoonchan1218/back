@@ -80,4 +80,10 @@ public class SkillLogServiceTests {
             log.info("{}", skillLogDTO);
         });
     }
+
+    @Test
+    public void testDetail() {
+        SkillLogDTO skillLogDTO = skillLogService.detail(30L);
+        log.info("{}", skillLogDTO);
+    }
 }

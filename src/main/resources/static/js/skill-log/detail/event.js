@@ -108,11 +108,15 @@ writeButton.addEventListener("click", (e) => {
 const URLCopy = document.querySelector(
     ".button.button-copy-url.button-popup-component",
 );
+const URLInput = document.getElementById("lbl_url_copy");
 
 // URL 복사 눌렀을 시 클래스 추가
 const URLCopyLayer = document.querySelector(".url-copy-layer");
 // 닫기 버튼
 const URLCopyLayerBefore = document.querySelector(".button.button-close");
+
+// URL 설정
+URLInput.value = window.location.href;
 
 // 클릭 시 "attached" 클래스 토글
 URLCopy.addEventListener("click", (e) => {

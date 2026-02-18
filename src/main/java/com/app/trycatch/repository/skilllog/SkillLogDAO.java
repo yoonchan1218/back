@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,5 +32,14 @@ public class SkillLogDAO {
 //    전체 개수
     public int findTotal(Search search) {
         return skillLogMapper.selectTotal(search);
+    }
+
+//    조회
+    public Optional<SkillLogDTO> findById(Long id) {
+        return skillLogMapper.selectById(id);
+    }
+//    조회수 증가
+    public void setSkillLogViewCount(Long id) {
+        skillLogMapper.updateSkillLogViewCount(id);
     }
 }

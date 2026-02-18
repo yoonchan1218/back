@@ -1,6 +1,7 @@
 package com.app.trycatch.service.skilllog;
 
 import com.app.trycatch.common.enumeration.file.FileContentType;
+import com.app.trycatch.common.exception.SkillLogNotFoundException;
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
 import com.app.trycatch.domain.skilllog.TagVO;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -140,6 +142,31 @@ public class SkillLogService {
         skillLogWithPagingDTO.setSkillLogs(skillLogs);
 
         return skillLogWithPagingDTO;
+    }
+
+//    조회
+    public SkillLogDTO detail(Long id) {
+        Optional<SkillLogDTO> foundSkillLog = null;
+        SkillLogDTO skillLogDTO = null;
+        String formattedDate = null;
+        boolean updateCheck = false;
+
+        skillLogDAO.setSkillLogViewCount(id);
+
+        foundSkillLog = skillLogDAO.findById(id);
+        skillLogDTO = foundSkillLog.orElseThrow(SkillLogNotFoundException::new);
+
+        updateCheck = !skillLogDTO.getCreatedDatetime().equals(skillLogDTO.getUpdatedDatetime());
+        formattedDate = skillLogDTO.getCreatedDatetime().split(" ")[0] + (updateCheck ? " (수정됨)" : "");
+        
+        skillLogDTO.setCreatedDatetime(formattedDate);
+        skillLogDTO.setTags(tagDAO.findAllBySkillLogId(skillLogDTO.getId())
+                .stream().map((tagVO) -> toTagDTO(tagVO)).collect(Collectors.toList()));
+        skillLogDTO.setSkillLogFiles(skillLogFileDAO.findAllBySkillLogId(skillLogDTO.getId()));
+
+
+
+        return skillLogDTO;
     }
 
     public TagDTO toTagDTO(TagVO tagVO) {
