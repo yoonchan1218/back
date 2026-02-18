@@ -61,7 +61,9 @@ public class MemberController {
 
         if (kakaoInfo.getId() != null) {
             session.setAttribute("member", kakaoInfo);
-            return "redirect:/main/main";
+            String reUrl = (String) session.getAttribute("re_url");
+            session.removeAttribute("re_url");
+            return "redirect:" + (reUrl != null ? reUrl : "/main/main");
         }
 
         model.addAttribute("memberEmail", kakaoInfo.getMemberEmail());
@@ -80,6 +82,12 @@ public class MemberController {
         return new RedirectView("/main/log-in");
     }
 
+    @GetMapping("log-out")
+    public RedirectView logout() {
+        session.invalidate();
+        return new RedirectView("/main/log-in");
+    }
+
     @GetMapping("main")
     public String goMainPage() {
         return "main/main";
@@ -89,14 +97,19 @@ public class MemberController {
     public String goLoginForm(
             @CookieValue(name = "remember", required = false) boolean remember,
             @CookieValue(name = "remember-member-id", required = false) String rememberMemberId,
+            @RequestParam(value = "re_url", required = false) String reUrl,
             Model model) {
         model.addAttribute("remember", remember);
         model.addAttribute("rememberMemberId", rememberMemberId);
+        model.addAttribute("reUrl", reUrl);
+        if (reUrl != null && !reUrl.isBlank()) {
+            session.setAttribute("re_url", reUrl);
+        }
         return "main/log-in";
     }
 
     @PostMapping("log-in")
-    public RedirectView login(MemberDTO memberDTO, HttpServletResponse response) {
+    public RedirectView login(MemberDTO memberDTO, @RequestParam(value = "re_url", defaultValue = "/main/main") String reUrl, HttpServletResponse response) {
         session.setAttribute("member", individualMemberService.login(memberDTO));
 
         Cookie rememberMemberIdCookie = new Cookie("remember-member-id", memberDTO.getMemberId());
@@ -116,7 +129,7 @@ public class MemberController {
         response.addCookie(rememberMemberIdCookie);
         response.addCookie(rememberCookie);
 
-        return new RedirectView("/main/main");
+        return new RedirectView(reUrl);
     }
 
     @GetMapping("/check-email")
@@ -142,4 +155,5 @@ public class MemberController {
     public boolean checkBusinessNumber(String corpBusinessNumber) {
         return corpService.checkBusinessNumber(corpBusinessNumber);
     }
+//    로그인 로그아웃 완료
 }

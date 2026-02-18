@@ -11,7 +11,6 @@ import lombok.*;
 public class ExperienceProgramDTO {
     private Long id;
     private Long corpId;
-    private Long addressId;
     private String experienceProgramTitle;
     private String experienceProgramDescription;
     private String experienceProgramLevel;

@@ -3,7 +3,6 @@ create table tbl_experience_program
 (
     id                                   bigint unsigned auto_increment primary key comment '프로그램 ID',
     corp_id                              bigint unsigned not null comment '기업 ID',
-    address_id                           bigint unsigned comment '근무지 주소 ID (FK)',
     experience_program_title             varchar(255)    not null comment '프로그램 제목',
     experience_program_description       text comment '프로그램 설명',
     experience_program_level             varchar(1) check (experience_program_level in ('a', 'b', 'c', 'd', 'e')) comment '체험 단계 (a~e)',
@@ -18,12 +17,10 @@ create table tbl_experience_program
     experience_program_job               varchar(255)    not null comment '프로그램 직무',
     created_datetime                     datetime                                            default current_timestamp,
     updated_datetime                     datetime                                            default current_timestamp,
-    constraint fk_experience_program_corp foreign key (corp_id) references tbl_corp (id),
-    constraint fk_experience_program_address foreign key (address_id) references tbl_address (id)
+    constraint fk_experience_program_corp foreign key (corp_id) references tbl_corp (id)
 );
 
 
-select *
-from tbl_experience_program;
+select * from tbl_experience_program;
 set foreign_key_checks = 1;
 drop table tbl_experience_program;

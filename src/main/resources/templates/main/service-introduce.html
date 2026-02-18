@@ -62,7 +62,13 @@
                                             </li>
                                             <li>
                                                 <a
-                                                    href=""
+                                                    th:if="${session.member != null and session.member.provider != null and session.member.provider.value == 'kakao'}"
+                                                    href="https://kauth.kakao.com/oauth/logout?client_id=edeefdf5ab96d36811571fbd1e56a4cf&logout_redirect_uri=http://localhost:10000/main/log-out"
+                                                    >로그아웃</a
+                                                >
+                                                <a
+                                                    th:unless="${session.member != null and session.member.provider != null and session.member.provider.value == 'kakao'}"
+                                                    href="/main/log-out"
                                                     >로그아웃</a
                                                 >
                                             </li>

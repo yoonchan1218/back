@@ -3,6 +3,8 @@ package com.app.trycatch.service.oauth;
 
 
 
+import com.app.trycatch.common.enumeration.member.Provider;
+import com.app.trycatch.common.enumeration.member.Status;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.repository.member.IndividualMemberDAO;
@@ -150,12 +152,18 @@ public class KakaoService {
 //                    최초 로그인 → 추가 정보 입력 페이지로 이동
                     return kakaoInfo;
                 }else{
-//                    기존 회원 → id를 세팅하여 Controller에서 구분
                     MemberVO memberVO = foundMember.get();
+//                    탈퇴(inactive) 회원은 로그인 차단
+                    if(memberVO.getMemberStatus() == Status.INACTIVE){
+                        return kakaoInfo;
+                    }
+//                    기존 회원 → id를 세팅하여 Controller에서 구분
                     IndividualMemberDTO existingMember = new IndividualMemberDTO();
                     existingMember.setId(memberVO.getId());
                     existingMember.setMemberEmail(memberVO.getMemberEmail());
                     existingMember.setMemberName(memberVO.getMemberName());
+                    existingMember.setProfileImageUrl(profileImageUrl);
+                    existingMember.setProvider(Provider.KAKAO);
                     return existingMember;
                 }
             }

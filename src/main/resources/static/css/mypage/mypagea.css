@@ -6,19 +6,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 
@@ -191,7 +191,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     height: 84px;
     border-radius: 50%;
     overflow: hidden;
-    background: url(/static/images/default_photo.png) no-repeat center;
+    background: url(/images/default_photo.png) no-repeat center;
     background-size: contain;
     border: 3px solid #fff;
     box-sizing: border-box;
@@ -212,7 +212,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     z-index: 1;
     width: 30px;
     height: 30px;
-    background: url(/static/images/icon_camera.png) no-repeat center;
+    background: url(/images/icon_camera.png) no-repeat center;
     background-size: contain;
     border-radius: 50%;
 }
@@ -700,7 +700,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .tplBtn:before, .tplBtn:after, .tplBtnTy {
     position: relative;
     display: inline-block;
-    background: url(/static/images/tpl_sp_btn.png) no-repeat;
+    background: url(/images/tpl_sp_btn.png) no-repeat;
     vertical-align: middle;
 }
 
@@ -777,7 +777,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .tplBtn:before, .tplBtn:after, .tplBtnTy {
     position: relative;
     display: inline-block;
-    background-image: url(/static/images/tpl_sp_btn.png);
+    background-image: url(/images/tpl_sp_btn.png);
     background-repeat: no-repeat;
     vertical-align: middle;
 }
@@ -972,7 +972,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .mtuSpImg, .mtuSpImgAfter:after, .mtuSpImgBefore:before {
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
     overflow: hidden;
@@ -990,14 +990,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .mtuSpImg, .mtuSpImgAfter:after, .mtuSpImgBefore:before {
     overflow: hidden;
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
 }
 
 .mtuSpImg, .mtuSpImgBefore:before, .mtuSpImgAfter:after {
     display: inline-block;
-    background-image: url(/static/images/mtu_spr_recolor_006e3f_star.png);
+    background-image: url(/images/mtu_spr_recolor_006e3f_star.png);
     background-repeat: no-repeat;
     vertical-align: middle;
     overflow: hidden;
@@ -1380,7 +1380,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .tplIcn:before, .tplIcn:after, .tplIcnTy {
     display: inline-block;
-    background: url(/static/images/tpl_sp_icn_recolor_006e3f.png) no-repeat;
+    background: url(/images/tpl_sp_icn_recolor_006e3f.png) no-repeat;
     line-height: normal;
     vertical-align: middle;
 }
@@ -2039,134 +2039,3 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     background-image: none;
 }
 
-/* 모달 기본 스타일 - 전체 화면 덮개 */
-.popup.popupSkill {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-}
-
-/* hidden 클래스 - 모달 숨기기 */
-.popup.popupSkill.hidden {
-    display: none !important;
-}
-
- /* 보유스킬 모달 스타일 */
-            .popup.popupSkill {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 9999;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            
-            .popup.popupSkill.hidden {
-                display: none !important;
-            }
-            
-            .popupContainerWrap {
-                background: white;
-                border-radius: 8px;
-                max-width: 800px;
-                width: 90%;
-                max-height: 80vh;
-                overflow: hidden;
-                position: relative;
-            }
-            
-            .popupHeader {
-                padding: 20px;
-                border-bottom: 1px solid #e0e0e0;
-                font-size: 18px;
-                font-weight: bold;
-            }
-            
-            .popupContainer {
-                padding: 20px;
-                max-height: 50vh;
-                overflow-y: auto;
-            }
-            
-            .keyword-list {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .list-btn {
-                padding: 8px 16px;
-                border: 1px solid #ddd;
-                background: white;
-                border-radius: 20px;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-            
-            .list-btn:hover {
-                border-color: #006e3f;
-            }
-            
-            .list-btn.on {
-                background: #006e3f;
-                color: white;
-                border-color: #006e3f;
-            }
-            
-            .popupFooter {
-                padding: 20px;
-                border-top: 1px solid #e0e0e0;
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-            }
-            
-            .popupFooter .btn {
-                padding: 10px 30px;
-                border: 1px solid #ddd;
-                background: white;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            
-            .popupFooter .btn.check {
-                background: #006e3f;
-                color: white;
-                border-color: #006e3f;
-            }
-            
-            .buttonClose {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-                padding: 0;
-                width: 30px;
-                height: 30px;
-                line-height: 30px;
-                text-indent: -9999px;
-            }
-            
-            .buttonClose::before {
-                content: '×';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                text-indent: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }

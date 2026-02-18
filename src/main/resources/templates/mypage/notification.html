@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>notification</title>
-        <link rel="stylesheet" href="/static/css/mypage/notification.css" />
+        <link rel="stylesheet" href="/css/mypage/notification.css" />
     </head>
     <body>
         <div id="wrap">
@@ -15,315 +15,87 @@
                     <div class="contWrap alarmCont">
                         <input type="hidden" value="5" id="js-AlarmTotalCnt" />
                         <div class="hdWrap">
-                            <h2 class="hd_1">나의 알림</h2>
+                            <h2 class="hd_1">수신 알림</h2>
                             <p class="noti">
-                                최근 30일 이내 알림만 확인할 수 있습니다.
+                                최근 30일간 보낸 알림만 확인할 수 있습니다.
                             </p>
                             <div class="alarmSort">
                                 <span class="selWrap">
                                     <select
                                         data-val="true"
-                                        data-val-number="Ts_Type 필드는 숫자여야 합니다."
-                                        data-val-required="Ts_Type 필드가 필요합니다."
                                         id="sortSel"
                                         name="Ts_Type"
-                                        title="나의 알림 선택"
+                                        title="수신 알림 선택"
                                     >
                                         <option selected="selected" value="0">
                                             전체 알림
                                         </option>
-                                        <option value="5">체험 지원 현황</option>
+                                        <option value="5">체험 진행 현황</option>
                                         <option value="9">QnA</option>
                                     </select>
                                 </span>
                             </div>
                         </div>
                         <section class="alarmListWrap">
-                            <h3 class="skip">나의 알림 리스트</h3>
+                            <h3 class="skip">수신 알림 리스트</h3>
                             <div id="js-alarmFrame">
-                                <div class="alarmList" data-date="26.01.29">
-                                    <div class="hd">
-                                        <span class="tahoma"
-                                            >26.01.29 (목)</span
-                                        >
-                                        · 어제
+    <div th:if="${notifications == null or #lists.isEmpty(notifications)}" class="alarmList">
+        <div class="hd">알림이 없습니다.</div>
+    </div>
 
-                                        <!--// AI추천 : 푸시.알림 설정  -->
-                                        <!--// AI추천 : 푸시.알림 설정  -->
-                                    </div>
-                                    <article class="cont">
-                                        <ul>
-                                            <li class="type_blue">
-                                                <span class="update"
-                                                    >20:00</span
-                                                >
-                                                <div class="box">
-                                                    <div class="desc">
-                                                        <span class="state"
-                                                            >스크랩 공고
-                                                            리마인드</span
-                                                        >
-                                                        <!-- 진행 중 공고 없을 경우 variation_01로 클래스 변경 -->
-                                                        <strong
-                                                            class="title variation_01"
-                                                        >
-                                                            <a
-                                                                href=""
-                                                                target="_blank"
-                                                                data-idx="11207006488"
-                                                                >스크랩한
-                                                                공고</a
-                                                            >
-                                                            잊지 않으셨죠?
-                                                        </strong>
-                                                    </div>
-                                                    <div class="booth">
-                                                        <a
-                                                            href=""
-                                                            class="title"
-                                                            target="_blank"
-                                                            data-idx="11207006488"
-                                                        >
-                                                            스크랩한 공고를
-                                                            확인해보세요.
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="type_red">
-                                                <!-- 읽은 리스트 read 클래스 추가 -->
-                                                <span class="update"
-                                                    >11:10</span
-                                                >
-                                                <div class="box">
-                                                    <div class="desc">
-                                                        <span class="state"
-                                                            >체험 지원 공고
-                                                            진행상태 변경</span
-                                                        >
-                                                        <strong class="title">
-                                                            지원한
-                                                            <a
-                                                                href=""
-                                                                target="_blank"
-                                                                data-idx="11201638957"
-                                                                >㈜test</a
-                                                            >
-                                                            공고의 진행상태가
-                                                            서류검토로 변경
-                                                            되었습니다.
-                                                        </strong>
-                                                        <ul class="info">
-                                                            <li>
-                                                                지원일
-                                                                <em
-                                                                    class="val tahoma"
-                                                                    >2026.01.29(목)
-                                                                    09:55 -
-                                                                    지원취소
-                                                                </em>
-                                                            </li>
-                                                            <li>
-                                                                진행상태
-                                                                <em
-                                                                    class="val tahoma"
-                                                                >
-                                                                    서류검토
-                                                                </em>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="booth">
-                                                        <a
-                                                            href=""
-                                                            class="title"
-                                                            target="_blank"
-                                                            data-idx="11201638957"
-                                                            >test</a
-                                                        >
-                                                        <span
-                                                            class="deadline tahoma"
-                                                        >
-                                                            공고마감
-                                                        </span>
-                                                        <span class="btnGp">
-                                                            <a
-                                                                class="btn btnGyBd"
-                                                                href=""
-                                                                >자세히보기</a
-                                                            >
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </article>
-                                </div>
-                                <div class="alarmList" data-date="26.01.23">
-                                    <div class="hd">
-                                        <span class="tahoma"
-                                            >26.01.23 (금)</span
-                                        >
-                                        <!--// AI추천 : 푸시.알림 설정  -->
-                                    </div>
-                                    <article class="cont">
-                                        <ul>
-                                            <li class="type_red">
-                                                <span class="update"
-                                                    >16:20</span
-                                                >
-                                                <div class="box">
-                                                    <div class="desc">
-                                                        <span class="state"
-                                                            >QnA</span
-                                                        >
-                                                        <strong class="title"
-                                                            >test님의
-                                                            <a
-                                                                href=""
-                                                                target="_blank"
-                                                                onclick=""
-                                                            >
-                                                                답변에 댓글</a
-                                                            >이
-                                                            등록되었습니다.</strong
-                                                        >
-                                                        <span
-                                                            class="answer"
-                                                        ></span>
-
-                                                        <span class="btnGp">
-                                                            <a
-                                                                class="btn btnGyBd"
-                                                                href=""
-                                                                target="_blank"
-                                                                onclick=""
-                                                                >자세히보기</a
-                                                            >
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="type_red">
-                                                <span class="update"
-                                                    >12:15</span
-                                                >
-                                                <div class="box">
-                                                    <div class="desc">
-                                                        <span class="state"
-                                                            >QnA</span
-                                                        >
-                                                        <strong class="title"
-                                                            >test님의
-                                                            <a
-                                                                href=""
-                                                                target="_blank"
-                                                            >
-                                                                답변</a
-                                                            >이
-                                                            채택되었습니다.</strong
-                                                        >
-                                                        <span
-                                                            class="answer"
-                                                        ></span>
-
-                                                        <span class="btnGp">
-                                                            <a
-                                                                class="btn btnGyBd"
-                                                                href=""
-                                                                target="_blank"
-                                                                onclick=""
-                                                                >자세히보기</a
-                                                            >
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </article>
-                                </div>
-                                <div class="alarmList" data-date="26.01.20">
-                                    <div class="hd">
-                                        <span class="tahoma"
-                                            >26.01.20 (화)</span
-                                        >
-                                        <!--// AI추천 : 푸시.알림 설정  -->
-                                    </div>
-                                    <article class="cont">
-                                        <ul>
-                                            <li class="type_red">
-                                                <span class="update"
-                                                    >12:07</span
-                                                >
-                                                <div class="box">
-                                                    <div class="desc">
-                                                        <span class="state"
-                                                            >QnA</span
-                                                        >
-                                                        <strong class="title"
-                                                            >북마크한
-                                                            <a
-                                                                href=""
-                                                                target="_blank"
-                                                                onclick=""
-                                                            >
-                                                                "자바와 파이썬
-                                                                중 ..." 질문에
-                                                                답변</a
-                                                            >이
-                                                            등록되었습니다.</strong
-                                                        >
-                                                        <span
-                                                            class="answer"
-                                                        ></span>
-
-                                                        <span class="btnGp">
-                                                            <a
-                                                                class="btn btnGyBd"
-                                                                href=""
-                                                                target="_blank"
-                                                                onclick=""
-                                                                >자세히보기</a
-                                                            >
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </article>
-                                </div>
-                            </div>
+    <div class="alarmList" th:each="notification : ${notifications}">
+        <div class="hd">
+            <span class="tahoma" th:text="${notification.notificationReceiveAt}">-</span>
+        </div>
+        <article class="cont">
+            <ul>
+                <li th:classappend="${notification.notificationIsRead} ? ' read' : ''" class="type_red">
+                    <span class="update" th:text="${notification.notificationReceiveAt}">-</span>
+                    <div class="box">
+                        <div class="desc">
+                            <span class="state" th:text="${notification.notificationType}">type</span>
+                            <strong class="title" th:text="${notification.notificationTitle}">title</strong>
+                            <p class="answer" th:text="${notification.notificationContent}">content</p>
+                        </div>
+                        <button type="button" class="btn-read-notification"
+                                th:unless="${notification.notificationIsRead}"
+                                th:data-id="${notification.id}">읽음</button>
+                    </div>
+                </li>
+            </ul>
+        </article>
+    </div>
+</div>
                         </section>
                     </div>
                 </section>
                 <!--// Lnb Area -->
-                <!-- [개발] 메뉴 선택시 a.on 추가 -->
                 <!-- 사이드바 시작 -->
                 <section class="secLnb">
                     <h1 class="skip">개인회원 서비스 메뉴</h1>
                     <div class="lnbGroup">
                         <h2 class="lnbTit">
-                            <a href="" onclick="">개인회원 홈</a>
+                            <a href="/mypage/mypage">개인회원 홈</a>
                         </h2>
                     </div>
                     <div class="lnbGroup">
-                        <h2 class="lnbTit">자기소개서 관리</h2>
+                        <h2 class="lnbTit">이력서/경력 관리</h2>
                         <ul>
                             <li>
-                                <a href="" target="_blank" onclick=""
-                                    >자기소개서 등록</a
+                                <a href="" target="_blank"
+                                    >이력서/경력 등록</a
                                 >
                             </li>
                             <li>
-                                <a href="" onclick="">첨부파일 관리</a>
+                                <a href="">첨부파일 관리</a>
                             </li>
                         </ul>
                     </div>
                     <div class="lnbGroup">
-                        <h2 class="lnbTit">체험 지원 관리</h2>
+                        <h2 class="lnbTit">체험 진행 관리</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="">체험 지원 현황</a>
+                                <a href="/mypage/experience">체험 진행 현황</a>
                             </li>
                         </ul>
                     </div>
@@ -332,11 +104,11 @@
                         <h2 class="lnbTit">스크랩</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="">스크랩 공고</a>
+                                <a href="">스크랩 공고</a>
                             </li>
 
                             <li>
-                                <a class="on" href="" onclick="">MY 알림</a>
+                                <a class="on" href="/mypage/notification">MY 알림</a>
                             </li>
                         </ul>
                     </div>
@@ -345,10 +117,10 @@
                         <h2 class="lnbTit">회원정보 관리</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="">회원정보 수정</a>
+                                <a href="/mypage/change-my-information">회원정보 수정</a>
                             </li>
                             <li>
-                                <a href="" onclick="">비밀번호 변경</a>
+                                <a href="">비밀번호 변경</a>
                             </li>
                         </ul>
                     </div>
@@ -358,5 +130,5 @@
             </section>
         </div>
     </body>
-    <script src="/static/js/mypage/notification.js"></script>
+    <script src="/js/mypage/notification.js"></script>
 </html>

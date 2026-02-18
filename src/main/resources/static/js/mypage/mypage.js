@@ -88,13 +88,27 @@ const celebrateSlider = (function () {
     updateButtons();
 })();
 
-// 스크랩, 최근 본 공고 탭 버튼
+// 스크랩, 최근 본 공고 탭 전환
 const tabLists = document.querySelectorAll(".mtuTab.devFixedTab ul li");
+const recentContent = document.getElementById("recentContent");
+const scrapContent = document.getElementById("scrapContent");
+const moreLink = document.getElementById("moreLink");
 
 tabLists.forEach((tabList) => {
     tabList.addEventListener("click", (e) => {
         tabLists.forEach((tab) => tab.classList.remove("on"));
         tabList.classList.add("on");
+
+        const flag = tabList.getAttribute("data-flag");
+        if (flag === "SC") {
+            if (recentContent) recentContent.style.display = "none";
+            if (scrapContent) scrapContent.style.display = "block";
+            if (moreLink) moreLink.textContent = "스크랩 공고 더보기";
+        } else {
+            if (scrapContent) scrapContent.style.display = "none";
+            if (recentContent) recentContent.style.display = "block";
+            if (moreLink) moreLink.textContent = "최근 본 공고 더보기";
+        }
     });
 });
 
@@ -110,8 +124,7 @@ const currentProfileImg = document.querySelector(".profile-img .img img");
 
 if (profileModal && profileBtn) {
     // 기본 이미지
-    const defaultImg =
-        "https://www.jobkorea.co.kr/Images/Mng/Mypage/icon-profile.png";
+    const defaultImg = "/images/default_photo.png";
 
     // 모달 열기
     profileBtn.addEventListener("click", () => {
@@ -174,126 +187,3 @@ if (profileModal && profileBtn) {
     }
 }
 
-// ============================================
-// 보유스킬 모달 기능
-// ============================================
-
-// DOM이 완전히 로드된 후 실행
-document.addEventListener("DOMContentLoaded", function () {
-    // 모달 요소들
-    const skillModal = document.querySelector(".popupSkill");
-    const skillList = document.querySelector(".skill-list.expand-list");
-
-    if (!skillModal || !skillList) {
-        console.error("보유스킬 모달 또는 스킬 리스트를 찾을 수 없습니다.");
-        return;
-    }
-
-    // 보유스킬 제목을 클릭했을 때 모달 열기
-    const skillLinks = document.querySelectorAll(".my-status-list a");
-    let skillOpenBtn = null;
-
-    skillLinks.forEach((link) => {
-        const h5 = link.querySelector("h5.list-title");
-        if (h5 && h5.textContent.includes("보유스킬")) {
-            skillOpenBtn = link;
-        }
-    });
-
-    if (!skillOpenBtn) {
-        console.error("보유스킬 링크를 찾을 수 없습니다.");
-        return;
-    }
-
-    const skillCancelBtn = skillModal.querySelector(".btn.cancel");
-    const skillCheckBtn = skillModal.querySelector(".btn.check");
-    const skillCloseBtn = skillModal.querySelector(".buttonClose");
-    const skillButtons = skillModal.querySelectorAll(
-        ".list-btn.dev-skill-item",
-    );
-
-    // 1. 보유스킬 링크 클릭 시 모달 열기
-    skillOpenBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        // 현재 선택된 스킬들을 모달에 반영
-        const currentSkills = Array.from(skillList.querySelectorAll("li")).map(
-            (li) => li.textContent.trim(),
-        );
-
-        // 모든 스킬 버튼의 on 클래스 초기화 후 현재 스킬들만 on 클래스 추가
-        skillButtons.forEach((btn) => {
-            const skillName = btn.getAttribute("data-name");
-            if (currentSkills.includes(skillName)) {
-                btn.classList.add("on");
-            } else {
-                btn.classList.remove("on");
-            }
-        });
-
-        // 모달 열기
-        skillModal.classList.remove("hidden");
-        skillModal.setAttribute("aria-hidden", "false");
-    });
-
-    // 2. 모달 내 스킬 버튼 클릭 시 on 클래스 토글
-    skillButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            btn.classList.toggle("on");
-        });
-    });
-
-    // 3. 확인 버튼 클릭 시 선택된 스킬들을 skill-list에 추가
-    if (skillCheckBtn) {
-        skillCheckBtn.addEventListener("click", () => {
-            // 현재 선택된 스킬들 (on 클래스가 있는 버튼들)
-            const selectedSkills = Array.from(skillButtons)
-                .filter((btn) => btn.classList.contains("on"))
-                .map((btn) => btn.getAttribute("data-name"));
-
-            // skill-list 초기화 후 선택된 스킬들 추가
-            skillList.innerHTML = "";
-            selectedSkills.forEach((skillName) => {
-                const li = document.createElement("li");
-                li.textContent = skillName;
-                skillList.appendChild(li);
-            });
-
-            // 모달 닫기
-            skillModal.classList.add("hidden");
-            skillModal.setAttribute("aria-hidden", "true");
-        });
-    }
-
-    // 4. 취소 버튼 클릭 시 모달 닫기
-    if (skillCancelBtn) {
-        skillCancelBtn.addEventListener("click", () => {
-            skillModal.classList.add("hidden");
-            skillModal.setAttribute("aria-hidden", "true");
-        });
-    }
-
-    // 5. 닫기(X) 버튼 클릭 시 모달 닫기
-    if (skillCloseBtn) {
-        skillCloseBtn.addEventListener("click", () => {
-            skillModal.classList.add("hidden");
-            skillModal.setAttribute("aria-hidden", "true");
-        });
-    }
-
-    // 6. 모달 외부 클릭 시 모달 닫기
-    skillModal.addEventListener("click", (e) => {
-        if (e.target === skillModal) {
-            skillModal.classList.add("hidden");
-            skillModal.setAttribute("aria-hidden", "true");
-        }
-    });
-
-    // 7. ESC 키로 모달 닫기
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && !skillModal.classList.contains("hidden")) {
-            skillModal.classList.add("hidden");
-            skillModal.setAttribute("aria-hidden", "true");
-        }
-    });
-});

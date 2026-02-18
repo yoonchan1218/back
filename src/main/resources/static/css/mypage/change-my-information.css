@@ -6,19 +6,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 label {
@@ -109,7 +109,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
     position: relative;
-    background: url(/static/images/bg_mn_mbr_1_006e3f.gif) repeat-x left 65px;
+    background: url(/images/bg_mn_mbr_1_006e3f.gif) repeat-x left 65px;
     zoom: 1;
     height: 110px;
 }
@@ -176,7 +176,7 @@ h1, h2, h3, h4, h5, h6 {
     float: left;
     padding: 0 7px;
     margin-left: -1px;
-    background: url(/static/images/bg_bar.gif) no-repeat left 1px;
+    background: url(/images/bg_bar.gif) no-repeat left 1px;
 }
 
 .mbrSubJoin #header .lnb a, .mbrSubMng #header .lnb a {
@@ -272,7 +272,7 @@ a:hover, a:active, a:focus {
     display: inline;
     padding-right: 3px;
     text-align: center;
-    background: url(/static/images/bg_bar_mn_mbr_006e3f.gif) no-repeat;
+    background: url(/images/bg_bar_mn_mbr_006e3f.gif) no-repeat;
     color: #fff;
 }
 
@@ -326,7 +326,7 @@ a:hover, a:active, a:focus {
 }
 
 .mbrSubMngGG .gnbWrap_mMng .secNav li span {
-    background: url(/static/images/text_gnb_mbr_mng_gg_006e3f.gif) no-repeat;
+    background: url(/images/text_gnb_mbr_mng_gg_006e3f.gif) no-repeat;
 }
 
 .gnbWrap_mMng .secNav li.mn1 span {
@@ -343,6 +343,10 @@ a:hover, a:active, a:focus {
 
 .gnbWrap_mMng .secNav li.mn3 span {
     background-position: -318px -63px;
+}
+
+.mbrSubMngLeave .gnbWrap_mMng .secNav li.mn3 span {
+    background-position: -318px -3px;
 }
 
 #wrap {
@@ -388,7 +392,7 @@ a:hover, a:active, a:focus {
 
 .mbrTplDesc p {
     padding: 2px 0 2px 7px;
-    background: url(/static/images/mbr_tpl_icon_1.gif) no-repeat 0 -34px;
+    background: url(/images/mbr_tpl_icon_1.gif) no-repeat 0 -34px;
     line-height: 1.4;
     color: #767676;
 }
@@ -485,7 +489,7 @@ a:hover, a:active, a:focus {
 
 .mbrBtn {
     height: 21px;
-    background: url(/static/images/mbr_tpl_btn_1_006e3f.gif) no-repeat 0 0;
+    background: url(/images/mbr_tpl_btn_1_006e3f.gif) no-repeat 0 0;
     overflow: hidden;
     vertical-align: middle;
 }
@@ -541,7 +545,7 @@ a:hover, a:active, a:focus {
     top: 9px;
     width: 4px;
     height: 7px;
-    background: url(/static/images/mbr_tpl_icon_1.gif) no-repeat left -165px;
+    background: url(/images/mbr_tpl_icon_1.gif) no-repeat left -165px;
 }
 
 select.ipSelect {

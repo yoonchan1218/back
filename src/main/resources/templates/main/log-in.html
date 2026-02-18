@@ -13,7 +13,7 @@
             <div id="container">
                 <div class="logtop logtop_login">
                     <p class="lnb">
-                        <a href="">TRY-CATCH홈</a>
+                        <a href="/main/main">TRY-CATCH홈</a>
                     </p>
                 </div>
 
@@ -42,7 +42,7 @@
                                     type="hidden"
                                     name="re_url"
                                     id="re_url"
-                                    value="/"
+                                    th:value="${reUrl != null ? reUrl : '/'}"
                                 />
                                 <input type="hidden" name="idx" value="" />
                                 <input type="hidden" name="Div" value="" />

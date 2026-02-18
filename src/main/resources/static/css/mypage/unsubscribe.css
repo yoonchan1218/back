@@ -6,19 +6,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, input, textarea, button, p, table, th, td {
@@ -177,7 +177,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .secLnb .lnbGroup .lnbTwoDep li {
     padding-left: 7px;
-    background: url(/static/images/dot_lnb_2x2.gif) no-repeat 0 50%;
+    background: url(/images/dot_lnb_2x2.gif) no-repeat 0 50%;
 }
 
 #secHelp .loungeContent h1 {
@@ -388,7 +388,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .tplChkBx .bxIpt, .tplChkRect .bxIpt:before, .tplChkCirc .bxIpt:before {
     display: inline-block;
     padding-left: 18px;
-    background: url(/static/images/tpl_sp_form_recolor_006e3f.png) no-repeat 0 -330px;
+    background: url(/images/tpl_sp_form_recolor_006e3f.png) no-repeat 0 -330px;
     vertical-align: top;
     cursor: pointer;
 }
