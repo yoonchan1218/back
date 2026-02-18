@@ -19,7 +19,7 @@ const skillLogLayout = (() => {
 
             text += `
                 <li>
-                    <a href="">
+                    <a href="/skill-log/detail?id=${skillLog.id}">
                         <p class="thumb">
                             <img src="${thumbnail}" style="height: 100%;"/>
                         </p>
@@ -113,7 +113,7 @@ const skillLogLayout = (() => {
 
                 text += `
                     <div class="headline-item image">
-                        <a href="">
+                        <a href="/skill-log/detail?id=${skillLog.id}">
                             <div class="thumbnail">
                                 <img src="${thumbnail}" style="height: 100%;"/>
                             </div>
@@ -125,7 +125,7 @@ const skillLogLayout = (() => {
             }
             text += `
                 <div class="headline-item">
-                    <a href="">
+                    <a href="/skill-log/detail?id=${skillLog.id}">
                         <div class="badge attention">인기</div>
                         <div class="title">${skillLog.skillLogTitle}</div>
                     </a>
