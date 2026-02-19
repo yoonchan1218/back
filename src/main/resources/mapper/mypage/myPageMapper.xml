@@ -18,10 +18,12 @@
             i.individual_member_point,
             i.individual_member_level,
             i.individual_member_post_count,
-            i.individual_member_question_count
+            i.individual_member_question_count,
+            i.individual_member_zipcode  as addressZipcode,
+            i.individual_member_address  as addressText,
+            i.individual_member_address_detail as addressDetail
         from tbl_member m
-        left join tbl_individual_member i
-        on m.id = i.id
+        left join tbl_individual_member i on m.id = i.id
         where m.id = #{memberId}
     </select>
 
@@ -42,6 +44,9 @@
             <if test="individualMemberBirth != null">individual_member_birth = #{individualMemberBirth},</if>
             <if test="individualMemberGender != null">individual_member_gender = #{individualMemberGender},</if>
             <if test="individualMemberEducation != null">individual_member_education = #{individualMemberEducation},</if>
+            <if test="individualMemberZipcode != null">individual_member_zipcode = #{individualMemberZipcode},</if>
+            <if test="individualMemberAddress != null">individual_member_address = #{individualMemberAddress},</if>
+            <if test="individualMemberAddressDetail != null">individual_member_address_detail = #{individualMemberAddressDetail},</if>
         </set>
         where id = #{id}
     </update>

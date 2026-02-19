@@ -255,7 +255,7 @@
                                     </ul>
                                 </section>
                                 <div style="text-align: center; margin-top: 12px;">
-                                    <a href="/main/individual-join" style="font-size: 13px; color: #888; text-decoration: underline;">회원가입</a>
+                                    <a id="joinLink" href="/main/individual-join" style="font-size: 13px; color: #888; text-decoration: underline;">회원가입</a>
                                 </div>
                             </fieldset>
                         </form>
@@ -446,6 +446,17 @@
     <script>
         document.querySelector(".kakao").addEventListener("click", () => {
             location.href = "https://kauth.kakao.com/oauth/authorize?client_id=edeefdf5ab96d36811571fbd1e56a4cf&redirect_uri=http://localhost:10000/main/kakao-join&response_type=code";
+        });
+
+        document.querySelectorAll("#devMemTab li").forEach(tab => {
+            tab.addEventListener("click", () => {
+                const joinLink = document.getElementById("joinLink");
+                if (tab.dataset.tab === "tab2") {
+                    joinLink.href = "/main/company-join";
+                } else {
+                    joinLink.href = "/main/individual-join";
+                }
+            });
         });
     </script>
 </html>

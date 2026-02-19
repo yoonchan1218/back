@@ -112,15 +112,18 @@
                                 </div>
                                 <div class="my-status-box">
                                     <div class="status">
-                                        <a href="/mypage/experience">Level <span th:text="${profile.individualMemberLevel}">1</span></a>
+                                        <a href="/mypage/experience">Level <span th:text="${profile.individualMemberLevel}"> 1</span></a>
                                     </div>
                                     <ul>
                                         <li><span th:text="${profile.memberEmail != null ? profile.memberEmail : ''}"></span></li>
                                         <li th:text="${profile.individualMemberBirth != null ? profile.individualMemberBirth : 'Birth not set'}">Birth not set</li>
-                                        <li th:text="${profile.individualMemberGender != null ? profile.individualMemberGender.value : ''}"></li>
+                                        <li th:text="${profile.individualMemberGender != null ? (profile.individualMemberGender.value == 'man' ? '남자' : '여자') : ''}"></li>
                                         <li th:text="${profile.memberPhone != null ? profile.memberPhone : 'Phone not set'}">Phone not set</li>
                                     </ul>
-                                    <p class="detail" th:text="${profile.individualMemberEducation != null and !#strings.isEmpty(profile.individualMemberEducation) ? profile.individualMemberEducation : 'Education not set'}">Education not set</p>
+                                    <p class="detail" th:text="${profile.individualMemberEducation == 'high-school' ? '고등학교 졸업' :
+                                                               profile.individualMemberEducation == 'associate'   ? '대학(2,3년) 졸업' :
+                                                               profile.individualMemberEducation == 'bachelor'    ? '대학교(4년) 졸업' :
+                                                               profile.individualMemberEducation == 'graduate'    ? '대학원 졸업' : ''}">학력 미설정</p>
                                     <ul class="my-status-list" style="margin-top: 8px">
                                         <li>Point: <span th:text="${profile.individualMemberPoint}">0</span></li>
                                         <li>Posts: <span th:text="${profile.individualMemberPostCount}">0</span></li>

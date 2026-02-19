@@ -46,7 +46,7 @@ public class MyPageController {
     public RedirectView changeMyInformation(MyPageUpdateDTO myPageUpdateDTO) {
         Long memberId = getSessionMemberId();
         myPageService.updateProfile(memberId, myPageUpdateDTO);
-        return new RedirectView("/mypage/change-my-information");
+        return new RedirectView("/mypage/mypage");
     }
 
     @GetMapping("notification")

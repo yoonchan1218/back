@@ -8,7 +8,10 @@ create table tbl_address
     updated_datetime datetime default current_timestamp
 ) comment '주소';
 
+
 select *
 from tbl_address;
 drop table tbl_address;
 set FOREIGN_KEY_CHECKS = 1;
+
+SHOW CREATE TABLE tbl_address;

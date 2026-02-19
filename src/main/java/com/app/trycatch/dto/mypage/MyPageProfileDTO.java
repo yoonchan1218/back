@@ -20,6 +20,9 @@ public class MyPageProfileDTO {
     private String memberEmail;
     private String memberPhone;
     private Long addressId;
+    private String addressZipcode;
+    private String addressText;
+    private String addressDetail;
     private Status memberStatus;
 
     private String individualMemberBirth;

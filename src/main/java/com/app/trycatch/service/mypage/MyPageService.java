@@ -46,11 +46,7 @@ public class MyPageService {
 
         myPageUpdateDTO.setId(memberId);
         myPageDAO.updateMember(myPageUpdateDTO.toMemberVO());
-        if (myPageUpdateDTO.getIndividualMemberBirth() != null
-                || myPageUpdateDTO.getIndividualMemberGender() != null
-                || myPageUpdateDTO.getIndividualMemberEducation() != null) {
-            myPageDAO.updateIndividualMember(myPageUpdateDTO.toIndividualMemberVO());
-        }
+        myPageDAO.updateIndividualMember(myPageUpdateDTO.toIndividualMemberVO());
     }
 
     @Transactional(readOnly = true)
