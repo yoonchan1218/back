@@ -4,6 +4,7 @@ import com.app.trycatch.common.search.Search;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.skilllog.ExperienceProgramWithPagingDTO;
+import com.app.trycatch.dto.skilllog.SkillLogLikeDTO;
 import com.app.trycatch.dto.skilllog.SkillLogWithPagingDTO;
 import com.app.trycatch.service.skilllog.SkillLogService;
 import jakarta.servlet.http.HttpSession;
@@ -39,5 +40,10 @@ public class SkillLogAPIController {
     @GetMapping("list/{page}")
     public SkillLogWithPagingDTO list(@PathVariable int page, Search search) {
         return skillLogService.list(page, search);
+    }
+
+    @GetMapping("like")
+    public int like(SkillLogLikeDTO skillLogLikeDTO) {
+        return skillLogService.like(skillLogLikeDTO);
     }
 }

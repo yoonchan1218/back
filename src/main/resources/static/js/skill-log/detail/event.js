@@ -138,15 +138,19 @@ addLike.addEventListener("click", (e) => {
 
 // 좋아요 버튼
 const qstnLikeButton = document.querySelector(".devQstnLike");
+const skillLogId = qstnLikeButton.getAttribute("data-skill-log-id");
+const memberId = qstnLikeButton.getAttribute("data-member-id");
 
 // 버튼 눌렀을 때 클래스 "on" 토글
 if (qstnLikeButton) {
     qstnLikeButton.addEventListener("click", (e) => {
-        if(qstnLikeButton.classList.contains("on")){
-            qstnLikeButton.classList.remove("on");
-        } else {
-            qstnLikeButton.classList.add("on");
-        }
+        setTimeout(() => {
+            qstnLikeButton.classList.toggle("on");
+            skillLogLikeService.getCount(
+                {skillLogId: skillLogId, memberId: memberId},
+                skillLogLikeLayout.showCount
+            );
+        }, 100);
     });
 }
 
@@ -240,9 +244,9 @@ buttonBookMark.addEventListener("click", (e) => {
 // });
 
 // 비로그인 시 로그인 페이지로 이동(클릭 이벤트)
-// function loginHref() {
-//     location.href = "";
-// }
+function loginHref() {
+    !memberId && (location.href = "/main/log-in");
+}
 
 // // 신고 (비로그인)
 // reportActiveButton.addEventListener("click", (e) => {

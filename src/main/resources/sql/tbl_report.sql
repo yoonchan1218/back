@@ -13,3 +13,5 @@ create table tbl_report
 ) comment '리포트 슈퍼타입';
 
 
+select * from tbl_report;
+select * from tbl_skill_log_report;
