@@ -12,6 +12,8 @@ create table tbl_qna
     college_friend        varchar(255) comment '학교선배 학교명',
     qna_view_count        int                           default 0 comment '조회수',
     qna_status            enum ('published', 'deleted') default 'published' comment '상태',
+    created_datetime      datetime                      default current_timestamp comment '작성일시',
+    updated_datetime      datetime                      default current_timestamp on update current_timestamp comment '수정일시',
     constraint fk_qna_member foreign key (individual_member_id) references tbl_individual_member (id),
     constraint fk_qna_file_id foreign key (qna_file_id) references tbl_qna_file (id),
     constraint fk_job_category_small foreign key (job_category_small_id) references tbl_qna_job_category_small(id)
@@ -26,3 +28,5 @@ drop table tbl_qna;
 
 INSERT INTO tbl_qna (individual_member_id, qna_title,company_name, college_friend,qna_content, qna_file_id, job_category_small_id, job_category_name)
 (select individual_member_id, qna_title, company_name, college_friend, qna_content, qna_file_id, job_category_small_id, job_category_name from tbl_qna)
+
+

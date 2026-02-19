@@ -78,9 +78,13 @@ public class QnaService {
         return result;
     }
 
-    public QnaDTO detail(Long id) {
+    public QnaDTO detail(Long id, Long memberId) {
         qnaMapper.increaseViewCount(id);
-        return qnaMapper.selectById(id);
+        QnaDTO qna = qnaMapper.selectById(id);
+        if (qna != null && memberId != null) {
+            qna.setLikedByCurrentUser(qnaLikesMapper.existsByMemberAndQna(memberId, id) > 0);
+        }
+        return qna;
     }
 
     public int toggleLike(Long memberId, Long qnaId) {

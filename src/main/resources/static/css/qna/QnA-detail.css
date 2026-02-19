@@ -301,12 +301,12 @@ address, caption, em {
     font-weight: bold;
 }
 
-.side-navigation .navi-list-area .has-tooltip .select-tooltip:after {
-    width: 14px;
-    height: 14px;
-    margin-top: -5px;
-    background-position: -215px -388px;
-}
+/*.side-navigation .navi-list-area .has-tooltip .select-tooltip:after {*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    margin-top: -5px;*/
+/*    background-position: -215px -388px;*/
+/*}*/
 
 .side-navigation .navi-list-area .sideNavLow {
     position: relative;
@@ -1740,7 +1740,7 @@ input[type=text], input[type=password], input[type=file], input[type=date], inpu
     width: 31px;
     height: 31px;
     margin: 0 auto 7px;
-    background-image: url(/static/images/sp_coredata.png);
+    background-image: url(/images/sp_coredata.png);
     background-repeat: no-repeat;
 }
 
@@ -1801,7 +1801,7 @@ input[type=text], input[type=password], input[type=file], input[type=date], inpu
     display: block;
     width: 22px;
     height: 22px;
-    background: url(/static/images/tpl_sp_btn.png) no-repeat 0 -65px;
+    background: url(/images/tpl_sp_btn.png) no-repeat 0 -65px;
 }
 
 .tooltip-layer.book-mark-layer {

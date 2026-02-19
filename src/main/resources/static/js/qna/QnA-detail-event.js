@@ -1,3 +1,24 @@
+// 게시 시간 상대 표시
+function timeForToday(datetime) {
+    const today = new Date();
+    const date = new Date(datetime.replace(" ", "T"));
+    let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+    if (gap < 1) return "방금 전";
+    if (gap < 60) return `${gap}분 전`;
+    gap = Math.floor(gap / 60);
+    if (gap < 24) return `${gap}시간 전`;
+    gap = Math.floor(gap / 24);
+    if (gap < 31) return `${gap}일 전`;
+    gap = Math.floor(gap / 31);
+    if (gap < 12) return `${gap}개월 전`;
+    gap = Math.floor(gap / 12);
+    return `${gap}년 전`;
+}
+
+document.querySelectorAll(".devQnaCreatedTime").forEach(el => {
+    el.textContent = timeForToday(el.dataset.created);
+});
+
 // 신고 버튼
 
 // 신고 열리는 버튼
@@ -31,6 +52,10 @@ const commentReportButtons = document.querySelectorAll(
 // 댓글에 신고버튼 누를 시 신고창 띄우기
 commentReportButtons.forEach((commentReportButton, i) => {
     commentReportButton.addEventListener("click", (e) => {
+        if (qstnLikeButton && qstnLikeButton.dataset.loggedIn === "false") {
+            location.href = "/main/log-in";
+            return;
+        }
         pressReportButton.style.display = "block";
         reportFirstReasonRadio[0].checked = true;
     });
@@ -60,6 +85,12 @@ reportTextArea.addEventListener("blur", (e) => {
 reportActiveButton.addEventListener("click", (e) => {
     reportButton.classList.toggle("active");
     reportButton.addEventListener("click", (e) => {
+        const clicked = e.target.closest(".devBtnReport");
+        if (!clicked) return;
+        if (clicked.dataset.loggedIn === "false") {
+            location.href = "/main/log-in";
+            return;
+        }
         pressReportButton.style.display = "block";
     });
     reportFirstReasonRadio.forEach((reportFirstReasonRadio) => {
@@ -237,25 +268,25 @@ commentReplyCloseButtons.forEach((closeBtn) => {
     });
 });
 
-// 북마크 등록(로그인)
-const buttonBookMark = document.querySelector(
-    ".btnBookmark.qnaSpB.devQnaDetailBookmark",
-);
-const bookMarkLayer = document.querySelector(
-    ".book-mark-layer.tooltip-layer.qnaSpA",
-);
-
-buttonBookMark.addEventListener("click", (e) => {
-    if (!buttonBookMark.classList.contains("on")) {
-        bookMarkLayer.style.opacity = "1";
-        setTimeout(() => {
-            bookMarkLayer.style.opacity = "0";
-        }, 975);
-    } else {
-        bookMarkLayer.style.opacity = "0";
-    }
-    buttonBookMark.classList.toggle("on");
-});
+// // 북마크 등록(로그인)
+// const buttonBookMark = document.querySelector(
+//     ".btnBookmark.qnaSpB.devQnaDetailBookmark",
+// );
+// const bookMarkLayer = document.querySelector(
+//     ".book-mark-layer.tooltip-layer.qnaSpA",
+// );
+//
+// buttonBookMark.addEventListener("click", (e) => {
+//     if (!buttonBookMark.classList.contains("on")) {
+//         bookMarkLayer.style.opacity = "1";
+//         setTimeout(() => {
+//             bookMarkLayer.style.opacity = "0";
+//         }, 975);
+//     } else {
+//         bookMarkLayer.style.opacity = "0";
+//     }
+//     buttonBookMark.classList.toggle("on");
+// });
 
 // // 요소 선택（비로그인）
 // const buttons = document.querySelectorAll(".btnBx.devComtRoot button");
@@ -703,25 +734,4 @@ comtModifySubmitButtons.forEach((comtModifySubmitButton) => {
         alert("댓글 등록이 완료되었습니다.");
         location.href = "/QnA-detail.html";
     });
-});
-
-// 게시 시간 상대 표시
-function formatRelativeTime(datetimeStr) {
-    if (!datetimeStr) return "";
-    const created = new Date(datetimeStr.replace(" ", "T"));
-    const now = new Date();
-    const diffSec = Math.floor((now - created) / 1000);
-
-    if (diffSec < 60) return diffSec + "초 전";
-    const diffMin = Math.floor(diffSec / 60);
-    if (diffMin < 60) return diffMin + "분 전";
-    const diffHour = Math.floor(diffMin / 60);
-    if (diffHour < 24) return diffHour + "시간 전";
-    const diffDay = Math.floor(diffHour / 24);
-    if (diffDay < 7) return diffDay + "일 전";
-    return datetimeStr;
-}
-
-document.querySelectorAll(".devQnaCreatedTime").forEach(el => {
-    el.textContent = formatRelativeTime(el.dataset.created);
 });

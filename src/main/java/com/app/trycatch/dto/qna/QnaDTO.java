@@ -32,6 +32,7 @@ public class QnaDTO {
     private String fileName;    // 첨부 이미지 파일명 (예: UUID_파일명.jpg)
     private String createdDatetime;
     private String updatedDatetime;
+    private boolean likedByCurrentUser;
 
     public QnaVO toQnaVO() {
         return QnaVO.builder()

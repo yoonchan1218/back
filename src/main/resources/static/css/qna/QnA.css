@@ -606,12 +606,12 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
-.side-navigation .navi-list-area .has-tooltip .select-tooltip:after {
-    width: 14px;
-    height: 14px;
-    margin-top: -5px;
-    background-position: -215px -388px;
-}
+/*.side-navigation .navi-list-area .has-tooltip .select-tooltip:after {*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    margin-top: -5px;*/
+/*    background-position: -215px -388px;*/
+/*}*/
 
 .side-navigation .navi-list-area .sideNavLow .sideNavList {
     padding: 6px 0 0 10px;
@@ -644,15 +644,15 @@ h1, h2, h3, h4, h5, h6 {
     text-indent: -9999px;
 }
 
-.side-navigation .navi-list-area .sideNavLow .icnNew:after {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 4px;
-    height: 4px;
-    background-position: -30px -70px;
-    vertical-align: middle;
-}
+/*.side-navigation .navi-list-area .sideNavLow .icnNew:after {*/
+/*    position: absolute;*/
+/*    left: 0px;*/
+/*    top: 0px;*/
+/*    width: 4px;*/
+/*    height: 4px;*/
+/*    background-position: -30px -70px;*/
+/*    vertical-align: middle;*/
+/*}*/
 
 .side-navigation .navi-list-area .sideNavLow .button-more {
     position: absolute;
@@ -2535,7 +2535,7 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
     width: 8px;
     height: 8px;
-    background-image: url(/static/images/tpl_sp_btn_recolor.png);
+    background-image: url(/images/tpl_sp_btn_recolor.png);
     background-repeat: no-repeat;
     position: relative;
 }

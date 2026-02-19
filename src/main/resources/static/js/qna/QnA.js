@@ -76,32 +76,32 @@ sortButtons.forEach((btn) => {
     });
 });
 
-// 북마크 등록(로그인)
-const buttonBookMark = document.querySelector(
-    ".devQnaDetailBookmark.btnBookmark.qnaSpB",
-);
-
-const bookMarkLayer = document.querySelector(
-    ".book-mark-layer.tooltip-layer.qnaSpA",
-);
-
-if (buttonBookMark) {
-    buttonBookMark.addEventListener("click", (e) => {
-        if (!buttonBookMark.classList.contains("on")) {
-            if (bookMarkLayer) {
-                bookMarkLayer.style.display = "block"; // 먼저 보이게
-                bookMarkLayer.style.opacity = "1";
-                setTimeout(() => {
-                    bookMarkLayer.style.opacity = "0";
-                    setTimeout(() => {
-                        bookMarkLayer.style.display = "none"; // 사라진 후 숨김
-                    }, 300); // transition 시간만큼 대기
-                }, 975);
-            }
-        }
-        buttonBookMark.classList.toggle("on");
-    });
-}
+// // 북마크 등록(로그인)
+// const buttonBookMark = document.querySelector(
+//     ".devQnaDetailBookmark.btnBookmark.qnaSpB",
+// );
+//
+// const bookMarkLayer = document.querySelector(
+//     ".book-mark-layer.tooltip-layer.qnaSpA",
+// );
+//
+// if (buttonBookMark) {
+//     buttonBookMark.addEventListener("click", (e) => {
+//         if (!buttonBookMark.classList.contains("on")) {
+//             if (bookMarkLayer) {
+//                 bookMarkLayer.style.display = "block"; // 먼저 보이게
+//                 bookMarkLayer.style.opacity = "1";
+//                 setTimeout(() => {
+//                     bookMarkLayer.style.opacity = "0";
+//                     setTimeout(() => {
+//                         bookMarkLayer.style.display = "none"; // 사라진 후 숨김
+//                     }, 300); // transition 시간만큼 대기
+//                 }, 975);
+//             }
+//         }
+//         buttonBookMark.classList.toggle("on");
+//     });
+// }
 // 신고 열리는 버튼들 (모든 버튼 선택)
 const reportActiveButtons = document.querySelectorAll(
     ".icon-more-button.qnaSpB.devQnaListPopupMenuButton",
@@ -182,6 +182,10 @@ reportActiveButtons.forEach((btn, index) => {
 
         if (clickedItem.classList.contains("devSingo")) {
             // 신고 클릭
+            if (clickedItem.dataset.loggedIn === "false") {
+                location.href = "/main/log-in";
+                return;
+            }
             pressReportButton.style.display = "block";
             reportFirstReasonRadio.forEach((radio) => {
                 if (radio.value === "1") {
@@ -236,22 +240,22 @@ pressReportCancelButton.addEventListener("click", (e) => {
 });
 
 // 게시 시간 상대 표시
-function formatRelativeTime(datetimeStr) {
-    if (!datetimeStr) return "";
-    const created = new Date(datetimeStr.replace(" ", "T"));
-    const now = new Date();
-    const diffSec = Math.floor((now - created) / 1000);
-
-    if (diffSec < 60) return diffSec + "초 전";
-    const diffMin = Math.floor(diffSec / 60);
-    if (diffMin < 60) return diffMin + "분 전";
-    const diffHour = Math.floor(diffMin / 60);
-    if (diffHour < 24) return diffHour + "시간 전";
-    const diffDay = Math.floor(diffHour / 24);
-    if (diffDay < 7) return diffDay + "일 전";
-    return datetimeStr;
+function timeForToday(datetime) {
+    const today = new Date();
+    const date = new Date(datetime.replace(" ", "T"));
+    let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+    if (gap < 1) return "방금 전";
+    if (gap < 60) return `${gap}분 전`;
+    gap = Math.floor(gap / 60);
+    if (gap < 24) return `${gap}시간 전`;
+    gap = Math.floor(gap / 24);
+    if (gap < 31) return `${gap}일 전`;
+    gap = Math.floor(gap / 31);
+    if (gap < 12) return `${gap}개월 전`;
+    gap = Math.floor(gap / 12);
+    return `${gap}년 전`;
 }
 
 document.querySelectorAll(".devQnaCreatedTime").forEach(el => {
-    el.textContent = formatRelativeTime(el.dataset.created);
+    el.textContent = timeForToday(el.dataset.created);
 });

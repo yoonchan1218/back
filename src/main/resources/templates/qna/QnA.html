@@ -18,7 +18,7 @@
             <a
                     href="javascript:;"
                     class="select-tooltip btn-question qnaSpB"
-            >질문 · 글쓰기</a
+            >질문 · 목록</a
             >
             <!-- [Dev] 툴팁오픈 : tooltip-open 클래스 추가 -->
             <!-- 로그인 시 create-menu -->
@@ -160,9 +160,6 @@
                         devalert="0"
                 >인기<span class="qnaSpA icnNew">새글</span></a
                 ></strong
-                >
-                <a href="" class="button-more qnaSpA" target="_blank"
-                >더보기</a
                 >
                 <ul class="sideNavList">
                     <li>
@@ -746,16 +743,16 @@
                                     <span class="cell devQnaCreatedTime" th:data-created="${qna.createdDatetime}"></span>
                                 </div>
                                 <div class="post-util has-tooltip">
-                                    <div class="post-util-item">
-                                        <button type="button"
-                                                class="devQnaDetailBookmark btnBookmark qnaSpB"
-                                                th:data-qstn-no="${qna.id}">
-                                            북마크
-                                        </button>
-                                        <div class="book-mark-layer tooltip-layer qnaSpA">
-                                            <p class="txt">내 프로필 &gt; 북마크 에 추가되었습니다</p>
-                                        </div>
-                                    </div>
+<!--                                    <div class="post-util-item">-->
+<!--                                        <button type="button"-->
+<!--                                                class="devQnaDetailBookmark btnBookmark qnaSpB"-->
+<!--                                                th:data-qstn-no="${qna.id}">-->
+<!--                                            북마크-->
+<!--                                        </button>-->
+<!--                                        <div class="book-mark-layer tooltip-layer qnaSpA">-->
+<!--                                            <p class="txt">내 프로필 &gt; 북마크 에 추가되었습니다</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <div class="post-util-item">
                                         <button type="button"
                                                 class="icon-more-button qnaSpB devQnaListPopupMenuButton">
@@ -784,6 +781,7 @@
                                                     <a href="javascript:;"
                                                        class="view-more-item devSingo"
                                                        th:data-idfno="${qna.id}"
+                                                       th:data-logged-in="${loginMember != null}"
                                                        data-type="1">신고</a>
                                                 </li>
                                             </ul>

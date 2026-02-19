@@ -55,8 +55,15 @@ public class QnaController {
 
     @GetMapping("/detail")
     public String detail(Long id, Model model) {
-        model.addAttribute("qna", qnaService.detail(id));
-        model.addAttribute("loginMember", session.getAttribute("member"));
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+        if (member instanceof MemberDTO memberDTO) {
+            memberId = memberDTO.getId();
+        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            memberId = individualMemberDTO.getId();
+        }
+        model.addAttribute("qna", qnaService.detail(id, memberId));
+        model.addAttribute("loginMember", member);
         return "qna/QnA-detail";
     }
 
