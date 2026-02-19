@@ -204,14 +204,14 @@ corpInput.addEventListener("keyup", (e) => {
                 return;
             }
             data.forEach(corp => {
-                const rest = corp.corpName.replace(keyword, "");
+                const idx = corp.corpName.indexOf(keyword);
+                const before = idx !== -1 ? corp.corpName.substring(0, idx) : "";
+                const matched = idx !== -1 ? corp.corpName.substring(idx, idx + keyword.length) : corp.corpName;
+                const after = idx !== -1 ? corp.corpName.substring(idx + keyword.length) : "";
                 const li = document.createElement("li");
                 li.classList.add("devQnaWriteCompanyRecentItem");
                 li.dataset.bizName = corp.corpName;
-                li.innerHTML = `
-                    <button type="button" class="qnaSpB">
-                        <span class="point">${keyword}</span><span>${rest}</span>
-                    </button>`;
+                li.innerHTML = `<button type="button" class="qnaSpB"><span>${before}</span><span style="color:#006e3f">${matched}</span><span>${after}</span></button>`;
                 li.querySelector("button").addEventListener("click", () => {
                     selectCorpItem(corp.corpName);
                 });

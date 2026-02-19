@@ -80,22 +80,43 @@
                         >질문 · 글쓰기</a
                     >
                     <!-- [Dev] 툴팁오픈 : tooltip-open 클래스 추가 -->
-                    <div class="create-menu">
+                    <!-- 로그인 시 create-menu -->
+                    <div class="create-menu" th:if="${loginMember != null}">
                         <ul class="create-menu-wrap tooltip-layer qnaSpB">
                             <li>
                                 <a
-                                    href=""
-                                    class="create-menu-item qna qnaSpB devLoginLayer"
-                                    devalert="1"
+                                    href="/qna/write"
+                                    class="create-menu-item qna qnaSpB"
                                     data-wtypecode="1"
                                     >직무/기업/동문에게 질문하기</a
                                 >
                             </li>
                             <li>
                                 <a
-                                    href=""
-                                    class="create-menu-item carrier qnaSpB devLoginLayer"
-                                    devalert="1"
+                                    href="/qna/list"
+                                    class="create-menu-item carrier qnaSpB"
+                                    data-wtypecode="2"
+                                    >커리어 관련 자유롭게 글쓰기</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 비로그인 시 create-menu -->
+                    <div class="create-menu" th:unless="${loginMember != null}">
+                        <ul class="create-menu-wrap tooltip-layer qnaSpB">
+                            <li>
+                                <a
+                                    href="javascript:void(0);"
+                                    class="create-menu-item qna qnaSpB"
+                                    onclick="alert('로그인이 필요합니다.'); location.href='/main/log-in';"
+                                    data-wtypecode="1"
+                                    >직무/기업/동문에게 질문하기</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/qna/list"
+                                    class="create-menu-item carrier qnaSpB"
                                     data-wtypecode="2"
                                     >커리어 관련 자유롭게 글쓰기</a
                                 >
@@ -103,26 +124,30 @@
                         </ul>
                     </div>
                     <!-- //로그인 시 사이드 네비게이션 -->
-                     <!-- <div class="myInfoSec">
-                <a href="" class="myInfo">
-                    [Dev] 프로필 랜덤 이미지 파일명 : random_1 ~ random_20, 이미지 없음 : random_default
-                    <span class="proThumb"><img onerror="this.src='https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'" src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg" alt="프로필 이미지"></span>
-                    <dl class="infoBx">
-                        <dt class="qnaSpA"><span class="nickname">mento...</span> <span class="lvIcon">Lv.1</span></dt>
-                        <dd>
-                            <span>글 <b>0</b></span>
-                            <span>질문 <b>0</b></span>
-                            <span>답변 <b>0</b> (채택 <b>0</b>)</span>
-                        </dd>
-                    </dl>
-                </a>
-                <button type="button" class="myPoint devMainCouponButton">
-                    <span class="point qnaSpB">0</span><span class="btnCoupon qnaSpA">쿠폰교환</span>
-                </button>
-            </div> -->
-                    <!-- 로그인 시 사이드 네비게이션// -->
-                    <!-- //비로그인 시 사이드 네비게이션 -->
-                    <div class="myInfoSec logout">
+                    <!-- 로그인 시 사이드 네비게이션 -->
+                    <div class="myInfoSec" th:if="${loginMember != null}">
+                        <a href="" class="myInfo">
+                            <!-- [Dev] 프로필 랜덤 이미지 파일명 : random_1 ~ random_20, 이미지 없음 : random_default -->
+                            <span class="proThumb"><img
+                                    onerror="this.src='https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'"
+                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg"
+                                    alt="프로필 이미지"
+                            /></span>
+                            <dl class="infoBx">
+                                <dt class="qnaSpA"><span class="nickname" th:text="${loginMember?.memberName}">mento...</span> <span class="lvIcon">Lv.1</span></dt>
+                                <dd>
+                                    <span>글 <b>0</b></span>
+                                    <span>질문 <b>0</b></span>
+                                </dd>
+                            </dl>
+                        </a>
+                        <button type="button" class="myPoint devMainCouponButton">
+                            <span class="point qnaSpB">0</span><span class="btnCoupon qnaSpA">쿠폰교환</span>
+                        </button>
+                    </div>
+                    <!-- //로그인 시 사이드 네비게이션 -->
+                    <!-- 비로그인 시 사이드 네비게이션 -->
+                    <div class="myInfoSec logout" th:unless="${loginMember != null}">
                         <a href="" class="myInfo devLoginLayer" devalert="0">
                             <span class="proThumb"
                                 ><img
@@ -135,6 +160,7 @@
                             </p>
                         </a>
                     </div>
+                    <!-- //비로그인 시 사이드 네비게이션 -->
                 </div>
                 <!-- 비로그인 시 사이드 네비게이션 -->
                 <div class="navi-list-area">
@@ -226,7 +252,7 @@
                                 </div>
                                 <p class="tit">
                                    <i class="icoQ_on qnaSpB">Q</i>
-                                   test
+                                   <span th:text="${qna.qnaTitle}"></span>
                                 </p>
                                 <div class="post-state">
                                     <div class="post-cell-box">
@@ -234,9 +260,9 @@
                                             <i class="qnaSpB icon-view-eye"
                                                 >조회수</i
                                             >
-                                            5
+                                            <span th:text="${qna.qnaViewCount}"></span>
                                         </span>
-                                        <span class="cell">25분 전 작성</span>
+                                        <span class="cell" th:text="${qna.createdDatetime}">작성일</span>
                                     </div>
                                     <div class="post-util">
                                         <div class="post-util-item">
@@ -247,21 +273,28 @@
                                                 더보기
                                             </button>
                                             <!-- [Dev] 더보기 레이어 show - class active 추가  -->
-                                             <!-- 내 글일 시에 뜨는 수정하기, 삭제하기 시작 -->
-                                              <!-- <div class="view-more-layer active">
+                                            <!-- 내 글일 시에 수정하기/삭제하기 -->
+                                            <div class="view-more-layer" th:if="${loginMember != null and loginMember.id == qna.individualMemberId}">
                                                 <ul>
-                                                    <li><a href="" class="view-more-item">수정하기</a></li>
-                                                    <li><a href="javascript:void(0);" class="view-more-item devQstnDeleteButton">삭제하기</a></li>
+                                                    <li>
+                                                        <a th:href="@{/qna/update(id=${qna.id})}"
+                                                           class="view-more-item">수정하기</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"
+                                                           class="view-more-item devQstnDeleteButton"
+                                                           th:data-qstn-no="${qna.id}">삭제하기</a>
+                                                    </li>
                                                 </ul>
-                                            </div> -->
-                                             <!-- 내 글일 시에 뜨는 수정하기, 삭제하기 끝 -->
-                                            <div class="view-more-layer">
+                                            </div>
+                                            <!-- 다른 사람 글일 시에 신고 -->
+                                            <div class="view-more-layer" th:unless="${loginMember != null and loginMember.id == qna.individualMemberId}">
                                                 <ul>
                                                     <li>
                                                         <a
                                                             href="javascript:void(0)"
                                                             class="view-more-item devBtnReport"
-                                                            data-idf-no="152584"
+                                                            th:data-idf-no="${qna.id}"
                                                             data-type="1"
                                                             >신고</a
                                                         >
@@ -272,10 +305,11 @@
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <p>test</p>
-                                    <p><br /></p>
-
-                                    <div><br /></div>
+                                    <p th:text="${qna.qnaContent}"></p>
+                                    <div th:if="${qna.fileName != null}" class="qna-attach-image">
+                                        <img th:src="@{/file/{path}/{name}(path=${qna.filePath},name=${qna.fileName})}"
+                                             alt="첨부 이미지" style="max-width:100%; margin-top:12px;">
+                                    </div>
                                 </div>
                                 <div class="btmArea">
                                     <div class="infoBx">
@@ -284,18 +318,18 @@
                                             <span class="proThumb"
                                                 ><img
                                             /></span>
-                                            <span class="info">test1234</span>
+                                            <span class="info" th:text="${qna.memberName}"></span>
                                         </a>
                                     </div>
                                     <div class="reaction-wrap">
                                         <div class="reaction-item">
                                             <button
-                                                onclick=""
                                                 type="button"
                                                 class="icon-like qnaSpB devQstnLike"
-                                                data-qstn-no="152584"
+                                                th:data-qstn-no="${qna.id}"
+                                                th:data-logged-in="${loginMember != null}"
                                             >
-                                                좋아요<em>0</em>
+                                                좋아요<em th:text="${qna.qnaLikeCount}">0</em>
                                             </button>
                                         </div>
                                         <div class="reaction-item has-toolip">
@@ -389,7 +423,7 @@
                                   form 태그부터-->
                                <form action="" method="post" oncopy="return false" oncut="return false" onpaste="return false">
                                         <fieldset>
-                                            <input type="hidden" name="qnaId" value="128418">
+                                            <input type="hidden" name="qnaId" th:value="${qna.id}">
                                             <input type="hidden" name="W_Type_Code" id="W_Type_Code" value="2">
                                             <input type="hidden" name="Img_Path" id="Img_Path">
                                             <input type="hidden" name="Emtcon_Path" id="Emtcon_Path">
@@ -526,7 +560,7 @@
                                 </div>
                                     <div class="btnBx devComtRoot" data-answerno="497814">
                                         <!-- 댓글, 좋아요 버튼 클릭시 클래스 active 추가 -->
-                                        <button type="button" class="btnCmt devBtnComtList active">댓글 <em>2</em></button>
+                                        <button type="button" class="btnCmt devBtnComtList">댓글 <em>2</em></button>
                                             <button type="button" class="btnHeart qnaSpB devBtnAnswerLike ">0</button>
                                                 </div>
                                                     </div>
@@ -573,7 +607,7 @@
                         </div>
                     </div>
                     <!-- // 내 답글 수정 영역 -->
-<div class="commentSec" style="display: block;">
+<div class="commentSec" style="display: none;">
 <div class="cmtArea">
     <ul class="cmtList replyWrap">
         <li class="devCmtWrap " data-comtno="94619">

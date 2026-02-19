@@ -6,6 +6,7 @@ import com.app.trycatch.dto.qna.CorpNameKeywordDTO;
 import com.app.trycatch.dto.qna.QnaDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

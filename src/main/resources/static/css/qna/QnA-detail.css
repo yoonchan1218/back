@@ -163,7 +163,7 @@ a:hover, a:active, a:focus {
 .qnaSpB:before, .qnaSpA:after, .qnaSpM:before, .qnaSpM:after {
     content: "";
     display: inline-block;
-    background-image: url(/static/images/sp_qna_recolor_star20_fixed.png);
+    background-image: url(/images/sp_qna_recolor_star20_fixed.png);
     background-repeat: no-repeat;
     background-position: 0 0;
     vertical-align: middle;
@@ -760,7 +760,7 @@ address, caption, em {
     width: 24px;
     height: 20px;
     background-position: -138px -281px;
-    background-image: url(/static/images/sp_qna_recolor.png);
+    background-image: url(/images/sp_qna_recolor.png);
 }
 .viewContWrap .reaction-item .icon-like.on::before {
     background-position: -168px -281px;
@@ -1166,6 +1166,83 @@ input[type=text], input[type=password], input[type=file], input[type=date], inpu
     color: #666;
     line-height: 30px;
     outline: 0;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dt {
+    line-height: 1;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dt .nickname {
+    display: inline-block;
+    margin-right: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+    white-space: nowrap;
+    font-size: 13px;
+    letter-spacing: 0px;
+    color: #000;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dt .lvIcon {
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: -1px;
+    padding: 0 5px;
+    height: 14px;
+    background: hsl(154.36deg 100% 21.57%);
+    border-radius: 2px;
+    font-size: 11px;
+    letter-spacing: 0px;
+    color: #fff;
+    line-height: 14px;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dt:after {
+    margin: -2px 0 0 5px;
+    width: 4px;
+    height: 7px;
+    background-position: -120px -65px;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dd span {
+    display: inline-block;
+    position: relative;
+    font-size: 13px;
+    letter-spacing: 0px;
+    color: hsl(154.36deg 100% 21.57%);
+    margin-top: 10px;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dd span:nth-child(even) {
+    margin-left: 6px;
+    padding-left: 6px;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dd span {
+    display: inline-block;
+    position: relative;
+    font-size: 13px;
+    letter-spacing: 0px;
+    color: hsl(154.36deg 100% 21.57%);
+    margin-top: 10px;
+}
+
+.side-navigation .myInfoSec .myInfo .infoBx dd span:nth-child(even):before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    margin-top: -1px;
+    width: 2px;
+    height: 2px;
+    background: #999;
 }
 
 .viewListWrap .btnBx .btnCmt em {

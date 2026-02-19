@@ -43,7 +43,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="myInfoSec">
+                    <div class="myInfoSec" th:if="${loginMember != null}">
                         <a href="" class="myInfo">
                             <!-- [Dev] 프로필 랜덤 이미지 파일명 : random_1 ~ random_20, 이미지 없음 : random_default -->
                             <span class="proThumb"
@@ -52,7 +52,7 @@
 
                             <dl class="infoBx">
                                 <dt class="qnaSpA">
-                                    <span class="nickname">mento...</span>
+                                    <span class="nickname" th:text="${loginMember?.memberName}">mento...</span>
                                     <span class="lvIcon">Lv.1</span>
                                 </dt>
                                 <dd>
@@ -68,6 +68,20 @@
                             <span class="point qnaSpB">0</span
                             ><span class="btnCoupon qnaSpA">별 충전</span>
                         </button>
+                    </div>
+                    <div class="myInfoSec logout" th:unless="${loginMember != null}">
+                        <a href="" class="myInfo devLoginLayer" devalert="0">
+                            <span class="proThumb">
+                                <img
+                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/profile_thumb/random_default.jpg"
+                                    alt="프로필 이미지"
+                                />
+                            </span>
+                            <p class="msg">
+                                <em>로그인</em> 후 구독과 활동을
+                                <br />시작해보세요
+                            </p>
+                        </a>
                     </div>
                 </div>
                 <div class="navi-list-area">

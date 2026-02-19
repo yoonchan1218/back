@@ -7,12 +7,20 @@
     </insert>
 
     <select id="selectById" resultType="QnaDTO">
-        select * from tbl_qna where id = #{id} and qna_status = 'published'
+        select q.*, m.member_name, f.file_path, f.file_name
+        from tbl_qna q
+        left join tbl_member m on q.individual_member_id = m.id
+        left join tbl_file f on q.qna_file_id = f.id
+        where q.id = #{id} and q.qna_status = 'published'
     </select>
 
     <select id="selectAll" resultType="QnaDTO">
-        select * from tbl_qna where qna_status = 'published'
-        order by id desc
+        select q.*, count(l.id) as qna_like_count
+        from tbl_qna q
+        left join tbl_qna_likes l on q.id = l.qna_id
+        where q.qna_status = 'published'
+        group by q.id
+        order by q.id desc
         limit #{count} offset #{offset}
     </select>
 
@@ -32,10 +40,10 @@
         update tbl_qna set qna_file_id = #{fileId} where id = #{id}
     </update>
 
-    <select id="selectCorpByKeyword" resultType="com.app.trycatch.dto.qna.CorpNameKeywordDTO">
+    <select id="selectCorpByKeyword" >
         select id as corpId, corp_company_name as corpName
         from tbl_corp
-        where corp_company_name like concat(#{keyword}, '%')
+        where corp_company_name like concat('%', #{keyword}, '%')
         order by corp_company_name
         limit 20
     </select>

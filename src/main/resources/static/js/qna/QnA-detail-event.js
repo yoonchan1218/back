@@ -135,10 +135,52 @@ addLike.addEventListener("click", (e) => {
 // 좋아요 버튼
 const qstnLikeButton = document.querySelector(".devQstnLike");
 
-// 버튼 눌렀을 때 클래스 "on" 토글
 if (qstnLikeButton) {
     qstnLikeButton.addEventListener("click", (e) => {
-        qstnLikeButton.classList.toggle("on");
+        if (qstnLikeButton.dataset.loggedIn === "false") {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        const qnaId = qstnLikeButton.dataset.qstnNo;
+        fetch("/qna/like", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "qnaId=" + qnaId
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                qstnLikeButton.classList.toggle("on");
+                qstnLikeButton.querySelector("em").textContent = data.likeCount;
+            } else {
+                alert(data.message || "로그인이 필요합니다.");
+            }
+        })
+        .catch(() => {
+            alert("로그인이 필요합니다.");
+        });
+    });
+}
+
+// 게시글 삭제
+const qstnDeleteButton = document.querySelector(".devQstnDeleteButton");
+if (qstnDeleteButton) {
+    qstnDeleteButton.addEventListener("click", (e) => {
+        if (!confirm("정말로 삭제하시겠습니까?")) return;
+        const qnaId = qstnDeleteButton.dataset.qstnNo;
+        fetch("/qna/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "qnaId=" + qnaId
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                location.href = "/qna/list";
+            } else {
+                alert(data.message || "삭제에 실패했습니다.");
+            }
+        });
     });
 }
 
