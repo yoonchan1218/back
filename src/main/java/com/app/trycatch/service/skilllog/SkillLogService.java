@@ -45,8 +45,6 @@ public class SkillLogService {
     private final SkillLogLikeDAO skillLogLikeDAO;
     private final ExperienceProgramDAO experienceProgramDAO;
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
-    private final ReportDAO reportDAO;
-    private final SkillLogReportDAO skillLogReportDAO;
 
 //    작성
     public void write(SkillLogDTO skillLogDTO, List<MultipartFile> multipartFiles) {
@@ -201,10 +199,7 @@ public class SkillLogService {
         return skillLogLikeDAO.findCountBySkillLogId(skillLogLikeDTO.getSkillLogId());
     }
 
-//    skillLog 신고
-    public void report(SkillLogReportDTO skillLogReportDTO) {
-        ReportDTO reportDTO = new ReportDTO();
-    }
+
 
     public TagDTO toTagDTO(TagVO tagVO) {
         TagDTO tagDTO = new TagDTO();

@@ -2,10 +2,7 @@ package com.app.trycatch.service;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
-import com.app.trycatch.dto.skilllog.SkillLogDTO;
-import com.app.trycatch.dto.skilllog.SkillLogLikeDTO;
-import com.app.trycatch.dto.skilllog.SkillLogWithPagingDTO;
-import com.app.trycatch.dto.skilllog.TagDTO;
+import com.app.trycatch.dto.skilllog.*;
 import com.app.trycatch.service.skilllog.SkillLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -96,4 +93,6 @@ public class SkillLogServiceTests {
 
         log.info("{}", skillLogService.like(skillLogLikeDTO));
     }
+
+
 }
