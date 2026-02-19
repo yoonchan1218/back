@@ -1,6 +1,8 @@
 package com.app.trycatch.controller.qna;
 
 import com.app.trycatch.domain.qna.QnaVO;
+import com.app.trycatch.dto.member.IndividualMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.qna.CorpNameKeywordDTO;
 import com.app.trycatch.mapper.qna.QnaJobCategoryMapper;
 import com.app.trycatch.mapper.qna.QnaMapper;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/qna")
@@ -72,13 +75,20 @@ public class QnaController {
             @RequestParam(required = false) String collegeFriend,
             @RequestParam(value = "file", required = false) ArrayList<MultipartFile> files
     ) {
-        // TODO: 세션 연동 후 4L → member.getId() 로 교체
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+        if (member instanceof MemberDTO memberDTO) {
+            memberId = memberDTO.getId();
+        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            memberId = individualMemberDTO.getId();
+        }
+
         Long jobCategorySmallId = null;
         if (jobCategorySmallCode != null) {
             jobCategorySmallId = qnaJobCategoryMapper.selectIdByCode(jobCategorySmallCode);
         }
         QnaVO qnaVO = QnaVO.builder()
-                .individualMemberId(4L)
+                .individualMemberId(memberId)
                 .qnaTitle(qnaTitle)
                 .qnaContent(qnaContent)
                 .jobCategorySmallId(jobCategorySmallId)
@@ -90,5 +100,37 @@ public class QnaController {
         return new RedirectView("/qna/detail?id=" + qnaVO.getId());
     }
 
+    @PostMapping("/like")
+    @ResponseBody
+    public Map<String, Object> toggleLike(@RequestParam Long qnaId) {
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+        if (member instanceof MemberDTO memberDTO) {
+            memberId = memberDTO.getId();
+        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            memberId = individualMemberDTO.getId();
+        }
+        if (memberId == null) {
+            return Map.of("success", false, "message", "로그인이 필요합니다.");
+        }
+        int likeCount = qnaService.toggleLike(memberId, qnaId);
+        return Map.of("success", true, "likeCount", likeCount);
+    }
 
+    @PostMapping("/delete")
+    @ResponseBody
+    public Map<String, Object> delete(@RequestParam Long qnaId) {
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+        if (member instanceof MemberDTO memberDTO) {
+            memberId = memberDTO.getId();
+        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            memberId = individualMemberDTO.getId();
+        }
+        if (memberId == null) {
+            return Map.of("success", false, "message", "로그인이 필요합니다.");
+        }
+        qnaService.delete(memberId, qnaId);
+        return Map.of("success", true);
+    }
 }

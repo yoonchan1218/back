@@ -760,7 +760,7 @@ address, caption, em {
     width: 24px;
     height: 20px;
     background-position: -138px -281px;
-    background-image: url(/static/images/sp_qna_recolor.png);
+    background-image: url(/images/sp_qna_recolor.png);
 }
 .viewContWrap .reaction-item .icon-like.on::before {
     background-position: -168px -281px;

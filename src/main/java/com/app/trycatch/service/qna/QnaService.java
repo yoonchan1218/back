@@ -2,10 +2,12 @@ package com.app.trycatch.service.qna;
 
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.common.pagination.Criteria;
+import com.app.trycatch.domain.qna.QnaLikesVO;
 import com.app.trycatch.domain.qna.QnaVO;
 import com.app.trycatch.dto.file.FileDTO;
 import com.app.trycatch.dto.qna.QnaDTO;
 import com.app.trycatch.dto.qna.QnaWithPagingDTO;
+import com.app.trycatch.mapper.qna.QnaLikesMapper;
 import com.app.trycatch.mapper.qna.QnaMapper;
 import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.repository.qna.QnaDAO;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class QnaService {
     private final QnaMapper qnaMapper;
+    private final QnaLikesMapper qnaLikesMapper;
     private final QnaDAO qnaDAO;
     private final FileDAO fileDAO;
     private final QnaFileDAO qnaFileDAO;
@@ -78,5 +81,21 @@ public class QnaService {
     public QnaDTO detail(Long id) {
         qnaMapper.increaseViewCount(id);
         return qnaMapper.selectById(id);
+    }
+
+    public int toggleLike(Long memberId, Long qnaId) {
+        if (qnaLikesMapper.existsByMemberAndQna(memberId, qnaId) > 0) {
+            qnaLikesMapper.deleteByMemberAndQna(memberId, qnaId);
+        } else {
+            qnaLikesMapper.insert(QnaLikesVO.builder().memberId(memberId).qnaId(qnaId).build());
+        }
+        return qnaLikesMapper.countByQnaId(qnaId);
+    }
+
+    public void delete(Long memberId, Long qnaId) {
+        QnaDTO qna = qnaMapper.selectById(qnaId);
+        if (qna != null && qna.getIndividualMemberId().equals(memberId)) {
+            qnaMapper.delete(qnaId);
+        }
     }
 }

@@ -24,6 +24,9 @@ public class QnaDTO {
     private int individualMemberPostCount;
     private int individualMemberQuestionCount;
     private int qnaLikeCount;
+    private String memberName;
+    private String filePath;    // 첨부 이미지 경로 (예: 2026/02/18)
+    private String fileName;    // 첨부 이미지 파일명 (예: UUID_파일명.jpg)
     private String createdDatetime;
     private String updatedDatetime;
 
