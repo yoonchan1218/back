@@ -42,7 +42,7 @@
                                     type="hidden"
                                     name="re_url"
                                     id="re_url"
-                                    th:value="${reUrl != null ? reUrl : '/'}"
+                                    th:value="${reUrl != null ? reUrl : '/main/main'}"
                                 />
                                 <input type="hidden" name="idx" value="" />
                                 <input type="hidden" name="Div" value="" />
@@ -254,6 +254,9 @@
                                         </li>
                                     </ul>
                                 </section>
+                                <div style="text-align: center; margin-top: 12px;">
+                                    <a href="/main/individual-join" style="font-size: 13px; color: #888; text-decoration: underline;">회원가입</a>
+                                </div>
                             </fieldset>
                         </form>
                     </div>
