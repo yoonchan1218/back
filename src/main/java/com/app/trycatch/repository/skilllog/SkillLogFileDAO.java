@@ -24,4 +24,9 @@ public class SkillLogFileDAO {
     public List<SkillLogFileDTO> findAllBySkillLogId(Long id) {
         return skillLogFileMapper.selectAllBySkillLogId(id);
     }
+
+//    삭제
+    public void delete(Long id) {
+        skillLogFileMapper.delete(id);
+    }
 }

@@ -28,4 +28,8 @@ public class TagDAO {
         return tagMapper.selectAll();
     }
 
+//    삭제
+    public void delete(Long id) {
+        tagMapper.delete(id);
+    }
 }

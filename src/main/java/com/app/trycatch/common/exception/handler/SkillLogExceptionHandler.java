@@ -1,6 +1,7 @@
 package com.app.trycatch.common.exception.handler;
 
 import com.app.trycatch.common.exception.ExperienceProgramNotFoundException;
+import com.app.trycatch.common.exception.FileNotFoundException;
 import com.app.trycatch.common.exception.LoginFailException;
 import com.app.trycatch.common.exception.SkillLogNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,5 +23,12 @@ public class SkillLogExceptionHandler {
     @ExceptionHandler(ExperienceProgramNotFoundException.class)
     protected RedirectView ExperienceProgramNotFound(ExperienceProgramNotFoundException experienceProgramNotFoundException) {
         return new RedirectView("/skill-log/list");
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    protected RedirectView fileNotFound(FileNotFoundException fileNotFoundException) {
+        fileNotFoundException.printStackTrace();
+        String url = request.getHeader("referer");
+        return new RedirectView(url);
     }
 }

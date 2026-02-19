@@ -13,4 +13,7 @@ public interface SkillLogFileMapper {
 
 //    목록
     public List<SkillLogFileDTO> selectAllBySkillLogId(Long id);
+
+//    삭제
+    public void delete(Long id);
 }

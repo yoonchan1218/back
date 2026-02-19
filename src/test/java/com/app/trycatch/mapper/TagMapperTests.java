@@ -36,4 +36,9 @@ public class TagMapperTests {
         List<String> tagNames = tagMapper.selectAll();
         log.info("{}", tagNames);
     }
+
+    @Test
+    public void testDelete() {
+        tagMapper.delete(47L);
+    }
 }

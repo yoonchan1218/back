@@ -35,8 +35,10 @@ public class SkillLogController {
 
         if(member instanceof IndividualMemberDTO) {
             memberId = ((IndividualMemberDTO) member).getId();
-        } else {
+        } else if (member instanceof MemberDTO) {
             memberId = ((MemberDTO) member).getId();
+        } else {
+            return "main/log-in";
         }
 
         model.addAttribute("aside", skillLogService.aside(memberId));
@@ -47,7 +49,6 @@ public class SkillLogController {
     public RedirectView write(SkillLogDTO skillLogDTO,
                       @RequestParam("file") ArrayList<MultipartFile> multipartFiles ) {
         skillLogService.write(skillLogDTO, multipartFiles);
-        log.info("{}", skillLogDTO);
 
         return new RedirectView("/skill-log/list");
     }
@@ -82,5 +83,23 @@ public class SkillLogController {
         model.addAttribute("aside", skillLogService.aside(memberId));
         model.addAttribute("skillLog", skillLogService.detail(id, memberId));
         return "skill-log/detail";
+    }
+
+    @GetMapping("update")
+    public String goToUpdate(Long id, Model model) {
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+
+        if(member instanceof IndividualMemberDTO) {
+            memberId = ((IndividualMemberDTO) member).getId();
+        } else if (member instanceof MemberDTO) {
+            memberId = ((MemberDTO) member).getId();
+        } else {
+            return "main/log-in";
+        }
+
+        model.addAttribute("skillLog", skillLogService.detail(id, memberId));
+        model.addAttribute("aside", skillLogService.aside(memberId));
+        return "skill-log/update";
     }
 }

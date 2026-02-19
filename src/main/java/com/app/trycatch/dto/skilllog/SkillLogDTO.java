@@ -33,13 +33,14 @@ public class SkillLogDTO {
 //    experienceProgram
     private Long experienceProgramId;
     private ExperienceProgramDTO experienceProgram;
-//    참여한 체험 공고 제목, 해당 기업 이름, 로고 이미지 필요
 
 //    tag 목록
     private List<TagDTO> tags = new ArrayList<>();
+    private String[] tagIdsToDelete;
 
 //    file 목록
     private List<SkillLogFileDTO> skillLogFiles = new ArrayList<>();
+    private String[] fileIdsToDelete;
 
     public SkillLogVO toSkillLogVO() {
         return SkillLogVO.builder()
@@ -52,13 +53,6 @@ public class SkillLogDTO {
                 .skillLogStatus(skillLogStatus)
                 .createdDatetime(createdDatetime)
                 .updatedDatetime(updatedDatetime)
-                .build();
-    }
-
-    public MemberVO toMemberVO() {
-        return MemberVO.builder()
-                .id(memberId)
-                .memberName(memberName)
                 .build();
     }
 }

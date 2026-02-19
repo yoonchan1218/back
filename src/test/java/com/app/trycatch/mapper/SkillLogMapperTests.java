@@ -70,4 +70,21 @@ public class SkillLogMapperTests {
     public void testUpdateSkillLogViewCount() {
         skillLogMapper.updateSkillLogViewCount(30L);
     }
+
+    @Test
+    public void testUpdate() {
+        SkillLogDTO skillLogDTO = new SkillLogDTO();
+
+        skillLogDTO.setId(30L);
+        skillLogDTO.setSkillLogTitle("update test");
+        skillLogDTO.setSkillLogContent("update");
+        skillLogDTO.setExperienceProgramId(5L);
+
+        skillLogMapper.update(skillLogDTO.toSkillLogVO());
+    }
+
+//    @Test
+//    public void testUpdateSkillLogStatus() {
+//        skillLogMapper.updateSkillLogStatus(33L);
+//    }
 }

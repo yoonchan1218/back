@@ -2,6 +2,7 @@ package com.app.trycatch.repository.skilllog;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
+import com.app.trycatch.domain.skilllog.SkillLogVO;
 import com.app.trycatch.dto.skilllog.SkillLogAsideDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogMapper;
@@ -42,4 +43,14 @@ public class SkillLogDAO {
     public void setSkillLogViewCount(Long id) {
         skillLogMapper.updateSkillLogViewCount(id);
     }
+
+//    수정
+    public void setSkillLog(SkillLogVO skillLogVO) {
+        skillLogMapper.update(skillLogVO);
+    }
+
+//    삭제
+//    public void setSkillLogStatus(Long id) {
+//        skillLogMapper.updateSkillLogStatus(id);
+//    }
 }

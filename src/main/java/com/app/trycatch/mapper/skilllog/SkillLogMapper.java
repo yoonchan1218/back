@@ -27,4 +27,10 @@ public interface SkillLogMapper {
     public Optional<SkillLogDTO> selectById(Long id);
 //    조회수 증가
     public void updateSkillLogViewCount(Long id);
+
+//    수정
+    public void update(SkillLogVO skillLogVO);
+
+//    삭제
+//    public void updateSkillLogStatus(Long id);
 }

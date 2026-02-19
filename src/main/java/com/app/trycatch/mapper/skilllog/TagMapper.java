@@ -16,4 +16,7 @@ public interface TagMapper {
     public List<TagVO> selectAllBySkillLogId(Long id);
 //    전체 태그 (중복X)
     public List<String> selectAll();
+
+//    삭제
+    public void delete(Long id);
 }

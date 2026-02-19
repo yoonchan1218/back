@@ -25,3 +25,4 @@ select s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_lo
 from tbl_member m join tbl_skill_log s
 on m.id = s.member_id
 where m.id;
+

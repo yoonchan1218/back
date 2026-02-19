@@ -2,20 +2,20 @@ package com.app.trycatch.service.skilllog;
 
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.common.exception.ExperienceProgramNotFoundException;
+import com.app.trycatch.common.exception.FileNotFoundException;
 import com.app.trycatch.common.exception.SkillLogNotFoundException;
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
-import com.app.trycatch.domain.skilllog.SkillLogLikeVO;
+import com.app.trycatch.domain.file.FileVO;
+import com.app.trycatch.domain.skilllog.SkillLogLikesVO;
 import com.app.trycatch.domain.skilllog.TagVO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.dto.experience.ExperienceProgramFileDTO;
 import com.app.trycatch.dto.file.FileDTO;
-import com.app.trycatch.dto.report.ReportDTO;
 import com.app.trycatch.dto.skilllog.*;
 import com.app.trycatch.repository.experience.ExperienceProgramDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
 import com.app.trycatch.repository.file.FileDAO;
-import com.app.trycatch.repository.report.ReportDAO;
 import com.app.trycatch.repository.skilllog.*;
 import com.app.trycatch.util.DateUtils;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class SkillLogService {
     private final TagDAO tagDAO;
     private final SkillLogFileDAO skillLogFileDAO;
     private final FileDAO fileDAO;
-    private final SkillLogLikeDAO skillLogLikeDAO;
+    private final SkillLogLikesDAO skillLogLikesDAO;
     private final ExperienceProgramDAO experienceProgramDAO;
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
 
@@ -150,7 +151,7 @@ public class SkillLogService {
         SkillLogDTO skillLogDTO = null;
         Optional<ExperienceProgramDTO> foundExperienceProgram = null;
         ExperienceProgramDTO experienceProgramDTO = null;
-        SkillLogLikeDTO skillLogLikeDTO = new SkillLogLikeDTO();
+        SkillLogLikesDTO skillLogLikesDTO = new SkillLogLikesDTO();
 
 //        skillLog
         String formattedDate = null;
@@ -178,26 +179,94 @@ public class SkillLogService {
         }
 
 //        likes
-        skillLogLikeDTO.setSkillLogId(skillLogDTO.getId());
-        skillLogLikeDTO.setMemberId(memberId);
-        skillLogDTO.setLikeCount(skillLogLikeDAO.findCountBySkillLogId(skillLogDTO.getId()));
-        skillLogDTO.setLiked(skillLogLikeDAO.findBySkillLogIdAndMemberId(skillLogLikeDTO.toVO()).orElse(null) != null);
+        skillLogLikesDTO.setSkillLogId(skillLogDTO.getId());
+        skillLogLikesDTO.setMemberId(memberId);
+        skillLogDTO.setLikeCount(skillLogLikesDAO.findCountBySkillLogId(skillLogDTO.getId()));
+        skillLogDTO.setLiked(skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).orElse(null) != null);
 
         return skillLogDTO;
     }
 
 //    좋아요
-    public int like(SkillLogLikeDTO skillLogLikeDTO) {
-        SkillLogLikeVO skillLogLikeVO = skillLogLikeDAO.findBySkillLogIdAndMemberId(skillLogLikeDTO.toVO()).orElse(null);
+    public int like(SkillLogLikesDTO skillLogLikesDTO) {
+        SkillLogLikesVO skillLogLikesVO = skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).orElse(null);
 
-        if(skillLogLikeVO != null){
-            skillLogLikeDAO.delete(skillLogLikeVO.getId());
+        if(skillLogLikesVO != null){
+            skillLogLikesDAO.delete(skillLogLikesVO.getId());
         } else {
-            skillLogLikeDAO.save(skillLogLikeDTO.toVO());
+            skillLogLikesDAO.save(skillLogLikesDTO.toVO());
         }
 
-        return skillLogLikeDAO.findCountBySkillLogId(skillLogLikeDTO.getSkillLogId());
+        return skillLogLikesDAO.findCountBySkillLogId(skillLogLikesDTO.getSkillLogId());
     }
+
+//    수정
+    public void update(SkillLogDTO skillLogDTO, List<MultipartFile> multipartFiles) {
+        String rootPath = "C:/file/";
+        String todayPath = getTodayPath();
+        String path = rootPath + todayPath;
+
+        FileDTO fileDTO = new FileDTO();
+        SkillLogFileDTO skillLogFileDTO = new SkillLogFileDTO();
+
+        skillLogDAO.setSkillLog(skillLogDTO.toSkillLogVO());
+
+        skillLogDTO.getTags().forEach((tagDTO) -> {
+            tagDTO.setSkillLogId(skillLogDTO.getId());
+            tagDAO.save(tagDTO.toVO());
+        });
+
+        skillLogFileDTO.setSkillLogId(skillLogDTO.getId());
+        multipartFiles.forEach(multipartFile -> {
+            if(multipartFile.getOriginalFilename().isEmpty()){
+                return;
+            }
+            UUID uuid = UUID.randomUUID();
+            fileDTO.setFilePath(todayPath);
+            fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
+            fileDTO.setFileOriginalName(multipartFile.getOriginalFilename());
+            fileDTO.setFileName(uuid.toString() + "_" + multipartFile.getOriginalFilename());
+            fileDTO.setFileContentType(multipartFile.getContentType().contains("image") ? FileContentType.IMAGE : FileContentType.OTHER);
+            fileDAO.save(fileDTO);
+
+            skillLogFileDTO.setId(fileDTO.getId());
+            skillLogFileDAO.save(skillLogFileDTO.toSkillLogFileVO());
+
+            File directory = new File(path);
+            if(!directory.exists()){
+                directory.mkdirs();
+            }
+
+            try {
+                multipartFile.transferTo(new File(path, fileDTO.getFileName()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+//        삭제
+        if(skillLogDTO.getTagIdsToDelete() != null) {
+            Arrays.stream(skillLogDTO.getTagIdsToDelete()).forEach((tagId) -> {
+                tagDAO.delete(Long.valueOf(tagId));
+            });
+        }
+        if(skillLogDTO.getFileIdsToDelete() != null) {
+            Arrays.stream(skillLogDTO.getFileIdsToDelete()).forEach((fileId) -> {
+                FileVO fileVO = fileDAO.findById(Long.valueOf(fileId)).orElseThrow(FileNotFoundException::new);
+                File file = new File(rootPath + fileVO.getFilePath(), fileVO.getFileName());
+                if(file.exists()) {
+                    file.delete();
+                }
+                skillLogFileDAO.delete(Long.valueOf(fileId));
+                fileDAO.delete(Long.valueOf(fileId));
+            });
+        }
+    }
+
+//    삭제
+//    public void delete(Long id) {
+//        skillLogDAO.setSkillLogStatus(id);
+//    }
 
 
 

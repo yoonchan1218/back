@@ -47,4 +47,11 @@ public class SkillLogFileMapperTests {
         skillLogFiles.forEach((skillLogFileDTO) -> log.info("{}", skillLogFileDTO));
     }
 
+    @Test
+    public void testDelete() {
+        Long id = 16L;
+
+        skillLogFileMapper.delete(id);
+        fileMapper.delete(id);
+    }
 }

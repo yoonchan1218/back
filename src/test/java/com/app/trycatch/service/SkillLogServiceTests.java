@@ -1,6 +1,5 @@
 package com.app.trycatch.service;
 
-import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
 import com.app.trycatch.dto.skilllog.*;
 import com.app.trycatch.service.skilllog.SkillLogService;
@@ -87,12 +86,19 @@ public class SkillLogServiceTests {
 
     @Test
     public void testLike() {
-        SkillLogLikeDTO skillLogLikeDTO = new SkillLogLikeDTO();
+        SkillLogLikesDTO skillLogLikeDTO = new SkillLogLikesDTO();
         skillLogLikeDTO.setSkillLogId(70L);
         skillLogLikeDTO.setMemberId(11L);
 
         log.info("{}", skillLogService.like(skillLogLikeDTO));
     }
 
+    @Test
+    public void testUpdate() {
+        SkillLogDTO skillLogDTO = skillLogService.detail(30L, 9L);
+        skillLogDTO.setSkillLogTitle("수정 테스트1");
+        skillLogDTO.setSkillLogContent("수정 테스트 내용1");
 
+        skillLogService.update(skillLogDTO, new ArrayList<MultipartFile>());
+    }
 }

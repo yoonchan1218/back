@@ -18,6 +18,11 @@
         group by tag_name
         order by count(*) desc
     </select>
+
+    <delete id="delete">
+        delete from tbl_tag
+        where id = #{id}
+    </delete>
 </mapper>
 
 

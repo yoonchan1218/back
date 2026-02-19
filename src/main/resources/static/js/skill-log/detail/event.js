@@ -23,7 +23,10 @@ const reportFirstReasonRadio = document.querySelectorAll(
     ".reportBx.radioCommWrap li input",
 );
 
-console.log(reportFirstReasonRadio);
+const reportForm = document["reportForm"];
+const memberId = reportForm.memberId;
+const skillLogId = reportForm.skillLogId;
+
 // 댓글에 신고버튼
 const commentReportButtons = document.querySelectorAll(
     ".btnReport.devBtnReport",
@@ -42,7 +45,7 @@ reportSubmitButton.addEventListener("click", (e) => {
     );
     if (reportSubmitMessage) {
         alert("신고 처리 완료되었습니다.");
-        location.href = "../qna/QnA-detail.html";
+        reportForm.submit();
     }
 });
 // 신고창 text-area 누를 시 문구 삭제
@@ -60,7 +63,22 @@ reportTextArea.addEventListener("blur", (e) => {
 reportActiveButton.addEventListener("click", (e) => {
     reportButton.classList.toggle("active");
     reportButton.addEventListener("click", (e) => {
-        pressReportButton.style.display = "block";
+        if(e.target.classList.contains("report")) {
+            // 신고
+            if(memberId.value) {
+                pressReportButton.style.display = "block";
+            } else {
+                location.href = "/main/log-in";
+            }
+        } else if (e.target.classList.contains("delete")) {
+            // 삭제
+            if(confirm("삭제된 게시글은 복구할 수 없습니다. 정말로 삭제하시겠습니까?")) {
+                location.href = `/skill-log/delete?id=${skillLogId}`;
+            }
+        } else {
+            // 수정
+            location.href = `/skill-log/update?id=${skillLogId}`;
+        }
     });
     reportFirstReasonRadio.forEach((reportFirstReasonRadio) => {
         if (reportFirstReasonRadio.value === "1") {
@@ -138,8 +156,6 @@ addLike.addEventListener("click", (e) => {
 
 // 좋아요 버튼
 const qstnLikeButton = document.querySelector(".devQstnLike");
-const skillLogId = qstnLikeButton.getAttribute("data-skill-log-id");
-const memberId = qstnLikeButton.getAttribute("data-member-id");
 
 // 버튼 눌렀을 때 클래스 "on" 토글
 if (qstnLikeButton) {
@@ -147,7 +163,7 @@ if (qstnLikeButton) {
         setTimeout(() => {
             qstnLikeButton.classList.toggle("on");
             skillLogLikeService.getCount(
-                {skillLogId: skillLogId, memberId: memberId},
+                {skillLogId: skillLogId.value, memberId: memberId.value},
                 skillLogLikeLayout.showCount
             );
         }, 100);

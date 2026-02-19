@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-public class SkillLogLikeVO extends Period {
+public class SkillLogLikesVO extends Period {
     private Long id;
     private Long memberId;
     private Long skillLogId;

@@ -14,6 +14,11 @@
         where skill_log_id = #{id}
         order by created_datetime desc
     </select>
+
+    <delete id="delete">
+        delete from tbl_skill_log_file
+        where id = #{id}
+    </delete>
 </mapper>
 
 

@@ -19,14 +19,16 @@
             <div class="mtuPopup">
                 <h1 class="lyHd">신고사유</h1>
                 <div class="lyCnt">
-                    <form action="" method="post">
+                    <form action="/report/skill-log" method="post" name="reportForm">
+                        <input type="hidden" name="memberId" th:value="${session.member} ? ${session.member.id}"/>
+                        <input type="hidden" name="skillLogId" th:value="${skillLog.id}"/>
                         <fieldset>
                             <legend>신고사유 입력</legend>
                             <ul class="reportBx radioCommWrap">
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_1"
                                         class="skip"
                                         value="1"
@@ -40,7 +42,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_2"
                                         class="skip"
                                         value="2"
@@ -52,7 +54,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_3"
                                         class="skip"
                                         value="3"
@@ -64,7 +66,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_4"
                                         class="skip"
                                         value="4"
@@ -76,7 +78,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_5"
                                         class="skip"
                                         value="5"
@@ -88,7 +90,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_6"
                                         class="skip"
                                         value="6"
@@ -100,7 +102,7 @@
                                 <li>
                                     <input
                                         type="radio"
-                                        name="queType"
+                                        name="reportReasonCode"
                                         id="lb_reason_7"
                                         class="skip"
                                         value="7"
@@ -120,7 +122,7 @@
                                         cols="20"
                                         id="lb_reason_8"
                                         maxlength="2000"
-                                        name=""
+                                        name="reportReasonDetail"
                                         rows="2"
                                         class="qnaTxaTx"
                                         title="신고 사유 설명 작성"
@@ -367,7 +369,7 @@
                                                         <li>
                                                             <a
                                                                     href="javascript:void(0);"
-                                                                    class="view-more-item devBtnReport"
+                                                                    class="view-more-item devBtnReport report"
                                                                     data-idf-no="128418"
                                                                     data-type="1"
                                                             >신고</a
@@ -433,8 +435,6 @@
                                                 type="button"
                                                 class="icon-like qnaSpB devQstnLike"
                                                 data-qstn-no="128418"
-                                                th:data-skill-log-id="*{id}"
-                                                th:data-member-id="${session.member} ? ${session.member.id}"
                                                 th:classappend="*{liked} ? 'on'"
                                             >
                                                 좋아요<em th:text="*{likeCount}"></em>
