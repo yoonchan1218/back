@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (profileModal && profileBtn) {
         profileBtn.addEventListener("click", () => {
-            mainLayout.openProfileModal(profileModal, previewImg, currentProfileImg);
+            mainLayout.showProfileModal(profileModal, previewImg, currentProfileImg);
         });
 
         const close = () => mainLayout.closeProfileModal(profileModal);
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             modalConfirm.addEventListener("click", async () => {
                 const file = profileInput?.files[0];
                 if (file) {
-                    const imageUrl = await mainService.uploadProfileImage(file);
+                    const imageUrl = await mainService.insert(file);
                     if (imageUrl && currentProfileImg) {
                         currentProfileImg.src = imageUrl;
                     }
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
             profileInput.addEventListener("change", (e) => {
                 const file = e.target.files[0];
                 if (file && previewImg) {
-                    mainLayout.updateProfilePreview(previewImg, file);
+                    mainLayout.showProfilePreview(previewImg, file);
                 }
             });
         }

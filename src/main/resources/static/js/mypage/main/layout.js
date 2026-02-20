@@ -33,7 +33,7 @@ const mainLayout = (() => {
         }
     };
 
-    const openProfileModal = (profileModal, previewImg, currentProfileImg) => {
+    const showProfileModal = (profileModal, previewImg, currentProfileImg) => {
         if (previewImg && currentProfileImg) {
             previewImg.src = currentProfileImg.src || "/images/default_photo.png";
         }
@@ -44,7 +44,7 @@ const mainLayout = (() => {
         profileModal.classList.remove("show");
     };
 
-    const updateProfilePreview = (previewImg, file) => {
+    const showProfilePreview = (previewImg, file) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             previewImg.src = e.target.result;
@@ -59,7 +59,7 @@ const mainLayout = (() => {
     };
 
     return {
-        toggleTip, toggleScrap, updateSlider, switchTab, 
-        openProfileModal, closeProfileModal, updateProfilePreview, confirmProfileImage
+        toggleTip, toggleScrap, updateSlider, switchTab,
+        showProfileModal, closeProfileModal, showProfilePreview, confirmProfileImage
     };
 })();

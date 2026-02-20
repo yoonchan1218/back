@@ -1,8 +1,8 @@
 const notificationLayout = (() => {
-    const markAsRead = (btn) => {
+    const showRead = (btn) => {
         const li = btn.closest("li");
         if (li) li.classList.add("read");
         btn.remove();
     }
-    return {markAsRead};
+    return {showRead};
 })();

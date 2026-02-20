@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // 기존 회원 정보로 화면 초기화
-    infoLayout.fillBirth(document.getElementById("profileBirth")?.value);
-    infoLayout.fillGender(document.getElementById("profileGender")?.value);
-    infoLayout.fillPhone(document.getElementById("profilePhone")?.value);
-    infoLayout.fillEducation(document.getElementById("profileEducation")?.value);
+    infoLayout.showBirth(document.getElementById("profileBirth")?.value);
+    infoLayout.showGender(document.getElementById("profileGender")?.value);
+    infoLayout.showPhone(document.getElementById("profilePhone")?.value);
+    infoLayout.showEducation(document.getElementById("profileEducation")?.value);
 
     // 주소 검색
     document.getElementById("btnSearchAddr")?.addEventListener("click", infoLayout.searchAddress);
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         infoLayout.prepareHiddens(form);
-        infoService.submit(form);
+        infoService.update(form);
     });
 
     // 취소 버튼
