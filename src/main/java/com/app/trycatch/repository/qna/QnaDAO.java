@@ -34,4 +34,14 @@ public class QnaDAO {
         return qnaMapper.selectTotal(keyword);
     }
 
+//    인기글 (조회수 Top N)
+    public List<QnaDTO> findTopByViewCount(int limit) {
+        return qnaMapper.selectTopByViewCount(limit);
+    }
+
+//    최신글 (최근 N개)
+    public List<QnaDTO> findLatest(int limit) {
+        return qnaMapper.selectLatest(limit);
+    }
+
 }

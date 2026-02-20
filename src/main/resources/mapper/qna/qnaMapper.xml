@@ -91,15 +91,24 @@
     </update>
 
     <update id="increaseViewCount">
-        update tbl_qna set qna_view_count = qna_view_count + 1 where id = #{id}
+        update tbl_qna
+        set qna_view_count = qna_view_count + 1,
+            updated_datetime = updated_datetime
+        where id = #{id}
     </update>
 
     <update id="delete">
-        update tbl_qna set qna_status = 'deleted' where id = #{id}
+        update tbl_qna
+        set qna_status = 'deleted',
+            updated_datetime = updated_datetime
+        where id = #{id}
     </update>
 
     <update id="updateFileId">
-        update tbl_qna set qna_file_id = #{fileId} where id = #{id}
+        update tbl_qna
+        set qna_file_id = #{fileId},
+            updated_datetime = updated_datetime
+        where id = #{id}
     </update>
 
     <select id="selectTopByViewCount" resultType="QnaDTO">

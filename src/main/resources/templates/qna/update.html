@@ -59,11 +59,11 @@
                             <dl class="infoBx">
                                 <dt class="qnaSpA">
                                     <span class="nickname" th:text="${loginMember?.memberName}">mento...</span>
-                                    <span class="lvIcon">Lv.1</span>
+                                    <span class="lvIcon" th:text="'Lv.' + ${loginMember?.individualMemberLevel}">Lv.1</span>
                                 </dt>
                                 <dd>
-                                    <span>글 <b>0</b></span>
-                                    <span>질문 <b>0</b></span>
+                                    <span>글 <b th:text="${loginMember?.individualMemberPostCount}">0</b></span>
+                                    <span>질문 <b th:text="${loginMember?.individualMemberQuestionCount}">0</b></span>
                                 </dd>
                             </dl>
                         </a>
@@ -71,7 +71,7 @@
                             type="button"
                             class="myPoint devMainCouponButton"
                         >
-                            <span class="point qnaSpB">0</span
+                            <span class="point qnaSpB" th:text="${loginMember?.individualMemberPoint}">0</span
                             ><span class="btnCoupon qnaSpA">별 충전</span>
                         </button>
                     </div>
@@ -91,101 +91,29 @@
                     </div>
                 </div>
                 <div class="navi-list-area">
-                    <!-- [Dev] 메뉴 on : 클래스 active 추가 -->
                     <div class="sideNavLow">
-                        <strong class="sideNavTit has-tooltip">
-                            <a
-                                id="devLeftMenuSubscribeTag"
-                                href=""
-                                data-tab="1"
-                                class="devLoginLayer"
-                                devalert="0"
-                                >구독</a
-                            >
-                            <a class="select-tooltip qnaSpA" href=""
-                                ><span class="skip">나의 구독관리</span></a
-                            >
-                        </strong>
-                        <div class="devLeftSubscribeList">
-                            <ul id="mySubscribeList" class="sideNavList">
-                                <li
-                                    data-subscrkey="1000229_2"
-                                    class="devLeftSubscribeItem"
-                                    data-lastregdt="2026-01-14 02:31:29"
-                                >
-                                    <a href="">
-                                        백엔드개발자
-                                        <!-- 새글 new-->
-                                        <span
-                                            class="qnaSpA"
-                                            style="display: none"
-                                            >새글</span
-                                        >
-                                    </a>
-                                </li>
-                                <li
-                                    data-subscrkey="test"
-                                    class="devLeftSubscribeItem"
-                                    data-lastregdt="2025-10-15 11:28:36"
-                                >
-                                    <a href="">
-                                        try-catch
-                                        <!-- 새글 new-->
-                                        <span
-                                            class="qnaSpA"
-                                            style="display: none"
-                                            >새글</span
-                                        >
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="sideNavLow">
-                        <strong class="sideNavTit"
-                            ><a
-                                id="devLeftMenuPopularTag"
-                                href=""
-                                data-tab="2"
-                                class=""
-                                devalert="0"
-                                >인기<span class="qnaSpA icnNew">새글</span></a
-                            ></strong
-                        >
-                        <a href="" class="button-more qnaSpA" target="_blank"
-                            >더보기</a
-                        >
-
+                        <strong class="sideNavTit"><a href="/qna/list">인기 질문</a></strong>
                         <ul class="sideNavList">
+                            <th:block th:each="post : ${sideTopPosts}">
                             <li>
-                                <a href="" target="_blank">삼성전자㈜</a>
+                                <a th:href="@{/qna/detail(id=${post.id})}"
+                                   th:text="${post.qnaTitle}"
+                                   style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block;">제목</a>
                             </li>
-                            <li>
-                                <a href="" target="_blank">쿠팡(주)</a>
-                            </li>
+                            </th:block>
                         </ul>
                     </div>
                     <div class="sideNavLow">
-                        <strong class="sideNavTit"
-                            ><a
-                                id="devLeftMenuEntireTag"
-                                href=""
-                                data-tab="3"
-                                class=""
-                                >전체<span class="qnaSpA icnNew">새글</span></a
-                            ></strong
-                        >
-                    </div>
-                    <div
-                        class="sideNavLow devRecentVisitGroup"
-                        style="display: none"
-                    >
-                        <strong class="sideNavTit"
-                            ><a href="javascript:void();"
-                                >최근 본 그룹</a
-                            ></strong
-                        >
-                        <ul class="sideNavList boxList"></ul>
+                        <strong class="sideNavTit"><a href="/qna/list">최신 질문</a></strong>
+                        <ul class="sideNavList">
+                            <th:block th:each="post : ${sideLatestPosts}">
+                            <li>
+                                <a th:href="@{/qna/detail(id=${post.id})}"
+                                   th:text="${post.qnaTitle}"
+                                   style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block;">제목</a>
+                            </li>
+                            </th:block>
+                        </ul>
                     </div>
                 </div>
             </div>
