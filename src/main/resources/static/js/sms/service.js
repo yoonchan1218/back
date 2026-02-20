@@ -4,7 +4,7 @@ const smsService = (() => {
             method: "POST",
             body: JSON.stringify({memberPhone: phone}),
             headers: {
-                "Content-Type": "application/json; charset=utf-8"
+                "Content-Type": "application/json;"
             }
         });
 

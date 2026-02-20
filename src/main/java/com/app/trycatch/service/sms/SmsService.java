@@ -6,6 +6,7 @@ import com.solapi.sdk.message.exception.SolapiMessageNotReceivedException;
 import com.solapi.sdk.message.model.Message;
 import com.solapi.sdk.message.service.DefaultMessageService;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -13,6 +14,10 @@ import java.util.Random;
 @Service
 public class SmsService {
 
+    @Value("${message.api-key}")
+    private String apiKey;
+    @Value("${message.api-secret-key}")
+    private String apiSecretKey;
     private DefaultMessageService messageService;
 
     //    Spring이 Bean Container에 모든 객체를 등록한 후,
@@ -20,7 +25,7 @@ public class SmsService {
 //    ※ static block은 Spring이 준비도 되기 전에 실행되므로 아래 상황에서는 사용할 수 없다.
     @PostConstruct
     private void init(){
-        this.messageService = SolapiClient.INSTANCE.createInstance("NCSAQUSRPA4BD2ZI", "FYZAPOHG2ADARHMO2HUZULFOZKFEMEHP");
+        this.messageService = SolapiClient.INSTANCE.createInstance(apiKey, apiSecretKey);
     }
 
     public String sendSms(String phone){
@@ -28,7 +33,7 @@ public class SmsService {
         Message message = new Message();
         message.setFrom("01093973256");
         message.setTo(phone);
-        message.setText("SMS는 한글 45자, 영자 90자까지 입력할 수 있습니다.");
+        message.setText("[TRYCATCH] 인증번호: " + code);
 
         try {
             messageService.send(message);

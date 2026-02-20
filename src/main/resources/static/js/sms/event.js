@@ -4,7 +4,10 @@ let phoneVerified = false;
 document.getElementById("btnSendCert").addEventListener("click", async (e) => {
     const phone = document.getElementById("M_Phone").value;
     certCode = await smsService.send(phone);
-    console.log(certCode);
+    const noticeMsgCert = document.getElementById("notice-msg-cert");
+    noticeMsgCert.innerHTML = "인증번호가 전송되었습니다.";
+    noticeMsgCert.classList.remove("failure", "success");
+    noticeMsgCert.style.display = "block";
 });
 
 document.getElementById("btnCheckCert").addEventListener("click", (e) => {
@@ -18,7 +21,7 @@ document.getElementById("btnCheckCert").addEventListener("click", (e) => {
         noticeMsgCert.style.display = "block";
     } else {
         phoneVerified = false;
-        noticeMsgCert.innerHTML = "인증번호가 일치하지 않습니다.";
+        noticeMsgCert.innerHTML = "잘못된 인증번호입니다.";
         noticeMsgCert.classList.add("failure");
         noticeMsgCert.classList.remove("success");
         noticeMsgCert.style.display = "block";
