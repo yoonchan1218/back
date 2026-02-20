@@ -5,4 +5,8 @@
         insert into tbl_qna_file(id, qna_id)
         values(#{id}, #{qnaId})
     </insert>
+
+    <delete id="deleteById">
+        delete from tbl_qna_file where id = #{fileId} and qna_id = #{qnaId}
+    </delete>
 </mapper>

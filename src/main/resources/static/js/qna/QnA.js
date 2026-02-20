@@ -14,15 +14,103 @@ const inputSearch = document.getElementById("AJAX_TS_Search");
 const autocomplete = document.querySelector(
     ".keyword-search-area.autocomplete",
 );
+const searchLayer = inputFocus.querySelector(".searchLayer");
+const latelySearchList = document.querySelector(".lately-search-list");
+const btnAllDel = document.querySelector(".btnAllDel");
 
-// input focus 시 부모에 'focus' 클래스 추가
-inputSearch.addEventListener("focusin", () => {
-    inputFocus.classList.add("focus");
+// ── 최근 검색어 localStorage 관리 ─────────────────────────────────────
+const SEARCH_RECENT_KEY = "qna_recent_keyword";
+
+function getRecentSearchList() {
+    try {
+        return JSON.parse(localStorage.getItem(SEARCH_RECENT_KEY)) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveRecentSearchList(list) {
+    localStorage.setItem(SEARCH_RECENT_KEY, JSON.stringify(list));
+}
+
+function addToRecentSearch(keyword) {
+    let list = getRecentSearchList();
+    list = list.filter(item => item !== keyword);
+    list.unshift(keyword);
+    if (list.length > 4) list = list.slice(0, 4);
+    saveRecentSearchList(list);
+    renderRecentSearch(list);
+}
+
+function renderRecentSearch(list) {
+    latelySearchList.innerHTML = "";
+    list.forEach(keyword => {
+        const li = document.createElement("li");
+        li.innerHTML = `<button type="button" data-keyword="${keyword}" class="title qnaSpB devRecentKeyword">${keyword}</button>
+                        <button type="button" class="remove-button qnaSpB devRemoveKeyword" data-keyword="${keyword}">삭제</button>`;
+        latelySearchList.appendChild(li);
+    });
+}
+
+// 페이지 진입 시 최근 검색어 렌더링
+renderRecentSearch(getRecentSearchList());
+
+// 최근 검색어 클릭 → 검색 실행
+latelySearchList.addEventListener("click", (e) => {
+    const btn = e.target.closest(".devRecentKeyword");
+    const delBtn = e.target.closest(".devRemoveKeyword");
+    if (btn) {
+        inputSearch.value = btn.dataset.keyword;
+        doSearch();
+    } else if (delBtn) {
+        const kw = delBtn.dataset.keyword;
+        let list = getRecentSearchList().filter(item => item !== kw);
+        saveRecentSearchList(list);
+        renderRecentSearch(list);
+    }
 });
 
-// input blur 시 'focus' 클래스 제거
+// 전체삭제
+btnAllDel.addEventListener("click", () => {
+    saveRecentSearchList([]);
+    renderRecentSearch([]);
+});
+
+// ── 검색 실행 함수 ───────────────────────────────────────────────────
+function doSearch() {
+    const keyword = inputSearch.value.trim();
+    const url = new URL(location.href);
+    if (keyword) {
+        url.searchParams.set("keyword", keyword);
+        addToRecentSearch(keyword);
+    } else {
+        url.searchParams.delete("keyword");
+    }
+    url.searchParams.set("sort", "1");
+    url.searchParams.set("page", "1");
+    location.href = url.toString();
+}
+
+// 검색 버튼 클릭
+document.querySelector(".btnSch.qnaSpB.devsearch").addEventListener("click", doSearch);
+
+// 엔터 키
+inputSearch.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doSearch();
+});
+
+// input focus 시 searchLayer 표시
+inputSearch.addEventListener("focusin", () => {
+    inputFocus.classList.add("focus");
+    searchLayer.style.display = "block";
+});
+
+// input blur 시 searchLayer 숨김 (클릭 이벤트보다 늦게 처리)
 inputSearch.addEventListener("focusout", () => {
-    inputFocus.classList.remove("focus");
+    setTimeout(() => {
+        inputFocus.classList.remove("focus");
+        searchLayer.style.display = "none";
+    }, 150);
 });
 
 // 입력값에 따라 autocomplete 표시/숨김
@@ -71,37 +159,17 @@ sortButtons.forEach((btn) => {
         const sortType = btn.dataset.ordertype;
         const url = new URL(location.href);
         url.searchParams.set("sort", sortType);
-        url.searchParams.set("page", "1"); // 정렬 변경 시 1페이지로
+        url.searchParams.set("page", "1");
+        // 현재 입력창 값 또는 URL의 기존 keyword 유지
+        const keywordVal = inputSearch.value.trim();
+        if (keywordVal) {
+            url.searchParams.set("keyword", keywordVal);
+        }
+        // URL에 keyword가 없고 입력창도 없으면 삭제하지 않음 (이미 없으므로 그대로 유지)
         location.href = url.toString();
     });
 });
 
-// // 북마크 등록(로그인)
-// const buttonBookMark = document.querySelector(
-//     ".devQnaDetailBookmark.btnBookmark.qnaSpB",
-// );
-//
-// const bookMarkLayer = document.querySelector(
-//     ".book-mark-layer.tooltip-layer.qnaSpA",
-// );
-//
-// if (buttonBookMark) {
-//     buttonBookMark.addEventListener("click", (e) => {
-//         if (!buttonBookMark.classList.contains("on")) {
-//             if (bookMarkLayer) {
-//                 bookMarkLayer.style.display = "block"; // 먼저 보이게
-//                 bookMarkLayer.style.opacity = "1";
-//                 setTimeout(() => {
-//                     bookMarkLayer.style.opacity = "0";
-//                     setTimeout(() => {
-//                         bookMarkLayer.style.display = "none"; // 사라진 후 숨김
-//                     }, 300); // transition 시간만큼 대기
-//                 }, 975);
-//             }
-//         }
-//         buttonBookMark.classList.toggle("on");
-//     });
-// }
 // 신고 열리는 버튼들 (모든 버튼 선택)
 const reportActiveButtons = document.querySelectorAll(
     ".icon-more-button.qnaSpB.devQnaListPopupMenuButton",
@@ -257,5 +325,9 @@ function timeForToday(datetime) {
 }
 
 document.querySelectorAll(".devQnaCreatedTime").forEach(el => {
-    el.textContent = timeForToday(el.dataset.created);
+    const created = new Date(el.dataset.created.replace(" ", "T"));
+    const updated = new Date(el.dataset.updated.replace(" ", "T"));
+    const isModified = Math.floor(created.getTime() / 1000) !== Math.floor(updated.getTime() / 1000);
+    const label = isModified ? "수정" : "작성";
+    el.textContent = timeForToday(el.dataset.created) + " " + label;
 });

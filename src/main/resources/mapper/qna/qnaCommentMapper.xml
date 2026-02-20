@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.qna.QnaCommentMapper">
-    <insert id="insert">
-        insert into tbl_qna_comment(id, corp_id, qna_comment_parent, qna_comment_content, qna_comment_like_count)
-        values (#{id},#{corpId},#{qnaCommentParent},#{qnaCommentContent},#{qnaCommentLikeCount})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_qna_comment(qna_id, individual_member_id, qna_comment_parent, qna_comment_content)
+        values(#{qnaId}, #{individualMemberId}, #{qnaCommentParent}, #{qnaCommentContent})
     </insert>
 
     <select id="selectByQnaId" resultType="QnaCommentDTO">
-        select * from tbl_qna_comment where id = #{qnaId} order by created_datetime asc
+        select c.id, c.qna_id, c.individual_member_id, m.member_name,
+               c.qna_comment_parent, c.qna_comment_content,
+               c.created_datetime as createdDatetime, c.updated_datetime as updatedDatetime
+        from tbl_qna_comment c
+        left join tbl_member m on c.individual_member_id = m.id
+        where c.qna_id = #{qnaId}
+        order by c.created_datetime asc
     </select>
 
     <delete id="delete">
-        delete from tbl_qna_comment where id = #{id}
+        delete from tbl_qna_comment where id = #{id} and individual_member_id = #{memberId}
     </delete>
+
+    <update id="update">
+        update tbl_qna_comment
+        set qna_comment_content = #{qnaCommentContent}
+        where id = #{id} and individual_member_id = #{individualMemberId}
+    </update>
+
+    <select id="existsByQnaIdAndMemberId" resultType="boolean">
+        select count(*) > 0 from tbl_qna_comment
+        where qna_id = #{qnaId} and individual_member_id = #{memberId} and qna_comment_parent is null
+    </select>
 
 </mapper>

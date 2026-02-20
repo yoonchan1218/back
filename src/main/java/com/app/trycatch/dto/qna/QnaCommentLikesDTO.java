@@ -44,11 +44,8 @@ public class QnaCommentLikesDTO {
         return QnaCommentVO.builder()
                 .id(id)
                 .qnaId(qnaId)
-                .corpId(corpId)
                 .qnaCommentParent(qnaCommentParent)
                 .qnaCommentContent(qnaCommentContent)
-                .qnaCommentLikeCount(qnaCommentLikeCount)
-                .createdDatetime(createdDateTime)
                 .build();
     }
 

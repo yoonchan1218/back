@@ -5,16 +5,15 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString(callSuper=true)
-@EqualsAndHashCode(of="id" , callSuper=true)
+@ToString(callSuper = true)
+@EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 public class QnaCommentVO extends Period {
     private Long id;
     private Long qnaId;
-    private Long corpId;
+    private Long individualMemberId;
     private Long qnaCommentParent;
     private String qnaCommentContent;
-    private int qnaCommentLikeCount;
 }

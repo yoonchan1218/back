@@ -21,4 +21,5 @@ public class QnaVO extends Period {
     private String qnaContent;
     private int qnaViewCount;
     private QnaStatus qnaStatus;
+    private Long qnaFileId;
 }

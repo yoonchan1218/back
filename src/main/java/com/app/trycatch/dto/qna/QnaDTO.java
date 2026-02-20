@@ -2,7 +2,11 @@ package com.app.trycatch.dto.qna;
 
 import com.app.trycatch.common.enumeration.qna.QnaStatus;
 import com.app.trycatch.domain.qna.QnaVO;
+import com.app.trycatch.dto.file.FileDTO;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,8 +32,10 @@ public class QnaDTO {
     private int qnaLikeCount;
     private int qnaCommentCount;
     private String memberName;
-    private String filePath;    // 첨부 이미지 경로 (예: 2026/02/18)
-    private String fileName;    // 첨부 이미지 파일명 (예: UUID_파일명.jpg)
+    private Long qnaFileId;     // 첨부 파일 ID (tbl_qna.qna_file_id) — 썸네일용
+    private String filePath;    // 썸네일 이미지 경로 (목록용)
+    private String fileName;    // 썸네일 이미지 파일명 (목록용)
+    private List<FileDTO> files = new ArrayList<>(); // 전체 첨부 이미지 목록 (상세용)
     private String createdDatetime;
     private String updatedDatetime;
     private boolean likedByCurrentUser;

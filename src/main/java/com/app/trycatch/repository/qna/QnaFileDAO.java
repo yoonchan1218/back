@@ -12,4 +12,8 @@ public class QnaFileDAO {
     public void save(Long id, Long qnaId) {
         qnaFileMapper.insert(id, qnaId);
     }
+
+    public void deleteById(Long fileId, Long qnaId) {
+        qnaFileMapper.deleteById(fileId, qnaId);
+    }
 }
