@@ -48,29 +48,6 @@ const infoLayout = (() => {
         return form.M_Hand_Phone2.value.trim() !== "" && form.M_Hand_Phone3.value.trim() !== "";
     };
 
-    // 주소 검색 (다음 우편번호 API)
-    const searchAddress = () => {
-        new daum.Postcode({
-            oncomplete: (data) => {
-                const addr = data.userSelectedType === "R" ? data.roadAddress : data.jibunAddress;
-                let extra = "";
-                if (data.userSelectedType === "R") {
-                    if (data.bname && /[동|로|가]$/.test(data.bname)) extra += data.bname;
-                    if (data.buildingName && data.apartment === "Y") {
-                        extra += (extra ? ", " : "") + data.buildingName;
-                    }
-                    if (extra) extra = " (" + extra + ")";
-                }
-                document.getElementById("postcheck").value   = data.zonecode;
-                document.getElementById("M_ZipCode").value   = data.zonecode;
-                document.getElementById("M_Addr_Text").value = addr + extra;
-                const detail = document.getElementById("M_Addr_Text1");
-                detail.value = "";
-                detail.focus();
-            }
-        }).open();
-    };
-
     // 이메일 도메인 선택 처리
     const handleEmailSelect = (select, input) => {
         if (select.value !== "etc" && select.value !== "") {
@@ -110,10 +87,7 @@ const infoLayout = (() => {
         setHidden(form, "individualMemberBirth",     birth);
         setHidden(form, "individualMemberGender",    gender);
         setHidden(form, "individualMemberEducation", form.M_Education?.value || "");
-        setHidden(form, "addressZipcode",            document.getElementById("M_ZipCode")?.value || "");
-        setHidden(form, "addressText",               document.getElementById("M_Addr_Text")?.value || "");
-        setHidden(form, "addressDetail",             document.getElementById("M_Addr_Text1")?.value || "");
     };
 
-    return { showBirth, showGender, showPhone, showEducation, isPhoneValid, searchAddress, handleEmailSelect, prepareHiddens };
+    return { showBirth, showGender, showPhone, showEducation, isPhoneValid, handleEmailSelect, prepareHiddens };
 })();

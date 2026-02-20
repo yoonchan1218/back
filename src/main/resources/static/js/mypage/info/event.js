@@ -6,10 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     infoLayout.showPhone(document.getElementById("profilePhone")?.value);
     infoLayout.showEducation(document.getElementById("profileEducation")?.value);
 
-    // 주소 검색
-    document.getElementById("btnSearchAddr")?.addEventListener("click", infoLayout.searchAddress);
-    document.getElementById("postcheck")?.addEventListener("click", infoLayout.searchAddress);
-
     // 이메일 도메인 선택
     const emailSelect = document.getElementById("Email_Addr");
     const emailInput  = document.getElementById("Email_Addr_Text");

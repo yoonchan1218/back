@@ -18,7 +18,7 @@
             i.individual_member_point,
             i.individual_member_level,
             i.individual_member_post_count,
-            i.individual_member_question_count,
+            i.individual_member_question_count
         from tbl_member m
         left join tbl_individual_member i on m.id = i.id
         where m.id = #{memberId}

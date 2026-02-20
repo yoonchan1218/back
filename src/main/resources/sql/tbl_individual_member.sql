@@ -18,3 +18,5 @@ drop table tbl_individual_member;
 
 insert into  tbl_individual_member(id, individual_member_birth, individual_member_gender, individual_member_education)
 values (5, 20000202, 'man','고졸');
+
+SHOW CREATE TABLE tbl_individual_member;

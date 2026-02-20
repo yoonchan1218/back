@@ -22,9 +22,6 @@ public class MyPageUpdateDTO {
     private String individualMemberBirth;
     private Gender individualMemberGender;
     private String individualMemberEducation;
-    private String addressZipcode;
-    private String addressText;
-    private String addressDetail;
 
     public MemberVO toMemberVO() {
         return MemberVO.builder()
@@ -41,9 +38,6 @@ public class MyPageUpdateDTO {
                 .individualMemberBirth(individualMemberBirth)
                 .individualMemberGender(individualMemberGender)
                 .individualMemberEducation(individualMemberEducation)
-                .individualMemberZipcode(addressZipcode)
-                .individualMemberAddress(addressText)
-                .individualMemberAddressDetail(addressDetail)
                 .build();
     }
 }
