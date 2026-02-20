@@ -5,8 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>mypage</title>
         <link rel="stylesheet" href="/css/mypage/mypagea.css" />
+        <link rel="stylesheet" href="/css/qna/header.css">
     </head>
     <body class="mtuHome">
+    <div th:replace="~{/qna/header.html::div}"></div>
         <div id="wrap">
             <section id="container">
                 <h1 class="skip">개인회원 서비스</h1>
@@ -1892,6 +1894,7 @@
         <script src="/js/mypage/main/service.js"></script>
         <script src="/js/mypage/main/layout.js"></script>
         <script src="/js/mypage/main/event.js"></script>
+        <script src="/js/qna/header-event.js"></script>
     </body>
 </html>
 
