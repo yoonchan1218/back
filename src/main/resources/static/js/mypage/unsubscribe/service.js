@@ -1,6 +1,6 @@
 const unsubscribeService = (() => {
-    const submitForm = (form) => {
+    const delete_ = (form) => {
         form.submit();
     }
-    return {submitForm};
+    return {delete_};
 })();

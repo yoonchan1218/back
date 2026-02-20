@@ -1,6 +1,6 @@
 const infoService = (() => {
-    const submit = (form) => {
+    const update = (form) => {
         form.submit();
     };
-    return {submit};
+    return {update};
 })();

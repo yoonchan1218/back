@@ -3,9 +3,9 @@ document.querySelectorAll(".btn-read-notification").forEach((btn) => {
         const notificationId = btn.dataset.id;
         if (!notificationId) return;
 
-        const success = await notificationService.read(notificationId);
+        const success = await notificationService.update(notificationId);
         if (success) {
-            notificationLayout.markAsRead(btn);
+            notificationLayout.showRead(btn);
         }
     });
 });

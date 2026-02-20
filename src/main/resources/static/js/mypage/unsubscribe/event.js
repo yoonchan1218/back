@@ -39,5 +39,5 @@ leaveSubmitButton.addEventListener("click", (e) => {
         return;
     }
 
-    unsubscribeService.submitForm(leaveForm);
+    unsubscribeService.delete_(leaveForm);
 });

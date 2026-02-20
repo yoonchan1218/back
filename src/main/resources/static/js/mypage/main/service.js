@@ -1,5 +1,5 @@
 const mainService = (() => {
-    const uploadProfileImage = async (file) => {
+    const insert = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
         const response = await fetch("/mypage/profile-image", {
@@ -9,5 +9,5 @@ const mainService = (() => {
         return await response.text();
     };
 
-    return {uploadProfileImage};
+    return {insert};
 })();

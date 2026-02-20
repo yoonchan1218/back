@@ -1,7 +1,7 @@
 const infoLayout = (() => {
 
     // 기존 생년월일을 화면에 채우기
-    const fillBirth = (birth) => {
+    const showBirth = (birth) => {
         if (!birth || !birth.includes("-")) return;
         const [year, month, day] = birth.split("-");
         document.getElementById("M_Year").value  = year;
@@ -10,14 +10,14 @@ const infoLayout = (() => {
     };
 
     // 기존 성별을 화면에 채우기
-    const fillGender = (gender) => {
+    const showGender = (gender) => {
         if (gender === "man")   document.getElementById("M_Gender0").checked = true;
         if (gender === "women") document.getElementById("M_Gender1").checked = true;
     };
 
     // 기존 전화번호를 화면에 채우기
     // 가입 시 하이픈 있는 형식("010-1234-5678")과 없는 형식("01012345678") 모두 처리
-    const fillPhone = (phone) => {
+    const showPhone = (phone) => {
         if (!phone) return;
         let parts;
         if (phone.includes("-")) {
@@ -37,7 +37,7 @@ const infoLayout = (() => {
     };
 
     // 기존 학력을 화면에 채우기
-    const fillEducation = (education) => {
+    const showEducation = (education) => {
         if (!education) return;
         const select = document.getElementById("M_Education");
         if (select) select.value = education;
@@ -115,5 +115,5 @@ const infoLayout = (() => {
         setHidden(form, "addressDetail",             document.getElementById("M_Addr_Text1")?.value || "");
     };
 
-    return { fillBirth, fillGender, fillPhone, fillEducation, isPhoneValid, searchAddress, handleEmailSelect, prepareHiddens };
+    return { showBirth, showGender, showPhone, showEducation, isPhoneValid, searchAddress, handleEmailSelect, prepareHiddens };
 })();
