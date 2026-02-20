@@ -68,6 +68,8 @@ public class QnaController {
         model.addAttribute("bannerPopularQnas", qnaMapper.selectTopByViewCount(3));
         model.addAttribute("bannerRecentQnas", qnaMapper.selectLatest(5));
         model.addAttribute("popularQnas", qnaMapper.selectTopByViewCount(5));
+        model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
+        model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/QnA";
     }
 
@@ -78,6 +80,8 @@ public class QnaController {
         model.addAttribute("qna", qnaService.detail(id, memberId));
         model.addAttribute("loginMember", member);
         model.addAttribute("comments", qnaCommentService.list(id));
+        model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
+        model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/QnA-detail";
     }
 
@@ -88,6 +92,8 @@ public class QnaController {
             return "redirect:/main/log-in";
         }
         model.addAttribute("loginMember", member);
+        model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
+        model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/write";
     }
 
@@ -130,6 +136,8 @@ public class QnaController {
         }
         model.addAttribute("qna", qna);
         model.addAttribute("loginMember", member);
+        model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
+        model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/update";
     }
 

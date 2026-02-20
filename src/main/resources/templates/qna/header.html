@@ -225,7 +225,7 @@
                             </ul>
                             <!-- 공통부분(상단 네비게이션) -->
                             <!-- //비로그인 상단(로그인, 회원가입, 별충전, 기업서비스)// -->
-                            <ul th:unless="${loginMember != null}" class="userNav">
+                            <ul th:unless="${session.member != null}" class="userNav">
                                 <li class="userNav-item login">
                                     <a
                                         href="/main/log-in"
@@ -308,7 +308,7 @@
                             </ul>
                             <!-- 비로그인 상단(로그인,회원가입,별충전,기업서비스 드롭다운)// -->
                             <!-- //로그인 상단(알림,개인서비스) -->
-                            <ul id="devMyPage" class="userNav" th:if="${loginMember != null}">
+                            <ul id="devMyPage" class="userNav" th:if="${session.member != null}">
                                 <ul class="userNav" style="">
                                     <li
                                         class="userNav-item notification devLiNotification"
@@ -688,7 +688,7 @@
                                             "
                                             ><span class="spGnb"></span
                                             ><span class="user-name"
-                                                th:text="${loginMember?.memberName}">김윤찬</span
+                                                th:text="${session.member?.memberName}">김윤찬</span
                                             ><span class="skip">열기</span></a
                                         >
                                         <div class="lyMyArea">
@@ -927,14 +927,14 @@
                                         <div class="lyCol subCol">
                                             <div class="colItem">
                                                 <strong class="titArea"
-                                                    ><a href="" class="tit talk"
+                                                    ><a href="/qna/list" class="tit talk"
                                                         >커뮤니티</a
                                                     ></strong
                                                 >
                                                 <div class="listBx">
                                                     <ul>
                                                         <li>
-                                                            <a href=""
+                                                            <a href="/qna/list"
                                                                 >QnA</a
                                                             >
                                                         </li>

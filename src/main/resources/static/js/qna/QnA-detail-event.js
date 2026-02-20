@@ -151,6 +151,7 @@ const URLCopyLayerBefore = document.querySelector(".button.button-close");
 
 // 클릭 시 "attached" 클래스 토글
 URLCopy.addEventListener("click", (e) => {
+    document.getElementById("lbl_url_copy").value = window.location.href;
     URLCopyLayer.classList.toggle("attached");
 });
 

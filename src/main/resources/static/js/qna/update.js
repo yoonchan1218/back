@@ -30,7 +30,8 @@ cancelButton.addEventListener("click", (e) => {
         e.preventDefault(); //새로고침을 막아준다.
         return false;
     }
-    location.href = "../../../templates/qna/QnA.html";
+    const qnaId = document.querySelector("input[name='qnaId']").value;
+    location.href = "/qna/detail?id=" + qnaId;
 });
 
 const writeButton = document.querySelector(

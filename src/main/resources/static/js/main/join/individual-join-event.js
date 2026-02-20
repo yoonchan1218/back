@@ -1,6 +1,6 @@
-// 아이디, 이메일 중복검사 상태
-let idDuplicateCheck = false;
-let emailDuplicateCheck = false;
+// 아이디, 이메일 중복검사 상태 (null: 미검사, true: 사용 가능, false: 중복)
+let idDuplicateCheck = null;
+let emailDuplicateCheck = null;
 
 // 아이디 중복검사 (blur 시)
 const idCheckInput = document.getElementById("idcheck");
@@ -9,7 +9,7 @@ const idCheckNotice = document.getElementById("notice_msg_id");
 idCheckInput.addEventListener("blur", () => {
     const value = idCheckInput.value;
     if (!value || !/^[a-z0-9]{4,16}$/.test(value)) {
-        idDuplicateCheck = false;
+        idDuplicateCheck = null;
         return;
     }
     memberService.checkId(value, (isAvailable) => {
@@ -18,6 +18,10 @@ idCheckInput.addEventListener("blur", () => {
             idCheckNotice.innerHTML = "이미 사용 중인 아이디입니다.";
             idCheckNotice.classList.add("failure");
             idCheckNotice.style.display = "block";
+        } else {
+            idCheckNotice.innerHTML = "";
+            idCheckNotice.classList.remove("failure");
+            idCheckNotice.style.display = "none";
         }
     });
 });
@@ -29,7 +33,7 @@ const emailCheckNotice = document.getElementById("notice_msg_mail");
 emailCheckInput.addEventListener("blur", () => {
     const value = emailCheckInput.value;
     if (!value || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) {
-        emailDuplicateCheck = false;
+        emailDuplicateCheck = null;
         return;
     }
     memberService.checkEmail(value, (isAvailable) => {
@@ -38,6 +42,10 @@ emailCheckInput.addEventListener("blur", () => {
             emailCheckNotice.innerHTML = "이미 사용 중인 이메일입니다.";
             emailCheckNotice.classList.add("failure");
             emailCheckNotice.style.display = "block";
+        } else {
+            emailCheckNotice.innerHTML = "";
+            emailCheckNotice.classList.remove("failure");
+            emailCheckNotice.style.display = "none";
         }
     });
 });
@@ -111,8 +119,8 @@ const fields = [
     },
     {
         input: "Certify_Num",
-        selector: ".authentication_check",
-        notice: "notice_msg_certify",
+        selector: ".phone-cert-section",
+        notice: "notice-msg-cert",
         regexp: /^\d{6}$/,
         errorMsg: "인증번호 6자리를 입력해주세요.",
         skip: true,
@@ -167,8 +175,26 @@ fields.forEach(({ input, selector, notice, regexp, errorMsg, skip }) => {
 // 가입하기 버튼
 const mbrBtnRegist = document.querySelector(".mbrBtnRegist");
 
-mbrBtnRegist.addEventListener("click", (e) => {
+mbrBtnRegist.addEventListener("click", async (e) => {
     e.preventDefault();
+
+    // blur 직후 클릭 시 비동기 중복검사가 미완료된 경우 직접 실행
+    const idInputEl = document.getElementById("idcheck");
+    const emailInputEl = document.getElementById("M_Email");
+
+    if (idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && idDuplicateCheck === null) {
+        await new Promise(resolve => memberService.checkId(idInputEl.value, isAvailable => {
+            idDuplicateCheck = isAvailable;
+            resolve();
+        }));
+    }
+
+    if (emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && emailDuplicateCheck === null) {
+        await new Promise(resolve => memberService.checkEmail(emailInputEl.value, isAvailable => {
+            emailDuplicateCheck = isAvailable;
+            resolve();
+        }));
+    }
 
     let isValid = true;
 
@@ -214,6 +240,16 @@ mbrBtnRegist.addEventListener("click", (e) => {
         genderNotice.style.display = "none";
     }
 
+    // 휴대폰 인증 검증
+    const noticeMsgCert = document.getElementById("notice-msg-cert");
+    if (!phoneVerified) {
+        noticeMsgCert.innerHTML = "휴대폰 인증을 완료해주세요.";
+        noticeMsgCert.classList.add("failure");
+        noticeMsgCert.classList.remove("success");
+        noticeMsgCert.style.display = "block";
+        isValid = false;
+    }
+
     // 필수 약관 검증
     const ageAgree = document.getElementById("lb_chk_age");
     if (!ageAgree.checked) {
@@ -221,19 +257,17 @@ mbrBtnRegist.addEventListener("click", (e) => {
     }
 
     // 아이디/이메일 중복검사 확인 (정규식 통과한 경우에만 중복 메시지 표시)
-    const idInputEl = document.getElementById("idcheck");
     const idNoticeEl = document.getElementById("notice_msg_id");
-    if (idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && !idDuplicateCheck) {
-        idNoticeEl.innerHTML = "이미 사용 중인 아이디입니다.";
+    if (idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && idDuplicateCheck !== true) {
+        idNoticeEl.innerHTML = idDuplicateCheck === null ? "아이디 중복 확인을 해주세요." : "이미 사용 중인 아이디입니다.";
         idNoticeEl.classList.add("failure");
         idNoticeEl.style.display = "block";
         isValid = false;
     }
 
-    const emailInputEl = document.getElementById("M_Email");
     const emailNoticeEl = document.getElementById("notice_msg_mail");
-    if (emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && !emailDuplicateCheck) {
-        emailNoticeEl.innerHTML = "이미 사용 중인 이메일입니다.";
+    if (emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && emailDuplicateCheck !== true) {
+        emailNoticeEl.innerHTML = emailDuplicateCheck === null ? "이메일 중복 확인을 해주세요." : "이미 사용 중인 이메일입니다.";
         emailNoticeEl.classList.add("failure");
         emailNoticeEl.style.display = "block";
         isValid = false;
@@ -241,8 +275,8 @@ mbrBtnRegist.addEventListener("click", (e) => {
 
     // 검증 결과
     if (!isValid) {
-        const idIsDuplicate = !idDuplicateCheck && idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value);
-        const emailIsDuplicate = !emailDuplicateCheck && emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value);
+        const idIsDuplicate = idDuplicateCheck === false && idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value);
+        const emailIsDuplicate = emailDuplicateCheck === false && emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value);
 
         if (idIsDuplicate && emailIsDuplicate) {
             alert("이미 사용 중인 아이디와 이메일입니다.");

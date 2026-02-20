@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -100,7 +101,22 @@ public class QnaService {
         QnaDTO qna = qnaMapper.selectById(qnaVO.getId());
         if (qna == null || !qna.getIndividualMemberId().equals(memberId)) return;
 
-        qnaDAO.update(qnaVO);
+        // 텍스트 필드 변경 여부 (null과 "" 동일 처리)
+        boolean textChanged = !ne(qna.getQnaTitle()).equals(ne(qnaVO.getQnaTitle()))
+                || !ne(qna.getQnaContent()).equals(ne(qnaVO.getQnaContent()))
+                || !Objects.equals(qna.getJobCategorySmallId(), qnaVO.getJobCategorySmallId())
+                || !ne(qna.getJobCategoryName()).equals(ne(qnaVO.getJobCategoryName()))
+                || !ne(qna.getCompanyName()).equals(ne(qnaVO.getCompanyName()))
+                || !ne(qna.getCollegeFriend()).equals(ne(qnaVO.getCollegeFriend()));
+
+        // 파일 변경 여부 (파일 삭제 요청 or 새 파일 추가)
+        boolean fileChanged = !deletedFileIds.isEmpty()
+                || files.stream().anyMatch(f -> !f.getOriginalFilename().isEmpty());
+
+        // 변경이 있을 때만 UPDATE 실행 → updated_datetime 갱신
+        if (textChanged || fileChanged) {
+            qnaDAO.update(qnaVO);
+        }
 
         // 삭제 요청된 기존 파일 매핑 제거
         if (!deletedFileIds.isEmpty()) {
@@ -140,5 +156,18 @@ public class QnaService {
         if (qna != null && qna.getIndividualMemberId().equals(memberId)) {
             qnaMapper.delete(qnaId);
         }
+    }
+
+    public List<QnaDTO> getTopByViewCount(int limit) {
+        return qnaDAO.findTopByViewCount(limit);
+    }
+
+    public List<QnaDTO> getLatest(int limit) {
+        return qnaDAO.findLatest(limit);
+    }
+
+    // null과 빈 문자열("")을 동일하게 처리하는 헬퍼
+    private String ne(String s) {
+        return s == null ? "" : s;
     }
 }
