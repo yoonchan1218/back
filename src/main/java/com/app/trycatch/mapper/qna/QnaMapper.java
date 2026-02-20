@@ -14,10 +14,13 @@ import java.util.List;
 public interface QnaMapper {
     void insert(QnaVO qnaVO);
     QnaDTO selectById(Long id);
-    List<QnaDTO> selectAll(@Param("criteria") Criteria criteria, @Param("sort") int sort);
-    int selectTotal();
+    List<QnaDTO> selectAll(@Param("criteria") Criteria criteria, @Param("sort") int sort, @Param("keyword") String keyword);
+    int selectTotal(@Param("keyword") String keyword);
     void increaseViewCount(Long id);
+    void update(QnaVO qnaVO);
     void delete(Long id);
     void updateFileId(@Param("id") Long id, @Param("fileId") Long fileId);
     List<CorpNameKeywordDTO> selectCorpByKeyword(String keyword);
+    List<QnaDTO> selectTopByViewCount(@Param("limit") int limit);
+    List<QnaDTO> selectLatest(@Param("limit") int limit);
 }

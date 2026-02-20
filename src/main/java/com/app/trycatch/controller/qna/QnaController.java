@@ -4,8 +4,10 @@ import com.app.trycatch.domain.qna.QnaVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.qna.CorpNameKeywordDTO;
+import com.app.trycatch.dto.qna.QnaDTO;
 import com.app.trycatch.mapper.qna.QnaJobCategoryMapper;
 import com.app.trycatch.mapper.qna.QnaMapper;
+import com.app.trycatch.service.qna.QnaCommentService;
 import com.app.trycatch.service.qna.QnaService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +33,19 @@ import java.util.Map;
 public class QnaController {
     private final HttpSession session;
     private final QnaService qnaService;
+    private final QnaCommentService qnaCommentService;
     private final QnaJobCategoryMapper qnaJobCategoryMapper;
     private final QnaMapper qnaMapper;
+
+    // ── 공통: 세션에서 memberId 추출 ─────────────────────────────────────
+    private Long extractMemberId(Object member) {
+        if (member instanceof MemberDTO memberDTO) {
+            return memberDTO.getId();
+        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            return individualMemberDTO.getId();
+        }
+        return null;
+    }
 
     @GetMapping("/search-company")
     @ResponseBody
@@ -46,24 +59,25 @@ public class QnaController {
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(defaultValue = "1") int sort,
+                       @RequestParam(defaultValue = "") String keyword,
                        Model model) {
-        model.addAttribute("qnaWithPaging", qnaService.list(page, sort));
+        model.addAttribute("qnaWithPaging", qnaService.list(page, sort, keyword));
         model.addAttribute("loginMember", session.getAttribute("member"));
         model.addAttribute("currentSort", sort);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("bannerPopularQnas", qnaMapper.selectTopByViewCount(3));
+        model.addAttribute("bannerRecentQnas", qnaMapper.selectLatest(5));
+        model.addAttribute("popularQnas", qnaMapper.selectTopByViewCount(5));
         return "qna/QnA";
     }
 
     @GetMapping("/detail")
     public String detail(Long id, Model model) {
         Object member = session.getAttribute("member");
-        Long memberId = null;
-        if (member instanceof MemberDTO memberDTO) {
-            memberId = memberDTO.getId();
-        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
-            memberId = individualMemberDTO.getId();
-        }
+        Long memberId = extractMemberId(member);
         model.addAttribute("qna", qnaService.detail(id, memberId));
         model.addAttribute("loginMember", member);
+        model.addAttribute("comments", qnaCommentService.list(id));
         return "qna/QnA-detail";
     }
 
@@ -87,18 +101,9 @@ public class QnaController {
             @RequestParam(required = false) String collegeFriend,
             @RequestParam(value = "file", required = false) ArrayList<MultipartFile> files
     ) {
-        Object member = session.getAttribute("member");
-        Long memberId = null;
-        if (member instanceof MemberDTO memberDTO) {
-            memberId = memberDTO.getId();
-        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
-            memberId = individualMemberDTO.getId();
-        }
-
-        Long jobCategorySmallId = null;
-        if (jobCategorySmallCode != null) {
-            jobCategorySmallId = qnaJobCategoryMapper.selectIdByCode(jobCategorySmallCode);
-        }
+        Long memberId = extractMemberId(session.getAttribute("member"));
+        Long jobCategorySmallId = (jobCategorySmallCode != null)
+                ? qnaJobCategoryMapper.selectIdByCode(jobCategorySmallCode) : null;
         QnaVO qnaVO = QnaVO.builder()
                 .individualMemberId(memberId)
                 .qnaTitle(qnaTitle)
@@ -112,16 +117,58 @@ public class QnaController {
         return new RedirectView("/qna/detail?id=" + qnaVO.getId());
     }
 
+    @GetMapping("/update")
+    public String goToUpdateForm(Long id, Model model) {
+        Object member = session.getAttribute("member");
+        if (member == null) {
+            return "redirect:/main/log-in";
+        }
+        Long memberId = extractMemberId(member);
+        QnaDTO qna = qnaMapper.selectById(id);
+        if (qna == null || !qna.getIndividualMemberId().equals(memberId)) {
+            return "redirect:/qna/list";
+        }
+        model.addAttribute("qna", qna);
+        model.addAttribute("loginMember", member);
+        return "qna/update";
+    }
+
+    @PostMapping("/update")
+    public RedirectView update(
+            @RequestParam Long qnaId,
+            @RequestParam(required = false) String qnaTitle,
+            @RequestParam(required = false) String qnaContent,
+            @RequestParam(required = false) Long jobCategorySmallId,
+            @RequestParam(required = false) String jobCategoryName,
+            @RequestParam(required = false) String companyName,
+            @RequestParam(required = false) String collegeFriend,
+            @RequestParam(required = false, defaultValue = "") String deletedFileIds,
+            @RequestParam(value = "file", required = false) ArrayList<MultipartFile> files
+    ) {
+        Long memberId = extractMemberId(session.getAttribute("member"));
+        List<Long> deletedIds = new ArrayList<>();
+        if (deletedFileIds != null && !deletedFileIds.isBlank()) {
+            for (String s : deletedFileIds.split(",")) {
+                try { deletedIds.add(Long.parseLong(s.trim())); } catch (NumberFormatException ignored) {}
+            }
+        }
+        QnaVO qnaVO = QnaVO.builder()
+                .id(qnaId)
+                .qnaTitle(qnaTitle)
+                .qnaContent(qnaContent)
+                .jobCategorySmallId(jobCategorySmallId)
+                .jobCategoryName(jobCategoryName)
+                .companyName(companyName)
+                .collegeFriend(collegeFriend)
+                .build();
+        qnaService.update(memberId, qnaVO, deletedIds, files != null ? files : new ArrayList<>());
+        return new RedirectView("/qna/detail?id=" + qnaId);
+    }
+
     @PostMapping("/like")
     @ResponseBody
     public Map<String, Object> toggleLike(@RequestParam Long qnaId) {
-        Object member = session.getAttribute("member");
-        Long memberId = null;
-        if (member instanceof MemberDTO memberDTO) {
-            memberId = memberDTO.getId();
-        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
-            memberId = individualMemberDTO.getId();
-        }
+        Long memberId = extractMemberId(session.getAttribute("member"));
         if (memberId == null) {
             return Map.of("success", false, "message", "로그인이 필요합니다.");
         }
@@ -132,13 +179,7 @@ public class QnaController {
     @PostMapping("/delete")
     @ResponseBody
     public Map<String, Object> delete(@RequestParam Long qnaId) {
-        Object member = session.getAttribute("member");
-        Long memberId = null;
-        if (member instanceof MemberDTO memberDTO) {
-            memberId = memberDTO.getId();
-        } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
-            memberId = individualMemberDTO.getId();
-        }
+        Long memberId = extractMemberId(session.getAttribute("member"));
         if (memberId == null) {
             return Map.of("success", false, "message", "로그인이 필요합니다.");
         }

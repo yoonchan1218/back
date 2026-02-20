@@ -16,7 +16,11 @@ function timeForToday(datetime) {
 }
 
 document.querySelectorAll(".devQnaCreatedTime").forEach(el => {
-    el.textContent = timeForToday(el.dataset.created);
+    const created = new Date(el.dataset.created.replace(" ", "T"));
+    const updated = new Date(el.dataset.updated.replace(" ", "T"));
+    const isModified = Math.floor(created.getTime() / 1000) !== Math.floor(updated.getTime() / 1000);
+    const label = isModified ? "수정" : "작성";
+    el.textContent = timeForToday(el.dataset.created) + " " + label;
 });
 
 // 신고 버튼
@@ -563,53 +567,45 @@ const replyOfReplySubmitButtons = document.querySelectorAll(
 
 // 대댓글 달기(로그인)
 replyOfReplySubmitButtons.forEach((replyOfReplySubmitButton) => {
-    replyOfReplySubmitButton.addEventListener("click", (e) => {
-        location.href = "/QnA-detail.html";
+    replyOfReplySubmitButton.addEventListener("click", async (e) => {
+        const form = replyOfReplySubmitButton.closest("form");
+        const qnaId = document.querySelector("input[name=qnaId]").value;
+        const parent = form.querySelector("[name=qnaCommentParent]").value;
+        const content = form.querySelector("textarea.devComtWrite").value;
+        if (!content.trim()) { alert("내용을 입력해주세요."); return; }
+        const params = new URLSearchParams({ qnaId, qnaCommentContent: content, qnaCommentParent: parent });
+        const res = await fetch("/qna/comment/write", { method: "POST", body: params });
+        const data = await res.json();
+        if (data.success === false) { alert(data.message); return; }
+        location.reload();
     });
 });
 
 // 댓글 달기(로그인)
-replySubmitButton.addEventListener("click", (e) => {
-    alert("댓글이 등록되었습니다.");
-    location.href = "/QnA-detail.html";
-});
-
-// 댓글 삭제(로그인)
-const deleteReplyButtons = document.querySelectorAll(
-    ".btnDelete.devAnswerDeleteButton",
-);
-const deleteReplyOfButtons = document.querySelectorAll(
-    ".btnDelete.devBtnComtDelete",
-);
-deleteReplyOfButtons.forEach((deleteButton) => {
-    deleteButton.addEventListener("click", (e) => {
-        // confirm은 확인(true) 또는 취소(false)를 반환합니다.
-        const isDelete = confirm("정말로 댓글을 삭제 하시겠습니까?");
-
-        if (isDelete) {
-            // 사용자가 '확인'을 눌렀을 때만 실행
-            alert("삭제되었습니다."); // (선택사항) 삭제 완료 알림
-            location.href = "/QnA-detail.html"; // 페이지 이동
-        } else {
-            // 사용자가 '취소'를 누르면 아무 일도 일어나지 않음 (함수 종료)
-            return;
-        }
+if (replySubmitButton) {
+    replySubmitButton.addEventListener("click", async (e) => {
+        const form = replySubmitButton.closest("form");
+        const qnaId = form.querySelector("[name=qnaId]").value;
+        const content = form.querySelector("textarea[name=qnaCommentContent]").value;
+        if (!content.trim()) { alert("내용을 입력해주세요."); return; }
+        const params = new URLSearchParams({ qnaId, qnaCommentContent: content });
+        const res = await fetch("/qna/comment/write", { method: "POST", body: params });
+        const data = await res.json();
+        if (data.success === false) { alert(data.message); return; }
+        location.reload();
     });
-});
-deleteReplyButtons.forEach((deleteButton) => {
-    deleteButton.addEventListener("click", (e) => {
-        // confirm은 확인(true) 또는 취소(false)를 반환합니다.
-        const isDelete = confirm("정말로 댓글을 삭제 하시겠습니까?");
+}
 
-        if (isDelete) {
-            // 사용자가 '확인'을 눌렀을 때만 실행
-            alert("삭제되었습니다."); // (선택사항) 삭제 완료 알림
-            location.href = "/QnA-detail.html"; // 페이지 이동
-        } else {
-            // 사용자가 '취소'를 누르면 아무 일도 일어나지 않음 (함수 종료)
-            return;
-        }
-    });
+// 댓글/대댓글 삭제(로그인) - 이벤트 위임
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".devAnswerDeleteButton, .devBtnComtDelete");
+    if (!btn) return;
+    if (!confirm("정말로 댓글을 삭제하시겠습니까?")) return;
+    const id = btn.dataset.id;
+    const res = await fetch(`/qna/comment/delete?id=${id}`, { method: "DELETE" });
+    const data = await res.json();
+    if (data.success) location.reload();
+    else alert(data.message || "삭제에 실패했습니다.");
 });
 
 // 댓글 수정(로그인)
@@ -712,26 +708,19 @@ modifyCancelButtons.forEach((modifyCancelButton) => {
     });
 });
 
-// ✅ 등록 버튼 이벤트 (로그인)
-const modifySubmitButtons = document.querySelectorAll(
-    ".btnSbm.devAnswerEditSubmitButton",
-);
-
-modifySubmitButtons.forEach((modifySubmitButton) => {
-    modifySubmitButton.addEventListener("click", (e) => {
-        alert("댓글 등록이 완료되었습니다.");
-        location.href = "/QnA-detail.html";
-    });
-});
-
-// ✅ 대댓글 수정 등록 버튼 이벤트 (로그인)
-const comtModifySubmitButtons = document.querySelectorAll(
-    ".btnSbm.devComtEditSubmitButton",
-);
-
-comtModifySubmitButtons.forEach((comtModifySubmitButton) => {
-    comtModifySubmitButton.addEventListener("click", (e) => {
-        alert("댓글 등록이 완료되었습니다.");
-        location.href = "/QnA-detail.html";
-    });
+// ✅ 댓글/대댓글 수정 등록 - 이벤트 위임
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".devAnswerEditSubmitButton, .devComtEditSubmitButton");
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const container = btn.closest(".modify-answer, .modify-comt");
+    const textarea = container ? container.querySelector("textarea") : null;
+    if (!textarea) return;
+    const content = textarea.value;
+    if (!content.trim()) { alert("내용을 입력해주세요."); return; }
+    const params = new URLSearchParams({ id, qnaCommentContent: content });
+    const res = await fetch("/qna/comment/update", { method: "PUT", body: params });
+    const data = await res.json();
+    if (data.success) location.reload();
+    else alert(data.message || "수정에 실패했습니다.");
 });

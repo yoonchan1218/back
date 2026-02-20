@@ -204,9 +204,11 @@ corpInput.addEventListener("keyup", (e) => {
                 return;
             }
             data.forEach(corp => {
-                const idx = corp.corpName.indexOf(keyword);
-                const before = idx !== -1 ? corp.corpName.substring(0, idx) : "";
-                const matched = idx !== -1 ? corp.corpName.substring(idx, idx + keyword.length) : corp.corpName;
+                const lowerName = corp.corpName.toLowerCase();
+                const lowerKeyword = keyword.toLowerCase();
+                const idx = lowerName.indexOf(lowerKeyword);
+                const before = idx !== -1 ? corp.corpName.substring(0, idx) : corp.corpName;
+                const matched = idx !== -1 ? corp.corpName.substring(idx, idx + keyword.length) : "";
                 const after = idx !== -1 ? corp.corpName.substring(idx + keyword.length) : "";
                 const li = document.createElement("li");
                 li.classList.add("devQnaWriteCompanyRecentItem");

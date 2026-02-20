@@ -6,20 +6,18 @@ const writeTitle = document.querySelector(".jkSchInp.devQnaWriteTitle");
 const writeContent = document.querySelector(".devQnaWriteCntnt.custom-editor");
 
 admitButton.addEventListener("click", (e) => {
-    if (!confirm("등록하시겠습니까?")) {
-        e.preventDefault();
-        return false;
-    }
     if (!writeTitle.value) {
         alert("제목을 입력해주세요");
-        e.preventDefault();
-    } else if (!writeContent.value) {
-        alert("내용을 입력해주세요");
-        e.preventDefault();
-    } else {
-        alert("등록되었습니다.");
-        location.href = "";
+        return;
     }
+    if (!writeContent.value) {
+        alert("내용을 입력해주세요");
+        return;
+    }
+    if (!confirm("수정하시겠습니까?")) {
+        return;
+    }
+    admitButton.closest("form").submit();
 });
 
 // 취소하기 버튼
@@ -32,7 +30,7 @@ cancelButton.addEventListener("click", (e) => {
         e.preventDefault(); //새로고침을 막아준다.
         return false;
     }
-    location.href = "";
+    location.href = "../../../templates/qna/QnA.html";
 });
 
 const writeButton = document.querySelector(
@@ -65,16 +63,18 @@ const linkLayer = document.querySelector(".layer-box-wrap.link-layer");
 // 링크 레이어 X버튼
 btnLayerCloses.forEach((btnLayerClose) => {
     btnLayerClose.addEventListener("click", (e) => {
-        linkLayer.classList.remove("open");
-        iconBtnLayerOpen.classList.remove("on");
+        if (linkLayer) linkLayer.classList.remove("open");
+        if (iconBtnLayerOpen) iconBtnLayerOpen.classList.remove("on");
     });
 });
 
 // 링크 클릭
-iconBtnLayerOpen.addEventListener("click", (e) => {
-    linkLayer.classList.toggle("open");
-    iconBtnLayerOpen.classList.toggle("on");
-});
+if (iconBtnLayerOpen) {
+    iconBtnLayerOpen.addEventListener("click", (e) => {
+        linkLayer.classList.toggle("open");
+        iconBtnLayerOpen.classList.toggle("on");
+    });
+}
 
 const urlRegex = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
 
@@ -109,72 +109,68 @@ function checkUrl() {
     }
 }
 
-// 버튼 클릭
-findButton.addEventListener("click", checkUrl);
-
-// 엔터키 입력
-inputText.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        checkUrl();
-    }
-});
-
-// 링크 첨부하기 버튼 활성화
-
-// 링크 제목 입력창
-const linkTitleInput = document.querySelector(".ApiOpenGraphResult");
-// 첨부하기 버튼
-const attachButton = document.querySelector(".apply.attachLinkBtn");
-
-// 입력할 때마다 체크
-linkTitleInput.addEventListener("input", (e) => {
-    // 링크 제목에 들어갈 변수 담기
-
-    if (e.target.value) {
-        attachButton.classList.add("on");
-    } else {
-        attachButton.classList.remove("on");
-    }
-});
-
 // 링크 추가
 const textarea = document.querySelector(".addFileAndLink");
-attachButton.addEventListener("click", (e) => {
-    const getText = document.getElementById("devAttachLinkTitle");
-    const getURL = document.querySelector(
-        ".jkSchInput.keywordSearch.keywordSearchLink p.inpWrap input.schInp",
-    );
-    if (attachButton.classList.contains("on")) {
-        linkLayer.classList.remove("open");
-        iconBtnLayerOpen.classList.remove("on");
 
-        textarea.innerHTML += `
-            <div class="attach-wrap">
-                <a href="#" class="attach-box type-link">
-                    <span class="thumb-img-area">
-                        <span>링크</span>
-                    </span>
-                <div class="corp-info-area qnaSpA">
-                    <p class="content">${getText.value}</p>
-                    <span class="content-url">${getURL.value}</span>
-                </div>
-            </a>
-            <button type="button" class="remove-button qnaSpB">삭제하기</button>
-            </div>
-        `;
-    }
-    const a = document.querySelector(".ApiOpenGraphResult");
-    a.innerHTML = "";
-    getText.value = "";
-    getURL.value = "";
+if (findButton) {
+    // 버튼 클릭
+    findButton.addEventListener("click", checkUrl);
 
-    textarea.addEventListener("click", (e) => {
-        if (e.target.classList.contains("remove-button")) {
-            console.log("들어옴");
-            e.target.closest(".attach-wrap").remove();
+    // 엔터키 입력
+    inputText.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            checkUrl();
         }
     });
-});
+
+    // 링크 첨부하기 버튼 활성화
+
+    // 링크 제목 입력창
+    const linkTitleInput = document.querySelector(".ApiOpenGraphResult");
+    // 첨부하기 버튼
+    const attachButton = document.querySelector(".apply.attachLinkBtn");
+
+    // 입력할 때마다 체크
+    linkTitleInput.addEventListener("input", (e) => {
+        // 링크 제목에 들어갈 변수 담기
+
+        if (e.target.value) {
+            attachButton.classList.add("on");
+        } else {
+            attachButton.classList.remove("on");
+        }
+    });
+
+    attachButton.addEventListener("click", (e) => {
+        const getText = document.getElementById("devAttachLinkTitle");
+        const getURL = document.querySelector(
+            ".jkSchInput.keywordSearch.keywordSearchLink p.inpWrap input.schInp",
+        );
+        if (attachButton.classList.contains("on")) {
+            if (linkLayer) linkLayer.classList.remove("open");
+            if (iconBtnLayerOpen) iconBtnLayerOpen.classList.remove("on");
+
+            textarea.innerHTML += `
+                <div class="attach-wrap">
+                    <a href="#" class="attach-box type-link">
+                        <span class="thumb-img-area">
+                            <span>링크</span>
+                        </span>
+                    <div class="corp-info-area qnaSpA">
+                        <p class="content">${getText.value}</p>
+                        <span class="content-url">${getURL.value}</span>
+                    </div>
+                </a>
+                <button type="button" class="remove-button qnaSpB">삭제하기</button>
+                </div>
+            `;
+        }
+        const a = document.querySelector(".ApiOpenGraphResult");
+        a.innerHTML = "";
+        getText.value = "";
+        getURL.value = "";
+    });
+}
 
 // 링크 삭제
 const removeLink = document.querySelector(".attach-box.type-link");
@@ -189,6 +185,9 @@ addPicture.addEventListener("click", () => {
     photoInput.click();
 });
 
+// 파일 누적 관리용 DataTransfer
+const dataTransfer = new DataTransfer();
+
 // 파일 선택 시 처리
 photoInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
@@ -200,6 +199,9 @@ photoInput.addEventListener("change", (e) => {
         return;
     }
 
+    dataTransfer.items.add(file);
+    photoInput.files = dataTransfer.files;
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -208,7 +210,7 @@ photoInput.addEventListener("change", (e) => {
 
         // 이미지를 화면에 추가
         textarea.innerHTML += `
-            <div class="attach-wrap attach-image">
+            <div class="attach-wrap attach-image" data-file-name="${file.name}">
                 <div class="attach-box type-image">
                     <img src="${path}" alt="첨부 이미지">
                 </div>
@@ -217,13 +219,32 @@ photoInput.addEventListener("change", (e) => {
         `;
     });
 
-    // 같은 파일 다시 선택 가능하도록 초기화
-    e.target.value = "";
 });
 
 // 이미지 삭제 (이벤트 위임)
-textarea.addEventListener("click", (e) => {
-    if (e.target.classList.contains("remove-button")) {
-        e.target.closest(".attach-wrap").remove();
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".remove-button");
+    if (btn && btn.closest(".addFileAndLink")) {
+        const wrap = btn.closest(".attach-wrap");
+        if (wrap.classList.contains("existingImage")) {
+            const fileId = wrap.dataset.fileId;
+            if (fileId) {
+                const hidden = document.getElementById("deletedFileIds");
+                if (hidden) {
+                    hidden.value = hidden.value
+                        ? hidden.value + "," + fileId
+                        : fileId;
+                }
+            }
+        } else if (wrap.dataset.fileName) {
+            const newDt = new DataTransfer();
+            for (const f of dataTransfer.files) {
+                if (f.name !== wrap.dataset.fileName) newDt.items.add(f);
+            }
+            dataTransfer.items.clear();
+            for (const f of newDt.files) dataTransfer.items.add(f);
+            photoInput.files = dataTransfer.files;
+        }
+        wrap.remove();
     }
 });

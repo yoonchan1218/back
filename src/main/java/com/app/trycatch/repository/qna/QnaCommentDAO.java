@@ -1,5 +1,6 @@
 package com.app.trycatch.repository.qna;
 
+import com.app.trycatch.domain.qna.QnaCommentVO;
 import com.app.trycatch.dto.qna.QnaCommentDTO;
 import com.app.trycatch.mapper.qna.QnaCommentMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,15 +13,23 @@ import java.util.List;
 public class QnaCommentDAO {
     private final QnaCommentMapper qnaCommentMapper;
 
-    public void save(QnaCommentDTO qnaCommentDTO) {
-        qnaCommentMapper.insert(qnaCommentDTO.toQnaCommentVO());
+    public void save(QnaCommentVO qnaCommentVO) {
+        qnaCommentMapper.insert(qnaCommentVO);
     }
 
     public List<QnaCommentDTO> findByQnaId(Long qnaId) {
         return qnaCommentMapper.selectByQnaId(qnaId);
     }
 
-    public void delete(Long id) {
-        qnaCommentMapper.delete(id);
+    public void delete(Long id, Long memberId) {
+        qnaCommentMapper.delete(id, memberId);
+    }
+
+    public void update(QnaCommentVO qnaCommentVO) {
+        qnaCommentMapper.update(qnaCommentVO);
+    }
+
+    public boolean existsByQnaIdAndMemberId(Long qnaId, Long memberId) {
+        return qnaCommentMapper.existsByQnaIdAndMemberId(qnaId, memberId);
     }
 }

@@ -362,12 +362,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-.side-navigation .myInfoSec .myInfo .infoBx dt:after {
-    margin: -2px 0 0 5px;
-    width: 4px;
-    height: 7px;
-    background-position: -120px -65px;
-}
+/*.side-navigation .myInfoSec .myInfo .infoBx dt:after {*/
+/*    margin: -2px 0 0 5px;*/
+/*    width: 4px;*/
+/*    height: 7px;*/
+/*    background-position: -120px -65px;*/
+/*}*/
 
 .side-navigation .myInfoSec .myInfo .infoBx dd span {
     display: inline-block;

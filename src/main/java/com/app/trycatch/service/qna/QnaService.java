@@ -63,11 +63,11 @@ public class QnaService {
         }
     }
 
-    public QnaWithPagingDTO list(int page, int sort) {
+    public QnaWithPagingDTO list(int page, int sort, String keyword) {
         QnaWithPagingDTO result = new QnaWithPagingDTO();
-        int total = qnaDAO.findTotal();
+        int total = qnaDAO.findTotal(keyword);
         Criteria criteria = new Criteria(page, total);
-        List<QnaDTO> qnas = qnaDAO.findAll(criteria, sort);
+        List<QnaDTO> qnas = qnaDAO.findAll(criteria, sort, keyword);
         criteria.setHasMore(qnas.size() > criteria.getRowCount());
         if (criteria.isHasMore()) {
             qnas.remove(qnas.size() - 1);
@@ -94,6 +94,45 @@ public class QnaService {
             qnaLikesMapper.insert(QnaLikesVO.builder().memberId(memberId).qnaId(qnaId).build());
         }
         return qnaLikesMapper.countByQnaId(qnaId);
+    }
+
+    public void update(Long memberId, QnaVO qnaVO, List<Long> deletedFileIds, ArrayList<MultipartFile> files) {
+        QnaDTO qna = qnaMapper.selectById(qnaVO.getId());
+        if (qna == null || !qna.getIndividualMemberId().equals(memberId)) return;
+
+        qnaDAO.update(qnaVO);
+
+        // 삭제 요청된 기존 파일 매핑 제거
+        if (!deletedFileIds.isEmpty()) {
+            // FK 제약: tbl_qna.qna_file_id → tbl_qna_file.id 이므로 먼저 null 처리
+            qnaMapper.updateFileId(qnaVO.getId(), null);
+            for (Long fileId : deletedFileIds) {
+                qnaFileDAO.deleteById(fileId, qnaVO.getId());
+            }
+        }
+
+        // 새 파일 저장
+        String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        for (MultipartFile file : files) {
+            if (file.getOriginalFilename().isEmpty()) continue;
+            FileDTO fileDTO = new FileDTO();
+            fileDTO.setFilePath(todayPath);
+            fileDTO.setFileName(UUID.randomUUID() + "_" + file.getOriginalFilename());
+            fileDTO.setFileOriginalName(file.getOriginalFilename());
+            fileDTO.setFileSize(String.valueOf(file.getSize()));
+            fileDTO.setFileContentType(
+                file.getContentType().contains("image") ? FileContentType.IMAGE : FileContentType.OTHER
+            );
+            fileDAO.save(fileDTO);
+            qnaFileDAO.save(fileDTO.getId(), qnaVO.getId());
+            File dir = new File("C:/file/" + todayPath);
+            if (!dir.exists()) dir.mkdirs();
+            try {
+                file.transferTo(new File(dir, fileDTO.getFileName()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void delete(Long memberId, Long qnaId) {

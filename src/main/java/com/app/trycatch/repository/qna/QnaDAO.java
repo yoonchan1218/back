@@ -19,14 +19,19 @@ public class QnaDAO {
         qnaMapper.insert(qnaVO);
     }
 
+//    수정
+    public void update(QnaVO qnaVO) {
+        qnaMapper.update(qnaVO);
+    }
+
 //    목록 (페이징)
-    public List<QnaDTO> findAll(Criteria criteria, int sort) {
-        return qnaMapper.selectAll(criteria, sort);
+    public List<QnaDTO> findAll(Criteria criteria, int sort, String keyword) {
+        return qnaMapper.selectAll(criteria, sort, keyword);
     }
 
 //    전체 개수
-    public int findTotal() {
-        return qnaMapper.selectTotal();
+    public int findTotal(String keyword) {
+        return qnaMapper.selectTotal(keyword);
     }
 
 }

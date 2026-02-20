@@ -215,84 +215,28 @@
                     <div class="lyWriteBoard">
                         <!-- 글쓰기 시작(제목, 내용) -->
                         <div class="writeBoxWrap">
-                            <form>
+                            <form action="/qna/update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="qnaId" th:value="${qna.id}" />
+                                <input type="hidden" name="deletedFileIds" id="deletedFileIds" value="" />
+                                <input type="hidden" name="jobCategorySmallId" th:value="${qna.jobCategorySmallId}" />
+                                <input type="hidden" name="jobCategoryName"    th:value="${qna.jobCategoryName}" />
+                                <input type="hidden" name="companyName"        th:value="${qna.companyName}" />
+                                <input type="hidden" name="collegeFriend"      th:value="${qna.collegeFriend}" />
                                 <fieldset>
                                     <legend>제목 등록하기</legend>
                                     <div class="jkTxInput">
                                         <p class="inpWrap">
                                             <input
                                                 type="text"
+                                                name="qnaTitle"
                                                 class="jkSchInp devQnaWriteTitle"
-                                                value="test"
+                                                th:value="${qna.qnaTitle}"
                                             />
                                         </p>
                                     </div>
                                     <!-- 링크, 사진 첨부 -->
                                     <div class="editor-util">
                                         <ul>
-                                            <li class="editor-util-item">
-                                                <button
-                                                    type="button"
-                                                    class="icon-link qnaSpB btn-layer-open"
-                                                >
-                                                    링크
-                                                </button>
-                                                <div
-                                                    class="layer-box-wrap link-layer"
-                                                >
-                                                    <p class="layer-header">
-                                                        링크첨부
-                                                    </p>
-                                                    <div
-                                                        class="jkSchInput keywordSearch keywordSearchLink"
-                                                    >
-                                                        <p class="inpWrap">
-                                                            <input
-                                                                type="text"
-                                                                class="schInp"
-                                                                maxlength=""
-                                                                placeholder="URL을 입력하세요"
-                                                                title="학교명 입력"
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                class="btnSch qnaSpB devSearchLink"
-                                                            >
-                                                                <span
-                                                                    class="skip"
-                                                                    >검색</span
-                                                                >
-                                                            </button>
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        class="loading"
-                                                        style="display: none"
-                                                    >
-                                                        로딩중
-                                                    </div>
-                                                    <div
-                                                        class="ApiOpenGraphResult"
-                                                    ></div>
-                                                    <div class="layer-button">
-                                                        <button
-                                                            type="button"
-                                                            class="apply attachLinkBtn"
-                                                        >
-                                                            첨부하기
-                                                        </button>
-                                                    </div>
-
-                                                    <button
-                                                        type="button"
-                                                        class="btn-layer-close qnaSpB"
-                                                    >
-                                                        <span class="blind"
-                                                            >닫기</span
-                                                        >
-                                                    </button>
-                                                </div>
-                                            </li>
                                             <li class="editor-util-item">
                                                 <button
                                                     type="button"
@@ -303,6 +247,7 @@
                                                 <input
                                                     type="file"
                                                     id="photoInput"
+                                                    name="file"
                                                     accept="image/*"
                                                     style="display: none"
                                                 />
@@ -330,11 +275,24 @@
                                         >
                                         <!-- 실질적인 내용 작성하는 곳 -->
                                         <div>
-                                            <div class="addFileAndLink"></div>
+                                            <div class="addFileAndLink">
+                                                <th:block th:each="file : ${qna.files}">
+                                                    <div class="attach-wrap attach-image existingImage"
+                                                         th:data-file-id="${file.id}">
+                                                        <div class="attach-box type-image">
+                                                            <img th:src="@{/file/{path}/{name}(path=${file.filePath},name=${file.fileName})}"
+                                                                 alt="첨부 이미지">
+                                                        </div>
+                                                        <button type="button" class="remove-button qnaSpB">삭제하기</button>
+                                                    </div>
+                                                </th:block>
+                                            </div>
                                             <textarea
                                                 id="editorQnaText"
+                                                name="qnaContent"
                                                 class="devQnaWriteCntnt custom-editor"
-                                            >test</textarea>
+                                                th:text="${qna.qnaContent}"
+                                            ></textarea>
                                         </div>
                                     </div>
                                     <!-- 질문하기, 취소 버튼 -->
