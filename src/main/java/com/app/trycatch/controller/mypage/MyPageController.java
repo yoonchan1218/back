@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MyPageController {
     private final MyPageService myPageService;
     private final HttpSession session;
-
+// 공고 완료되면 추가 수정 예정
     @GetMapping({"", "/"})
     public RedirectView goToMyPageRoot() {
         return new RedirectView("/mypage/mypage");
