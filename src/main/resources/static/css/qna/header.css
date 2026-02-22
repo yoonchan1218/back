@@ -1104,8 +1104,11 @@ li {
     display: block;
 }
 
-.userNav-item.corp:hover .lyMyArea {
-  display: block;
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp.open .lyMyArea {
+    display: block;
+}
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp:hover .lyMyArea {
+    display: block;
 }
 
 /* open 상태에서 화살표 뒤집기(선택) */
