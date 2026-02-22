@@ -80,7 +80,6 @@ public class QnaController {
         model.addAttribute("qna", qnaService.detail(id, memberId));
         model.addAttribute("loginMember", member);
         model.addAttribute("comments", qnaCommentService.list(id));
-        model.addAttribute("hasWrittenComment", memberId != null && qnaCommentService.existsByQnaIdAndMemberId(id, memberId));
         model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
         model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/QnA-detail";

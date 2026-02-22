@@ -32,10 +32,4 @@ public interface MemberMapper {
 
     //    로그인
     public Optional<MemberVO> selectMemberForLogin(MemberDTO memberDTO);
-
-    //    id로 조회
-    Optional<MemberVO> selectById(Long id);
-
-    //    회원정보 수정 (비밀번호·전화·이메일·마케팅동의)
-    void update(MemberVO memberVO);
 }

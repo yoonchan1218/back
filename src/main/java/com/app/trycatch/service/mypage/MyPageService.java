@@ -3,10 +3,23 @@ package com.app.trycatch.service.mypage;
 import com.app.trycatch.common.exception.InputAllDataException;
 import com.app.trycatch.common.exception.MemberNotFoundException;
 import com.app.trycatch.common.exception.UnauthorizedMemberAccessException;
+import com.app.trycatch.domain.mypage.LatestWatchPostingVO;
+import com.app.trycatch.domain.mypage.PointDetailsVO;
+import com.app.trycatch.domain.mypage.ScrapPostingVO;
+import com.app.trycatch.dto.mypage.LatestWatchPostingDTO;
 import com.app.trycatch.dto.mypage.MyPageNotificationDTO;
 import com.app.trycatch.dto.mypage.MyPageProfileDTO;
 import com.app.trycatch.dto.mypage.MyPageUpdateDTO;
+import com.app.trycatch.dto.mypage.PointDetailsDTO;
+import com.app.trycatch.dto.mypage.ScrapPostingDTO;
+import com.app.trycatch.dto.mypage.ApplyListDTO;
+import com.app.trycatch.dto.mypage.ExperienceProgramRankDTO;
+import com.app.trycatch.repository.mypage.ApplyListDAO;
+import com.app.trycatch.repository.mypage.ExperienceProgramRankDAO;
+import com.app.trycatch.repository.mypage.LatestWatchPostingDAO;
 import com.app.trycatch.repository.mypage.MyPageDAO;
+import com.app.trycatch.repository.mypage.PointDetailsDAO;
+import com.app.trycatch.repository.mypage.ScrapPostingDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +37,11 @@ import java.util.UUID;
 @Transactional(rollbackFor = Exception.class)
 public class MyPageService {
     private final MyPageDAO myPageDAO;
+    private final ScrapPostingDAO scrapPostingDAO;
+    private final LatestWatchPostingDAO latestWatchPostingDAO;
+    private final PointDetailsDAO pointDetailsDAO;
+    private final ExperienceProgramRankDAO experienceProgramRankDAO;
+    private final ApplyListDAO applyListDAO;
 
     @Transactional(readOnly = true)
     public MyPageProfileDTO getProfile(Long memberId) {
@@ -35,7 +53,6 @@ public class MyPageService {
             throw new UnauthorizedMemberAccessException();
         }
 
-        // 필수 정보 검증 (이름, 이메일, 휴대폰, 생년월일, 성별)
         if (myPageUpdateDTO.getMemberName() == null || myPageUpdateDTO.getMemberName().isBlank() ||
             myPageUpdateDTO.getMemberEmail() == null || myPageUpdateDTO.getMemberEmail().isBlank() ||
             myPageUpdateDTO.getMemberPhone() == null || myPageUpdateDTO.getMemberPhone().isBlank() ||
@@ -93,5 +110,59 @@ public class MyPageService {
             throw new com.app.trycatch.common.exception.UnsubscribeNameMismatchException();
         }
         myPageDAO.deactivateMember(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScrapPostingDTO> getScrapPostings(Long memberId) {
+        return scrapPostingDAO.findAllByMemberId(memberId);
+    }
+
+    public void toggleScrap(ScrapPostingDTO scrapPostingDTO) {
+        scrapPostingDAO.updateStatus(scrapPostingDTO.toVO());
+    }
+
+    public void addScrap(Long memberId, Long experienceProgramId) {
+        ScrapPostingVO scrapPostingVO = ScrapPostingVO.builder()
+                .memberId(memberId)
+                .experienceProgramId(experienceProgramId)
+                .build();
+        scrapPostingDAO.save(scrapPostingVO);
+    }
+
+    @Transactional(readOnly = true)
+    public List<LatestWatchPostingDTO> getLatestWatchPostings(Long memberId) {
+        return latestWatchPostingDAO.findAllByMemberId(memberId);
+    }
+
+    public void addLatestWatchPosting(Long memberId, Long experienceProgramId) {
+        LatestWatchPostingVO latestWatchPostingVO = LatestWatchPostingVO.builder()
+                .memberId(memberId)
+                .experienceProgramId(experienceProgramId)
+                .build();
+        latestWatchPostingDAO.save(latestWatchPostingVO);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PointDetailsDTO> getPointDetails(Long memberId) {
+        return pointDetailsDAO.findAllByMemberId(memberId);
+    }
+
+    public void cancelApply(Long memberId, Long applyId) {
+        myPageDAO.cancelApply(memberId, applyId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ApplyListDTO> getApplyList(Long memberId) {
+        return applyListDAO.findAllByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ExperienceProgramRankDTO> getTopPostings(int limit) {
+        return experienceProgramRankDAO.findTopByViewCount(limit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ExperienceProgramRankDTO> getTopPublicPostings(int limit) {
+        return experienceProgramRankDAO.findTopPublicByViewCount(limit);
     }
 }

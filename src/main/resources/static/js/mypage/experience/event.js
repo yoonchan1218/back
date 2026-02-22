@@ -7,9 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonCancel = document.querySelector(".button.button-cancel");
     const applySubmitButton = document.querySelector(".button.button-ok.devBtnSubmitCancel");
 
+    let currentApplyId = null;
+    let currentCancelBtn = null;
+
     if (applyCancelButtons.length > 0 && popupApplyCancel) {
         applyCancelButtons.forEach((btn) => {
-            btn.addEventListener("click", () => experienceLayout.openCancelPopup(dimmedDiv, popupApplyCancel));
+            btn.addEventListener("click", () => {
+                currentApplyId = btn.dataset.idx;
+                currentCancelBtn = btn;
+                experienceLayout.openCancelPopup(dimmedDiv, popupApplyCancel);
+            });
         });
 
         const close = () => experienceLayout.closeCancelPopup(dimmedDiv, popupApplyCancel);
@@ -17,7 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (buttonCancel) buttonCancel.addEventListener("click", close);
         if (applySubmitButton) {
             applySubmitButton.addEventListener("click", () => {
-                location.href = ""; // TODO: Implement submit logic if needed
+                if (!currentApplyId || applySubmitButton.disabled) return;
+                applySubmitButton.disabled = true;
+                experienceService.cancelApply(currentApplyId, (success) => {
+                    applySubmitButton.disabled = false;
+                    if (success) {
+                        close();
+                        experienceLayout.showCancelled(currentCancelBtn);
+                        currentApplyId = null;
+                        currentCancelBtn = null;
+                    }
+                });
             });
         }
     }

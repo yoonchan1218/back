@@ -1,13 +1,21 @@
 const mainService = (() => {
-    const insert = async (file) => {
+    const insert = async (file, callback) => {
         const formData = new FormData();
         formData.append("file", file);
         const response = await fetch("/mypage/profile-image", {
             method: "POST",
             body: formData
         });
-        return await response.text();
+        const imageUrl = await response.text();
+        if (callback) callback(imageUrl);
     };
 
-    return {insert};
+    const toggleScrap = async (scrapId, scrapStatus) => {
+        await fetch("/mypage/scrap/toggle", {
+            method: "POST",
+            body: new URLSearchParams({ scrapId, scrapStatus })
+        });
+    };
+
+    return {insert, toggleScrap};
 })();

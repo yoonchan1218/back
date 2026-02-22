@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 /* 기본 */
@@ -448,7 +448,7 @@ table, th, td, input, button {
     padding-left: 0;
 }
 #content .infoContent  .schListsWrap .mtcSchListTb table tbody td .no-team-member-wrap::before {
-    background: url("/images/corporate/sprite_ver2_img.png") 100% 100% / 100% no-repeat !important;
+    background: url("/static/images/corporate/sprite_ver2_img.png") 100% 100% / 100% no-repeat !important;
 }
 #content .infoContent  .schListsWrap .mtcSchListTb table tbody td .no-team-member-wrap:before {
     content: "";
@@ -869,5 +869,5 @@ table, th, td, input, button {
     display: block;
     width: 32px;
     height: 32px;
-    background: url("/images/corporate/icon_close.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_close.png") no-repeat 50%;
 }

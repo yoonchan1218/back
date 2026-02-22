@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 /* 기본 */
@@ -230,7 +230,7 @@ a, img {
     display: block;
     padding-right: 20px;
     line-height: 20px;
-    background: url("/images/corporate/icon_position_arrow_14x20.svg") no-repeat 100%;
+    background: url("/static/images/corporate/icon_position_arrow_14x20.svg") no-repeat 100%;
     background-size: 14px 20px;
 }
 
@@ -278,7 +278,7 @@ a, img {
     height: 32px;
     border: 1px solid #d7d7d7;
     border-radius: 4px;
-    background: url("/images/corporate/icon_filter.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_filter.png") no-repeat 50%;
 }
 .input-box_common {
     position: relative;
@@ -307,7 +307,7 @@ a, img {
     display: block;
     width: 28px;
     height: 30px;
-    background: url("/images/corporate/icon_search.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_search.png") no-repeat 50%;
 }
 
 .filter-modal {
@@ -373,7 +373,7 @@ input[type=checkbox] {
     display: block;
     width: 18px;
     height: 18px;
-    background: url("/images/corporate/label_checkbox_common_off.png") no-repeat 50%;
+    background: url("/static/images/corporate/label_checkbox_common_off.png") no-repeat 50%;
 }
 .checkbox-label_common.text-case {
     width: auto;
@@ -383,7 +383,7 @@ input[type=checkbox] {
 }
 
 input[type=checkbox]:checked+.checkbox-label_common {
-    background-image: url("/images/corporate/label_checkbox_common_on.png");
+    background-image: url("/static/images/corporate/label_checkbox_common_on.png");
 }
 .filter-modal>.content-box .filter-box .gender-box .checkbox:nth-child(n+2) {
     margin-left: 22px;
@@ -433,7 +433,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
 }
 .mtcBtn, .mtcBtnB:before, .mtcBtnA:after, .mtcBtnM:before, .mtcBtnM:After {
     display: inline-block;
-    background: url("/images/corporate/mtc_sp_btn.png") no-repeat;
+    background: url("/static/images/corporate/mtc_sp_btn.png") no-repeat;
     box-sizing: border-box;
 }
 .filter-modal>.button-box .filterSelItem .selItems .item .btnSelDel:before {
@@ -472,7 +472,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
     top: 22.2px;
     right: 157px;
     padding-left: 20px;
-    background: url("/images/corporate/icon_reset.png") no-repeat 1px -3px;
+    background: url("/static/images/corporate/icon_reset.png") no-repeat 1px -3px;
 }
 .participant-list-section .search-keyword-box {
     padding: 10px 12px;
@@ -535,7 +535,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
     top: 4px;
     width: 12px;
     height: 12px;
-    background: url("/images/corporate/xmark_12x12.png")
+    background: url("/static/images/corporate/xmark_12x12.png")
 }
 .line-list:after {
     content: "";
@@ -546,7 +546,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
     float: right;
     padding-left: 20px;
     line-height: 20px;
-    background: url("/images/corporate/icon_reset.png") no-repeat 0;
+    background: url("/static/images/corporate/icon_reset.png") no-repeat 0;
 }
 
 .participant-list-section .participant-list-table {
@@ -734,7 +734,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
 .participant-list-section .participant-list-table tr.data-none-case td .icon-frown {
     width: 76px;
     height: 70px;
-    background: url("/images/corporate/icon_frown.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_frown.png") no-repeat 50%;
     margin: 0 auto;
 }
 .participant-list-section .participant-list-table tr.data-none-case td .large-text {
@@ -826,7 +826,7 @@ input[type=checkbox]:checked+.checkbox-label_common {
 
 
 .photoItem .imgDefault, .photoItem .maskEl, .photoItem .maskEl .mask, .photoItem .maskEl .new {
-    background: url("/images/corporate/mtc_sp_list.png") -206px -75px no-repeat;
+    background: url("/static/images/corporate/mtc_sp_list.png") -206px -75px no-repeat;
 }
 .photoItem .maskEl {
     display: block;
@@ -1169,5 +1169,5 @@ input[type=checkbox]:checked+.checkbox-label_common {
     display: block;
     width: 32px;
     height: 32px;
-    background: url("/images/corporate/icon_close.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_close.png") no-repeat 50%;
 }

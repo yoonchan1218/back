@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>기업정보관리 | TRY-CATCH</title>
-    <link rel="stylesheet" href="/css/corporate/header.css">
-    <link rel="stylesheet" href="/css/corporate/footer.css">
-    <link rel="stylesheet" href="/css/corporate/profile.css">
+    <link rel="stylesheet" href="/static/css/corporate/profile.css">
 </head>
 <body class="mtcSubInfo mtcSubCompany">
     <div id="wrap">
-        <header th:replace="~{/corporate/header.html::header}"></header>
         <div class="sideTrue devUseTopBtn" id="container">
             <!-- 어사이드 -->
             <div id="sideNav" class="devCorpLogin">
@@ -18,15 +15,15 @@
                 <div class="nav">
                     <ul>
                         <!-- server, javascript: 해당 페이지일 때, on 클래스 추가 -->
-                        <li class="devCorpInfoDetail on">
-                            <a th:href="@{/corporate/profile}">기업정보관리</a>
-                        </li>
                         <li class="devCorpInfoDetail">
-                            <a th:href="@{/corporate/member-info}">회원정보관리</a>
+                            <a href="">기업정보관리</a>
+                        </li>
+                        <li class="devCorpInfoDetail on">
+                            <a href="">회원정보관리</a>
                         </li>
                         <!-- server: 담당자 로그인 시에만 보이도록 -->
                         <li class="devCorpInfoDetail">
-                            <a th:href="@{/corporate/team-member}">팀원관리</a>
+                            <a href="">팀원관리</a>
                         </li>
                     </ul>
                 </div>
@@ -35,14 +32,14 @@
                 <div class="adLeftBx">
                     <div class="ad-container">
                         <a href="javascript:;" class="imgAdBnnr">
-                            <img src="/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
+                            <img src="/static/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
                             <!-- onerror -->
                         </a>
                     </div>
                 </div>
                 <div class="adLeftBx">
                     <a href="">
-                        <img src="/images/corporate/lnb_certify_banner.png">
+                        <img src="/static/images/corporate/lnb_certify_banner.png">
                     </a>
                 </div>
 
@@ -53,7 +50,7 @@
                 <div class="companyContent">
                     <div class="companyMngWrap">
                         <!-- server: form action 설정 -->
-                        <form id="devInfoForm" name="form" method="post" th:action="@{/corporate/profile}">
+                        <form id="devInfoForm" name="form" method="post">
                             <!-- 기업정보관리 입력폼 -->
                             <fieldset>
                                 <div class="artCompany artCoSummary">
@@ -63,12 +60,12 @@
                                                 <!-- server: 기업명 -->
                                                 <p class="name">
                                                     <!-- server: click 시, 기업 정보 페이지로 이동 -->
-                                                    <a href="" target="_blank" th:text="${corpInfo.corpCompanyName}">기업이름</a>
+                                                    <a href="" target="_blank">기업이름</a>
                                                 </p>
                                                 <!-- server: 사업자번호, 상장여부 -->
                                                 <dl class="info">
                                                     <dt>사업자번호</dt>
-                                                    <dd th:text="${corpInfo.corpBusinessNumber}">111-11-11111</dd>
+                                                    <dd>111-11-11111</dd>
                                                     <dt>상장여부</dt>
                                                     <dd>비상장</dd>
                                                 </dl>
@@ -157,7 +154,7 @@
                                                             <span class="point">*</span>
                                                         </label>
                                                         <!-- server: 불러올 정보가 있다면 input의 value에 값 넣기 -->
-                                                        <input type="text" id="txtBossName" class="inpDefault devAnimPh" name="corpCeoName" th:value="${corpInfo.corpCeoName}" maxlength="25">
+                                                        <input type="text" id="txtBossName" class="inpDefault devAnimPh" name="Boss_Name" value="" maxlength="25">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 ok 추가, 필수 정보를 입력하지 않을 시 error 추가 -->
@@ -171,7 +168,7 @@
                                                             <span class="point">*</span>
                                                         </label>
                                                         <!-- server: 불러올 정보가 있다면 input의 value에 값 넣기 -->
-                                                        <input type="text" id="devOpenDate" class="inpDefault devAnimPh" name="corpEstablishmentDate" maxlength="10" th:value="${corpInfo.corpEstablishmentDate}">
+                                                        <input type="text" id="devOpenDate" class="inpDefault devAnimPh" name="Open_Date" maxlength="10" value="">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 ok 추가, 필수 정보를 입력하지 않을 시 error 추가 -->
@@ -188,7 +185,7 @@
                                                             <!-- 선택한 text 들어갈 영역 -->
                                                             <span id="Company_Name" class="txResult devTxResult"></span>
                                                         </button>
-                                                        <input type="hidden" id="Company_Type" name="corpCompanyType" th:value="${corpInfo.corpCompanyType}">
+                                                        <input type="hidden" id="Company_Type" name="Company_Type" value="">
                                                         <!-- 레이어 영역 -->
                                                         <div class="lyElBx devLyElBx">
                                                             <ul class="selTypeList">
@@ -276,8 +273,7 @@
                                                             <span id="Industry_Name" class="txResult devTxResult"></span>
                                                         </button>
                                                         <!-- server: 기본값이 있다면 value에 넣기(코드로) -->
-                                                        <input type="hidden" id="Industry_Code" name="corpKindId" th:value="${corpInfo.corpKindId}">
-                                                        <input type="hidden" name="corpKindSmallId" th:value="${corpInfo.corpKindSmallId}">
+                                                        <input type="hidden" id="Industry_Code" name="Industry_Code" value="">
                                                         <!-- 레이어 영역 -->
                                                         <div class="lyElBx devLyElBx">
                                                             <div class="selTypeList">
@@ -552,7 +548,7 @@
                                                             사원수
                                                             <span class="point">*</span>
                                                         </label>
-                                                        <input type="text" id="devWorkerCnt" class="inpDefault devAnimPh" name="corpCompanySize" th:value="${corpInfo.corpCompanySize}" maxlength="6">
+                                                        <input type="text" id="devWorkerCnt" class="inpDefault devAnimPh" name="Worker_Cnt" maxlength="6">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 ok 추가, 필수 정보 입력하지 않았을 경우 error 추가 -->
@@ -563,7 +559,7 @@
                                                         <label class="ph" for="devFax">
                                                             팩스번호
                                                         </label>
-                                                        <input type="text" id="devFax" class="inpDefault devAnimPh" name="corpFax" th:value="${corpInfo.corpFax}" maxlength="15">
+                                                        <input type="text" id="devFax" class="inpDefault devAnimPh" name="Fax" maxlength="15">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 ok 추가 -->
@@ -580,13 +576,9 @@
                                                         </strong>
                                                         <div class="bxItemList">
                                                             <span class="itemWrap">
-                                                                <span class="item devTxResult" id="devAddr"
-                                                                      th:text="${corpInfo.addressAddress != null ? corpInfo.addressAddress : '주소'}">주소</span>
+                                                                <span class="item devTxResult" id="devAddr">주소</span>
                                                             </span>
                                                         </div>
-                                                        <input type="hidden" name="addressZipcode" id="hiddenPostcode" th:value="${corpInfo.addressZipcode}">
-                                                        <input type="hidden" name="addressAddress" id="hiddenAddress" th:value="${corpInfo.addressAddress}">
-                                                        <input type="hidden" name="addressDetail" id="hiddenDetailAddress" th:value="${corpInfo.addressDetail}">
                                                         <button type="button" class="btnSetFn" id="devSearchAddr">주소검색</button>
                                                     </div>
                                                 </div>
@@ -614,10 +606,10 @@
                                                                 <h1>주소 검색</h1>
                                                             </div>
                                                             <div class="popCont">
-                                                                <input type="text" class="address" id="postcode" placeholder="우편번호 *" maxlength="5" th:value="${corpInfo.addressZipcode}">
+                                                                <input type="text" class="address" id="postcode" placeholder="우편번호 *" maxlength="5">
                                                                 <input type="button" class="address" id="searchPostCodeBtn" value="우편번호 찾기">
-                                                                <input type="text" class="address" id="address" placeholder="주소 *" th:value="${corpInfo.addressAddress}">
-                                                                <input type="text" class="address" id="detailAddress" placeholder="상세주소" th:value="${corpInfo.addressDetail}">
+                                                                <input type="text" class="address" id="address" placeholder="주소 *">
+                                                                <input type="text" class="address" id="detailAddress" placeholder="상세주소">
                                                             </div>
                                                             <p class="popFunc">
                                                                 <button type="button" class="mtcBtnBd devCloseAddr">
@@ -658,7 +650,7 @@
                                                 <div class="elWrap devElWrap">
                                                     <div class="schInpType">
                                                         <label class="ph" for="txtHomepage">홈페이지</label>
-                                                        <input type="text" id="txtHomepage" class="inpDefault devAnimPh" name="corpWebsiteUrl" th:value="${corpInfo.corpWebsiteUrl}">
+                                                        <input type="text" id="txtHomepage" class="inpDefault devAnimPh" name="Homepage">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 .ok 추가 -->
@@ -676,7 +668,6 @@
                                                             <input type="text" id="devCapital_B" class="inpDefault devAnimPh devCapitalText" name="Capital_B" title="천단위 입력" maxlength="4">
                                                             <span class="tx" id="devCapitalUnitB"></span>
                                                         </span>
-                                                        <input type="hidden" name="corpCapital" id="hiddenCapital" th:value="${corpInfo.corpCapital}">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 .ok 추가 -->
@@ -687,7 +678,7 @@
                                                 <div class="elWrap devElWrap">
                                                     <div class="schInpType">
                                                         <label class="ph" for="txtSale">매출액 예) 3억 5천만</label>
-                                                        <input type="text" id="txtSale" class="inpDefault devAnimPh" name="corpTotalSales" th:value="${corpInfo.corpTotalSales}" maxlength="10">
+                                                        <input type="text" id="txtSale" class="inpDefault devAnimPh" name="Sale" maxlength="10">
                                                     </div>
                                                 </div>
                                                 <!-- javascript: input 선택 시 on 추가, 입력 완료 시 .ok 추가 -->
@@ -703,7 +694,7 @@
                                     <div class="mtcTxaType">
                                         <span class="ph devTxAreaExam" style="display: block;">연혁 및 실적은 기업의 실적 위주로 표현하면 좋습니다. (ex. 2017.03. 올해의 브랜드 대상 수상)</span>
                                         <!-- javascript: textarea에 value가 있다면 display: none; -->
-                                        <textarea rows="3" cols="80" name="corpPerformance" id="lb_History" class="txArea devTxArea" th:text="${corpInfo.corpPerformance}"></textarea>
+                                        <textarea rows="3" cols="80" name="Profile1" id="lb_History" class="txArea devTxArea"></textarea>
                                     </div>
                                 </div>
 
@@ -718,7 +709,7 @@
                                             (ex. TRY-CATCH는 2026년에 취업 메타 검색엔진으로 출발하여 성장한 리크루팅마켓플레이스입니다.)
                                         </span>
                                         <!-- javascript: textarea에 value가 있다면 display: none; -->
-                                        <textarea rows="3" cols="80" name="corpVision" id="lb_overview" class="txArea devTxArea" th:text="${corpInfo.corpVision}"></textarea>
+                                        <textarea rows="3" cols="80" name="Profile" id="lb_overview" class="txArea devTxArea"></textarea>
                                     </div>
                                 </div>
 
@@ -1076,9 +1067,8 @@
                 <a id="btnMtcTop" href="javascript:;" class="mtcBtn btnMtcTop"></a>
             </div>
         </div>
-        <footer th:replace="~{/corporate/footer.html::footer}"></footer>
     </div>
 </body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/js/corporate/profile/event.js"></script>
+<script src="/static/js/corporate/profile/event.js"></script>
 </html>

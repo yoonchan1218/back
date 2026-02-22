@@ -7,6 +7,7 @@ const mainLayout = (() => {
         btn.classList.toggle("on");
         btn.classList.toggle("tplBtnScrOff");
         btn.classList.toggle("tplBtnScrOn");
+        btn.dataset.scrapStatus = btn.dataset.scrapStatus === "active" ? "inactive" : "active";
     };
 
     const updateSlider = (wrapper, prevBtn, nextBtn, currentPage, totalPages, moveDistance) => {

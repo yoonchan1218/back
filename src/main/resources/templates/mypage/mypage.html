@@ -173,442 +173,28 @@
                                     transition-duration: 0ms;
                                 "
                             >
-                                <li
-                                    class="rank_1 swiper-slide swiper-slide-active"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                            
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/0046FF/FFFFFF?text=SamsungSDS"
-                                                alt="삼성SDS"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50296037"
-                                            data-gno="48494302"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>삼성SDS</span>
-                                            </div>
-                                            <span class="tit"
-                                                >2026 상반기 신입 백엔드 개발자 모집</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/26(목)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
+                                <li th:if="${#lists.isEmpty(topPostings)}">
+                                    <div style="text-align: center; padding: 20px; color: #999;">추천 공고가 없습니다.</div>
                                 </li>
-                                <li
-                                    class="rank_1 swiper-slide swiper-slide-next"
+                                <li th:each="posting : ${topPostings}"
+                                    class="swiper-slide"
                                     style="width: 304px; margin-right: 12px"
                                 >
-                                    <a
-                                        href=""
+                                    <a th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
                                         target="_blank"
                                         class="section-item_link"
-                                        onclick="
-                                           
-                                        "
                                     >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/A50034/FFFFFF?text=LG+CNS"
-                                                alt="LG CNS"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50294627"
-                                            data-gno="48492798"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
                                         <div class="col infoCol">
                                             <div class="company">
-                                                <span>LG CNS</span>
+                                                <span th:text="${posting.corpCompanyName}">기업명</span>
                                             </div>
-                                            <span class="tit"
-                                                >클라우드 플랫폼 백엔드 개발</span
-                                            >
+                                            <span class="tit" th:text="${posting.experienceProgramTitle}">공고 제목</span>
                                             <div class="information">
                                                 <div class="information-career">
-                                                    <i></i>백엔드개발자
+                                                    <i></i><span th:text="${posting.experienceProgramJob}">직무</span>
                                                 </div>
                                                 <div class="information-date">
-                                                    <i></i>~02/26(목)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                           
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/FF6600/FFFFFF?text=SK+C%26C"
-                                                alt="SK C&C"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50292805"
-                                            data-gno="48490758"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>SK C&C</span>
-                                            </div>
-                                            <span class="tit"
-                                                >AI 플랫폼 서버 개발자 채용</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/26(목)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                            
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/002C5F/FFFFFF?text=Hyundai+AutoEver"
-                                                alt="현대오토에버"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50291855"
-                                            data-gno="48489722"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>현대오토에버</span>
-                                            </div>
-                                            <span class="tit"
-                                                >모빌리티 플랫폼 개발자</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/27(금)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                           
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/00C73C/FFFFFF?text=NHN"
-                                                alt="NHN"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50289452"
-                                            data-gno="48486863"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>NHN</span>
-                                            </div>
-                                            <span class="tit"
-                                                >NHN 커머스 백엔드 개발자</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/25(수)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                         
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/9B59B6/FFFFFF?text=Netmarble"
-                                                alt="넷마블"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50287677"
-                                            data-gno="48484910"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>넷마블</span>
-                                            </div>
-                                            <span class="tit"
-                                                >게임 서버 개발자 모집</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/23(월)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                            
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/0E4DA4/FFFFFF?text=NCSoft"
-                                                alt="엔씨소프트"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50284836"
-                                            data-gno="48481760"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>엔씨소프트</span>
-                                            </div>
-                                            <span class="tit"
-                                                >게임 플랫폼 서버 엔지니어</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/25(수)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                           
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/000000/FFFFFF?text=Krafton"
-                                                alt="크래프톤"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50283970"
-                                            data-gno="48480852"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>크래프톤</span>
-                                            </div>
-                                            <span class="tit"
-                                                >배틀그라운드 서버 개발자</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/25(수)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li
-                                    class="rank_1 swiper-slide"
-                                    style="width: 304px; margin-right: 12px"
-                                >
-                                    <a
-                                        href=""
-                                        target="_blank"
-                                        class="section-item_link"
-                                        onclick="
-                                            
-                                        "
-                                    >
-                                        <div class="img-box">
-                                            <img
-                                                src="https://placehold.co/286x160/FEE500/000000?text=KakaoEnterprise"
-                                                alt="카카오엔터프라이즈"
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            class="tplBtnTy tplBtnScrOff tplBtnTy_02 js-scrBtn"
-                                            data-gino="50284396"
-                                            data-gno="48481297"
-                                            data-m_id="KA_50176432"
-                                            data-membertype="C"
-                                            onclick="
-
-                                            "
-                                        >
-                                            <span class="blind">스크랩</span>
-                                        </button>
-                                        <div class="col infoCol">
-                                            <div class="company">
-                                                <span>카카오엔터프라이즈</span>
-                                            </div>
-                                            <span class="tit"
-                                                >엔터프라이즈 솔루션 백엔드 개발</span
-                                            >
-                                            <div class="information">
-                                                <div class="information-career">
-                                                    <i></i>백엔드개발자
-                                                </div>
-                                                <div class="information-date">
-                                                    <i></i>~02/25(수)
+                                                    <i></i><span th:text="'~' + ${posting.experienceProgramDeadline}">~마감일</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -743,150 +329,25 @@
                         </div>
 
                         <ol class="rankList">
-                            <li class="rank_1">
-                                <div class="rkItem">
-                                    <span class="thBx"
-                                        ><span class="inrBx"
-                                            ><img
-                                                src="https://placehold.co/86x34/003DA5/FFFFFF?text=KEPCO"
-                                                alt="한국전력공사" /></span
-                                    ></span>
-                                    <span class="titBx">한국전력공사</span>
-                                    <span class="txBx">
-                                        <span class="corpType">체험공고</span>
-                                        <a
-                                            href=""
-                                            target="_blank"
-                                            class="recruit"
-                                            onclick="
-
-                                            "
-                                            >412건</a
-                                        >
-                                    </span>
-                                </div>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                    class="itemlink"
-                                    >한국전력공사 체험공고</a
+                                <li th:if="${#lists.isEmpty(topPublicPostings)}">
+                                    <div style="text-align: center; padding: 20px; color: #999;">공기업 체험공고가 없습니다.</div>
+                                </li>
+                                <li th:each="posting, iterStat : ${topPublicPostings}"
+                                    th:class="'rank_' + ${iterStat.count}"
                                 >
-                            </li>
-                            <li class="rank_2">
-                                <div class="rkItem">
-                                    <span class="thBx"
-                                        ><span class="inrBx"
-                                            ><img
-                                                src="https://placehold.co/86x34/0054A6/FFFFFF?text=KORAIL"
-                                                alt="코레일(한국철도공사)" /></span
-                                    ></span>
-                                    <span class="titBx">코레일(한국철도공사)</span>
-                                    <span class="txBx">
-                                        <span class="corpType">체험공고</span>
-                                        <a
-                                            href=""
-                                            target="_blank"
-                                            class="recruit"
-                                            onclick="
-
-                                            "
-                                            >287건</a
-                                        >
-                                    </span>
-                                </div>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                    class="itemlink"
-                                    >코레일(한국철도공사) 체험공고</a
-                                >
-                            </li>
-                            <li class="rank_3">
-                                <div class="rkItem">
-                                    <span class="thBx"
-                                        ><span class="inrBx"
-                                            ><img
-                                                src="https://placehold.co/86x34/0072CE/FFFFFF?text=K-water"
-                                                alt="한국수자원공사" /></span
-                                    ></span>
-                                    <span class="titBx">한국수자원공사</span>
-                                    <span class="txBx">
-                                        <span class="corpType">체험공고</span>
-                                        <a
-                                            href=""
-                                            target="_blank"
-                                            class="recruit"
-                                            onclick="
-
-                                            "
-                                            >198건</a
-                                        >
-                                    </span>
-                                </div>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                    class="itemlink"
-                                    >한국수자원공사 체험공고</a
-                                >
-                            </li>
-                            <li class="rank_4">
-                                <div class="rkItem">
-                                    <span class="thBx"
-                                        ><span class="inrBx"
-                                            ><img
-                                                src="https://placehold.co/86x34/00843D/FFFFFF?text=ex"
-                                                alt="한국도로공사" /></span
-                                    ></span>
-                                    <span class="titBx">한국도로공사</span>
-                                    <span class="txBx">
-                                        <span class="corpType">체험공고</span>
-                                        <a
-                                            href=""
-                                            target="_blank"
-                                            class="recruit"
-                                            onclick="
-
-                                            "
-                                            >156건</a
-                                        >
-                                    </span>
-                                </div>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                    class="itemlink"
-                                    >한국도로공사 체험공고</a
-                                >
-                            </li>
-                            <li class="rank_5">
-                                <div class="rkItem">
-                                    <span class="thBx"
-                                        ><span class="inrBx"
-                                            ><img
-                                                src="https://placehold.co/86x34/002B5C/FFFFFF?text=IIAC"
-                                                alt="인천국제공항공사" /></span
-                                    ></span>
-                                    <span class="titBx">인천국제공항공사</span>
-                                    <span class="txBx">
-                                        <span class="corpType">체험공고</span>
-                                        <a
-                                            href=""
-                                            target="_blank"
-                                            class="recruit"
-                                            onclick="
-                                            "
-                                            >324건</a
-                                        >
-                                    </span>
-                                </div>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                    class="itemlink"
-                                    >인천국제공항공사 체험공고</a
-                                >
-                            </li>
+                                    <div class="rkItem">
+                                        <span class="titBx" th:text="${posting.corpCompanyName}">기업명</span>
+                                        <span class="txBx">
+                                            <span class="corpType">체험공고</span>
+                                            <a th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
+                                               target="_blank" class="recruit"
+                                               th:text="${posting.experienceProgramViewCount + '건'}">0건</a>
+                                        </span>
+                                    </div>
+                                    <a th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
+                                       target="_blank" class="itemlink"
+                                       th:text="${posting.corpCompanyName + ' 체험공고'}">기업명 체험공고</a>
+                                </li>
                         </ol>
                         <a
                             href=""
@@ -935,146 +396,21 @@
                             </div>
                         </div>
                         <ol class="rankList">
-                            <li class="rank_1">
-                                <span class="rkBx case">1</span
-                                ><!--// .case 추가 -->
-                                <a
-                                    onclick="
-
-                                    "
-                                    href=""
-                                    target="_blank"
+                                <li th:if="${#lists.isEmpty(top100Postings)}">
+                                    <div style="text-align: center; padding: 20px; color: #999;">공고가 없습니다.</div>
+                                </li>
+                                <li th:each="posting, iterStat : ${top100Postings}"
+                                    th:class="'rank_' + ${iterStat.count}"
                                 >
-                                    <span class="thBx">
-                                        <span class="inrBx">
-                                            <span>
-                                                <img
-                                                    src="https://placehold.co/86x34/034EA2/FFFFFF?text=Samsung"
-                                                    width="86"
-                                                    height="34"
-                                                    alt="삼성전자"
-                                                />
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <span class="titBx"
-                                        >2026 상반기 SW 개발자 대규모 채용</span
+                                    <span th:text="${iterStat.count}"
+                                          th:class="${iterStat.index < 3} ? 'rkBx case' : 'rkBx'">1</span>
+                                    <a th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
+                                       target="_blank"
                                     >
-                                    <span class="txBx">삼성전자</span>
-                                </a>
-                            </li>
-                            <li class="rank_2">
-                                <span class="rkBx case">2</span
-                                ><!--// .case 추가 -->
-                                <a
-                                    onclick="
-
-                                    "
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="thBx">
-                                        <span class="inrBx">
-                                            <span>
-                                                <img
-                                                    src="https://placehold.co/86x34/A50034/FFFFFF?text=LG"
-                                                    width="86"
-                                                    height="34"
-                                                    alt="LG전자"
-                                                />
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <span class="titBx"
-                                        >LG전자 SW 엔지니어 신입/경력 채용</span
-                                    >
-                                    <span class="txBx">LG전자</span>
-                                </a>
-                            </li>
-                            <li class="rank_3">
-                                <span class="rkBx case">3</span
-                                ><!--// .case 추가 -->
-                                <a
-                                    onclick="
-
-                                    "
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="thBx">
-                                        <span class="inrBx">
-                                            <span>
-                                                <img
-                                                    src="https://placehold.co/86x34/FF6600/FFFFFF?text=SKhynix"
-                                                    width="86"
-                                                    height="34"
-                                                    alt="SK하이닉스"
-                                                />
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <span class="titBx"
-                                        >SK하이닉스 2026 신입 개발자 모집</span
-                                    >
-                                    <span class="txBx">SK하이닉스</span>
-                                </a>
-                            </li>
-                            <li class="rank_4">
-                                <span class="rkBx">4</span
-                                ><!--// .case 추가 -->
-                                <a
-                                    onclick="
-
-                                    "
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="thBx">
-                                        <span class="inrBx">
-                                            <span>
-                                                <img
-                                                    src="https://placehold.co/86x34/002C5F/FFFFFF?text=Mobis"
-                                                    width="86"
-                                                    height="34"
-                                                    alt="현대모비스"
-                                                />
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <span class="titBx"
-                                        >자율주행 SW 개발 부문 채용</span
-                                    >
-                                    <span class="txBx">현대모비스</span>
-                                </a>
-                            </li>
-                            <li class="rank_5">
-                                <span class="rkBx">5</span
-                                ><!--// .case 추가 -->
-                                <a
-                                    onclick="
-
-                                    "
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="thBx">
-                                        <span class="inrBx">
-                                            <span>
-                                                <img
-                                                    src="https://placehold.co/86x34/FFCD00/000000?text=KakaoBank"
-                                                    width="86"
-                                                    height="34"
-                                                    alt="카카오뱅크"
-                                                />
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <span class="titBx"
-                                        >카카오뱅크 서버 개발자 채용</span
-                                    >
-                                    <span class="txBx">카카오뱅크</span>
-                                </a>
-                            </li>
+                                        <span class="titBx" th:text="${posting.experienceProgramTitle}">공고 제목</span>
+                                        <span class="txBx" th:text="${posting.corpCompanyName}">기업명</span>
+                                    </a>
+                                </li>
                         </ol>
                         <a
                             onclick="
@@ -1254,321 +590,38 @@
 
                             <div class="ai-recommendations-list">
                                 <ul>
-                                    <li
-                                        data-sc="10"
-                                        data-sn=""
-                                        class=""
-                                    >
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a
-                                                        class="company"
-                                                        href=""
-                                                        target="_blank"
-                                                    >
-                                                        <div class="name">
-                                                            ㈜네이버
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a
-                                                    href=""
-                                                    target="_blank"
-                                                    class="title giread"
-                                                    >백엔드 엔지니어 신입/경력</a
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="scrap tplBtnTy tplBtnScrOff js-scrBtn ScrapGA"
-                                                >
-                                                    스크랩
-                                                </button>
-                                            </div>
-                                            <a
-                                                class="devLinkRecruit"
-                                                href=""
-                                                target="_blank"
-                                            >
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입·경력</div>
-                                                    <div class="item">성남시 분당구</div>
-                                                </div>
-                                                <div class="job">
-                                                    백엔드개발자,서버개발자,Java,Spring Boot
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect"
-                                                >
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.15</span>
-                                                    (일)
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <li th:if="${#lists.isEmpty(latestWatchPostings)}">
+                                        <div style="text-align: center; padding: 20px; color: #999;">최근 본 공고가 없습니다.</div>
                                     </li>
-
-                                    <li
+                                    <li th:each="posting : ${latestWatchPostings}"
                                         data-sc="10"
                                         data-sn=""
                                         class=""
                                     >
                                         <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a
-                                                        class="company"
-                                                        href=""
-                                                        target="_blank"
-                                                    >
-                                                        <div class="name">
-                                                            ㈜카카오
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
                                             <div class="headers">
                                                 <a
-                                                    href=""
+                                                    th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
                                                     target="_blank"
                                                     class="title giread"
-                                                    >서버 개발자 (Spring/Java)</a
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="scrap tplBtnTy tplBtnScrOff js-scrBtn ScrapGA"
-                                                >
-                                                    스크랩
-                                                </button>
+                                                    th:text="${posting.experienceProgramTitle}"
+                                                >공고 제목</a>
                                             </div>
                                             <a
                                                 class="devLinkRecruit"
-                                                href=""
+                                                th:href="@{/experience/program/{id}(id=${posting.experienceProgramId})}"
                                                 target="_blank"
                                             >
                                                 <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">경력3년↑</div>
-                                                    <div class="item">성남시 판교</div>
-                                                </div>
-                                                <div class="job">
-                                                    서버개발자,Spring,Java,MySQL,Redis
+                                                    <div class="item" th:text="${posting.experienceProgramStartDate + ' ~ ' + posting.experienceProgramEndDate}">기간</div>
+                                                    <div class="item" th:text="${posting.experienceProgramStatus}">모집상태</div>
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="recruit-apply">
                                             <div class="recruit-apply-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect"
-                                                >
-                                                    <span>즉시지원</span>
-                                                </button>
                                                 <div class="deadline date">
-                                                    <span class="tahoma">~03.20</span>
-                                                    (금)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li
-                                        data-sc="10"
-                                        data-sn=""
-                                        class=""
-                                    >
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a
-                                                        class="company"
-                                                        href=""
-                                                        target="_blank"
-                                                    >
-                                                        <div class="name">
-                                                            ㈜라인플러스
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a
-                                                    href=""
-                                                    target="_blank"
-                                                    class="title giread"
-                                                    >Backend Engineer</a
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="scrap tplBtnTy tplBtnScrOff js-scrBtn ScrapGA"
-                                                >
-                                                    스크랩
-                                                </button>
-                                            </div>
-                                            <a
-                                                class="devLinkRecruit"
-                                                href=""
-                                                target="_blank"
-                                            >
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입·경력</div>
-                                                    <div class="item">성남시 분당구</div>
-                                                </div>
-                                                <div class="job">
-                                                    백엔드개발자,Kotlin,Spring,AWS,Docker
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="tplBtn tplBtn_1 tplBtnBlue mtuBtn_2 mtuBtnBdDi button homepage devBtnPassHomepage"
-                                                >
-                                                    <span>홈페이지 지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.31</span>
-                                                    (화)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li
-                                        data-sc="10"
-                                        data-sn=""
-                                        class=""
-                                    >
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a
-                                                        class="company"
-                                                        href=""
-                                                        target="_blank"
-                                                    >
-                                                        <div class="name">
-                                                            ㈜토스
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a
-                                                    href=""
-                                                    target="_blank"
-                                                    class="title giread"
-                                                    >Server Developer</a
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="scrap tplBtnTy tplBtnScrOff js-scrBtn ScrapGA"
-                                                >
-                                                    스크랩
-                                                </button>
-                                            </div>
-                                            <a
-                                                class="devLinkRecruit"
-                                                href=""
-                                                target="_blank"
-                                            >
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">경력2년↑</div>
-                                                    <div class="item">서울 강남구</div>
-                                                </div>
-                                                <div class="job">
-                                                    서버개발자,Java,Spring Boot,JPA,Kubernetes
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect"
-                                                >
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.10</span>
-                                                    (화)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li
-                                        data-sc="10"
-                                        data-sn=""
-                                        class=""
-                                    >
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a
-                                                        class="company"
-                                                        href=""
-                                                        target="_blank"
-                                                    >
-                                                        <div class="name">
-                                                            ㈜배달의민족
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a
-                                                    href=""
-                                                    target="_blank"
-                                                    class="title giread"
-                                                    >백엔드 개발자</a
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="scrap tplBtnTy tplBtnScrOff js-scrBtn ScrapGA"
-                                                >
-                                                    스크랩
-                                                </button>
-                                            </div>
-                                            <a
-                                                class="devLinkRecruit"
-                                                href=""
-                                                target="_blank"
-                                            >
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입</div>
-                                                    <div class="item">서울 송파구</div>
-                                                </div>
-                                                <div class="job">
-                                                    백엔드개발자,Java,Spring,MySQL,MSA
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button
-                                                    type="button"
-                                                    class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect"
-                                                >
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.25</span>
-                                                    (수)
+                                                    <span class="tahoma" th:text="${'~' + posting.experienceProgramDeadline}">~마감일</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1591,171 +644,36 @@
                         <div class="ai-recommendations-list-wrapper">
                             <div class="ai-recommendations-list">
                                 <ul>
-                                    <li data-sc="10" data-sn="" class="">
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a class="company" href="" target="_blank">
-                                                        <div class="name">삼성SDS</div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a href="" target="_blank" class="title giread">Cloud Engineer 모집</a>
-                                                <button type="button" class="scrap tplBtnTy tplBtnScrOn on js-scrBtn ScrapGA">스크랩</button>
-                                            </div>
-                                            <a class="devLinkRecruit" href="" target="_blank">
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입·경력</div>
-                                                    <div class="item">서울 송파구</div>
-                                                </div>
-                                                <div class="job">클라우드엔지니어,AWS,Azure,DevOps</div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button type="button" class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect">
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.20</span> (금)
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <li th:if="${#lists.isEmpty(scrapPostings)}">
+                                        <div style="text-align: center; padding: 20px; color: #999;">스크랩한 공고가 없습니다.</div>
                                     </li>
-
-                                    <li data-sc="10" data-sn="" class="">
+                                    <li th:each="scrap : ${scrapPostings}"
+                                        data-sc="10" data-sn="" class="">
                                         <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a class="company" href="" target="_blank">
-                                                        <div class="name">LG CNS</div>
-                                                    </a>
-                                                </div>
-                                            </div>
                                             <div class="headers">
-                                                <a href="" target="_blank" class="title giread">DX 플랫폼 개발자</a>
-                                                <button type="button" class="scrap tplBtnTy tplBtnScrOn on js-scrBtn ScrapGA">스크랩</button>
+                                                <a th:href="@{/experience/program/{id}(id=${scrap.experienceProgramId})}"
+                                                   target="_blank"
+                                                   class="title giread"
+                                                   th:text="${scrap.experienceProgramTitle}">공고 제목</a>
+                                                <button type="button"
+                                                        class="scrap tplBtnTy js-scrBtn ScrapGA"
+                                                        th:classappend="${scrap.scrapStatus.value == 'active'} ? ' tplBtnScrOn on' : ' tplBtnScrOff'"
+                                                        th:data-scrap-id="${scrap.id}"
+                                                        th:data-scrap-status="${scrap.scrapStatus.value}">스크랩</button>
                                             </div>
-                                            <a class="devLinkRecruit" href="" target="_blank">
+                                            <a class="devLinkRecruit"
+                                               th:href="@{/experience/program/{id}(id=${scrap.experienceProgramId})}"
+                                               target="_blank">
                                                 <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">경력3년↑</div>
-                                                    <div class="item">서울 마포구</div>
+                                                    <div class="item" th:text="${scrap.experienceProgramStartDate + ' ~ ' + scrap.experienceProgramEndDate}">기간</div>
+                                                    <div class="item" th:text="${scrap.experienceProgramStatus}">모집상태</div>
                                                 </div>
-                                                <div class="job">백엔드개발자,Java,Spring Boot,MSA,Kafka</div>
                                             </a>
                                         </div>
                                         <div class="recruit-apply">
                                             <div class="recruit-apply-wrap">
-                                                <button type="button" class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect">
-                                                    <span>즉시지원</span>
-                                                </button>
                                                 <div class="deadline date">
-                                                    <span class="tahoma">~03.25</span> (수)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li data-sc="10" data-sn="" class="">
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a class="company" href="" target="_blank">
-                                                        <div class="name">SK C&amp;C</div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a href="" target="_blank" class="title giread">AI 서비스 개발자</a>
-                                                <button type="button" class="scrap tplBtnTy tplBtnScrOn on js-scrBtn ScrapGA">스크랩</button>
-                                            </div>
-                                            <a class="devLinkRecruit" href="" target="_blank">
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입</div>
-                                                    <div class="item">성남시 분당구</div>
-                                                </div>
-                                                <div class="job">AI개발자,Python,TensorFlow,FastAPI,Docker</div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button type="button" class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect">
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.18</span> (수)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li data-sc="10" data-sn="" class="">
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a class="company" href="" target="_blank">
-                                                        <div class="name">현대오토에버</div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a href="" target="_blank" class="title giread">Connected Car SW 개발자</a>
-                                                <button type="button" class="scrap tplBtnTy tplBtnScrOn on js-scrBtn ScrapGA">스크랩</button>
-                                            </div>
-                                            <a class="devLinkRecruit" href="" target="_blank">
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">경력2년↑</div>
-                                                    <div class="item">서울 강남구</div>
-                                                </div>
-                                                <div class="job">서버개발자,Java,Spring,Kubernetes,CI/CD</div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button type="button" class="tplBtn tplBtn_1 tplBtnBlue mtuBtn_2 mtuBtnBdDi button homepage devBtnPassHomepage">
-                                                    <span>홈페이지 지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.30</span> (월)
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li data-sc="10" data-sn="" class="">
-                                        <div class="recruit-content">
-                                            <div class="company">
-                                                <div class="name">
-                                                    <a class="company" href="" target="_blank">
-                                                        <div class="name">NHN</div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="headers">
-                                                <a href="" target="_blank" class="title giread">페이 서버 개발자</a>
-                                                <button type="button" class="scrap tplBtnTy tplBtnScrOn on js-scrBtn ScrapGA">스크랩</button>
-                                            </div>
-                                            <a class="devLinkRecruit" href="" target="_blank">
-                                                <div class="recruitment">
-                                                    <div class="item">대졸↑</div>
-                                                    <div class="item">신입·경력</div>
-                                                    <div class="item">성남시 판교</div>
-                                                </div>
-                                                <div class="job">백엔드개발자,Java,Spring Boot,MySQL,Redis</div>
-                                            </a>
-                                        </div>
-                                        <div class="recruit-apply">
-                                            <div class="recruit-apply-wrap">
-                                                <button type="button" class="tplBtn tplBtn_1 tplBtnOrg mtuBtn_2 mtuBtnOrg button direct devBtnPassDirect">
-                                                    <span>즉시지원</span>
-                                                </button>
-                                                <div class="deadline date">
-                                                    <span class="tahoma">~03.22</span> (일)
+                                                    <span class="tahoma" th:text="${'~' + scrap.experienceProgramDeadline}">~마감일</span>
                                                 </div>
                                             </div>
                                         </div>

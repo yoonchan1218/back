@@ -13,8 +13,4 @@ public class AddressDAO {
     public void save(AddressVO addressVO) {
         addressMapper.insert(addressVO);
     }
-
-    public void update(AddressVO addressVO) {
-        addressMapper.update(addressVO);
-    }
 }

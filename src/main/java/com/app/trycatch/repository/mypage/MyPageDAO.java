@@ -39,4 +39,8 @@ public class MyPageDAO {
     public void deactivateMember(Long memberId) {
         myPageMapper.updateMemberStatusToInactive(memberId);
     }
+
+    public void cancelApply(Long memberId, Long applyId) {
+        myPageMapper.updateApplyStatusToCancelled(memberId, applyId);
+    }
 }

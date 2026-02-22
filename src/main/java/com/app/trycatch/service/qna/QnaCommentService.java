@@ -37,10 +37,6 @@ public class QnaCommentService {
         qnaCommentDAO.delete(id, memberId);
     }
 
-    public boolean existsByQnaIdAndMemberId(Long qnaId, Long memberId) {
-        return qnaCommentDAO.existsByQnaIdAndMemberId(qnaId, memberId);
-    }
-
     public void update(Long id, Long memberId, String content) {
         QnaCommentVO vo = QnaCommentVO.builder()
                 .id(id)

@@ -1,8 +1,12 @@
 package com.app.trycatch.controller.mypage;
 
+import com.app.trycatch.common.enumeration.member.Status;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
+import com.app.trycatch.dto.mypage.ApplyListDTO;
 import com.app.trycatch.dto.mypage.MyPageUpdateDTO;
+import com.app.trycatch.dto.mypage.ScrapPostingDTO;
+import java.util.List;
 import com.app.trycatch.service.mypage.MyPageService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +36,38 @@ public class MyPageController {
     public String goToMyPage(Model model) {
         Long memberId = getSessionMemberId();
         model.addAttribute("profile", myPageService.getProfile(memberId));
+        model.addAttribute("latestWatchPostings", myPageService.getLatestWatchPostings(memberId));
+        model.addAttribute("scrapPostings", myPageService.getScrapPostings(memberId));
+        model.addAttribute("topPostings", myPageService.getTopPostings(10));
+        model.addAttribute("topPublicPostings", myPageService.getTopPublicPostings(5));
+        model.addAttribute("top100Postings", myPageService.getTopPostings(5));
         return "mypage/mypage";
+    }
+
+    @PostMapping("latest-watch")
+    @ResponseBody
+    public boolean addLatestWatchPosting(Long experienceProgramId) {
+        Long memberId = getSessionMemberId();
+        myPageService.addLatestWatchPosting(memberId, experienceProgramId);
+        return true;
+    }
+
+    @PostMapping("scrap")
+    @ResponseBody
+    public boolean addScrap(Long experienceProgramId) {
+        Long memberId = getSessionMemberId();
+        myPageService.addScrap(memberId, experienceProgramId);
+        return true;
+    }
+
+    @PostMapping("scrap/toggle")
+    @ResponseBody
+    public boolean toggleScrap(Long scrapId, String scrapStatus) {
+        ScrapPostingDTO dto = new ScrapPostingDTO();
+        dto.setId(scrapId);
+        dto.setScrapStatus(Status.getStatus(scrapStatus));
+        myPageService.toggleScrap(dto);
+        return true;
     }
 
     @GetMapping("change-my-information")
@@ -68,6 +103,11 @@ public class MyPageController {
     public String goToExperience(Model model) {
         Long memberId = getSessionMemberId();
         model.addAttribute("profile", myPageService.getProfile(memberId));
+        List<ApplyListDTO> applies = myPageService.getApplyList(memberId);
+        model.addAttribute("applies", applies);
+        model.addAttribute("appliedCount", applies.stream().filter(a -> "applied".equals(a.getApplyStatus())).count());
+        model.addAttribute("documentPassCount", applies.stream().filter(a -> "document_pass".equals(a.getApplyStatus())).count());
+        model.addAttribute("documentFailCount", applies.stream().filter(a -> "document_fail".equals(a.getApplyStatus())).count());
         return "mypage/experience";
     }
 
@@ -86,6 +126,14 @@ public class MyPageController {
         return new RedirectView("/main/log-in");
     }
 
+    @PostMapping("experience/cancel")
+    @ResponseBody
+    public boolean cancelApply(Long applyId) {
+        Long memberId = getSessionMemberId();
+        myPageService.cancelApply(memberId, applyId);
+        return true;
+    }
+
     @PostMapping("profile-image")
     @ResponseBody
     public String uploadProfileImage(@RequestParam("file") MultipartFile file) {
@@ -95,7 +143,7 @@ public class MyPageController {
     @GetMapping("logout")
     public RedirectView logout() {
         Object member = session.getAttribute("member");
-        if (member instanceof MemberDTO memberDTO && memberDTO.getProvider() == com.app.trycatch.common.enumeration.member.Provider.KAKAO) {
+        if (member instanceof IndividualMemberDTO kakaoMember && kakaoMember.getProvider() == com.app.trycatch.common.enumeration.member.Provider.KAKAO) {
             session.invalidate();
             return new RedirectView("https://kauth.kakao.com/oauth/logout?client_id=6c9664c00ac5573fa3d8f1caf80e67f3&logout_redirect_uri=http://localhost:10000/main/log-in");
         }

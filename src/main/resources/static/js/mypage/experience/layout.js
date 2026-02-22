@@ -62,9 +62,17 @@ const experienceLayout = (() => {
         document.body.style.overflow = "";
     };
 
+    // 6. 지원취소됨 표시
+    const showCancelled = (cancelBtn) => {
+        const td = cancelBtn.closest("td");
+        if (td) {
+            td.innerHTML = "<span>지원취소됨.</span>";
+        }
+    };
+
     return {
         openCancelPopup, closeCancelPopup, toggleReasonDrop, selectReason,
         updatePeriodActive, toggleCommonDrop, selectCommonDropItem, closeAllDrops,
-        openResumeModal, closeResumeModal
+        openResumeModal, closeResumeModal, showCancelled
     };
 })();
