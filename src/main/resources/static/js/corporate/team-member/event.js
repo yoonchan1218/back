@@ -24,20 +24,19 @@ invitationModalCloseButton.addEventListener("click", (e) => {
     invitationModal.classList.remove("active");
 });
 
-// 팀원 초대
+// 팀원 초대 — 이메일 유효성 검사 후 폼 submit
 invitationTeamMemberButton.addEventListener("click", (e) => {
     if (!invitationInput.value) {
-        // server: 이메일 유효성 검사 필요
         alert("초대할 팀원의 이메일을 입력해주세요.");
     } else {
-        // server: 이메일을 보내고 초대가 정상적으로 되었는지 검사
-        alert("정상적으로 초대되었습니다.");
+        document.getElementById("form").submit();
     }
 });
 
 // 팀원 내보내기
 teamMemberRows.forEach((row) => {
     const moreOptionLayer = row.querySelector(".more-option");
+    if (!moreOptionLayer) return; // no-team-member 행 등 .more-option 없는 행 무시
 
     row.addEventListener("click", (e) => {
         if (e.target.closest(".moreOptionButton")) {
@@ -45,15 +44,18 @@ teamMemberRows.forEach((row) => {
         }
 
         if (e.target.closest(".memberDelBtn")) {
-            confirm("정말로 팀원을 내보내시겠습니까?") &&
-                alert("팀원이 내보내기가 완료되었습니다.");
+            e.preventDefault(); // 폼 즉시 submit 방지
+            if (confirm("정말로 팀원을 내보내시겠습니까?")) {
+                e.target.closest("form").submit();
+            }
         }
     });
 });
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".moreOptionButton")) {
         teamMemberRows.forEach((row) => {
-            row.querySelector(".more-option").classList.remove("active");
+            const moreOption = row.querySelector(".more-option");
+            if (moreOption) moreOption.classList.remove("active");
         });
     }
 });

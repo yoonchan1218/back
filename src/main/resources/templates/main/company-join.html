@@ -146,9 +146,7 @@
                             <div class="notice_msg" id="msg_addr"></div>
                         </a>
                         <input type="hidden" id="addressZipcode" name="addressZipcode" />
-                        <input type="hidden" id="addressProvince" name="addressProvince" />
-                        <input type="hidden" id="addressCity" name="addressCity" />
-                        <input type="hidden" id="addressDistrict" name="addressDistrict" />
+                        <input type="hidden" id="addressAddress" name="addressAddress" />
                         <input type="hidden" id="addressDetail" name="addressDetail" />
                     </div>
                 </div>
@@ -487,17 +485,13 @@
         new daum.Postcode({
             oncomplete: function(data) {
                 document.getElementById('addressZipcode').value = data.zonecode;
-                document.getElementById('addressProvince').value = data.sido;
-                document.getElementById('addressCity').value = data.sigungu;
-                document.getElementById('addressDistrict').value = data.bname;
-
                 var addr = '';
                 if (data.userSelectedType === 'R') {
                     addr = data.roadAddress;
                 } else {
                     addr = data.jibunAddress;
                 }
-                document.getElementById('addressDetail').value = addr;
+                document.getElementById('addressAddress').value = addr;
 
                 // ★ 주소 표시 텍스트 설정
                 document.getElementById('addressDisplay').textContent =

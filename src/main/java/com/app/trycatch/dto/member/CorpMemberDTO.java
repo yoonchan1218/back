@@ -38,9 +38,7 @@ public class CorpMemberDTO {
     private String corpPerformance;
     private String corpVision;
     private String addressZipcode;
-    private String addressProvince;
-    private String addressCity;
-    private String addressDistrict;
+    private String addressAddress;
     private String addressDetail;
     private String createdDatetime;
     private String updatedDatetime;
@@ -84,11 +82,9 @@ public class CorpMemberDTO {
 
     public AddressVO toAddressVO() {
         return AddressVO.builder()
-                .id(id)
+                .id(addressId)
                 .addressZipcode(addressZipcode)
-                .addressProvince(addressProvince)
-                .addressCity(addressCity)
-                .addressDistrict(addressDistrict)
+                .addressAddress(addressAddress)
                 .addressDetail(addressDetail)
                 .build();
     }

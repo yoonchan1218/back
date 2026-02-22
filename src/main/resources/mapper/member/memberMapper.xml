@@ -41,4 +41,26 @@
         from tbl_member
         where member_id = #{memberId} and member_password = #{memberPassword} and member_status = 'active'
     </select>
+
+    <select id="selectById" resultType="MemberVO">
+        SELECT id, member_id, member_name, member_email, member_phone,
+               address_id, member_status, member_agree_privacy, member_agree_marketing,
+               created_datetime, updated_datetime
+        FROM tbl_member
+        WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE tbl_member
+        <set>
+            member_name            = #{memberName},
+            member_phone           = #{memberPhone},
+            member_email           = #{memberEmail},
+            member_agree_marketing = #{memberAgreeMarketing},
+            <if test="memberPassword != null and memberPassword != ''">
+                member_password    = #{memberPassword},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

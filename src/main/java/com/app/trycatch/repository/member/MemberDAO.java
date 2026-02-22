@@ -47,4 +47,14 @@ public class MemberDAO {
     public Optional<MemberVO> findForLogin(MemberDTO memberDTO) {
         return memberMapper.selectMemberForLogin(memberDTO);
     }
+
+    // id로 조회
+    public Optional<MemberVO> findById(Long id) {
+        return memberMapper.selectById(id);
+    }
+
+    // 회원정보 수정
+    public void update(MemberVO memberVO) {
+        memberMapper.update(memberVO);
+    }
 }

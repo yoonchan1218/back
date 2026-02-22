@@ -31,9 +31,7 @@ public class IndividualMemberDTO {
     private String memberPhone;
     private Long addressId;
     private String addressZipcode;
-    private String addressProvince;
-    private String addressCity;
-    private String addressDistrict;
+    private String addressAddress;
     private String addressDetail;
     private Status memberStatus;
     private boolean memberAgreePrivacy;
@@ -75,11 +73,9 @@ public class IndividualMemberDTO {
 
     public AddressVO toAddressVO() {
         return AddressVO.builder()
-                .id(id)
+                .id(addressId)
                 .addressZipcode(addressZipcode)
-                .addressProvince(addressProvince)
-                .addressCity(addressCity)
-                .addressDistrict(addressDistrict)
+                .addressAddress(addressAddress)
                 .addressDetail(addressDetail)
                 .build();
     }

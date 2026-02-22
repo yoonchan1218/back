@@ -571,6 +571,11 @@ document.querySelector(".popAddr .popFunc").addEventListener("click", (e) => {
                 .join(" ");
             addressLayer.classList.add("ok");
             addressSearchLayer.classList.remove("on");
+
+            // 히든 입력 필드에 주소 동기화
+            document.getElementById("hiddenPostcode").value = document.getElementById("postcode").value;
+            document.getElementById("hiddenAddress").value = document.getElementById("address").value;
+            document.getElementById("hiddenDetailAddress").value = document.getElementById("detailAddress").value;
         } else {
             addressInputs
                 .filter((input) => input.placeholder.includes("*"))
@@ -981,6 +986,11 @@ submitButton.addEventListener("click", (e) => {
         alert("필수항목을 모두 입력해 주세요.");
         window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
+        // 자본금 합산 (억 * 100000000 + 만원 * 10000)
+        const capitalA = parseInt(document.getElementById("devCapital_A").value) || 0;
+        const capitalB = parseInt(document.getElementById("devCapital_B").value) || 0;
+        document.getElementById("hiddenCapital").value = capitalA * 100000000 + capitalB * 10000;
+
         // 폼 제출
         document.getElementById("devInfoForm").submit();
     }
@@ -990,3 +1000,64 @@ submitButton.addEventListener("click", (e) => {
 toTheTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+// ── 서버 데이터 초기화 ──────────────────────────────────────────
+// 자본금 분리 표시 (억 / 만원)
+const hiddenCapital = document.getElementById("hiddenCapital");
+if (hiddenCapital && hiddenCapital.value) {
+    const totalCapital = parseInt(hiddenCapital.value) || 0;
+    const uk = Math.floor(totalCapital / 100000000);        // 억
+    const man = Math.floor((totalCapital % 100000000) / 10000); // 만원
+    if (uk) document.getElementById("devCapital_A").value = uk;
+    if (man) document.getElementById("devCapital_B").value = man;
+}
+
+// textarea에 값이 있으면 placeholder span 숨기기
+if (document.getElementById("lb_History").value) {
+    historyTextareaLayer.firstElementChild.style.display = "none";
+}
+if (document.getElementById("lb_overview").value) {
+    overviewTextareaLayer.firstElementChild.style.display = "none";
+}
+
+// 기업형태 초기 표시
+if (companyTypeInput.value) {
+    const selectedTypeItem = document.querySelector(`.devCoTypeItem[data-type="${companyTypeInput.value}"]`);
+    if (selectedTypeItem) {
+        selectedTypeItem.classList.add("on");
+        companyTypeResultSpan.textContent = selectedTypeItem.querySelector("button").textContent;
+        typeSelectButton.closest(".elWrap").classList.add("ok");
+        tempTypeSelectButton = selectedTypeItem.querySelector("button");
+    }
+}
+
+// 업종 초기 표시
+if (industryInput.value) {
+    const selectedPartItem = document.querySelector(`.devPartItem[data-part="${industryInput.value}"]`);
+    if (selectedPartItem) {
+        selectedPartItem.classList.add("on");
+        const partList = selectedPartItem.closest(".devPartList");
+        if (partList) {
+            partList.classList.add("devOn");
+            partList.style.display = "block";
+            tempIndustryPartList = partList;
+
+            // 카테고리도 선택
+            const ctgrCode = partList.dataset.partCtgrCode;
+            const ctgrItem = document.querySelector(`.devPartCtgr[data-part-ctgr-code="${ctgrCode}"]`);
+            if (ctgrItem) {
+                ctgrItem.classList.add("on");
+                tempIndustryType = ctgrItem.querySelector("button");
+            }
+        }
+        industryResultSpan.textContent = selectedPartItem.querySelector("button").textContent;
+        industrySelectButton.closest(".elWrap").classList.add("ok");
+        tempIndustryPartItem = selectedPartItem.querySelector("button");
+        tempIndustryPartItemValue = tempIndustryPartItem.textContent;
+    }
+}
+
+// 주소 초기 표시
+if (document.getElementById("hiddenAddress") && document.getElementById("hiddenAddress").value) {
+    addressLayer.classList.add("ok");
+}

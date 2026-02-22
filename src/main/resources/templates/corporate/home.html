@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,20 +55,15 @@
                     <div class="info-section">
                         <div class="border-round-section border-round-section-v2">
                             <div class="contents-box notService">
-                                <a href="">
+                                <a th:href="@{/corporate/profile}">
                                     <div class="logo">
-                                        <!-- server: 로고 이미지 없을 시 -->
                                         <img src="/static/images/corporate/logo_default.png">
-
-                                        <!-- server: 로고가 있는 경우엔 로고 사진으로 -->
-                                        <!-- <img src="로고 이미지"> -->
                                     </div>
                                 </a>
                                 <div class="company">
-                                    <span class="text">기업 이름</span>
+                                    <span class="text" th:text="${corpInfo.corpCompanyName}">기업 이름</span>
                                 </div>
-                                <!-- server: 버튼 클릭 시, 기업 프로필 페이지로 이동 -->
-                                <a href="" class="setting-button"></a>
+                                <a th:href="@{/corporate/profile}" class="setting-button"></a>
                                 <!-- onclick -->
                             </div>
                         </div>
@@ -89,14 +84,11 @@
                                 <div class="current-data">
                                     <h5>프로그램 현황</h5>
                                     <ul>
-                                        <!-- server, javascript: 진행중 공고가 0이면 data-none 클래스 추가 -->
-                                        <li class="data-none">
-                                            <a href="">
-                                                <!-- server: 체험 개수 반영 -->
-                                                <strong>0</strong>
+                                        <li th:classappend="${(programStats['recruiting'] ?: 0) == 0} ? 'data-none'">
+                                            <a th:href="@{/corporate/program-management(status='recruiting')}">
+                                                <strong th:text="${programStats['recruiting'] ?: 0}">0</strong>
                                                 <p>진행중 체험</p>
                                             </a>
-                                            <!-- onclick -->
                                         </li>
                                     </ul>
                                 </div>
@@ -139,29 +131,42 @@
                                 </div>
                             </div> -->
 
-                            <!-- server, javascript: 진행중인 프로그램이 있을 경우 -->
-                            <div class="data-box">
+                            <!-- 진행중인 프로그램이 있을 경우 -->
+                            <div class="data-box" th:if="${!#lists.isEmpty(recentPrograms)}">
                                 <ul>
+                                    <th:block th:each="p : ${recentPrograms}">
                                     <li>
-                                        <a href="" target="_blank" class="list-cell">
+                                        <a th:href="@{/corporate/participant-list(programId=${p.id})}" target="_blank" class="list-cell">
                                             <div class="list-content">
-                                                <div class="title">백엔드 개발 체험 프로그램</div>
+                                                <div class="title" th:text="${p.experienceProgramTitle}">프로그램 제목</div>
                                                 <div class="description">
-                                                    <span>프로그램 한 줄 문구</span>
+                                                    <span th:text="${p.experienceProgramJob}">직무</span>
                                                 </div>
                                                 <div class="info">
-                                                    <span>체험형</span>
-                                                    <span>4주</span>
-                                                    <span>D-7</span>
-                                                    <span>15명</span>
+                                                    <span th:text="${p.experienceProgramLevel}">단계</span>
+                                                    <span th:text="${p.experienceProgramDeadline}">마감일</span>
+                                                    <span th:text="${p.experienceProgramRecruitmentCount + '명'}">0명</span>
                                                 </div>
                                                 <div class="tagbox">
-                                                    <span class="tag">모집중</span>
+                                                    <span class="tag" th:text="${p.experienceProgramStatus}">상태</span>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
+                                    </th:block>
                                 </ul>
+                            </div>
+                            <!-- 프로그램이 없을 경우 -->
+                            <div class="data-none-box" th:if="${#lists.isEmpty(recentPrograms)}">
+                                <div class="contents-box">
+                                    <div class="title">진행중인 프로그램이 없습니다.</div>
+                                    <div class="text">인재를 채용할 계획이 있으신가요?</div>
+                                    <ul class="button-list clearfix">
+                                        <li>
+                                            <a th:href="@{/corporate/program-management}" class="btn-blue">프로그램 등록</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
                         </div>

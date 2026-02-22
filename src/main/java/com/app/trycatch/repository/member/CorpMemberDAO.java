@@ -1,7 +1,7 @@
 package com.app.trycatch.repository.member;
 
 import com.app.trycatch.domain.member.CorpVO;
-import com.app.trycatch.domain.member.MemberVO;
+import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.mapper.member.CorpMemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -25,6 +25,16 @@ public class CorpMemberDAO {
     //    사업자등록번호 검사
     public Optional<CorpVO> findByCorpBusinessNumber(String corpBusinessNumber) {
         return corpMemberMapper.selectByCorpBusinessNumber(corpBusinessNumber);
+    }
+
+    //    기업 정보 조회 (tbl_member + tbl_corp + tbl_address JOIN)
+    public Optional<CorpMemberDTO> findById(Long id) {
+        return corpMemberMapper.selectCorpMemberById(id);
+    }
+
+    //    기업 정보 수정
+    public void update(CorpVO corpVO) {
+        corpMemberMapper.updateCorp(corpVO);
     }
 
 }

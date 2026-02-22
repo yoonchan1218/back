@@ -12,8 +12,6 @@ import lombok.experimental.SuperBuilder;
 public class AddressVO extends Period {
     private Long id;
     private String addressZipcode;
-    private String addressProvince;
-    private String addressCity;
-    private String addressDistrict;
+    private String addressAddress;
     private String addressDetail;
 }
