@@ -125,7 +125,6 @@
         SELECT id, experience_program_title,
                experience_program_status,
                experience_program_deadline,
-               experience_program_job,
                experience_program_level,
                experience_program_recruitment_count
         FROM tbl_experience_program
