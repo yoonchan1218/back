@@ -24,8 +24,6 @@ public class ExperienceProgramVO extends Period {
     private int experienceProgramRecruitmentCount;
     private String experienceProgramWorkDays;
     private String experienceProgramWorkHours;
-    private String experienceProgramStartDate;
-    private String experienceProgramEndDate;
     private String experienceProgramDeadline;
     private ExperienceProgramStatus experienceProgramStatus;
     private int experienceProgramViewCount;

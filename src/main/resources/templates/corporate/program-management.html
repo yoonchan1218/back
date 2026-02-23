@@ -147,7 +147,9 @@
                                                     <div class="more-option">
                                                         <ul>
                                                             <li>
-                                                                <button type="button" class="applicantBtn">지원자 관리</button>
+                                                                <a th:href="@{/corporate/participant-list(programId=${program.id})}">
+                                                                    <button type="button" class="applicantBtn">지원자 관리</button>
+                                                                </a>
                                                             </li>
                                                             <li>
                                                                 <a th:href="@{/corporate/participant-list(programId=${program.id})}">

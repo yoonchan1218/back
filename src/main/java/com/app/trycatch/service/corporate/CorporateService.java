@@ -2,6 +2,7 @@ package com.app.trycatch.service.corporate;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.domain.corporate.CorpTeamMemberVO;
+import com.app.trycatch.domain.corporate.CorpWelfareRelVO;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.corporate.CorpTeamMemberDTO;
 import com.app.trycatch.dto.corporate.CorpTeamMemberWithPagingDTO;
@@ -14,6 +15,7 @@ import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
 import com.app.trycatch.domain.experience.ExperienceProgramFileVO;
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.dto.file.FileDTO;
+import com.app.trycatch.repository.corporate.CorpWelfareRelDAO;
 import com.app.trycatch.repository.file.CorpLogoFileDAO;
 import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.dto.qna.QnaDTO;
@@ -26,6 +28,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -33,7 +39,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
@@ -48,6 +56,7 @@ public class CorporateService {
     private final CorpLogoFileDAO corpLogoFileDAO;
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
     private final QnaDAO qnaDAO;
+    private final CorpWelfareRelDAO corpWelfareRelDAO;
 
     // ── 기업회원 여부 확인 ──────────────────────────────────────────────
 
@@ -64,7 +73,7 @@ public class CorporateService {
                 .orElseThrow(() -> new IllegalArgumentException("기업 정보를 찾을 수 없습니다. id=" + corpId));
     }
 
-    /** 기업 정보(tbl_corp) + 주소(tbl_address) 수정 */
+    /** 기업 정보(tbl_corp) + 주소(tbl_address) + 복리후생 수정 */
     public void updateCorpInfo(CorpMemberDTO dto) {
         corpMemberDAO.update(dto.toCorpVO());
         if (dto.getAddressId() != null) {
@@ -75,6 +84,29 @@ public class CorporateService {
             dto.setAddressId(dto.getId());
             addressDAO.save(dto.toAddressVO());
             memberDAO.updateAddressIdById(dto.getId());
+        }
+
+        // 복리후생 저장 (delete-all + re-insert)
+        corpWelfareRelDAO.deleteByCorpId(dto.getId());
+        if (dto.getWelfareData() != null && !dto.getWelfareData().isEmpty()
+                && !dto.getWelfareData().equals("{}")) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, String> welfareMap = objectMapper.readValue(
+                        dto.getWelfareData(), new TypeReference<Map<String, String>>() {});
+
+                List<CorpWelfareRelVO> welfareList = welfareMap.entrySet().stream()
+                        .map(entry -> CorpWelfareRelVO.builder()
+                                .corpId(dto.getId())
+                                .welfareCode(entry.getKey())
+                                .welfareName(entry.getValue())
+                                .build())
+                        .collect(Collectors.toList());
+
+                corpWelfareRelDAO.saveAll(welfareList);
+            } catch (Exception e) {
+                log.error("복리후생 데이터 파싱 실패: {}", dto.getWelfareData(), e);
+            }
         }
     }
 
@@ -256,6 +288,13 @@ public class CorporateService {
 
     public void rejectParticipant(Long participantId, Long corpId, String feedback) {
         // tbl_challenger 상태 변경 + tbl_feedback 저장 — 추후 구현
+    }
+
+    // ── 복리후생 조회 ──────────────────────────────────────────────────
+
+    /** 기업별 복리후생 조회 */
+    public List<CorpWelfareRelVO> getWelfareByCorpId(Long corpId) {
+        return corpWelfareRelDAO.findByCorpId(corpId);
     }
 
     // ── 홈 하단: QNA ──────────────────────────────────────────────────

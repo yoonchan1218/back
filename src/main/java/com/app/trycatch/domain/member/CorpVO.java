@@ -21,7 +21,7 @@ public class CorpVO {
     private String corpWebsiteUrl;
     private String corpFax;
     private Long corpCapital;
-    private Long corpTotalSales;
+    private String corpTotalSales;
     private String corpMainBusiness;
     private String corpPerformance;
     private String corpVision;
