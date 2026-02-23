@@ -137,7 +137,8 @@ public class MyPageController {
     @PostMapping("profile-image")
     @ResponseBody
     public String uploadProfileImage(@RequestParam("file") MultipartFile file) {
-        return myPageService.uploadProfileImage(file);
+        Long memberId = getSessionMemberId();
+        return myPageService.uploadProfileImage(memberId, file);
     }
 
     @GetMapping("logout")

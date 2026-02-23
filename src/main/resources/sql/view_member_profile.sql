@@ -1,3 +1,6 @@
+-- 기존 뷰 재생성 시
+drop view if exists view_member_profile;
+
 create view view_member_profile as
 select
     m.id,
@@ -17,8 +20,12 @@ select
     i.individual_member_point,
     i.individual_member_level,
     i.individual_member_post_count,
-    i.individual_member_question_count
+    i.individual_member_question_count,
+    if(i.member_profile_file_id is not null,
+        concat('/api/files/display?filePath=', f.file_path, '&fileName=', f.file_name),
+        null) as member_profile_image_url
 from tbl_member m
-left join tbl_individual_member i on m.id = i.id;
+left join tbl_individual_member i on m.id = i.id
+left join tbl_file f on i.member_profile_file_id = f.id;
 
 select * from view_member_profile;
