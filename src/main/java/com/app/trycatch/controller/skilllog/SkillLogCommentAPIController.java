@@ -20,7 +20,7 @@ public class SkillLogCommentAPIController {
 
 //    추가
     @PostMapping("write")
-    public void write(SkillLogCommentDTO skillLogCommentDTO, @RequestParam("file") MultipartFile multipartFile){
+    public void write(SkillLogCommentDTO skillLogCommentDTO, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
         skillLogCommentService.write(skillLogCommentDTO, multipartFile);
     }
 
@@ -45,9 +45,4 @@ public class SkillLogCommentAPIController {
     public void delete(@PathVariable Long skillLogCommentId, Long fileId){
         skillLogCommentService.delete(skillLogCommentId, fileId);
     }
-
-//    @GetMapping("like")
-//    public int like(SkillLogLikesDTO skillLogLikesDTO) {
-//        return skillLogService.like(skillLogLikesDTO);
-//    }
 }

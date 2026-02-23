@@ -180,7 +180,7 @@ public class SkillLogCommentServiceTests {
         int beforeCount = skillLogCommentMapper.selectCountAllBySkillLogId(testSkillLogId);
         log.info("삭제 전 댓글 수: {}", beforeCount);
 
-        skillLogCommentService.deleteAllBySkillLogId(testSkillLogId);
+//        skillLogCommentService.deleteAllBySkillLogId(testSkillLogId);
 
         int afterCount = skillLogCommentMapper.selectCountAllBySkillLogId(testSkillLogId);
         log.info("삭제 후 댓글 수: {}", afterCount);

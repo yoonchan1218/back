@@ -24,6 +24,4 @@ public interface SkillLogCommentFileMapper {
     public void delete(Long id);
     public void deleteAllBySkillLogId(Long id);
     public void deleteAllBySkillLogCommentParentId(Long id);
-
-
 }

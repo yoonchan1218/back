@@ -80,6 +80,8 @@ public class SkillLogCommentService {
         Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllBySkillLogId(id));
         List<SkillLogCommentDTO> comments = skillLogCommentDAO.findAllBySkillLogId(criteria, id);
 
+        log.info("{}", comments);
+
         comments.forEach((comment) -> {
             comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
         });

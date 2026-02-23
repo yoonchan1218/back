@@ -10,8 +10,9 @@ const commentService = (() => {
 
     // 댓글 목록
     const getList = async (page, skillLogId, memberId, callback) => {
-        const response = await fetch(`/api/skill-log/comments/comment-list/${page}?skillLogId=${skillLogId}`);
+        const response = await fetch(`/api/skill-log/comments/comment-list/${page}?id=${skillLogId}`);
         const comments = await response.json();
+
         if(callback){
             callback(comments, memberId);
         }
