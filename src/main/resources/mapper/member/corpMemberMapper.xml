@@ -17,7 +17,7 @@
     </select>
 
     <select id="selectCorpMemberForLogin" resultType="CorpMemberDTO">
-        SELECT m.id, m.member_id, m.member_name, m.member_email, m.member_phone,
+        select m.id, m.member_id, m.member_name, m.member_email, m.member_phone,
                m.member_status, m.member_agree_privacy, m.member_agree_marketing,
                m.address_id,
                c.corp_company_name, c.corp_business_number, c.corp_ceo_name,
@@ -25,13 +25,13 @@
                c.corp_establishment_date, c.corp_website_url, c.corp_fax,
                c.corp_capital, c.corp_total_sales, c.corp_performance, c.corp_vision,
                m.created_datetime, m.updated_datetime
-        FROM tbl_member m
-        JOIN tbl_corp c ON m.id = c.id
-        WHERE m.member_id = #{memberId} AND m.member_password = #{memberPassword} AND m.member_status = 'active'
+        from tbl_member m
+        join tbl_corp c on m.id = c.id
+        where m.member_id = #{memberId} and m.member_password = #{memberPassword} and m.member_status = 'active'
     </select>
 
     <select id="selectCorpMemberById" resultType="CorpMemberDTO">
-        SELECT m.id, m.member_id, m.member_name, m.member_email, m.member_phone,
+        select m.id, m.member_id, m.member_name, m.member_email, m.member_phone,
                m.member_status, m.member_agree_privacy, m.member_agree_marketing,
                m.address_id,
                c.corp_company_name, c.corp_business_number, c.corp_ceo_name,
@@ -40,14 +40,14 @@
                c.corp_capital, c.corp_total_sales, c.corp_performance, c.corp_vision,
                a.address_zipcode, a.address_address, a.address_detail,
                m.created_datetime, m.updated_datetime
-        FROM tbl_member m
-        JOIN tbl_corp c ON m.id = c.id
-        LEFT JOIN tbl_address a ON m.address_id = a.id
-        WHERE m.id = #{id}
+        from tbl_member m
+        join tbl_corp c on m.id = c.id
+        left join tbl_address a on m.address_id = a.id
+        where m.id = #{id}
     </select>
 
     <update id="updateCorp">
-        UPDATE tbl_corp SET
+        update tbl_corp set
             corp_ceo_name          = #{corpCeoName},
             corp_kind_id           = #{corpKindId},
             corp_kind_small_id     = #{corpKindSmallId},
@@ -60,6 +60,6 @@
             corp_total_sales       = #{corpTotalSales},
             corp_performance       = #{corpPerformance},
             corp_vision            = #{corpVision}
-        WHERE id = #{id}
+        where id = #{id}
     </update>
 </mapper>

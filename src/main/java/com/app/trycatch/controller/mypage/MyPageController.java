@@ -108,6 +108,7 @@ public class MyPageController {
         model.addAttribute("appliedCount", applies.stream().filter(a -> "applied".equals(a.getApplyStatus())).count());
         model.addAttribute("documentPassCount", applies.stream().filter(a -> "document_pass".equals(a.getApplyStatus())).count());
         model.addAttribute("documentFailCount", applies.stream().filter(a -> "document_fail".equals(a.getApplyStatus())).count());
+        model.addAttribute("activityDoneCount", applies.stream().filter(a -> "activity_done".equals(a.getApplyStatus())).count());
         return "mypage/experience";
     }
 
@@ -126,12 +127,23 @@ public class MyPageController {
         return new RedirectView("/main/log-in");
     }
 
+    @GetMapping("experience/filter")
+    @ResponseBody
+    public List<ApplyListDTO> filterApplyList(
+            @RequestParam(required = false) String fromDt,
+            @RequestParam(required = false) String toDt,
+            @RequestParam(required = false) String programStatus,
+            @RequestParam(required = false) String applyStatus,
+            @RequestParam(required = false) String keyword) {
+        Long memberId = getSessionMemberId();
+        return myPageService.getApplyListWithFilter(memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+    }
+
     @PostMapping("experience/cancel")
     @ResponseBody
     public boolean cancelApply(Long applyId) {
         Long memberId = getSessionMemberId();
-        myPageService.cancelApply(memberId, applyId);
-        return true;
+        return myPageService.cancelApply(memberId, applyId);
     }
 
     @PostMapping("profile-image")

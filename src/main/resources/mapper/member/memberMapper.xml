@@ -13,7 +13,7 @@
 
     <insert id="insertCorp" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_member (member_id, member_password,member_name,member_phone, member_email,address_id, member_agree_privacy, member_agree_marketing)
-        VALUES (#{memberId}, #{memberPassword}, #{memberName} , #{memberPhone} , #{memberEmail}, #{addressId}, #{memberAgreePrivacy}, #{memberAgreeMarketing})
+        values (#{memberId}, #{memberPassword}, #{memberName} , #{memberPhone} , #{memberEmail}, #{addressId}, #{memberAgreePrivacy}, #{memberAgreeMarketing})
     </insert>
 
     <select id="selectByMemberId" resultType="MemberVO">
@@ -35,14 +35,14 @@
     </update>
 
     <update id="update">
-        UPDATE tbl_member SET
+        update tbl_member set
             member_name    = #{memberName},
             member_email   = #{memberEmail},
             member_phone   = #{memberPhone}
         <if test="memberPassword != null and memberPassword != ''">
             , member_password = #{memberPassword}
         </if>
-        WHERE id = #{id}
+        where id = #{id}
     </update>
 
     <select id="selectMemberForLogin" resultType="MemberVO">
