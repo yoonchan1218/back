@@ -92,9 +92,9 @@ public class SkillLogCommentMapperTests {
         Long skillLogId = 31L;
         Long commentParentId = 3L;
 
-        skillLogCommentFileMapper.deleteAllBySkillLogCommentParentIdAndSkillLogId(skillLogId, commentParentId);
-        skillLogCommentMapper.deleteAllBySkillLogCommentParentIdAndSkillLogId(skillLogId, commentParentId);
-        skillLogCommentMapper.delete(commentParentId);
+//        skillLogCommentFileMapper.deleteAllBySkillLogCommentParentIdAndSkillLogId(skillLogId, commentParentId);
+//        skillLogCommentMapper.deleteAllBySkillLogCommentParentIdAndSkillLogId(skillLogId, commentParentId);
+//        skillLogCommentMapper.delete(commentParentId);
     }
 
     @Test

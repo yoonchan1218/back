@@ -36,11 +36,9 @@
 
     <update id="update">
         UPDATE tbl_member SET
+            member_name    = #{memberName},
             member_email   = #{memberEmail},
             member_phone   = #{memberPhone}
-        <if test="memberName != null and memberName != ''">
-            , member_name = #{memberName}
-        </if>
         <if test="memberPassword != null and memberPassword != ''">
             , member_password = #{memberPassword}
         </if>

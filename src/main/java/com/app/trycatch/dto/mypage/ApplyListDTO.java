@@ -13,9 +13,17 @@ public class ApplyListDTO {
     private String experienceProgramJob;
     private String experienceProgramDeadline;
     private String experienceProgramStatus;
+    private String experienceProgramLevel;
+    private int experienceProgramRecruitmentCount;
+    private int applicantCount;
     private String corpCompanyName;
     private String applyStatus;
     private String applyCreatedDatetime;
+
+    public String getExperienceProgramLevelLabel() {
+        if (experienceProgramLevel == null) return "";
+        return experienceProgramLevel.toUpperCase() + "유형";
+    }
 
     public String getApplyStatusLabel() {
         if (applyStatus == null) return "-";
@@ -23,6 +31,7 @@ public class ApplyListDTO {
             case "applied" -> "심사중";
             case "document_pass" -> "참여중";
             case "document_fail" -> "심사완료";
+            case "activity_done" -> "참여완료";
             case "cancelled" -> "취소";
             default -> applyStatus;
         };

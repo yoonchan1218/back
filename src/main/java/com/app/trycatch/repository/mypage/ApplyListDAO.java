@@ -15,4 +15,11 @@ public class ApplyListDAO {
     public List<ApplyListDTO> findAllByMemberId(Long memberId) {
         return applyListMapper.selectAllByMemberId(memberId);
     }
+
+    public List<ApplyListDTO> findAllByMemberIdWithFilter(
+            Long memberId, String fromDt, String toDt,
+            String programStatus, String applyStatus, String keyword) {
+        return applyListMapper.selectAllByMemberIdWithFilter(
+                memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+    }
 }

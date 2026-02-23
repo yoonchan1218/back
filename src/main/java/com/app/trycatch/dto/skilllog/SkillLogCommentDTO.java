@@ -6,6 +6,9 @@ import com.app.trycatch.domain.skilllog.SkillLogCommentVO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter @ToString
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")

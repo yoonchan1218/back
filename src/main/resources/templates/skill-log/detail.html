@@ -386,7 +386,7 @@
                                         <div class="experience-program">
                                             <a th:href="@{/Recruit/GI_Read/${gno}}" target="_blank" class="attach-box">
                                             <span class="thumb-img-area">
-                                                <img th:src="@{/api/files/display?filePath=*{experienceProgramFilePath}&fileName=*{experienceProgramFileName}}"
+                                                <img th:src="@{/api/files/display(filePath=*{experienceProgramFilePath}, fileName=*{experienceProgramFileName})}"
                                                      onerror="this.src='//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png'">
                                             </span>
                                                 <div class="corp-info-area qnaSpA">
@@ -576,13 +576,14 @@
                                     </fieldset>
                                 </form> -->
                                     <!-- 로그인 댓글달기 -->
-                                    <form
-                                        action=""
-                                        method="post"
-                                        oncopy="return false;"
-                                        oncut="return false;"
-                                        onpaste="return false;"
-                                    >
+<!--                                    <form-->
+<!--                                        action="/api/skill-log/comments/write"-->
+<!--                                        method="post"-->
+<!--                                        oncopy="return false;"-->
+<!--                                        oncut="return false;"-->
+<!--                                        onpaste="return false;"-->
+<!--                                        enctype="multipart/form-data"-->
+<!--                                    >-->
                                         <fieldset>
                                             <input
                                                 type="hidden"
@@ -629,33 +630,32 @@
                                                 >
                                                 <textarea
                                                     class="devTxtAreaAnswerWrite"
-                                                    name="Cntnt"
+                                                    name="skillLogCommentContent"
                                                     maxlength="1000"
                                                     title="답변쓰기"
                                                 ></textarea>
                                             </div>
                                             <div class="btnWrap">
                                                 <div class="answer-util-wrap">
-                                                    <div
-                                                        class="answer-util-item"
-                                                    >
-                                                        <button
-                                                            type="button"
-                                                            class="icon-emoticon qnaSpB"
-                                                        >
-                                                            이모티콘
-                                                        </button>
-                                                    </div>
+<!--                                                    <div-->
+<!--                                                        class="answer-util-item"-->
+<!--                                                    >-->
+<!--                                                        <button-->
+<!--                                                            type="button"-->
+<!--                                                            class="icon-emoticon qnaSpB"-->
+<!--                                                        >-->
+<!--                                                            이모티콘-->
+<!--                                                        </button>-->
+<!--                                                    </div>-->
                                                     <div
                                                         class="answer-util-item"
                                                     >
                                                         <label>
                                                             <input
                                                                 type="file"
-                                                                style="
-                                                                    display: none;
-                                                                "
+                                                                style="display: none;"
                                                                 class="reply-file"
+                                                                name="file"
                                                             />
                                                             <button
                                                                 type="button"
@@ -678,111 +678,111 @@
                                                 >
                                                     등록
                                                 </button>
-                                                <div
-                                                    class="layer-box-wrap emotion-layer"
-                                                >
-                                                    <p class="layer-header">
-                                                        이모티콘
-                                                    </p>
-                                                    <ul class="emotion-area">
-                                                        <!-- [dev] 이모티콘 총 36개 -->
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"
-                                                                    data-idx="1"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"
-                                                                    data-idx="2"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"
-                                                                    data-idx="3"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"
-                                                                    data-idx="4"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"
-                                                                    data-idx="5"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                        <li
-                                                            class="emotion-item"
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                class="emotion-button"
-                                                            >
-                                                                <img
-                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"
-                                                                    data-idx="6"
-                                                                    alt=""
-                                                                />
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                    <button
-                                                        type="button"
-                                                        class="btn-layer-close qnaSpB"
-                                                    >
-                                                        <span class="blind"
-                                                            >닫기</span
-                                                        >
-                                                    </button>
-                                                </div>
+<!--                                                <div-->
+<!--                                                    class="layer-box-wrap emotion-layer"-->
+<!--                                                >-->
+<!--                                                    <p class="layer-header">-->
+<!--                                                        이모티콘-->
+<!--                                                    </p>-->
+<!--                                                    <ul class="emotion-area">-->
+<!--                                                        &lt;!&ndash; [dev] 이모티콘 총 36개 &ndash;&gt;-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"-->
+<!--                                                                    data-idx="1"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"-->
+<!--                                                                    data-idx="2"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"-->
+<!--                                                                    data-idx="3"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"-->
+<!--                                                                    data-idx="4"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"-->
+<!--                                                                    data-idx="5"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                        <li-->
+<!--                                                            class="emotion-item"-->
+<!--                                                        >-->
+<!--                                                            <button-->
+<!--                                                                type="button"-->
+<!--                                                                class="emotion-button"-->
+<!--                                                            >-->
+<!--                                                                <img-->
+<!--                                                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"-->
+<!--                                                                    data-idx="6"-->
+<!--                                                                    alt=""-->
+<!--                                                                />-->
+<!--                                                            </button>-->
+<!--                                                        </li>-->
+<!--                                                    </ul>-->
+<!--                                                    <button-->
+<!--                                                        type="button"-->
+<!--                                                        class="btn-layer-close qnaSpB"-->
+<!--                                                    >-->
+<!--                                                        <span class="blind"-->
+<!--                                                            >닫기</span-->
+<!--                                                        >-->
+<!--                                                    </button>-->
+<!--                                                </div>-->
                                             </div>
                                         </fieldset>
-                                    </form>
+<!--                                    </form>-->
                                 </div>
                                 <!-- 로그인 시 안내문 -->
                                 <ul class="notice-box-wrap">
@@ -3885,10 +3885,10 @@
     </body>
     <script src="/js/skill-log/comment/service.js"></script>
     <script src="/js/skill-log/comment/layout.js"></script>
-    <script src="/js/skill-log/comment/event.js"></script>
     <script src="/js/skill-log/detail/service.js"></script>
     <script src="/js/skill-log/detail/layout.js"></script>
     <script src="/js/skill-log/detail/event.js"></script>
+<!--    <script src="/js/skill-log/comment/event.js"></script>-->
     <script src="/js/qna/header-event.js"></script>
     <script src="/js/qna/footer.js"></script>
 </html>

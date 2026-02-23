@@ -62,17 +62,137 @@ const experienceLayout = (() => {
         document.body.style.overflow = "";
     };
 
-    // 6. 지원취소됨 표시
+    // 6. 지원취소됨 표시 + 지원자수 감소
     const showCancelled = (cancelBtn) => {
+        const tr = cancelBtn.closest("tr");
+        if (tr) {
+            tr.querySelectorAll(".item").forEach((item) => {
+                const text = item.textContent.trim();
+                if (text.startsWith("지원자수 :")) {
+                    const match = text.match(/지원자수 : (\d+)\/(\d+)/);
+                    if (match) {
+                        const updated = Math.max(0, parseInt(match[1], 10) - 1);
+                        item.textContent = `지원자수 : ${updated}/${match[2]}`;
+                    }
+                }
+            });
+        }
+        const statusEl = tr ? tr.querySelector(".apply-status .item.status") : null;
+        if (statusEl) statusEl.textContent = "취소";
         const td = cancelBtn.closest("td");
         if (td) {
-            td.innerHTML = "<span>지원취소됨.</span>";
+            td.innerHTML = "<span>지원취소됨</span>";
         }
+    };
+
+    // 7. 상단 상태별 카운트 감소
+    const decrementStatusCount = (applyStatus) => {
+        const idMap = {
+            "applied": "count-applied",
+            "document_pass": "count-document-pass",
+            "document_fail": "count-document-fail"
+        };
+        const el = document.getElementById(idMap[applyStatus]);
+        if (el) {
+            el.textContent = Math.max(0, parseInt(el.textContent, 10) - 1);
+        }
+    };
+
+    // 8. 필터 결과로 테이블 재렌더링
+    const updateStatusCounts = (applies) => {
+        const counts = { applied: 0, document_pass: 0, document_fail: 0, activity_done: 0 };
+        applies.forEach(a => {
+            if (counts[a.applyStatus] !== undefined) counts[a.applyStatus]++;
+        });
+        const appliedEl = document.getElementById("count-applied");
+        const passEl = document.getElementById("count-document-pass");
+        const failEl = document.getElementById("count-document-fail");
+        const activityDoneEl = document.getElementById("count-activity-done");
+        if (appliedEl) appliedEl.textContent = counts.applied;
+        if (passEl) passEl.textContent = counts.document_pass;
+        if (failEl) failEl.textContent = counts.document_fail;
+        if (activityDoneEl) activityDoneEl.textContent = counts.activity_done;
+    };
+
+    const renderApplyList = (applies) => {
+        const tbody = document.querySelector(".user-table.applymng-list tbody");
+        if (!tbody) return;
+
+        if (!applies || applies.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 30px;">체험 지원 내역이 없습니다.</td></tr>`;
+            updateStatusCounts([]);
+            return;
+        }
+
+        tbody.innerHTML = applies.map(apply => {
+            const cancelCellMap = {
+                cancelled: `<span>지원취소됨</span>`,
+                document_pass: `<span>참여중</span>`,
+                activity_done: `<span>수료</span>`
+            };
+            const cancelCell = cancelCellMap[apply.applyStatus] ||
+                `<button class="btn btnGyBd devBtnCancel devBtnOddInfo" type="button"
+                       data-idx="${apply.applyId}" data-status="${apply.applyStatus}">
+                       <span>지원취소</span>
+                   </button>`;
+
+            const deadlineDiv = apply.experienceProgramDeadline
+                ? `<div class="extra">(~${apply.experienceProgramDeadline})</div>`
+                : "";
+
+            return `
+                <tr>
+                    <td class="vertical-align-top">
+                        <div class="vertical-align-middle apply-status">
+                            <div class="inner">
+                                <div class="item status">${apply.applyStatusLabel}</div>
+                                <div class="item date">${apply.applyCreatedDatetime || "-"}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="vertical-align-middle apply-board">
+                            <div class="inner">
+                                <div class="company">
+                                    <span>${apply.corpCompanyName} : ${apply.experienceProgramLevelLabel}</span>
+                                </div>
+                                <div class="description">
+                                    <a href="/experience/program/${apply.experienceProgramId}" target="_blank">${apply.experienceProgramTitle}</a>
+                                </div>
+                                <div class="meta">
+                                    <div class="item applicants-field">지원분야 : ${apply.experienceProgramJob || ""}</div>
+                                    <div class="item">지원자수 : ${apply.applicantCount}/${apply.experienceProgramRecruitmentCount}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="vertical-align-middle apply-progress">
+                            <div class="inner">
+                                <div class="status">${apply.experienceProgramStatusLabel}</div>
+                                ${deadlineDiv}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="vertical-align-middle reading">
+                            <div class="inner">
+                                <div class="read-not">열람</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${cancelCell}</td>
+                </tr>`;
+        }).join("");
+
+        updateStatusCounts(applies);
+        document.dispatchEvent(new CustomEvent("appliesRendered"));
     };
 
     return {
         openCancelPopup, closeCancelPopup, toggleReasonDrop, selectReason,
         updatePeriodActive, toggleCommonDrop, selectCommonDropItem, closeAllDrops,
-        openResumeModal, closeResumeModal, showCancelled
+        openResumeModal, closeResumeModal, showCancelled, decrementStatusCount,
+        renderApplyList
     };
 })();

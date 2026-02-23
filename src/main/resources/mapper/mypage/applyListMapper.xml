@@ -2,24 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.mypage.ApplyListMapper">
 
-    <!-- 회원의 체험 지원 목록 조회 (취소 제외) -->
+
     <select id="selectAllByMemberId" resultType="ApplyListDTO">
-        SELECT
-            a.id                            AS applyId,
+        select
+            a.id                            as applyId,
             a.experience_program_id,
             a.apply_status,
-            a.created_datetime              AS applyCreatedDatetime,
+            date_format(a.created_datetime, '%Y.%m.%d') as applyCreatedDatetime,
             ep.experience_program_title,
             ep.experience_program_job,
             ep.experience_program_deadline,
             ep.experience_program_status,
+            ep.experience_program_level,
+            ep.experience_program_recruitment_count,
+            (select count(*) from tbl_apply
+             where experience_program_id = ep.id
+               and apply_status != 'cancelled') as applicantCount,
             c.corp_company_name
-        FROM tbl_apply a
-        LEFT JOIN tbl_experience_program ep ON a.experience_program_id = ep.id
-        LEFT JOIN tbl_corp c ON ep.corp_id = c.id
-        WHERE a.member_id = #{memberId}
-          AND a.apply_status != 'cancelled'
-        ORDER BY a.created_datetime DESC
+        from tbl_apply a
+        left join tbl_experience_program ep on a.experience_program_id = ep.id
+        left join tbl_corp c on ep.corp_id = c.id
+        where a.member_id = #{memberId}
+        order by a.created_datetime desc
+    </select>
+
+
+    <select id="selectAllByMemberIdWithFilter" resultType="ApplyListDTO">
+        select
+            a.id                            as applyId,
+            a.experience_program_id,
+            a.apply_status,
+            date_format(a.created_datetime, '%Y.%m.%d') as applyCreatedDatetime,
+            ep.experience_program_title,
+            ep.experience_program_job,
+            ep.experience_program_deadline,
+            ep.experience_program_status,
+            ep.experience_program_level,
+            ep.experience_program_recruitment_count,
+            (select count(*) from tbl_apply
+             where experience_program_id = ep.id
+               and apply_status != 'cancelled') as applicantCount,
+            c.corp_company_name
+        from tbl_apply a
+        left join tbl_experience_program ep on a.experience_program_id = ep.id
+        left join tbl_corp c on ep.corp_id = c.id
+        where a.member_id = #{memberId}
+        <if test="fromDt != null and fromDt != ''">
+            and a.created_datetime >= #{fromDt}
+        </if>
+        <if test="toDt != null and toDt != ''">
+            and a.created_datetime &lt; date_add(#{toDt}, interval 1 day)
+        </if>
+        <if test="programStatus != null and programStatus != ''">
+            and ep.experience_program_status = #{programStatus}
+        </if>
+        <if test="applyStatus != null and applyStatus != ''">
+            and a.apply_status = #{applyStatus}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and (c.corp_company_name like concat('%', #{keyword}, '%')
+              or ep.experience_program_title like concat('%', #{keyword}, '%'))
+        </if>
+        order by a.created_datetime desc
     </select>
 
 </mapper>

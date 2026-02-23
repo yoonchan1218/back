@@ -1,22 +1,28 @@
-const replyService = (() => {
+const commentService = (() => {
 
     // 추가
-    const write = async (reply) => {
-        await fetch("/api/replies/write", {
+    const write = async (formData) => {
+        await fetch("/api/skill-log/comments/write", {
             method: "POST",
-            body: JSON.stringify(reply),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            body: formData
         });
     }
 
-    // 목록
-    const getList = async (page, postId, callback) => {
-        const response = await fetch(`/api/replies/list/${page}?postId=${postId}`);
-        const replies = await response.json();
+    // 댓글 목록
+    const getList = async (page, skillLogId, memberId, callback) => {
+        const response = await fetch(`/api/skill-log/comments/comment-list/${page}?id=${skillLogId}`);
+        const comments = await response.json();
+
         if(callback){
-            callback(replies);
+            callback(comments, memberId);
+        }
+    }
+    // 대댓글 목록
+    const getNestedList = async (page, skillLogId, commentId, memberId, callback) => {
+        const response = await fetch(`/api/skill-log/comments/nested-comment-list/${page}?skillLogId=${skillLogId}&commentId=${commentId}`);
+        const comments = await response.json();
+        if(callback){
+            callback(comments, memberId);
         }
     }
 
@@ -38,7 +44,7 @@ const replyService = (() => {
         });
     }
 
-    return {write: write, getList: getList, update: update, remove: remove};
+    return {write: write, getList: getList, getNestedList: getNestedList, update: update, remove: remove};
 })();
 
 

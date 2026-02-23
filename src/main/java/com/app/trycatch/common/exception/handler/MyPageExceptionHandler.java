@@ -4,6 +4,7 @@ import com.app.trycatch.common.exception.InputAllDataException;
 import com.app.trycatch.common.exception.MemberNotFoundException;
 import com.app.trycatch.common.exception.UnauthorizedMemberAccessException;
 import com.app.trycatch.common.exception.UnsubscribeNameMismatchException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,15 +19,15 @@ public class MyPageExceptionHandler {
     }
 
     @ExceptionHandler(MemberNotFoundException.class)
-    protected RedirectView memberNotFound(MemberNotFoundException exception, RedirectAttributes redirectAttributes) {
+    protected RedirectView memberNotFound(MemberNotFoundException exception, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("mypage", "member-not-found");
-        return new RedirectView("/main/log-in?re_url=/mypage/mypage");
+        return new RedirectView("/main/log-in?re_url=" + request.getRequestURI());
     }
 
     @ExceptionHandler(UnauthorizedMemberAccessException.class)
-    protected RedirectView unauthorized(UnauthorizedMemberAccessException exception, RedirectAttributes redirectAttributes) {
+    protected RedirectView unauthorized(UnauthorizedMemberAccessException exception, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("mypage", "unauthorized");
-        return new RedirectView("/main/log-in?re_url=/mypage/mypage");
+        return new RedirectView("/main/log-in?re_url=" + request.getRequestURI());
     }
 
     @ExceptionHandler(UnsubscribeNameMismatchException.class)
