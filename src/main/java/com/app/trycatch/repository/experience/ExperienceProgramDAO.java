@@ -16,6 +16,11 @@ import java.util.Optional;
 public class ExperienceProgramDAO {
     private final ExperienceProgramMapper experienceProgramMapper;
 
+//    프로그램 등록
+    public void save(ExperienceProgramDTO experienceProgramDTO) {
+        experienceProgramMapper.insert(experienceProgramDTO);
+    }
+
 //    skill-log 최근 공고
 //    목록
     public List<ExperienceProgramDTO> findAllByMemberIdOfChallenger(Criteria criteria, Search search, Long id) {

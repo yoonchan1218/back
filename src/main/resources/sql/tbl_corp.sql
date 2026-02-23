@@ -13,6 +13,7 @@ create table tbl_corp
     corp_fax                         varchar(255) comment 'fax 번호',
     corp_capital                     bigint comment '자본금 (원 단위)',
     corp_total_sales                 bigint comment '매출액 (원 단위)',
+    corp_main_business               varchar(100) comment '주요사업내용',
     corp_performance                 text comment '연혁 및 실적',
     corp_vision                      text comment '개요 및 비전',
     constraint fk_corp_member foreign key (id) references tbl_member (id)
@@ -26,6 +27,9 @@ select * from tbl_corp;
 select * from tbl_address;
 
 SELECT * FROM tbl_member;
+
+-- 주요사업내용 컬럼 추가
+ALTER TABLE tbl_corp ADD COLUMN corp_main_business varchar(100) comment '주요사업내용' AFTER corp_total_sales;
 
 
 

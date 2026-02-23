@@ -2,17 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.member.AddressMapper">
 <insert id="insert">
-    insert into tbl_address (id,address_zipcode, address_province, address_city, address_district, address_detail)
-    values (#{id}, #{addressZipcode}, #{addressProvince}, #{addressCity}, #{addressDistrict}, #{addressDetail})
+    INSERT INTO tbl_address (id, address_zipcode, address_address, address_detail)
+    VALUES (#{id}, #{addressZipcode}, #{addressAddress}, #{addressDetail})
 </insert>
 
 <update id="update">
     UPDATE tbl_address SET
-        address_zipcode  = #{addressZipcode},
-        address_province = #{addressProvince},
-        address_city     = #{addressCity},
-        address_district = #{addressDistrict},
-        address_detail   = #{addressDetail}
+        address_zipcode = #{addressZipcode},
+        address_address = #{addressAddress},
+        address_detail  = #{addressDetail}
     WHERE id = #{id}
 </update>
 </mapper>

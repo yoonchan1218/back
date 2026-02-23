@@ -39,6 +39,12 @@ public class ExperienceProgramDTO {
     private List<ApplyDTO> applies = new ArrayList<>();
     private List<ExperienceProgramFileDTO> experienceProgramFiles = new ArrayList<>();
 
+    /** HTML 태그를 제거한 순수 텍스트 반환 (카드 목록용) */
+    public String getDescriptionText() {
+        if (experienceProgramDescription == null) return "";
+        return experienceProgramDescription.replaceAll("<[^>]*>", "").trim();
+    }
+
     public ExperienceProgramVO toVO() {
         return ExperienceProgramVO.builder()
                 .id(id)

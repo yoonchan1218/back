@@ -12,6 +12,9 @@ import java.util.Optional;
 
 @Mapper
 public interface ExperienceProgramMapper {
+//    프로그램 등록
+    public void insert(ExperienceProgramDTO experienceProgramDTO);
+
 //    skill-log 최근 공고
 //    목록
     public List<ExperienceProgramDTO> selectAllByMemberIdOfChallenger(@Param("criteria") Criteria criteria,

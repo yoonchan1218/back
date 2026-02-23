@@ -1104,13 +1104,17 @@ li {
     display: block;
 }
 
-.userNav-item.corp:hover .lyMyArea {
-  display: block;
+/* 기업서비스: hover 시 드롭다운 표시 (기본 규칙보다 높은 specificity 필요) */
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp:hover .lyMyArea {
+    display: block;
+}
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp.open .lyMyArea {
+    display: block;
 }
 
-/* open 상태에서 화살표 뒤집기(선택) */
-#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp.open > a .spGnb:after{
-  transform: rotate(180deg);
+/* open 상태에서 화살표 뒤집기 */
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.corp.open > a .spGnb:after {
+    transform: rotate(180deg);
 }
 
 

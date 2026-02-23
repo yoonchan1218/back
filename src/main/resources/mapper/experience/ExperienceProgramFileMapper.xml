@@ -8,4 +8,9 @@
         from view_experience_program_file
         where experience_program_id = #{id};
     </select>
+
+    <insert id="insert">
+        INSERT INTO tbl_experience_program_file (id, experience_program_id)
+        VALUES (#{id}, #{experienceProgramId})
+    </insert>
 </mapper>

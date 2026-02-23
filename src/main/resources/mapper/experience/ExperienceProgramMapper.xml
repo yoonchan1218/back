@@ -61,7 +61,9 @@
 
     <!-- 기업 대시보드: 최신 프로그램 N개 -->
     <select id="selectLatestByCorpId" resultType="ExperienceProgramDTO">
-        SELECT ep.id, ep.experience_program_title, ep.experience_program_status,
+        SELECT ep.id, ep.experience_program_title, ep.experience_program_description,
+               ep.experience_program_level, ep.experience_program_status,
+               ep.experience_program_start_date, ep.experience_program_end_date,
                ep.experience_program_deadline, ep.experience_program_recruitment_count,
                ep.created_datetime, ep.updated_datetime
         FROM tbl_experience_program ep
@@ -103,6 +105,25 @@
         ORDER BY ep.created_datetime DESC
         LIMIT #{criteria.count} OFFSET #{criteria.offset}
     </select>
+
+    <!-- 프로그램 등록 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tbl_experience_program (
+            corp_id, experience_program_title, experience_program_description,
+            experience_program_level, experience_program_recruitment_count,
+            experience_program_work_days, experience_program_work_hours,
+            experience_program_start_date, experience_program_end_date,
+            experience_program_deadline, experience_program_status,
+            experience_program_view_count, experience_program_job
+        ) VALUES (
+            #{corpId}, #{experienceProgramTitle}, #{experienceProgramDescription},
+            #{experienceProgramLevel}, #{experienceProgramRecruitmentCount},
+            #{experienceProgramWorkDays}, #{experienceProgramWorkHours},
+            #{experienceProgramStartDate}, #{experienceProgramEndDate},
+            #{experienceProgramDeadline}, #{experienceProgramStatus},
+            0, #{experienceProgramJob}
+        )
+    </insert>
 
     <select id="selectById">
         select

@@ -53,6 +53,7 @@ const industryCategoryList = document.querySelector(
 const industryPartLists = document.querySelectorAll(".tbPart .devPartList");
 const industryApplyButtons = document.querySelector(".tbPart .selTypeBtn");
 const industryInput = document.getElementById("Industry_Code");
+const industrySmallInput = document.getElementById("Industry_Small_Code");
 const industryResultSpan = document.getElementById("Industry_Name");
 
 // 주소
@@ -347,46 +348,73 @@ selectLogoInput.addEventListener("change", (e) => {
     });
 });
 
-// 로고 업로드 실행
+// 로고 업로드 실행 (서버 전송)
 logoUploadSubmitButton.addEventListener("click", () => {
-    if (!logoImage) {
+    const file = selectLogoInput.files[0];
+    if (!file) {
         alert("로고를 선택해 주십시오.");
         return;
     }
 
-    // 로고 이미지 및 버튼 생성
-    const logoP = document.createElement("p");
-    const buttonP = document.createElement("p");
+    const formData = new FormData();
+    formData.append("file", file);
 
-    logoP.classList.add("logo");
-    logoP.innerHTML = `<img src="${logoImage}">`;
+    fetch("/corporate/logo", {
+        method: "POST",
+        body: formData,
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (!data.success) {
+                alert(data.message || "업로드에 실패했습니다.");
+                return;
+            }
 
-    buttonP.classList.add("btn");
-    buttonP.innerHTML = `
-        <button type="button" class="infoBtn infoBtnDel" id="devLogoDel"></button>
-        <button type="button" class="infoBtn infoBtnMod" id="devLogoModify"></button>
-    `;
+            // 로고 이미지 및 버튼 생성
+            const logoP = document.createElement("p");
+            const buttonP = document.createElement("p");
 
-    logoContainer.firstElementChild.remove();
-    logoContainer.prepend(buttonP);
-    logoContainer.prepend(logoP);
-    logoUploadLayout.classList.remove("on");
+            logoP.classList.add("logo");
+            logoP.innerHTML = `<img src="${data.logoUrl}">`;
 
-    alert("업로드 되었습니다.");
+            buttonP.classList.add("btn");
+            buttonP.innerHTML = `
+                <button type="button" class="infoBtn infoBtnDel" id="devLogoDel"></button>
+                <button type="button" class="infoBtn infoBtnMod" id="devLogoModify"></button>
+            `;
+
+            logoContainer.firstElementChild.remove();
+            logoContainer.prepend(buttonP);
+            logoContainer.prepend(logoP);
+            logoUploadLayout.classList.remove("on");
+
+            alert("업로드 되었습니다.");
+        })
+        .catch(() => alert("업로드 중 오류가 발생했습니다."));
 });
 
-// 로고 삭제
+// 로고 삭제 (서버 전송)
 logoDeleteButton.addEventListener("click", () => {
-    const logoButton = document.createElement("button");
-    logoButton.classList.add("infoBtnB", "infoBtnUp");
-    logoButton.id = "devLogoUp";
-    logoButton.type = "button";
-    logoButton.innerHTML = "<span>로고업로드</span>";
+    fetch("/corporate/logo", { method: "DELETE" })
+        .then((res) => res.json())
+        .then((data) => {
+            if (!data.success) {
+                alert(data.message || "삭제에 실패했습니다.");
+                return;
+            }
 
-    logoContainer.querySelector(".logo").remove();
-    logoContainer.querySelector(".btn").remove();
-    logoContainer.prepend(logoButton);
-    logoUploadLayout.classList.remove("on");
+            const logoButton = document.createElement("button");
+            logoButton.classList.add("infoBtnB", "infoBtnUp");
+            logoButton.id = "devLogoUp";
+            logoButton.type = "button";
+            logoButton.innerHTML = "<span>로고업로드</span>";
+
+            logoContainer.querySelector(".logo").remove();
+            logoContainer.querySelector(".btn").remove();
+            logoContainer.prepend(logoButton);
+            logoUploadLayout.classList.remove("on");
+        })
+        .catch(() => alert("삭제 중 오류가 발생했습니다."));
 });
 
 // 이벤트 핸들러 - 기업형태
@@ -468,7 +496,10 @@ industryPartLists.forEach((partList) => {
 
         // 새로운 선택 적용
         e.target.closest(".devPartItem").classList.add("on");
-        industryInput.value = e.target.closest(".devPartItem").dataset.part;
+        // 소분류 코드 저장
+        industrySmallInput.value = e.target.closest(".devPartItem").dataset.part;
+        // 대분류 코드 저장 (부모 devPartList의 data-part-ctgr-code)
+        industryInput.value = e.target.closest(".devPartList").dataset.partCtgrCode;
         tempIndustryPartItem = e.target;
     });
 });
@@ -478,9 +509,11 @@ industryApplyButtons.addEventListener("click", (e) => {
     if (e.target.closest(".mtcBtnBg")) {
         // 확인 버튼
         if (tempIndustryPartItem) {
-            industryInput.value =
+            industrySmallInput.value =
                 tempIndustryPartItem.closest(".devPartItem").dataset.part;
-            if (industryInput.value) {
+            industryInput.value =
+                tempIndustryPartItem.closest(".devPartList").dataset.partCtgrCode;
+            if (industrySmallInput.value) {
                 tempIndustryPartItemValue = tempIndustryPartItem.textContent;
                 industryResultSpan.textContent = tempIndustryPartItemValue;
                 industryResultSpan.closest(".elWrap").classList.add("ok");
@@ -534,15 +567,13 @@ const executeDaumPostcode = () => {
                 if (extraAddr !== "") {
                     extraAddr = " (" + extraAddr + ")";
                 }
-                document.getElementById("extraAddress").value = extraAddr;
             } else {
                 addr = data.jibunAddress;
-                document.getElementById("extraAddress").value = "";
             }
 
             // 우편번호와 주소 정보 입력
             document.getElementById("postcode").value = data.zonecode;
-            document.getElementById("address").value = addr;
+            document.getElementById("address").value = addr + extraAddr;
             document.getElementById("detailAddress").focus();
         },
     }).open();
@@ -945,6 +976,10 @@ submitButton.addEventListener("click", (e) => {
         "txtHomepage",
         "devFax",
         "devAddrForeign",
+        "detailAddress",
+        "searchPostCodeBtn",
+        "corpCapitalHidden",
+        "Industry_Small_Code",
     ];
     const domesticNoSettings = ["devNation"];
     const foreignNoSettings = [
@@ -967,6 +1002,7 @@ submitButton.addEventListener("click", (e) => {
         })
         .forEach((input) => {
             if (!input.value) {
+                console.log("유효성 검사 실패:", input.id, input.type, input.name);
                 hasError = true;
                 const errorTarget = input
                     .closest(".tbRow")
@@ -981,10 +1017,26 @@ submitButton.addEventListener("click", (e) => {
         alert("필수항목을 모두 입력해 주세요.");
         window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
+        // 자본금 계산 (억 * 100000000 + 만원 * 10000)
+        const capitalA = parseInt(document.getElementById("devCapital_A").value) || 0;
+        const capitalB = parseInt(document.getElementById("devCapital_B").value) || 0;
+        document.getElementById("corpCapitalHidden").value = capitalA * 100000000 + capitalB * 10000;
+
         // 폼 제출
         document.getElementById("devInfoForm").submit();
     }
 });
+
+// 페이지 로드 시 자본금 기존값 표시
+(function () {
+    const corpCapitalValue = parseInt(document.getElementById("corpCapitalHidden").value) || 0;
+    if (corpCapitalValue > 0) {
+        const capitalA = Math.floor(corpCapitalValue / 100000000);
+        const capitalB = Math.floor((corpCapitalValue % 100000000) / 10000);
+        if (capitalA > 0) document.getElementById("devCapital_A").value = capitalA;
+        if (capitalB > 0) document.getElementById("devCapital_B").value = capitalB;
+    }
+})();
 
 // 이벤트 핸들러 - 맨 위로
 toTheTop.addEventListener("click", () => {

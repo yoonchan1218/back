@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>팀원관리 | TRY-CATCH</title>
-    <link rel="stylesheet" href="/static/css/corporate/team-member.css">
+    <link rel="stylesheet" href="/css/corporate/header.css">
+    <link rel="stylesheet" href="/css/corporate/footer.css">
+    <link rel="stylesheet" href="/css/corporate/team-member.css">
 </head>
 <body class="mtcSubInfo">
     <div id="wrap">
+        <div th:replace="~{corporate/header :: header}"></div>
         <div class="sideTrue" id="container">
             <!-- 어사이드 -->
             <div id="sideNav" class="devCorpLogin">
@@ -16,14 +19,14 @@
                     <ul>
                         <!-- server, javascript: 해당 페이지일 때, on 클래스 추가 -->
                         <li class="devCorpInfoDetail">
-                            <a href="">기업정보관리</a>
+                            <a href="corporate/profile">기업정보관리</a>
                         </li>
-                        <li class="devCorpInfoDetail on">
-                            <a href="">회원정보관리</a>
+                        <li class="devCorpInfoDetail">
+                            <a href="/corporate/member-info">회원정보관리</a>
                         </li>
                         <!-- server: 담당자 로그인 시에만 보이도록 -->
-                        <li class="devCorpInfoDetail">
-                            <a href="">팀원관리</a>
+                        <li class="devCorpInfoDetail on">
+                            <span>팀원관리</span>
                         </li>
                     </ul>
                 </div>
@@ -32,14 +35,14 @@
                 <div class="adLeftBx">
                     <div class="ad-container">
                         <a href="javascript:;" class="imgAdBnnr">
-                            <img src="/static/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
+                            <img src="/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
                             <!-- onerror -->
                         </a>
                     </div>
                 </div>
                 <div class="adLeftBx">
                     <a href="">
-                        <img src="/static/images/corporate/lnb_certify_banner.png">
+                        <img src="/images/corporate/lnb_certify_banner.png">
                     </a>
                 </div>
 
@@ -279,7 +282,8 @@
                 </div>
             </div>
         </div>
+        <div th:replace="~{corporate/footer :: footer}"></div>
     </div>
 </body>
-<script src="/static/js/corporate/team-member/event.js"></script>
+<script src="/js/corporate/team-member/event.js"></script>
 </html>

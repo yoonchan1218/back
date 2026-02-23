@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보관리 | TRY-CATCH</title>
-    <link rel="stylesheet" href="/static/css/corporate/member-info.css">
+    <link rel="stylesheet" href="/css/corporate/header.css">
+    <link rel="stylesheet" href="/css/corporate/footer.css">
+    <link rel="stylesheet" href="/css/corporate/member-info.css">
 </head>
 <body class="mtcSubInfo mtcSubMember">
     <div id="wrap">
+        <div th:replace="~{corporate/header :: header}"></div>
         <div class="sideTrue" id="container">
             <!-- 어사이드 -->
             <div id="sideNav" class="devCorpLogin">
@@ -16,14 +19,14 @@
                     <ul>
                         <!-- server, javascript: 해당 페이지일 때, on 클래스 추가 -->
                         <li class="devCorpInfoDetail">
-                            <a href="">기업정보관리</a>
+                            <a th:href="@{/corporate/profile}">기업정보관리</a>
                         </li>
                         <li class="devCorpInfoDetail on">
-                            <a href="">회원정보관리</a>
+                            <span>회원정보관리</span>
                         </li>
                         <!-- server: 담당자 로그인 시에만 보이도록 -->
                         <li class="devCorpInfoDetail">
-                            <a href="">팀원관리</a>
+                            <a th:href="@{/corporate/team-member}">팀원관리</a>
                         </li>
                     </ul>
                 </div>
@@ -32,14 +35,14 @@
                 <div class="adLeftBx">
                     <div class="ad-container">
                         <a href="javascript:;" class="imgAdBnnr">
-                            <img src="/static/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
+                            <img src="/images/corporate/54af1f5a-b9e0-45bb-8f00-cb06f2d01441.png">
                             <!-- onerror -->
                         </a>
                     </div>
                 </div>
                 <div class="adLeftBx">
                     <a href="">
-                        <img src="/static/images/corporate/lnb_certify_banner.png">
+                        <img src="/images/corporate/lnb_certify_banner.png">
                     </a>
                 </div>
 
@@ -49,7 +52,7 @@
                 <div class="infoContent memberContent">
                     <!-- 회원정보관리 -->
                     <div class="memberMngWrap">
-                        <form id="form">
+                        <form id="form" method="post" th:action="@{/corporate/member-info}">
                             <!-- <input type="hidden" value="a9243965" id="devMemId" name="id"> -->
                             <fieldset>
                                 <div class="artMemberMng">
@@ -69,7 +72,7 @@
                                                         아이디
                                                         <span class="point">*</span>
                                                     </dt>
-                                                    <dd>member-id</dd>
+                                                    <dd th:text="${corpInfo.memberId}"></dd>
                                                 </dl>
                                             </div>
                                             <div class="tbCell">
@@ -78,9 +81,7 @@
                                                         가입자명
                                                         <span class="point">*</span>
                                                     </dt>
-                                                    <dd>
-                                                        담당자
-                                                    </dd>
+                                                    <dd th:text="${corpInfo.memberName}">담당자</dd>
                                                 </dl>
                                             </div>
                                         </div>
@@ -130,7 +131,7 @@
                                                             새로운 비밀번호
                                                             <span class="point">*</span>
                                                         </label>
-                                                        <input type="password" id="devNewPwd_1" class="inpDefault devPwdField devAnimPh" name="Password" maxlength="16">
+                                                        <input type="password" id="devNewPwd_1" class="inpDefault devPwdField devAnimPh" name="memberPassword" maxlength="16">
                                                     </div>
                                                     <div class="errorBx">
                                                         <!-- javascript: 입력 시(focus), before 스타일 적용 -->
@@ -185,7 +186,7 @@
                                                                 가입자 전화번호
                                                                 <span class="point">*</span>
                                                             </label>
-                                                            <input type="text" id="devPhone" class="inpDefault devAnimPh" name="Phone" maxlength="15">
+                                                            <input type="text" id="devPhone" class="inpDefault devAnimPh" name="memberPhone" th:value="${corpInfo.memberPhone}" maxlength="15">
                                                         </div>
                                                         <div class="errorBx">
                                                             <p id="Phone_errorBx">올바른 전화번호를 입력해 주세요.</p>
@@ -203,7 +204,7 @@
                                                                 가입자 이메일
                                                                 <span class="point">*</span>
                                                             </label>
-                                                            <input type="text" id="devEmail" class="inpDefault devAnimPh" name="Email" maxlength="50">
+                                                            <input type="text" id="devEmail" class="inpDefault devAnimPh" name="memberEmail" th:value="${corpInfo.memberEmail}" maxlength="50">
                                                         </div>
                                                         <div class="errorBx">
                                                             <p id="Email_errorBx">
@@ -222,7 +223,7 @@
                                             <div class="corp-terms">
                                                 <div class="terms">
                                                     <!-- javascript: input value는 true/false로 변경 -->
-                                                    <input type="checkbox" id="devPrivacyChoice" name="PrivacyChoice" checked value="true">
+                                                    <input type="checkbox" id="devPrivacyChoice" name="memberAgreeMarketing" th:checked="${corpInfo.memberAgreeMarketing}" value="true">
                                                     <label for="devPrivacyChoice">
                                                         [선택] 개인정보 수집 및 이용 동의
                                                         <!-- javascript: 클릭 시 on 추가 -->
@@ -317,7 +318,8 @@
                 </div>
             </div>
         </div>
+        <div th:replace="~{corporate/footer :: footer}"></div>
     </div>
 </body>
-<script src="/static/js/corporate/member-info/event.js"></script>
+<script src="/js/corporate/member-info/event.js"></script>
 </html>

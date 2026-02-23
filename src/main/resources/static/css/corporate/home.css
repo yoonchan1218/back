@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 /* 기본 */
@@ -164,7 +164,7 @@ address, caption, em {
     margin-top: 40px;
 }
 .solution-section .inner {
-    background: url("/static/images/corporate/background_solution_green.png") 104px 61px no-repeat;;
+    background: url("/images/corporate/background_solution_green.png") 104px 61px no-repeat;;
 }
 .solution-section .title-box {
     float: left;
@@ -191,7 +191,7 @@ address, caption, em {
 }
 .solution-section .start-list li:first-child .contents-box {
     padding: 33px 0 27px 28px;
-    background-image: url("/static/images/corporate/purple.png");
+    background-image: url("/images/corporate/purple.png");
     background-size: cover;
     background-position: bottom;
 }
@@ -204,7 +204,7 @@ address, caption, em {
     /* display: block; */
     /* width: 205px;
     height: 28px;
-    background-image: url("/static/images/logo.png");
+    background-image: url("/images/logo.png");
     background-size: auto 38px;
     background-position: top -7px left;
     background-repeat: no-repeat;
@@ -251,7 +251,7 @@ address, caption, em {
     margin-top: 20px;
 }
 .solution-section .start-list li:nth-child(2) .contents-box {
-    background-image: url("/static/images/corporate/icon_start_1_green.png");
+    background-image: url("/images/corporate/icon_start_1_green.png");
     background-size: 55px;
 }
 .solution-section .start-list li .text-box {
@@ -271,7 +271,7 @@ address, caption, em {
 .solution-section .start-list li:nth-child(3) {
     width: 620px;
     background: #fff no-repeat 100% 100%;
-    background-image: url("/static/images/corporate/icon_start_5.png");
+    background-image: url("/images/corporate/icon_start_5.png");
     background-size: 74%;
     background-position: 182px -1px;
 }
@@ -292,15 +292,15 @@ address, caption, em {
     margin-left: 0;
 }
 .solution-section .start-list li:nth-child(4) .contents-box {
-    background-image: url("/static/images/corporate/icon_start_2_green.png");
+    background-image: url("/images/corporate/icon_start_2_green.png");
     background-size: 55px;
 }
 .solution-section .start-list li:nth-child(5) .contents-box {
-    background-image: url("/static/images/corporate/icon_start_3_green.png");
+    background-image: url("/images/corporate/icon_start_3_green.png");
     background-size: 55px;
 }
 .solution-section .start-list li:nth-child(6) .contents-box {
-    background-image: url("/static/images/corporate/icon_start_4_green.png");
+    background-image: url("/images/corporate/icon_start_4_green.png");
     background-size: 55px;
 }
 
@@ -332,7 +332,7 @@ address, caption, em {
 .sub-banner-section .border-round-section a {
     height: 80px;
     padding: 16px 0 0 30px;
-    background: url("/static/images/corporate/background_sub_banner.png");
+    background: url("/images/corporate/background_sub_banner.png");
     color: #fff;
 }
 .sub-banner-section .border-round-section a .description {
@@ -343,7 +343,7 @@ address, caption, em {
     display: inline-block;
     margin-top: 4px;
     padding-right: 17px;
-    background: url("/static/images/corporate/arrow_9x24_white.png") 100% no-repeat;
+    background: url("/images/corporate/arrow_9x24_white.png") 100% no-repeat;
     line-height: 28px;
     font-size: 18px;
 }
@@ -448,13 +448,13 @@ address, caption, em {
     padding: 0 12px 0 0;
     font-weight: 400;
     color: #666;
-    background-image: url("/static/images/corporate/arrow_6x16_gray.png");
+    background-image: url("/images/corporate/arrow_6x16_gray.png");
     font-size: 12px;
 }
 .common-h2>a {
     display: inline-block;
     padding: 0 19px 0 15px;
-    background: url("/static/images/corporate/arrow_9x24_black.png") 100% no-repeat;
+    background: url("/images/corporate/arrow_9x24_black.png") 100% no-repeat;
 }
 .bottom-article .board-list {
     margin-top: 20px;
@@ -584,7 +584,7 @@ address, caption, em {
     display: block;
     width: 32px;
     height: 32px;
-    background: url("/static/images/corporate/icon_close.png") no-repeat 50%;
+    background: url("/images/corporate/icon_close.png") no-repeat 50%;
 }
 .swiper-container {
     margin: 0 auto;
@@ -652,7 +652,7 @@ address, caption, em {
     content: "";
     width: 6px;
     height: 17px;
-    background: url("/static/images/corporate/arrow_6x17_black.png");
+    background: url("/images/corporate/arrow_6x17_black.png");
 }
 .common-modal.service-modal .number-list {
     margin-top: 10px;
@@ -685,7 +685,7 @@ address, caption, em {
 .common-modal.service-modal .swiper-button-next, .common-modal.service-modal .swiper-button-prev {
     width: 47px;
     height: 125px;
-    background: url("/static/images/corporate/arrow_modal_swiper.png");
+    background: url("/images/corporate/arrow_modal_swiper.png");
     margin-top: -62.5px;
 }
 .swiper-button-next, .swiper-button-prev {
@@ -707,7 +707,7 @@ address, caption, em {
 .common-modal.service-modal .swiper-button-next, .common-modal.service-modal .swiper-button-prev {
     width: 47px;
     height: 125px;
-    background: url("/static/images/corporate/arrow_modal_swiper.png");
+    background: url("/images/corporate/arrow_modal_swiper.png");
     margin-top: -62.5px;
 }
 .common-modal.service-modal .contents .text a {
@@ -882,7 +882,7 @@ fieldset, img {
     width: 32px;
     height: 32px;
     margin-left: auto;
-    background-image: url("/static/images/corporate/setting-button.svg");
+    background-image: url("/images/corporate/setting-button.svg");
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -1237,7 +1237,7 @@ fieldset, img {
     width: 14px;
     height: 14px;
     background-repeat: no-repeat;
-    background-image: url("/static/images/corporate/account-service-button.svg");
+    background-image: url("/images/corporate/account-service-button.svg");
 }
 .recruit-section.onepick-account .border-round-section .onepick-account-service>ul {
     display: flex;
@@ -1259,7 +1259,7 @@ fieldset, img {
     width: 17px;
     height: 15px;
     background-repeat: no-repeat;
-    background-image: url("/static/images/corporate/account-service-title-before.svg");
+    background-image: url("/images/corporate/account-service-title-before.svg");
 }
 .recruit-section.onepick-account .border-round-section .onepick-account-service>ul li>.account-service-title>span {
     color: #006e3f;
@@ -1401,7 +1401,7 @@ fieldset, img {
     transform: rotate(0deg);
 }
 .recruit-section .onepick-account-review .swiper-button-area .swiper-button-next.swiper-button-disabled, .recruit-section .onepick-account-review .swiper-button-area .swiper-button-prev.swiper-button-disabled {
-    background-image: url("/static/images/corporate/swiper-button-disabled.svg");
+    background-image: url("/images/corporate/swiper-button-disabled.svg");
 }
 .recruit-section .onepick-account-review .swiper-button-area .swiper-button-prev {
     transform: rotate(180deg);
@@ -1419,7 +1419,7 @@ fieldset, img {
     height: 32px;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("/static/images/corporate/swiper-button-prev.svg");
+    background-image: url("/images/corporate/swiper-button-prev.svg");
     opacity: 1;
     user-select: none;
 

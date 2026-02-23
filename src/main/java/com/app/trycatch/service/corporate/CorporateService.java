@@ -10,15 +10,29 @@ import com.app.trycatch.dto.corporate.CorpProgramWithPagingDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.repository.corporate.CorpTeamMemberDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramDAO;
+import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
+import com.app.trycatch.domain.experience.ExperienceProgramFileVO;
+import com.app.trycatch.common.enumeration.file.FileContentType;
+import com.app.trycatch.dto.file.FileDTO;
+import com.app.trycatch.repository.file.CorpLogoFileDAO;
+import com.app.trycatch.repository.file.FileDAO;
+import com.app.trycatch.dto.qna.QnaDTO;
 import com.app.trycatch.repository.member.AddressDAO;
 import com.app.trycatch.repository.member.CorpMemberDAO;
 import com.app.trycatch.repository.member.MemberDAO;
+import com.app.trycatch.repository.qna.QnaDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +44,10 @@ public class CorporateService {
     private final AddressDAO addressDAO;
     private final ExperienceProgramDAO experienceProgramDAO;
     private final CorpTeamMemberDAO corpTeamMemberDAO;
+    private final FileDAO fileDAO;
+    private final CorpLogoFileDAO corpLogoFileDAO;
+    private final ExperienceProgramFileDAO experienceProgramFileDAO;
+    private final QnaDAO qnaDAO;
 
     // ── 기업회원 여부 확인 ──────────────────────────────────────────────
 
@@ -50,13 +68,66 @@ public class CorporateService {
     public void updateCorpInfo(CorpMemberDTO dto) {
         corpMemberDAO.update(dto.toCorpVO());
         if (dto.getAddressId() != null) {
+            // 기존 주소가 있으면 UPDATE
             addressDAO.update(dto.toAddressVO());
+        } else if (dto.getAddressZipcode() != null && !dto.getAddressZipcode().isEmpty()) {
+            // 주소가 없는데 새로 입력했으면 INSERT + member 업데이트
+            dto.setAddressId(dto.getId());
+            addressDAO.save(dto.toAddressVO());
+            memberDAO.updateAddressIdById(dto.getId());
         }
     }
 
     /** 회원 정보(tbl_member) 수정 — 비밀번호 빈값이면 UPDATE 제외 */
     public void updateMemberInfo(CorpMemberDTO dto) {
         memberDAO.update(dto.toMemberVO());
+    }
+
+    // ── 로고 업로드 ────────────────────────────────────────────────────
+
+    /** 기업 로고 업로드 — 기존 로고가 있으면 교체 */
+    public String uploadCorpLogo(Long corpId, MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty()) return null;
+
+        // 기존 로고 삭제
+        corpLogoFileDAO.findByCorpId(corpId).ifPresent(existing -> {
+            corpLogoFileDAO.deleteByCorpId(corpId);
+            fileDAO.delete((Long) existing.get("id"));
+        });
+
+        // 파일 저장
+        String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        String rootPath = "C:/file/";
+        String path = rootPath + todayPath;
+
+        String uuid = UUID.randomUUID().toString();
+        String fileName = uuid + "_" + file.getOriginalFilename();
+
+        File directory = new File(path);
+        if (!directory.exists()) directory.mkdirs();
+        file.transferTo(new File(path, fileName));
+
+        // tbl_file INSERT
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setFilePath(todayPath);
+        fileDTO.setFileName(fileName);
+        fileDTO.setFileOriginalName(file.getOriginalFilename());
+        fileDTO.setFileSize(String.valueOf(file.getSize()));
+        fileDTO.setFileContentType(FileContentType.IMAGE);
+        fileDAO.save(fileDTO);
+
+        // tbl_corp_logo_file INSERT
+        corpLogoFileDAO.save(fileDTO.getId(), corpId);
+
+        return "/api/files/display?filePath=" + todayPath + "&fileName=" + fileName;
+    }
+
+    /** 기업 로고 삭제 */
+    public void deleteCorpLogo(Long corpId) {
+        corpLogoFileDAO.findByCorpId(corpId).ifPresent(existing -> {
+            corpLogoFileDAO.deleteByCorpId(corpId);
+            fileDAO.delete((Long) existing.get("id"));
+        });
     }
 
     // ── 홈 대시보드 ────────────────────────────────────────────────────
@@ -105,6 +176,55 @@ public class CorporateService {
         corpTeamMemberDAO.delete(memberId, corpId);
     }
 
+    // ── 프로그램 등록 ──────────────────────────────────────────────────
+
+    /** 새 프로그램 등록 */
+    public void createProgram(ExperienceProgramDTO dto, List<MultipartFile> files) {
+        experienceProgramDAO.save(dto);
+        Long programId = dto.getId();
+
+        // 파일이 있으면 저장
+        if (files != null && !files.isEmpty()) {
+            String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            String rootPath = "C:/file/";
+            String path = rootPath + todayPath;
+
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) continue;
+
+                String uuid = UUID.randomUUID().toString();
+                String fileName = uuid + "_" + file.getOriginalFilename();
+
+                // tbl_file INSERT
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setFilePath(todayPath);
+                fileDTO.setFileName(fileName);
+                fileDTO.setFileOriginalName(file.getOriginalFilename());
+                fileDTO.setFileSize(String.valueOf(file.getSize()));
+                fileDTO.setFileContentType(
+                        file.getContentType() != null && file.getContentType().contains("image")
+                                ? FileContentType.IMAGE : FileContentType.OTHER);
+                fileDAO.save(fileDTO);
+
+                // tbl_experience_program_file INSERT
+                ExperienceProgramFileVO epfVO = ExperienceProgramFileVO.builder()
+                        .id(fileDTO.getId())
+                        .experienceProgramId(programId)
+                        .build();
+                experienceProgramFileDAO.save(epfVO);
+
+                // 디스크에 파일 저장
+                File directory = new File(path);
+                if (!directory.exists()) directory.mkdirs();
+                try {
+                    file.transferTo(new File(path, fileName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
     // ── 프로그램 관리 ──────────────────────────────────────────────────
 
     /** 프로그램 목록 (페이징 + 상태 필터 + 키워드 검색) */
@@ -136,6 +256,13 @@ public class CorporateService {
 
     public void rejectParticipant(Long participantId, Long corpId, String feedback) {
         // tbl_challenger 상태 변경 + tbl_feedback 저장 — 추후 구현
+    }
+
+    // ── 홈 하단: QNA ──────────────────────────────────────────────────
+
+    /** 최신 QNA N개 */
+    public List<QnaDTO> getRecentQnas(int limit) {
+        return qnaDAO.findLatest(limit);
     }
 
     // ── 내부 헬퍼 ────────────────────────────────────────────────────

@@ -24,15 +24,12 @@
                             <a th:href="@{/main/company-join}">회원가입</a>
                         </li>
 
-                        <li>
-                            <a href="">고객센터</a>
-                        </li>
 
                         <!-- 로그인 시에만 표시 -->
                         <li th:if="${session.member != null}">
-                            <a th:if="${session.member.provider != null and session.member.provider.value == 'kakao'}"
+                            <a th:if="${session.member instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO) and session.member.provider != null and session.member.provider.value == 'kakao'}"
                                href="https://kauth.kakao.com/oauth/logout?client_id=edeefdf5ab96d36811571fbd1e56a4cf&logout_redirect_uri=http://localhost:10000/main/log-out">로그아웃</a>
-                            <a th:unless="${session.member.provider != null and session.member.provider.value == 'kakao'}"
+                            <a th:unless="${session.member instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO) and session.member.provider != null and session.member.provider.value == 'kakao'}"
                                href="/main/log-out">로그아웃</a>
                         </li>
 
@@ -54,51 +51,24 @@
                                 <!-- javascript: click 하면 sub-nav-bg의 display none 제거 -->
                             </li>
     
-                            <li class="active-fixed">
+                            <li th:classappend="${#strings.contains(requestURI, '/corporate/home') ? 'active-fixed' : ''}">
                                 <a th:href="@{/corporate/home}">홈</a>
                             </li>
-    
-                            <li>
-                                <a href=""  onclick="checkLogin()">프로그램 등록</a>
+
+                            <li th:classappend="${#strings.contains(requestURI, '/corporate/program-apply') ? 'active-fixed' : ''}">
+                                <a th:href="@{/corporate/program-apply}" onclick="checkLogin()">프로그램 등록</a>
                             </li>
 
-                            <li>
-                                <a href=""  onclick="checkLogin()">프로그램 관리</a>
-                                <div class="sub-nav">
-                                    <div class="category">
-                                        <ul>
-                                            <li>
-                                                <a href="" onclick="checkLogin()">전체 프로그램</a>
-                                            </li>
-                                            <li>
-                                                <a href="" onclick="checkLogin()">진행 중인 프로그램</a>
-                                            </li>
-                                            <li>
-                                                <a href="" onclick="checkLogin()">종료된 프로그램</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            <li th:classappend="${#strings.contains(requestURI, '/corporate/program-management') ? 'active-fixed' : ''}">
+                                <a th:href="@{/corporate/program-management}"  onclick="checkLogin()">프로그램 관리</a>
                             </li>
     
                             <li>
-                                <a href="" onclick="checkLogin()">기술 블로그</a>
+                                <a th:href="@{/skill-log/list}" onclick="checkLogin()">기술 블로그</a>
                             </li>
 
                             <li>
-                                <a href="">커뮤니티</a>
-                                <div class="sub-nav">
-                                    <div class="category">
-                                        <ul>
-                                            <li>
-                                                <a href="">Q&A</a>
-                                            </li>
-                                            <li>
-                                                <a href="" onclick="checkLogin()">내 댓글 목록</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <a th:href="@{/qna/QnA.html}">커뮤니티</a>
                             </li>
                         </ul>
                     </div>
@@ -163,12 +133,12 @@
                                 <!-- javascript: click 시, active 추가(모달) -->
                             </li>
                             <li>
-                                <a href="javascript:;" class="top-menu-modal-button">기업 이름</a>
+                                <a href="javascript:;" class="top-menu-modal-button" th:text="${corpInfo?.corpCompanyName}"></a>
                                 <div class="top-menu-modal">
                                     <ul>
                                         <!-- 담당자 로그인 시 -->
                                         <li>
-                                            <div class="id" th:text="${session.member.memberEmail}">기업회원id</div>
+                                            <div class="id" th:text="${session.member.memberName}">담당자 이름</div>
                                         </li>
                                         <li>
                                             <a th:href="@{/corporate/profile}">기업정보관리</a>
@@ -273,7 +243,7 @@
                             </li>
                         </ul>
                     </div>
-                    <a href="" class="write-button" onclick="checkLogin()">프로그램 등록</a>
+                    <a th:href="@{/corporate/program-apply}" class="write-button" onclick="checkLogin()">프로그램 등록</a>
                 </div>
             </div>
         </div>

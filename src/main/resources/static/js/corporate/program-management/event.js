@@ -1,22 +1,9 @@
 NodeList.prototype.filter = Array.prototype.filter;
 
-// filter
-// server: 메뉴/필터 클릭 시, 페이지 -> 서버 -> (동일한)페이지로 이동
-// server에서 쿼리스트링으로 어느 버튼을 클릭했는지 전달
-// 화면에서 해당 값을 보고 확인
-const tabItems = document.querySelector(".tabItems");
-tabItems.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (e.target.tagName === "A") {
-        const [previousItem] = tabItems
-            .querySelectorAll("li")
-            .filter((li) => li.classList.contains("on"));
-        previousItem.classList.remove("on");
-        e.target.closest("li").classList.add("on");
-    }
-});
+// 탭 클릭 시 서버로 이동 (링크 기본 동작 유지)
+// 탭의 active 상태는 서버에서 th:classappend로 처리
 
-// 최근 등록일순
+// 최근 등록일순 / 개수별 / 담당자별 드롭다운
 const sortButtons = document.querySelectorAll(".sort-button");
 
 sortButtons.forEach((button) => {
@@ -32,16 +19,25 @@ sortButtons.forEach((button) => {
                 const [previousItem] = sortDropDown
                     .querySelectorAll("button")
                     .filter((button) => button.classList.contains("active"));
-                previousItem.classList.remove("active");
+                if (previousItem) previousItem.classList.remove("active");
             }
-            // server: 등록일/개수/담당자에 따라 프로그램 list 뿌리기
-            // server: 담당자는 동적으로 생성해야함
 
             e.target.classList.add("active");
 
             if (button.classList.contains("sort1")) {
                 button.textContent = e.target.textContent + "순";
             } else if (button.classList.contains("sort2")) {
+                // 개수별 선택 시 폼 제출
+                const count = e.target.getAttribute("data-count");
+                if (count) {
+                    const topCountInput = document.getElementById("TopCountInput");
+                    const pageInput = document.getElementById("pageInput");
+                    if (topCountInput) topCountInput.value = count;
+                    if (pageInput) pageInput.value = "1";
+                    button.textContent = e.target.textContent + "씩 보기";
+                    document.getElementById("form").submit();
+                    return;
+                }
                 button.textContent = e.target.textContent + "씩 보기";
             } else {
                 button.textContent = e.target.textContent;

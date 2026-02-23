@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 /* 기본 */
@@ -101,7 +101,7 @@ address, caption, em {
     width: 121px;
     height: 65px;
     background-color: #fff;
-    mask-image: url("/static/images/logo.png");
+    mask-image: url("/images/logo.png");
     mask-size: 100% 100%;
     /* background-repeat: no-repeat; */
     /* background-position: 50%; */
@@ -153,10 +153,10 @@ address, caption, em {
     display: inline-block;
     width: 22px;
     height: 16px;
-    background: url("/static/images/corporate/icon_menu.png") no-repeat 50%;
+    background: url("/images/corporate/icon_menu.png") no-repeat 50%;
 }
 .corporate-header .navigation .left-menu-list>li .button-all-menu.active i {
-    background: url("/static/images/corporate/icon_menu_close.svg");
+    background: url("/images/corporate/icon_menu_close.svg");
     background-repeat: no-repeat;
 }
 /* javascript: click 했을 때, active 클래스 추가 */
@@ -239,7 +239,7 @@ address, caption, em {
     white-space: nowrap;
     max-width: 272px;
     padding-right: 15px;
-    background: url("/static/images/corporate/arrow_10x17_white.png") no-repeat 100%;
+    background: url("/images/corporate/arrow_10x17_white.png") no-repeat 100%;
 }
 /* .right-menu-list:last-child */
 
@@ -265,6 +265,7 @@ address, caption, em {
 }
 .corporate-header .top-menu-modal .id {
     font-weight: 700;
+    font-size: 16px;
 }
 .corporate-header .top-menu-modal li a, .corporate-header .top-menu-modal li div {
     line-height: 40px;
@@ -291,7 +292,7 @@ address, caption, em {
     margin-right: 5px;
     content: "";
     background-color: #fff;
-    mask-image: url("/static/images/corporate/icon_bell.svg");
+    mask-image: url("/images/corporate/icon_bell.svg");
     /* mask-size: contain; */
     background-repeat: no-repeat;
     background-position: 50%;
@@ -567,7 +568,7 @@ address, caption, em {
     vertical-align: sub;
     width: 19px;
     height: 23px;
-    background: url("/static/images/corporate/icon_add.png");
+    background: url("/images/corporate/icon_add.png");
     background-size: 19px auto;
     margin-right: 9px;
 }

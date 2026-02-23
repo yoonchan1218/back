@@ -2013,14 +2013,11 @@ body.se2_inputarea .tempate-detailed-summary-root.pc {
 }
 
 .save-bar-wrap {
-        position: fixed;
-    left: 0;
-    bottom: 0;
+    position: relative;
     width: 100%;
     min-height: 83px;
     border-top: 3px solid #282f49;
     background-color: #fff;
-    z-index: 301;
 }
 
 .save-bar-inner {

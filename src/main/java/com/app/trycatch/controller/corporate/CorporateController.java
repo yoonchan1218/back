@@ -1,5 +1,7 @@
 package com.app.trycatch.controller.corporate;
 
+import com.app.trycatch.common.enumeration.experience.ExperienceProgramStatus;
+import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
@@ -10,7 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -61,10 +67,31 @@ public class CorporateController {
             }
             model.addAttribute("corpInfo", corporateService.getCorpInfo(memberId));
             model.addAttribute("programStats", corporateService.getProgramStats(memberId));
-            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(memberId, 5));
+            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(memberId, 6));
         }
+        model.addAttribute("recentQnas", corporateService.getRecentQnas(5));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/home";
+    }
+
+    // ── 로고 업로드 ───────────────────────────────────────────────────
+
+    @PostMapping("/logo")
+    @ResponseBody
+    public Map<String, Object> uploadLogo(@RequestParam("file") MultipartFile file) throws IOException {
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        Long corpId = getMemberId();
+        String logoUrl = corporateService.uploadCorpLogo(corpId, file);
+        return Map.of("success", true, "logoUrl", logoUrl);
+    }
+
+    @DeleteMapping("/logo")
+    @ResponseBody
+    public Map<String, Object> deleteLogo() {
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        Long corpId = getMemberId();
+        corporateService.deleteCorpLogo(corpId);
+        return Map.of("success", true);
     }
 
     // ── 기업정보관리 ───────────────────────────────────────────────────
@@ -119,6 +146,7 @@ public class CorporateController {
         if (notCorpMember()) return MAIN_REDIRECT;
         Long corpId = getMemberId();
         model.addAttribute("teamWithPaging", corporateService.getTeamMembers(corpId, page));
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/team-member";
     }
@@ -135,6 +163,32 @@ public class CorporateController {
         if (notCorpMember()) return MAIN_REDIRECT;
         corporateService.removeTeamMember(memberId, getMemberId());
         return "redirect:/corporate/team-member";
+    }
+
+    // ── 프로그램 등록 ──────────────────────────────────────────────────
+
+    @GetMapping("/program-apply")
+    public String programApplyForm(Model model) {
+        if (notLoggedIn()) return LOGIN_REDIRECT;
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
+        model.addAttribute("loginMember", session.getAttribute("member"));
+        return "corporate/program-apply";
+    }
+
+    @PostMapping("/program-apply")
+    public String programApplySave(ExperienceProgramDTO dto,
+                                   @RequestParam(value = "programFiles", required = false) List<MultipartFile> files) {
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        dto.setCorpId(corpId);
+        dto.setExperienceProgramStatus(ExperienceProgramStatus.RECRUITING);
+        dto.setExperienceProgramDeadline(dto.getExperienceProgramStartDate());
+        dto.setExperienceProgramEndDate(dto.getExperienceProgramStartDate());
+        log.info("프로그램 등록 DTO: {}", dto);
+        corporateService.createProgram(dto, files != null ? files : new ArrayList<>());
+        return "redirect:/corporate/program-management";
     }
 
     // ── 프로그램관리 ───────────────────────────────────────────────────
@@ -155,6 +209,7 @@ public class CorporateController {
         model.addAttribute("currentStatus", status);
         model.addAttribute("currentKeyword", SrchKeyword);
         model.addAttribute("currentTopCount", TopCount);
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/program-management";
     }
@@ -174,6 +229,7 @@ public class CorporateController {
                 corporateService.getParticipants(programId, corpId, status, page));
         model.addAttribute("programId", programId);
         model.addAttribute("currentStatus", status);
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/participant-list";
     }
