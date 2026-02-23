@@ -1,5 +1,6 @@
 package com.app.trycatch.dto.skilllog;
 
+import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.common.enumeration.skillLog.SkillLogStatus;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.domain.skilllog.SkillLogVO;
@@ -32,7 +33,13 @@ public class SkillLogDTO {
 
 //    experienceProgram
     private Long experienceProgramId;
-    private ExperienceProgramDTO experienceProgram;
+    private String experienceProgramTitle;
+    // 회사명
+    private String corpCompanyName;
+    // 썸네일
+    private String experienceProgramFilePath;
+    private String experienceProgramFileName;
+    private String experienceProgramFileOriginalName;
 
 //    tag 목록
     private List<TagDTO> tags = new ArrayList<>();

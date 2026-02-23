@@ -7,10 +7,16 @@
             created_datetime, updated_datetime,
             individual_member_birth, individual_member_gender, individual_member_education,
             individual_member_point, individual_member_level, individual_member_post_count,
-            individual_member_question_count
+            individual_member_question_count, member_profile_image_url
         from view_member_profile
         where id = #{memberId}
     </select>
+
+    <update id="updateProfileFileId">
+        update tbl_individual_member
+        set member_profile_file_id = #{fileId}
+        where id = #{memberId}
+    </update>
 
     <update id="updateMember">
         update tbl_member

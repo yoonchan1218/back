@@ -13,5 +13,5 @@ create table tbl_file
 ) comment '파일 정보';
 
 select * from tbl_file;
-set foreign_key_checks = 0;
+set foreign_key_checks = 1;
 drop table tbl_file;

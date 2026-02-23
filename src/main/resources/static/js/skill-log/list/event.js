@@ -35,8 +35,8 @@ skillLogService.getList(page,
 // 페이지 버튼
 pageWrap.addEventListener("click", async (e) => {
     e.preventDefault();
-    if(e.target.tagName === "A") {
-        page = Number(e.target.textContent);
+    if(e.target.closest(".paging")) {
+        page = e.target.closest(".paging").getAttribute("href");
 
         await skillLogService.getList(page,
             {

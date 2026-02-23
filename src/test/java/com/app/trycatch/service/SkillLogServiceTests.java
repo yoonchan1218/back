@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -80,7 +81,7 @@ public class SkillLogServiceTests {
 
     @Test
     public void testDetail() {
-        SkillLogDTO skillLogDTO = skillLogService.detail(60L, null);
+        SkillLogDTO skillLogDTO = skillLogService.detail(70L, 9L);
         log.info("{}", skillLogDTO);
     }
 
@@ -96,9 +97,50 @@ public class SkillLogServiceTests {
     @Test
     public void testUpdate() {
         SkillLogDTO skillLogDTO = skillLogService.detail(30L, 9L);
-        skillLogDTO.setSkillLogTitle("수정 테스트1");
-        skillLogDTO.setSkillLogContent("수정 테스트 내용1");
+//        String[] arTag = {"416"};
 
-        skillLogService.update(skillLogDTO, new ArrayList<MultipartFile>());
+//        삭제할 태그 id 배열
+//        for (int i = 0; i < arTag.length; i++) {
+//            arTag[i] = 404 + i + "";
+//        }
+
+//        String[] arFile = {"28"};
+
+//        추가한 태그
+        List<TagDTO> tags = new ArrayList<>();
+        IntStream.range(5, 7).forEach((index) -> {
+            TagDTO tagDTO = new TagDTO();
+            tagDTO.setTagName("태그" + index);
+            tags.add(tagDTO);
+        });
+
+//        MockMultipartFile로 가짜 파일 생성
+        List<MultipartFile> multipartFiles = new ArrayList<>();
+//        MockMultipartFile mockFile = new MockMultipartFile(
+//                "file",                    // 파라미터명
+//                "test.png",                // 원본 파일명
+//                "image/png",               // Content-Type
+//                "테스트 이미지 내용".getBytes()  // 파일 내용 (아무 바이트나 OK)
+//        );
+//        multipartFiles.add(mockFile);
+//
+//        skillLogDTO.setSkillLogTitle("수정");
+//        skillLogDTO.setSkillLogContent("수정 테스트 내용");
+//
+//        skillLogDTO.setTagIdsToDelete(arTag);
+        skillLogDTO.setTags(tags);
+
+//
+//        skillLogDTO.setFileIdsToDelete(arFile);
+
+        skillLogService.update(skillLogDTO, multipartFiles);
     }
 }
+
+
+
+
+
+
+
+

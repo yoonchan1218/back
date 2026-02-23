@@ -1,5 +1,6 @@
 package com.app.trycatch.mapper;
 
+import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
 import com.app.trycatch.domain.skilllog.SkillLogVO;

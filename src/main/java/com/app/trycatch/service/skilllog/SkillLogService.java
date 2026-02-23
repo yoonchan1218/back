@@ -6,6 +6,7 @@ import com.app.trycatch.common.exception.FileNotFoundException;
 import com.app.trycatch.common.exception.SkillLogNotFoundException;
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
+import com.app.trycatch.domain.experience.ExperienceProgramFileVO;
 import com.app.trycatch.domain.file.FileVO;
 import com.app.trycatch.domain.skilllog.SkillLogLikesVO;
 import com.app.trycatch.domain.skilllog.TagVO;
@@ -149,8 +150,6 @@ public class SkillLogService {
     public SkillLogDTO detail(Long id, Long memberId) {
         Optional<SkillLogDTO> foundSkillLog = null;
         SkillLogDTO skillLogDTO = null;
-        Optional<ExperienceProgramDTO> foundExperienceProgram = null;
-        ExperienceProgramDTO experienceProgramDTO = null;
         SkillLogLikesDTO skillLogLikesDTO = new SkillLogLikesDTO();
 
 //        skillLog
@@ -170,32 +169,22 @@ public class SkillLogService {
                 .stream().map((tagVO) -> toTagDTO(tagVO)).collect(Collectors.toList()));
         skillLogDTO.setSkillLogFiles(skillLogFileDAO.findAllBySkillLogId(skillLogDTO.getId()));
 
-//        experienceProgram
-        if(skillLogDTO.getExperienceProgramId() != null){
-            foundExperienceProgram = experienceProgramDAO.findById(skillLogDTO.getExperienceProgramId());
-            experienceProgramDTO = foundExperienceProgram.orElseThrow(ExperienceProgramNotFoundException::new);
-            experienceProgramDTO.setExperienceProgramFiles(experienceProgramFileDAO.findAllByExperienceProgramId(skillLogDTO.getExperienceProgramId()));
-            skillLogDTO.setExperienceProgram(experienceProgramDTO);
-        }
-
 //        likes
         skillLogLikesDTO.setSkillLogId(skillLogDTO.getId());
         skillLogLikesDTO.setMemberId(memberId);
         skillLogDTO.setLikeCount(skillLogLikesDAO.findCountBySkillLogId(skillLogDTO.getId()));
-        skillLogDTO.setLiked(skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).orElse(null) != null);
+        skillLogDTO.setLiked(skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).isPresent());
 
         return skillLogDTO;
     }
 
 //    좋아요
     public int like(SkillLogLikesDTO skillLogLikesDTO) {
-        SkillLogLikesVO skillLogLikesVO = skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).orElse(null);
-
-        if(skillLogLikesVO != null){
-            skillLogLikesDAO.delete(skillLogLikesVO.getId());
-        } else {
+        skillLogLikesDAO.findBySkillLogIdAndMemberId(skillLogLikesDTO.toVO()).ifPresentOrElse((skillLog) -> {
+            skillLogLikesDAO.delete(skillLog.getId());
+        }, () -> {
             skillLogLikesDAO.save(skillLogLikesDTO.toVO());
-        }
+        });
 
         return skillLogLikesDAO.findCountBySkillLogId(skillLogLikesDTO.getSkillLogId());
     }

@@ -31,6 +31,7 @@ public class MyPageProfileDTO {
     private int individualMemberLevel;
     private int individualMemberPostCount;
     private int individualMemberQuestionCount;
+    private String memberProfileImageUrl;
 
     private String createdDatetime;
     private String updatedDatetime;

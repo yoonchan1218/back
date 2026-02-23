@@ -386,13 +386,12 @@ admitButton.addEventListener("click", (e) => {
             //     form태그에 input태그 생성
             arTagName.forEach((tagName, i) => {
                 const input = document.createElement("input");
+                input.setAttribute("type", "hidden");
                 input.setAttribute("name", `tags[${i}].tagName`);
                 input.value = tagName;
 
                 skilLogForm.appendChild(input);
             })
-
-            if(textarea)
 
             skilLogForm.submit();
         }
