@@ -43,7 +43,7 @@ const commentService = (() => {
         });
     }
 
-    return {write: write, getList: getList, update: update, remove: remove};
+    return {write: write, getList: getList, getNestedList: getNestedList, update: update, remove: remove};
 })();
 
 

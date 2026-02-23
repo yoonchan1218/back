@@ -28,7 +28,7 @@ const memberId = reportForm.memberId.value;
 const skillLogId = reportForm.skillLogId.value;
 
 // 댓글
-replyService.getList(page, postId, replyLayout.showList);
+commentService.getList(page, skillLogId, memberId, commentLayout.showCommentList);
 
 // 댓글에 신고버튼
 const commentReportButtons = document.querySelectorAll(

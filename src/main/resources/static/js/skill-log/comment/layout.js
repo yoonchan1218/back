@@ -458,7 +458,10 @@ const commentLayout = (() => {
     }
 
 
-    return {showCommentList: showCommentList}
+    return {
+        showCommentList: showCommentList,
+        showNestedCommentList: showNestedCommentList
+    }
 })();
 
 
