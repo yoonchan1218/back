@@ -18,5 +18,4 @@ public class IndividualMemberVO {
     private int individualMemberLevel;
     private int individualMemberPostCount;
     private int individualMemberQuestionCount;
-    private Long memberProfileFileId;
 }
