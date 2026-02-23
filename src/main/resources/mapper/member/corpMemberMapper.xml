@@ -15,4 +15,37 @@
         from tbl_corp
         where corp_business_number = #{corpBusinessNumber}
     </select>
+
+    <select id="selectCorpMemberById" resultType="CorpMemberDTO">
+        SELECT m.id, m.member_id, m.member_name, m.member_email, m.member_phone,
+               m.member_status, m.member_agree_privacy, m.member_agree_marketing,
+               m.address_id,
+               c.corp_company_name, c.corp_business_number, c.corp_ceo_name,
+               c.corp_kind_id, c.corp_kind_small_id, c.corp_company_type, c.corp_company_size,
+               c.corp_establishment_date, c.corp_website_url, c.corp_fax,
+               c.corp_capital, c.corp_total_sales, c.corp_performance, c.corp_vision,
+               a.address_zipcode, a.address_address, a.address_detail,
+               m.created_datetime, m.updated_datetime
+        FROM tbl_member m
+        JOIN tbl_corp c ON m.id = c.id
+        LEFT JOIN tbl_address a ON m.address_id = a.id
+        WHERE m.id = #{id}
+    </select>
+
+    <update id="updateCorp">
+        UPDATE tbl_corp SET
+            corp_ceo_name          = #{corpCeoName},
+            corp_kind_id           = #{corpKindId},
+            corp_kind_small_id     = #{corpKindSmallId},
+            corp_company_type      = #{corpCompanyType},
+            corp_company_size      = #{corpCompanySize},
+            corp_establishment_date = #{corpEstablishmentDate},
+            corp_website_url       = #{corpWebsiteUrl},
+            corp_fax               = #{corpFax},
+            corp_capital           = #{corpCapital},
+            corp_total_sales       = #{corpTotalSales},
+            corp_performance       = #{corpPerformance},
+            corp_vision            = #{corpVision}
+        WHERE id = #{id}
+    </update>
 </mapper>
