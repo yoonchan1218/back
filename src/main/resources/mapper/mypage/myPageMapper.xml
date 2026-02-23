@@ -3,25 +3,13 @@
 <mapper namespace="com.app.trycatch.mapper.mypage.MyPageMapper">
     <select id="selectProfileByMemberId" resultType="MyPageProfileDTO">
         select
-            m.id,
-            m.member_id,
-            m.member_name,
-            m.member_email,
-            m.member_phone,
-            m.address_id,
-            m.member_status,
-            m.created_datetime,
-            m.updated_datetime,
-            i.individual_member_birth,
-            i.individual_member_gender,
-            i.individual_member_education,
-            i.individual_member_point,
-            i.individual_member_level,
-            i.individual_member_post_count,
-            i.individual_member_question_count
-        from tbl_member m
-        left join tbl_individual_member i on m.id = i.id
-        where m.id = #{memberId}
+            id, member_id, member_name, member_email, member_phone, address_id, member_status,
+            created_datetime, updated_datetime,
+            individual_member_birth, individual_member_gender, individual_member_education,
+            individual_member_point, individual_member_level, individual_member_post_count,
+            individual_member_question_count
+        from view_member_profile
+        where id = #{memberId}
     </select>
 
     <update id="updateMember">
@@ -76,5 +64,14 @@
             member_status = 'inactive',
             updated_datetime = current_timestamp
         where id = #{memberId}
+    </update>
+
+    <update id="updateApplyStatusToCancelled">
+        update tbl_apply
+        set
+            apply_status = 'cancelled',
+            updated_datetime = current_timestamp
+        where id = #{applyId}
+          and member_id = #{memberId}
     </update>
 </mapper>

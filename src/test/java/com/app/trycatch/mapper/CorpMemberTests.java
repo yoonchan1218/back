@@ -33,7 +33,9 @@ public class CorpMemberTests {
 //        corpMemberDTO.setMemberAgreeMarketing(false);
 //
 //        corpMemberDTO.setAddressZipcode("06100");
-//        corpMemberDTO.setAddressAddress("서울특별시 강남구 역삼동");
+//        corpMemberDTO.setAddressProvince("서울특별시");
+//        corpMemberDTO.setAddressCity("강남구");
+//        corpMemberDTO.setAddressDistrict("역삼동");
 //        corpMemberDTO.setAddressDetail("테헤란로 123");
 //
 //        corpMemberDTO.setCorpCompanyName("트라이캐치");

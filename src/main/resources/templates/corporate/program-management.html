@@ -1,33 +1,48 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전체 채용공고 | TRY-CATCH</title>
-    <link rel="stylesheet" href="/css/corporate/header.css">
-    <link rel="stylesheet" href="/css/corporate/footer.css">
-    <link rel="stylesheet" href="/css/corporate/program-management.css">
+    <link rel="stylesheet" href="/static/css/corporate/program-management.css">
 </head>
 <body class="mtcSubNotice">
     <div id="wrap">
-        <header th:replace="~{/corporate/header.html::header}"></header>
         <div class="devUseTopBtn" id="container">
             <!-- 배너 -->
             <div class="banner-smartfit-notice">
                 <a href="" class="smartfit-banner-link" target="_blank">
-                    <img src="/images/corporate/banner-smartfit-manage.png">
+                    <img src="/static/images/corporate/banner-smartfit-manage.png">
                 </a>
             </div>
 
             <!-- 본문영역 시작-->
             <div id="content">
-                <form th:action="@{/corporate/program-management}" id="form" method="get" name="form">
-                    <!-- 개수별 -->
-                    <input id="TopCount" name="TopCount" type="hidden" th:value="${currentTopCount}">
+                <!-- onsubmit() -->
+                <form action="" id="form" method="get" name="form">
+                    <!-- server: 메뉴/필터 클릭 시, 페이지 -> 서버 -> (동일한)페이지로 이동 -->
+                    <!-- server에 어떤 버튼을 선택했는지 보내는 input -->
+                    <!-- value를 변경해서 서버에 요청 -->
+                     
+                    <!-- 프로그램 상태별(진행중, 모집중) -->
+                    <input id="PubType" name="PubType" type="hidden" value="1">
+
+                    <!-- <input id="SrchStat" name="SrchStat" type="hidden" value="1"> -->
+
                     <!-- 정렬 -->
                     <input id="Orderby" name="Orderby" type="hidden" value="0">
+
+                    <!-- <input id="FilteringDiv" name="FilteringDiv" type="hidden" value="">
+                    <input id="FilteringText" name="FilteringText" type="hidden" value="">
+                    <input id="ItvIngStatCode" name="ItvIngStatCode" type="hidden" value="0"> -->
+
                     <!-- 담당자 -->
                     <input id="OfcName" name="OfcName" type="hidden" value="">
+
+                    <!-- 개수별 -->
+                    <input id="TopCount" name="TopCount" type="hidden" value="10">
+
+
 
                     <!-- 전체 공고 -->
                     <div class="noticeContent">
@@ -39,35 +54,31 @@
                         <!-- 메뉴(탭) -->
                         <div class="mtcTplTab">
                             <ul class="tabItems">
-                                <li th:classappend="${currentStatus == 'recruiting'} ? 'on'">
-                                    <a th:href="@{/corporate/program-management(status='recruiting')}">
-                                        모집중<span class="verdana" th:text="${programStats['recruiting'] ?: 0}">0</span>
-                                    </a>
+                                <!-- server, javascript: 메뉴/필터 클릭 시, 페이지 -> 서버 -> (동일한)페이지로 이동(페이지 자체는 하나) -->
+                                <li class="on">
+                                    <!-- onclick() -->
+                                    <!-- server: verdana에 동적으로 값 넣기 -->
+                                    <a href="">모집중<span class="verdana">0</span></a>
                                 </li>
-                                <li th:classappend="${currentStatus == 'closed'} ? 'on'">
-                                    <a th:href="@{/corporate/program-management(status='closed')}">
-                                        모집마감<span class="verdana" th:text="${programStats['closed'] ?: 0}">0</span>
-                                    </a>
+                                <li>
+                                    <!-- onclick() -->
+                                    <a href="">모집마감<span class="verdana">0</span></a>
                                 </li>
-                                <li th:classappend="${currentStatus == 'active'} ? 'on'">
-                                    <a th:href="@{/corporate/program-management(status='active')}">
-                                        진행중<span class="verdana" th:text="${programStats['active'] ?: 0}">0</span>
-                                    </a>
+                                <li>
+                                    <!-- onclick() -->
+                                    <a href="">진행중<span class="verdana">0</span></a>
                                 </li>
-                                <li th:classappend="${currentStatus == 'cancelled'} ? 'on'">
-                                    <a th:href="@{/corporate/program-management(status='cancelled')}">
-                                        진행종료<span class="verdana" th:text="${programStats['cancelled'] ?: 0}">0</span>
-                                    </a>
+                                <li>
+                                    <!-- onclick() -->
+                                    <a href="">진행종료<span class="verdana">0</span></a>
                                 </li>
-                                <li th:classappend="${currentStatus == ''} ? 'on'">
-                                    <a th:href="@{/corporate/program-management}">
-                                        전체<span class="verdana"
-                                            th:text="${(programStats['recruiting'] ?: 0)
-                                                     + (programStats['closed'] ?: 0)
-                                                     + (programStats['active'] ?: 0)
-                                                     + (programStats['cancelled'] ?: 0)
-                                                     + (programStats['draft'] ?: 0)}">0</span>
-                                    </a>
+                                <!-- <li> -->
+                                    <!-- onclick() -->
+                                    <!-- <a href="">임시저장<span class="verdana">0</span></a>
+                                </li> -->
+                                <li>
+                                    <!-- onclick() -->
+                                    <a href="">전체<span class="verdana">0 </span></a>
                                 </li>
                             </ul>
                         </div>
@@ -75,7 +86,8 @@
                         <fieldset>
                             <!-- 검색 필터 -->
                             <!-- server, javascript: 공고가 없으면 notFound 추가, 있으면 삭제 -->
-                            <div class="sort-select-box" th:classappend="${#lists.isEmpty(programWithPaging.list)} ? 'notFound'">
+                            <!-- server, javascript:  -->
+                            <div class="sort-select-box notFound">
                                 <div class="drop-down-box">
                                     <!-- 날짜별 -->
                                     <div class="button-box">
@@ -83,16 +95,22 @@
                                         <!-- javascript: 드롭다운 버튼 클릭 시 active 추가 -->
                                         <div class="sort-select-modal select-modal_common check-version ">
                                             <ul>
+                                                <!-- javascript: 버튼 active 일 경우 배경색 #f7f8fa; -->
                                                 <li>
+                                                    <!-- javascript: list 안에 버튼 클릭 시 active 추가 -->
+                                                    <!-- onclick() -->
                                                     <button type="button" class="active">최근 등록일</button>
                                                 </li>
                                                 <li>
+                                                    <!-- onclick() -->
                                                     <button type="button" class="">과거 등록일</button>
                                                 </li>
                                                 <li>
+                                                    <!-- onclick() -->
                                                     <button type="button" class="">수정일</button>
                                                 </li>
                                                 <li>
+                                                    <!-- onclick() -->
                                                     <button type="button" class="">마감일</button>
                                                 </li>
                                             </ul>
@@ -101,61 +119,64 @@
 
                                     <!-- 개수별 -->
                                     <div class="button-box">
-                                        <button type="button" class="sort-button sort2"
-                                            th:text="|${currentTopCount}개씩 보기|">10개씩 보기</button>
+                                        <!-- server, javascript: 드롭다운 메뉴 버튼 클릭 시 동적으로 button의 textContent 변경 -->
+                                        <button type="button" class="sort-button sort2">10개씩 보기</button>
                                         <!-- javascript: 드롭다운 버튼 클릭 시 active 추가 -->
                                         <div class="sort-select-modal select-modal_common">
-                                            <ul id="TopCountList">
-                                                <li><button type="button" data-count="10">10개</button></li>
-                                                <li><button type="button" data-count="20">20개</button></li>
-                                                <li><button type="button" data-count="30">30개</button></li>
-                                                <li><button type="button" data-count="40">40개</button></li>
-                                                <li><button type="button" data-count="50">50개</button></li>
+                                            <ul id="TopCount">
+                                                <li><button type="button" data-count="10" data-pub-type="1">10개</button></li>
+                                                <li><button type="button" data-count="20" data-pub-type="1">20개</button></li>
+                                                <li><button type="button" data-count="30" data-pub-type="1">30개</button></li>
+                                                <li><button type="button" data-count="40" data-pub-type="1">40개</button></li>
+                                                <li><button type="button" data-count="50" data-pub-type="1">50개</button></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- 키워드 검색 -->
+                                <!-- 담당자별 -->
                                 <div class="search-box input-box_common">
                                     <div class="drop-down-box">
                                         <div class="button-box">
+                                            <!-- server, javascript: 드롭다운 메뉴 버튼 클릭 시 동적으로 button의 textContent 변경 -->
                                             <button type="button" class="sort-button sort3">담당자 전체</button>
+                                            <!-- javascript: 드롭다운 버튼 클릭 시 active 추가 -->
                                             <div class="sort-select-modal select-modal_common">
                                                 <ul id="lb_OfcName">
                                                     <li><button type="button" data-value="">담당자 전체</button></li>
+                                                    <!-- server: 공고 담당자에 따라 동적으로 li 생성 -->
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="text" id="SrchKeyword" maxlength="50" name="SrchKeyword"
-                                           placeholder="공고제목, 담당자" th:value="${currentKeyword}">
+                                    <input type="text" id="SrchKeyword" maxlength="50" name="SrchKeyword" placeholder="공고제목, 담당자">
                                     <button type="button" class="search-button"></button>
                                 </div>
                             </div>
 
                             <div class="rowWrap">
-                                <!-- 공고가 없을 경우 -->
-                                <div class="scNoSelectWrap" th:if="${#lists.isEmpty(programWithPaging.list)}">
+                                <!-- server: 공고가 없을 경우 -->
+                                <!-- <div class="scNoSelectWrap">
                                     <div class="noSelectInner">
                                         <div class="scNoSelectAppList mngSpBefore">
                                             <p class="tx"><strong>진행중인 공고가 없습니다.</strong></p>
+                                            <div class="noSelLink">
+                                                <a class="link" href="">공고등록하기</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- 공고가 있을 경우 -->
-                                <div class="scSelectWrap" th:if="${!#lists.isEmpty(programWithPaging.list)}">
+                                </div> -->
+                                
+                                <!-- server: 공고가 있을 경우 -->
+                                <div class="scSelectWrap">
                                     <div class="selectInner">
                                         <ul class="scSelectAppList mngSpBefore">
-                                            <li class="scSelectAppItem" th:each="p : ${programWithPaging.list}">
+                                            <li class="scSelectAppItem">
                                                 <div class="manager">
-                                                    <h2 class="manager-name" th:text="${loginMember?.memberName}">담당자명</h2>
+                                                    <h2 class="manager-name">담당자명</h2>
                                                     <div class="department">
                                                         <p>
-                                                            Phone: <span th:text="${loginMember?.memberPhone}">010-0000-0000</span>
-                                                            &nbsp; | &nbsp;
-                                                            Email: <span th:text="${loginMember?.memberEmail}">email</span>
+                                                            Phone: 010-1234-1234 &nbsp; | &nbsp; Email: test@gmail.com
                                                         </p>
                                                     </div>
                                                     <button type="button" class="moreOptionButton">
@@ -170,35 +191,121 @@
                                                                 <button type="button" class="applicantBtn">지원자 관리</button>
                                                             </li>
                                                             <li>
-                                                                <a th:href="@{/corporate/participant-list(programId=${p.id})}" class="participantBtn">참여자 관리</a>
+                                                                <button type="button" class="participantBtn">참여자 관리</button>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <!-- 프로그램 상세로 이동 -->
-                                                <a href="#" class="program-detail-link" target="_blank">
+                                                <!-- server: 프로그램 상세로 이동 -->
+                                                <a href="" class="program-detail-link" target="_blank">
                                                     <div class="program-title">
-                                                        <h3 class="title" th:text="${p.experienceProgramTitle}">프로그램 제목</h3>
+                                                        <h3 class="title">백엔드 개발 체험 프로그램</h3>
                                                     </div>
-                                                    <!-- 프로그램 키워드 -->
+                                                    <!-- 프로그램 키워드 작성(예: 모집중, 진행중, D-day 등) -->
                                                     <ul class="keywords">
-                                                        <li class="item status"
-                                                            th:text="${p.experienceProgramStatus == 'recruiting' ? '모집중' :
-                                                                      (p.experienceProgramStatus == 'closed'     ? '모집마감' :
-                                                                      (p.experienceProgramStatus == 'active'     ? '진행중' :
-                                                                      (p.experienceProgramStatus == 'cancelled'  ? '진행종료' : '임시저장')))}"
-                                                            th:classappend="' ' + ${p.experienceProgramStatus}">모집중</li>
+                                                        <li class="item status">진행중</li>
                                                         <li class="item">체험형</li>
-                                                        <li class="item" th:text="${p.experienceProgramJob}">직무</li>
-                                                        <li class="item" th:text="${p.experienceProgramWorkDays}">기간</li>
-                                                        <li class="item" th:text="${p.experienceProgramDeadline}">마감일</li>
-                                                        <li class="item" th:text="|${p.experienceProgramRecruitmentCount}명|">15명</li>
+                                                        <li class="item">개발부</li>
+                                                        <li class="item">4주</li>
+                                                        <li class="item">D-7</li>
+                                                        <li class="item">15명</li>
                                                     </ul>
                                                     <div class="program-description">
-                                                        <p th:text="${p.experienceProgramDescription}">프로그램 간단 설명글</p>
+                                                        <p>프로그램 간단 설명글</p>
                                                     </div>
                                                 </a>
                                             </li>
+                                            <li class="scSelectAppItem">
+                                                <div class="manager">
+                                                    <h2 class="manager-name">담당자명</h2>
+                                                    <div class="department">
+                                                        <p>
+                                                            Phone: 010-1234-1234 &nbsp; | &nbsp; Email: test@gmail.com
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="moreOptionButton">
+                                                        <span>
+                                                            <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                                                        </span>
+                                                    </button>
+                                                    <!-- javascript: moreOptionButton 클릭 시 active 추가 -->
+                                                    <div class="more-option">
+                                                        <ul>
+                                                            <li>
+                                                                <button type="button" class="applicantBtn">지원자 관리</button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button" class="participantBtn">참여자 관리</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- server: 프로그램 상세로 이동 -->
+                                                <a href="" class="program-detail-link" target="_blank">
+                                                    <div class="program-title">
+                                                        <h3 class="title">백엔드 개발 체험 프로그램</h3>
+                                                    </div>
+                                                    <!-- 프로그램 키워드 작성(예: 모집중, 진행중, D-day 등) -->
+                                                    <ul class="keywords">
+                                                        <li class="item status">모집중</li>
+                                                        <li class="item">체험형</li>
+                                                        <li class="item">개발부</li>
+                                                        <li class="item">4주</li>
+                                                        <li class="item">D-7</li>
+                                                        <li class="item">15명</li>
+                                                    </ul>
+                                                    <div class="program-description">
+                                                        <p>프로그램 간단 설명글</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="scSelectAppItem">
+                                                <div class="manager">
+                                                    <h2 class="manager-name">담당자명</h2>
+                                                    <div class="department">
+                                                        <p>
+                                                            Phone: 010-1234-1234 &nbsp; | &nbsp; Email: test@gmail.com
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="moreOptionButton">
+                                                        <span>
+                                                            <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+                                                        </span>
+                                                    </button>
+                                                    <!-- javascript: moreOptionButton 클릭 시 active 추가 -->
+                                                    <div class="more-option">
+                                                        <ul>
+                                                            <li>
+                                                                <button type="button" class="applicantBtn">지원자 관리</button>
+                                                            </li>
+                                                            <li>
+                                                                <button type="button" class="participantBtn">참여자 관리</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- server: 프로그램 상세로 이동 -->
+                                                <a href="" class="program-detail-link" target="_blank">
+                                                    <div class="program-title">
+                                                        <h3 class="title">백엔드 개발 체험 프로그램</h3>
+                                                    </div>
+                                                    <!-- 프로그램 키워드 작성(예: 모집중, 진행중, D-day 등) -->
+                                                    <ul class="keywords">
+                                                        <li class="item status">모집중</li>
+                                                        <li class="item">체험형</li>
+                                                        <li class="item">개발부</li>
+                                                        <li class="item">4주</li>
+                                                        <li class="item">D-7</li>
+                                                        <li class="item">15명</li>
+                                                    </ul>
+                                                    <div class="program-description">
+                                                        <p>프로그램 간단 설명글</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            
+
+
                                         </ul>
                                     </div>
                                 </div>
@@ -223,8 +330,7 @@
                 <a id="btnMtcTop" href="#skipNavigation" class="mtcBtn btnMtcTop"></a>
             </div>
         </div>
-        <footer th:replace="~{/corporate/footer.html::footer}"></footer>
     </div>
 </body>
-<script src="/js/corporate/program-management/event.js"></script>
+<script src="/static/js/corporate/program-management/event.js"></script>
 </html>

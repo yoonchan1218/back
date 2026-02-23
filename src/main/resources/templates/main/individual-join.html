@@ -324,11 +324,11 @@
                                     name="memberPhone"
                                     size="4"
                                     maxlength="13"
-                                    class="dev-phone"
+                                    class="phone-input"
                             />
                             <button
                                     type="button"
-                                    class="button buttonSendCertification"
+                                    class="button btn-send-cert"
                                     id="btnSendCert"
                             >
                                 <span>인증번호 전송</span>
@@ -354,11 +354,12 @@
                             />
                         </div>
                     </div>
-                    <div class="row authentication_check">
+                    <!--   인증 번호 solapi 사용-->
+                    <div class="row phone-cert-section">
                         <div class="col_1">
                             <label
                                     for="Certify_Num"
-                                    class="authentication_number"
+                                    class="cert-number-label"
                             >인증번호 입력</label
                             >
                         </div>
@@ -372,44 +373,22 @@
                                     type="text"
                                     id="Certify_Num"
                                     name="Certify_Num"
-                                    class="authentication_number"
+                                    class="cert-number-input"
                                     maxlength="6"
                             />
                             <div>
                                 <button
                                         type="button"
-                                        class="btnConfirm"
+                                        class="btn-verify-cert"
                                         id="btnCheckCert"
                                 >
                                     <span>확인</span>
                                 </button>
-                                <button
-                                        type="button"
-                                        class="btnSend"
-                                        id="btnReSendCert"
-                                >
-                                    <span>재전송</span>
-                                </button>
                             </div>
                             <div
                                     class="notice_msg"
-                                    id="notice_msg_phone"
+                                    id="notice-msg-cert"
                             ></div>
-                            <input
-                                    type="hidden"
-                                    id="M_Phone1"
-                                    name="M_Phone1"
-                            />
-                            <input
-                                    type="hidden"
-                                    id="M_Phone2"
-                                    name="M_Phone2"
-                            />
-                            <input
-                                    type="hidden"
-                                    id="M_Phone3"
-                                    name="M_Phone3"
-                            />
                         </div>
                     </div>
                 </div>
@@ -575,5 +554,7 @@
 </div>
 </body>
 <script src="/js/member/join/individual-service.js"></script>
+<script src="/js/sms/service.js"></script>
+<script src="/js/sms/event.js"></script>
 <script src="/js/main/join/individual-join-event.js"></script>
 </html>

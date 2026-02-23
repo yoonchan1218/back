@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 /* 기본 */
@@ -353,7 +353,7 @@ address, caption, em {
 }
 .mtcBtn, .mtcBtnB:before, .mtcBtnA:after, .mtcBtnM:before, .mtcBtnM:After {
     display: inline-block;
-    background: url("/images/corporate/mtc_sp_btn_green.png") no-repeat;
+    background: url("/static/images/corporate/mtc_sp_btn_green.png") no-repeat;
     box-sizing: border-box;
 }
 .mtcBtnTip {
@@ -409,7 +409,7 @@ address, caption, em {
 }
 .infoIcn, .infoIcnB:before, .infoIcnA:after, .infoIcnM:before, .infoIcnM:after {
     display: inline-block;
-    background: url("/images/corporate/info_sp_icn.png") no-repeat;
+    background: url("/static/images/corporate/info_sp_icn.png") no-repeat;
     line-height: normal;
     vertical-align: middle;
 }
@@ -452,7 +452,7 @@ address, caption, em {
     position: absolute;
     left: 10px;
     top: -11px;
-    background: url("/images/corporate/ico_error_arr.png") no-repeat 0 0;
+    background: url("/static/images/corporate/ico_error_arr.png") no-repeat 0 0;
 }
 .errorBx p {
     font-size: 12px;
@@ -507,7 +507,7 @@ address, caption, em {
     color: #999;
     height: 20px;
     padding-left: 24px;
-    background: url("/images/corporate/mtc_sp_form\ \(2\).png") no-repeat 0 -60px;
+    background: url("/static/images/corporate/mtc_sp_form\ \(2\).png") no-repeat 0 -60px;
     vertical-align: top;
     cursor: pointer;
 }
@@ -567,7 +567,7 @@ address, caption, em {
     top: 0px;
     width: 20px;
     height: 20px;
-    background: #fff url("/images/corporate/sprite-icon.png") no-repeat 0 -283px;
+    background: #fff url("/static/images/corporate/sprite-icon.png") no-repeat 0 -283px;
 }
 .corp-terms .terms label a {
     position: relative;
@@ -602,7 +602,7 @@ address, caption, em {
     top: 3px;
     width: 9px;
     height: 5px;
-    background: url("/images/corporate/sprite-icon.png") no-repeat -20px -15px;
+    background: url("/static/images/corporate/sprite-icon.png") no-repeat -20px -15px;
 }
 .artMemberMng .tbAgree .button-more:before {
     content: '내용보기';
@@ -623,7 +623,7 @@ address, caption, em {
     top: 3px;
     width: 9px;
     height: 5px;
-    background: url("/images/corporate/sprite-icon.png") no-repeat -20px -15px;
+    background: url("/static/images/corporate/sprite-icon.png") no-repeat -20px -15px;
 }
 .artMemberMng .tbAgree .terms .button-more.on:before {
     content: '';
@@ -837,7 +837,7 @@ address, caption, em {
     top: 333px;
     width: 20px;
     height: 20px;
-    background: #fff url("/images/corporate/sprite-icon.png") no-repeat 0 -283px;
+    background: #fff url("/static/images/corporate/sprite-icon.png") no-repeat 0 -283px;
 }
 .common-modal.company-certify-modal .leaveAgreeWrap input:checked + label:before {
     background-position: 0 -253px;
@@ -850,5 +850,5 @@ address, caption, em {
     display: block;
     width: 32px;
     height: 32px;
-    background: url("/images/corporate/icon_close.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_close.png") no-repeat 50%;
 }

@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>참여자 관리 | TRY-CATCH</title>
-    <link rel="stylesheet" href="/css/corporate/header.css">
-    <link rel="stylesheet" href="/css/corporate/footer.css">
-    <link rel="stylesheet" href="/css/corporate/participant-list.css">
+    <link rel="stylesheet" href="/static/css/corporate/participant-list.css">
 </head>
 <body class="mtcPersonScrap">
     <div id="wrap" class="wrapper">
-        <header th:replace="~{/corporate/header.html::header}"></header>
         <div class="sideTrue devUseTopBtn section-wrap" id="container">
 
             <!-- 참여자 관리 -->
@@ -24,29 +21,29 @@
                             <ul class="status-list">
                                 <!-- server, javascript: 서버에서 rPageCode를 쿼리스트링으로 보내 어떤 버튼인지 확인 후, 동적으로 active 추가  -->
                                 <li>
-                                    <a th:href="@{/corporate/participant-list(programId=${programId})}"
-                                       th:classappend="${currentStatus == ''} ? 'active'">
+                                    <!-- onclick -->
+                                    <a href="" class="active">
                                         전체
                                         <em>0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='participating')}"
-                                       th:classappend="${currentStatus == 'participating'} ? 'active'">
-                                        참여중
+                                    <!-- onclick -->
+                                    <a href="" class="" >
+                                        참여중 
                                         <em>0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='dropped')}"
-                                       th:classappend="${currentStatus == 'dropped'} ? 'active'">
-                                        승급탈락/중도탈락
+                                    <!-- onclick -->
+                                    <a href="" class="" >
+                                        승급탈락/중도탈락 
                                         <em>0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='completed')}"
-                                       th:classappend="${currentStatus == 'completed'} ? 'active'">
+                                    <!-- onclick -->
+                                    <a href="" class="" >
                                         참여완료
                                         <em>0</em>
                                     </a>
@@ -328,8 +325,7 @@
                 </div>
             </div>
         </div>
-        <footer th:replace="~{/corporate/footer.html::footer}"></footer>
     </div>
 </body>
-<script src="/js/corporate/participant-list/event.js"></script>
+<script src="/static/js/corporate/participant-list/event.js"></script>
 </html>

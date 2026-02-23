@@ -24,6 +24,10 @@
                             <a th:href="@{/main/company-join}">회원가입</a>
                         </li>
 
+                        <li>
+                            <a href="">고객센터</a>
+                        </li>
+
                         <!-- 로그인 시에만 표시 -->
                         <li th:if="${session.member != null}">
                             <a th:if="${session.member.provider != null and session.member.provider.value == 'kakao'}"

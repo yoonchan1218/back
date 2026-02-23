@@ -5,6 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AddressMapper {
-    public void insert(AddressVO addressVO);
-    public void update(AddressVO addressVO);
+    public void insert(AddressVO  addressVO);
 }

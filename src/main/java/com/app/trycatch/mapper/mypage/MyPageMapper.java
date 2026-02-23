@@ -23,4 +23,6 @@ public interface MyPageMapper {
     void updateNotificationRead(@Param("memberId") Long memberId, @Param("notificationId") Long notificationId);
 
     void updateMemberStatusToInactive(Long memberId);
+
+    void updateApplyStatusToCancelled(@Param("memberId") Long memberId, @Param("applyId") Long applyId);
 }

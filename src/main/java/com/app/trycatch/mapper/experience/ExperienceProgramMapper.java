@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -21,25 +20,4 @@ public interface ExperienceProgramMapper {
 
 //    조회
     public Optional<ExperienceProgramDTO> selectById(Long id);
-
-//    기업 - 프로그램 목록 (페이징 + 필터)
-    List<ExperienceProgramDTO> selectByCorpId(
-            @Param("corpId") Long corpId,
-            @Param("criteria") Criteria criteria,
-            @Param("status") String status,
-            @Param("keyword") String keyword);
-
-//    기업 - 프로그램 수 (필터 포함)
-    int selectCountByCorpId(
-            @Param("corpId") Long corpId,
-            @Param("status") String status,
-            @Param("keyword") String keyword);
-
-//    기업 - 상태별 프로그램 수
-    List<Map<String, Object>> selectCountByStatus(@Param("corpId") Long corpId);
-
-//    기업 - 최신 프로그램 N개
-    List<ExperienceProgramDTO> selectLatestByCorpId(
-            @Param("corpId") Long corpId,
-            @Param("limit") int limit);
 }

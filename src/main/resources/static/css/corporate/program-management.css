@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 
@@ -307,7 +307,7 @@ div.mtcTplTab ul.tabItems li.on a .verdana {
     font-size: 13px;
     letter-spacing: 0;
     line-height: 20px;
-    background: url("/images/corporate/arrow_14x20.png") no-repeat 100%;
+    background: url("/static/images/corporate/arrow_14x20.png") no-repeat 100%;
 }
 
 .select-modal_common {
@@ -347,10 +347,10 @@ div.mtcTplTab ul.tabItems li.on a .verdana {
 }
 .select-modal_common.check-version ul li button {
     padding-left: 22px;
-    background: url("/images/corporate/check_14x14_off.png") no-repeat 4px;
+    background: url("/static/images/corporate/check_14x14_off.png") no-repeat 4px;
 }
 .select-modal_common.check-version ul li button.active {
-    background-image: url("/images/corporate/check_14x14_on.png");
+    background-image: url("/static/images/corporate/check_14x14_on.png");
 }
 .select-modal_common ul li:nth-child(n+2) button {
     border-top: 1px solid #eee;
@@ -387,7 +387,7 @@ div.mtcTplTab ul.tabItems li.on a .verdana {
     display: block;
     width: 28px;
     height: 30px;
-    background: url("/images/corporate/icon_search.png") no-repeat 50%;
+    background: url("/static/images/corporate/icon_search.png") no-repeat 50%;
 }
 
 /* list */
@@ -423,7 +423,7 @@ div.scNoSelectWrap .scNoSelectAppList {
 }
 
 .mngSpAfter:after, .mngSpBefore:before, .mngSpImg {
-    background: url("/images/corporate/sprite_ver2_img.png") 100% 100% / 100% no-repeat !important;
+    background: url("/static/images/corporate/sprite_ver2_img.png") 100% 100% / 100% no-repeat !important;
 }
 div.scNoSelectWrap .scNoSelectAppList:before {
     content: "";
@@ -533,7 +533,7 @@ div.noticeBx ul li:before {
 
 .mtcBtn, .mtcBtnB:before, .mtcBtnA:after, .mtcBtnM:before, .mtcBtnM:After {
     display: inline-block;
-    background: url("/images/corporate/mtc_sp_btn.png") no-repeat;
+    background: url("/static/images/corporate/mtc_sp_btn.png") no-repeat;
     box-sizing: border-box;
     vertical-align: middle;
 }

@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (scrapbutton) {
             e.preventDefault();
             e.stopPropagation();
+            const scrapId = scrapbutton.dataset.scrapId;
+            const newStatus = scrapbutton.dataset.scrapStatus === "active" ? "inactive" : "active";
             mainLayout.toggleScrap(scrapbutton);
+            mainService.toggleScrap(scrapId, newStatus);
         }
     });
 
@@ -82,17 +85,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modalClose) modalClose.addEventListener("click", close);
         if (modalCancel) modalCancel.addEventListener("click", close);
         if (modalConfirm) {
-            modalConfirm.addEventListener("click", async () => {
+            modalConfirm.addEventListener("click", () => {
                 const file = profileInput?.files[0];
                 if (file) {
-                    const imageUrl = await mainService.insert(file);
-                    if (imageUrl && currentProfileImg) {
-                        currentProfileImg.src = imageUrl;
-                    }
+                    mainService.insert(file, (imageUrl) => {
+                        if (imageUrl && currentProfileImg) {
+                            currentProfileImg.src = imageUrl;
+                        }
+                        close();
+                    });
                 } else {
                     mainLayout.confirmProfileImage(currentProfileImg, previewImg);
+                    close();
                 }
-                close();
             });
         }
         profileModal.addEventListener("click", (e) => {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -153,19 +153,19 @@
                         <div class="applyStatus">
                             <ul class="clear">
                                 <li>
-                                    <p class="num">1</p>
+                                    <p class="num">0</p>
                                     <p class="txt">참여완료</p>
                                 </li>
                                 <li>
-                                    <p class="num">1</p>
+                                    <p class="num" th:text="${documentPassCount}">0</p>
                                     <p class="txt">참여중</p>
                                 </li>
                                 <li>
-                                    <p class="num">1</p>
+                                    <p class="num" th:text="${documentFailCount}">0</p>
                                     <p class="txt">심사완료</p>
                                 </li>
                                 <li>
-                                    <p class="num">1</p>
+                                    <p class="num" th:text="${appliedCount}">0</p>
                                     <p class="txt">심사중</p>
                                 </li>
                             </ul>
@@ -479,662 +479,84 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td
-                                            class="vertical-align-top"
-                                            
-                                        >
-                                            <div
-                                                class="vertical-align-middle apply-status"
-                                            >
-                                                <div class="inner">
-                                                    <div class="item status">
-                                                        참여완료
-                                                    </div>
-                                                    <div class="item date">
-                                                        2026.01.29
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-board"
-                                            >
-                                                <div class="inner">
-                                                    <div class="company">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                            >㈜test</a
-                                                        >
-                                                    </div>
-                                                    <div class="description">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                        >
-                                                            [JAVA SI 상암]
-                                                            DevoPS 사업
-                                                            Front-end 개발 (5)
-                                                            (~2/3)
-                                                        </a>
-                                                    </div>
-                                                    <div class="meta">
-                                                        <div
-                                                            class="item resume"
-                                                        >
-                                                            <a
-                                                                class="button button-resume resumeTile"
-                                                                href=""
-                                                                onclick="
-                                                                        
-                                                                "
-                                                                title="입사지원한 이력서의 내용을 확인할 수 있습니다."
-                                                                >지원이력서</a
-                                                            >
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-field"
-                                                        >
-                                                            지원분야 :
-                                                            JAVA/VUE.JS 개발자
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-number"
-                                                        >
-                                                            지원자수 :
-                                                            <a
-                                                                href="#"
-                                                                title="지원현황 통계보기"
-                                                                target="_blank"
-                                                                class="number dev-PopChart"
-                                                                data-gino="50296722"
-                                                                >6</a
-                                                            >명
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-progress"
-                                            >
-                                                <div class="inner">
-                                                    <div class="status">
-                                                        진행중
-                                                    </div>
-                                                    <div class="extra">
-                                                        (~02/03)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle reading"
-                                            >
-                                                <div class="inner">
-                                                    <div class="read-not">
-                                                        열람
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn btnGyBd devBtnCancel devBtnOddInfo"
-                                                type="button"
-                                                data-memtypecode="C"
-                                                data-idx="422980573"
-                                                data-gidelstat="0"
-                                                data-gino="50296722"
-                                                data-sendgubun="0"
-                                                data-passgubun="1"
-                                                data-agireqno="0"
-                                            >
-                                                <span>지원취소</span>
-                                            </button>
-                                            <div class="oddInfo mtuLayerWrap">
-                                                <div
-                                                    class="mtuLayer mtuLayer_1 mtuLayerRsmCancel"
-                                                    style="
-                                                        top: 10px;
-                                                        width: 320px;
-                                                        right: 20px;
-                                                        display: none;
-                                                    "
-                                                >
-                                                    <div class="desc desc2">
-                                                        <p class="point">
-                                                            선택한 공고에 대한
-                                                            입사지원을
-                                                            취소하면<br /><strong
-                                                                >지원한 회사에서
-                                                                자기소개서를
-                                                                열람할 수
-                                                                없습니다.
-                                                            </strong>
-                                                        </p>
-                                                        <p>
-                                                            단, 지원한 회사에서
-                                                            자기소개서를 이미
-                                                            열람한 경우는
-                                                            <br />지원취소를
-                                                            하더라도 면접제의
-                                                            등의 연락을 받으실
-                                                            수도 있습니다.
-                                                        </p>
-                                                    </div>
-                                                    <p class="close">
-                                                        <button
-                                                            
-                                                            "
-                                                            type="button"
-                                                        >
-                                                            <span
-                                                                >레이어
-                                                                닫기</span
-                                                            >
-                                                        </button>
-                                                    </p>
-                                                    <span
-                                                        class="arrow arrowTop"
-                                                    ></span>
-                                                </div>
-                                            </div>
+                                    <!-- 데이터 없음 -->
+                                    <tr th:if="${#lists.isEmpty(applies)}">
+                                        <td colspan="5" style="text-align:center; padding: 30px;">
+                                            체험 지원 내역이 없습니다.
                                         </td>
                                     </tr>
-                                     <tr>
-                                        <td
-                                            class="vertical-align-top"
-                                            
-                                        >
-                                            <div
-                                                class="vertical-align-middle apply-status"
-                                            >
+                                    <!-- 데이터 반복 -->
+                                    <tr th:each="apply : ${applies}">
+                                        <td class="vertical-align-top">
+                                            <div class="vertical-align-middle apply-status">
                                                 <div class="inner">
-                                                    <div class="item status">
-                                                        참여중
-                                                    </div>
-                                                    <div class="item date">
-                                                        2026.01.29
-                                                    </div>
+                                                    <div class="item status" th:text="${apply.applyStatusLabel}">심사중</div>
+                                                    <div class="item date" th:text="${apply.applyCreatedDatetime}">-</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div
-                                                class="vertical-align-middle apply-board"
-                                            >
+                                            <div class="vertical-align-middle apply-board">
                                                 <div class="inner">
                                                     <div class="company">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                            >㈜test2</a
-                                                        >
+                                                        <a th:href="'/experience/program/' + ${apply.experienceProgramId}"
+                                                           target="_blank"
+                                                           th:text="${apply.corpCompanyName}">기업명</a>
                                                     </div>
                                                     <div class="description">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                        >
-                                                            test
-                                                            (~2/3)
-                                                        </a>
+                                                        <a th:href="'/experience/program/' + ${apply.experienceProgramId}"
+                                                           target="_blank"
+                                                           th:text="${apply.experienceProgramTitle}">공고 제목</a>
                                                     </div>
                                                     <div class="meta">
-                                                        <div
-                                                            class="item resume"
-                                                        >
-                                                            <a
-                                                                class="button button-resume resumeTile"
-                                                                href=""
-                                                                onclick="
-                                                                        
-                                                                "
-                                                                title="입사지원한 이력서의 내용을 확인할 수 있습니다."
-                                                                >지원이력서</a
-                                                            >
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-field"
-                                                        >
+                                                        <div class="item applicants-field"
+                                                             th:text="'지원분야 : ' + ${apply.experienceProgramJob}">
                                                             지원분야 :
-                                                            JAVA/VUE.JS 개발자
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-number"
-                                                        >
-                                                            지원자수 :
-                                                            <a
-                                                                href="#"
-                                                                title="지원현황 통계보기"
-                                                                target="_blank"
-                                                                class="number dev-PopChart"
-                                                                data-gino="50296722"
-                                                                >6</a
-                                                            >명
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div
-                                                class="vertical-align-middle apply-progress"
-                                            >
+                                            <div class="vertical-align-middle apply-progress">
                                                 <div class="inner">
-                                                    <div class="status">
-                                                        진행중
-                                                    </div>
-                                                    <div class="extra">
-                                                        (~02/03)
-                                                    </div>
+                                                    <div class="status" th:text="${apply.experienceProgramStatusLabel}">-</div>
+                                                    <div class="extra"
+                                                         th:if="${apply.experienceProgramDeadline != null}"
+                                                         th:text="'(~' + ${apply.experienceProgramDeadline} + ')'">(-)</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div
-                                                class="vertical-align-middle reading"
-                                            >
+                                            <div class="vertical-align-middle reading">
                                                 <div class="inner">
-                                                    <div class="read-not">
-                                                        열람
-                                                    </div>
+                                                    <div class="read-not">열람</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <button
-                                                class="btn btnGyBd devBtnCancel devBtnOddInfo"
-                                                type="button"
-                                                data-memtypecode="C"
-                                                data-idx="422980573"
-                                                data-gidelstat="0"
-                                                data-gino="50296722"
-                                                data-sendgubun="0"
-                                                data-passgubun="1"
-                                                data-agireqno="0"
-                                            >
+                                            <button class="btn btnGyBd devBtnCancel devBtnOddInfo"
+                                                    type="button"
+                                                    th:data-idx="${apply.applyId}">
                                                 <span>지원취소</span>
                                             </button>
                                             <div class="oddInfo mtuLayerWrap">
-                                                <div
-                                                    class="mtuLayer mtuLayer_1 mtuLayerRsmCancel"
-                                                    style="
-                                                        top: 10px;
-                                                        width: 320px;
-                                                        right: 20px;
-                                                        display: none;
-                                                    "
-                                                >
+                                                <div class="mtuLayer mtuLayer_1 mtuLayerRsmCancel"
+                                                     style="top: 10px; width: 320px; right: 20px; display: none;">
                                                     <div class="desc desc2">
                                                         <p class="point">
-                                                            선택한 공고에 대한
-                                                            입사지원을
-                                                            취소하면<br /><strong
-                                                                >지원한 회사에서
-                                                                자기소개서를
-                                                                열람할 수
-                                                                없습니다.
-                                                            </strong>
+                                                            선택한 공고에 대한 입사지원을 취소하면<br/>
+                                                            <strong>지원한 회사에서 자기소개서를 열람할 수 없습니다.</strong>
                                                         </p>
                                                         <p>
-                                                            단, 지원한 회사에서
-                                                            자기소개서를 이미
-                                                            열람한 경우는
-                                                            <br />지원취소를
-                                                            하더라도 면접제의
-                                                            등의 연락을 받으실
-                                                            수도 있습니다.
+                                                            단, 지원한 회사에서 자기소개서를 이미 열람한 경우는
+                                                            <br/>지원취소를 하더라도 면접제의 등의 연락을 받으실 수도 있습니다.
                                                         </p>
                                                     </div>
                                                     <p class="close">
-                                                        <button
-                                                            
-                                                            "
-                                                            type="button"
-                                                        >
-                                                            <span
-                                                                >레이어
-                                                                닫기</span
-                                                            >
-                                                        </button>
+                                                        <button type="button"><span>레이어 닫기</span></button>
                                                     </p>
-                                                    <span
-                                                        class="arrow arrowTop"
-                                                    ></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                     <tr>
-                                        <td
-                                            class="vertical-align-top"
-                                            
-                                        >
-                                            <div
-                                                class="vertical-align-middle apply-status"
-                                            >
-                                                <div class="inner">
-                                                    <div class="item status">
-                                                        심사완료
-                                                    </div>
-                                                    <div class="item date">
-                                                        2026.01.29
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-board"
-                                            >
-                                                <div class="inner">
-                                                    <div class="company">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                            >㈜test03</a
-                                                        >
-                                                    </div>
-                                                    <div class="description">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                        >
-                                                            test
-                                                        </a>
-                                                    </div>
-                                                    <div class="meta">
-                                                        <div
-                                                            class="item resume"
-                                                        >
-                                                            <a
-                                                                class="button button-resume resumeTile"
-                                                                href=""
-                                                                onclick="
-                                                                        
-                                                                "
-                                                                title="입사지원한 이력서의 내용을 확인할 수 있습니다."
-                                                                >지원이력서</a
-                                                            >
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-field"
-                                                        >
-                                                            지원분야 :
-                                                            JAVA/VUE.JS 개발자
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-number"
-                                                        >
-                                                            지원자수 :
-                                                            <a
-                                                                href="#"
-                                                                title="지원현황 통계보기"
-                                                                target="_blank"
-                                                                class="number dev-PopChart"
-                                                                data-gino="50296722"
-                                                                >6</a
-                                                            >명
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-progress"
-                                            >
-                                                <div class="inner">
-                                                    <div class="status">
-                                                        진행중
-                                                    </div>
-                                                    <div class="extra">
-                                                        (~02/03)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle reading"
-                                            >
-                                                <div class="inner">
-                                                    <div class="read-not">
-                                                        열람
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn btnGyBd devBtnCancel devBtnOddInfo"
-                                                type="button"
-                                                data-memtypecode="C"
-                                                data-idx="422980573"
-                                                data-gidelstat="0"
-                                                data-gino="50296722"
-                                                data-sendgubun="0"
-                                                data-passgubun="1"
-                                                data-agireqno="0"
-                                            >
-                                                <span>지원취소</span>
-                                            </button>
-                                            <div class="oddInfo mtuLayerWrap">
-                                                <div
-                                                    class="mtuLayer mtuLayer_1 mtuLayerRsmCancel"
-                                                    style="
-                                                        top: 10px;
-                                                        width: 320px;
-                                                        right: 20px;
-                                                        display: none;
-                                                    "
-                                                >
-                                                    <div class="desc desc2">
-                                                        <p class="point">
-                                                            선택한 공고에 대한
-                                                            입사지원을
-                                                            취소하면<br /><strong
-                                                                >지원한 회사에서
-                                                                자기소개서를
-                                                                열람할 수
-                                                                없습니다.
-                                                            </strong>
-                                                        </p>
-                                                        <p>
-                                                            단, 지원한 회사에서
-                                                            자기소개서를 이미
-                                                            열람한 경우는
-                                                            <br />지원취소를
-                                                            하더라도 면접제의
-                                                            등의 연락을 받으실
-                                                            수도 있습니다.
-                                                        </p>
-                                                    </div>
-                                                    <p class="close">
-                                                        <button
-                                                            
-                                                            "
-                                                            type="button"
-                                                        >
-                                                            <span
-                                                                >레이어
-                                                                닫기</span
-                                                            >
-                                                        </button>
-                                                    </p>
-                                                    <span
-                                                        class="arrow arrowTop"
-                                                    ></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                     <tr>
-                                        <td
-                                            class="vertical-align-top"
-                                            
-                                        >
-                                            <div
-                                                class="vertical-align-middle apply-status"
-                                            >
-                                                <div class="inner">
-                                                    <div class="item status">
-                                                        심사중
-                                                    </div>
-                                                    <div class="item date">
-                                                        2026.01.29
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-board"
-                                            >
-                                                <div class="inner">
-                                                    <div class="company">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                            >㈜test04</a
-                                                        >
-                                                    </div>
-                                                    <div class="description">
-                                                        <a
-                                                            href=""
-                                                            target="_blank"
-                                                        >
-                                                            test
-                                                        </a>
-                                                    </div>
-                                                    <div class="meta">
-                                                        <div
-                                                            class="item resume"
-                                                        >
-                                                            <a
-                                                                class="button button-resume resumeTile"
-                                                                href=""
-                                                                onclick="
-                                                                        
-                                                                "
-                                                                title="입사지원한 이력서의 내용을 확인할 수 있습니다."
-                                                                >지원이력서</a
-                                                            >
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-field"
-                                                        >
-                                                            지원분야 :
-                                                            JAVA/VUE.JS 개발자
-                                                        </div>
-                                                        <div
-                                                            class="item applicants-number"
-                                                        >
-                                                            지원자수 :
-                                                            <a
-                                                                href="#"
-                                                                title="지원현황 통계보기"
-                                                                target="_blank"
-                                                                class="number dev-PopChart"
-                                                                data-gino="50296722"
-                                                                >6</a
-                                                            >명
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle apply-progress"
-                                            >
-                                                <div class="inner">
-                                                    <div class="status">
-                                                        진행중
-                                                    </div>
-                                                    <div class="extra">
-                                                        (~02/03)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div
-                                                class="vertical-align-middle reading"
-                                            >
-                                                <div class="inner">
-                                                    <div class="read-not">
-                                                        열람
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                class="btn btnGyBd devBtnCancel devBtnOddInfo"
-                                                type="button"
-                                                data-memtypecode="C"
-                                                data-idx="422980573"
-                                                data-gidelstat="0"
-                                                data-gino="50296722"
-                                                data-sendgubun="0"
-                                                data-passgubun="1"
-                                                data-agireqno="0"
-                                            >
-                                                <span>지원취소</span>
-                                            </button>
-                                            <div class="oddInfo mtuLayerWrap">
-                                                <div
-                                                    class="mtuLayer mtuLayer_1 mtuLayerRsmCancel"
-                                                    style="
-                                                        top: 10px;
-                                                        width: 320px;
-                                                        right: 20px;
-                                                        display: none;
-                                                    "
-                                                >
-                                                    <div class="desc desc2">
-                                                        <p class="point">
-                                                            선택한 공고에 대한
-                                                            입사지원을
-                                                            취소하면<br /><strong
-                                                                >지원한 회사에서
-                                                                자기소개서를
-                                                                열람할 수
-                                                                없습니다.
-                                                            </strong>
-                                                        </p>
-                                                        <p>
-                                                            단, 지원한 회사에서
-                                                            자기소개서를 이미
-                                                            열람한 경우는
-                                                            <br />지원취소를
-                                                            하더라도 면접제의
-                                                            등의 연락을 받으실
-                                                            수도 있습니다.
-                                                        </p>
-                                                    </div>
-                                                    <p class="close">
-                                                        <button
-                                                            
-                                                            "
-                                                            type="button"
-                                                        >
-                                                            <span
-                                                                >레이어
-                                                                닫기</span
-                                                            >
-                                                        </button>
-                                                    </p>
-                                                    <span
-                                                        class="arrow arrowTop"
-                                                    ></span>
+                                                    <span class="arrow arrowTop"></span>
                                                 </div>
                                             </div>
                                         </td>

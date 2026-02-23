@@ -42,19 +42,15 @@ public class CorpService {
     //  기업 회원가입
     public void joinCorp(CorpMemberDTO corpMemberDTO) {
 
-        // 1. 주소 먼저 저장 → addressVO.id에 생성된 ID 세팅됨
-        AddressVO addressVO = corpMemberDTO.toAddressVO();
-        addressDAO.save(addressVO);
-
-        // 2. 생성된 address ID를 DTO에 세팅
-        corpMemberDTO.setAddressId(addressVO.getId());
-
-        // 3. member 저장 (insertCorp SQL에 address_id 포함)
         MemberVO memberVO = corpMemberDTO.toMemberVO();
         memberDAO.saveCorp(memberVO);
 
-        // 4. corp member 저장
         corpMemberDTO.setId(memberVO.getId());
         corpMemberDAO.save(corpMemberDTO.toCorpVO());
+
+        AddressVO addressVO = corpMemberDTO.toAddressVO();
+        addressDAO.save(addressVO);
+
+        memberDAO.updateAddressIdById(memberVO.getId());
     }
 }

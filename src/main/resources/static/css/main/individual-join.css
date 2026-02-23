@@ -851,7 +851,7 @@ a {
 }
 
 /* 입력 폼 z-index 초기화 */
-.mbrRegist .rows, .mbrRegist .mbr_name, .mbrRegist .mbr_age, .mbrRegist .mbr_id, .mbrRegist .mbr_passwd, .mbrRegist .mbr_email, .mbrRegist .mbr_phone, .mbrRegist .authentication_check, .mbrRegist .mbr_email, .mbrRegist .mbr_agree, .mbrRegist .mbr_passwd {
+.mbrRegist .rows, .mbrRegist .mbr_name, .mbrRegist .mbr_age, .mbrRegist .mbr_id, .mbrRegist .mbr_passwd, .mbrRegist .mbr_email, .mbrRegist .mbr_phone, .mbrRegist .phone-cert-section, .mbrRegist .mbr_email, .mbrRegist .mbr_agree, .mbrRegist .mbr_passwd {
     z-index: auto !important;
 }
 
@@ -1953,7 +1953,7 @@ a {
     background-position: 0 -253px;
 }
 
-.mbrRegist .mbr_phone .buttonSendCertification {
+.mbrRegist .mbr_phone .btn-send-cert {
     display: block;
     position: absolute;
     right: 0;
@@ -1966,7 +1966,7 @@ a {
     text-align: center;
 }
 
-.mbrRegist .mbr_phone .buttonSendCertification span {
+.mbrRegist .mbr_phone .btn-send-cert span {
     display: block;
     height: 60px;
     padding: 18px 22px;
@@ -2306,7 +2306,7 @@ a {
 }
 
 /* 인증번호 입력 */
-.mbrRegist .authentication_check button {
+.mbrRegist .phone-cert-section button {
     display: block;
     position: absolute;
     right: 0;
@@ -2317,7 +2317,7 @@ a {
     box-sizing: border-box;
 }
 
-.mbrRegist .authentication_check button span {
+.mbrRegist .phone-cert-section button span {
     display: block;
     height: 60px;
     padding: 18px 22px;
@@ -2328,25 +2328,25 @@ a {
     color: #6a6a6a;
 }
 
-.mbrRegist .authentication_check .btnConfirm {
+.mbrRegist .phone-cert-section .btn-verify-cert {
     right: -128px;
     width: 128px;
 }
 
-.mbrRegist .authentication_check .btnSend {
+.mbrRegist .phone-cert-section .btn-resend-cert {
     right: -287px;
     width: 144px;
 }
 
-.mbrRegist .authentication_check .col_2 {
+.mbrRegist .phone-cert-section .col_2 {
     width: 288px;
 }
 
-.mbrRegist .authentication_check .col_3 {
+.mbrRegist .phone-cert-section .col_3 {
     padding-top: 28px;
 }
 
-.mbrRegist .authentication_check .col_3 input[type="checkbox"] {
+.mbrRegist .phone-cert-section .col_3 input[type="checkbox"] {
     overflow: hidden;
     position: absolute;
     clip: rect(0 0 0 0);
@@ -2358,7 +2358,7 @@ a {
     padding: 0;
 }
 
-.mbrRegist .authentication_check .col_3 label {
+.mbrRegist .phone-cert-section .col_3 label {
     position: relative;
     display: block;
     height: 23px;
@@ -2369,7 +2369,7 @@ a {
     cursor: pointer;
 }
 
-.mbrRegist .authentication_check .col_3 label:after {
+.mbrRegist .phone-cert-section .col_3 label:after {
     content: '';
     display: block;
     position: absolute;
@@ -2380,7 +2380,7 @@ a {
     background: url('/content/images/join/sprite-icon.png') no-repeat 0 -283px;
 }
 
-.mbrRegist .authentication_check .col_3 label.on:after {
+.mbrRegist .phone-cert-section .col_3 label.on:after {
     background: url('/content/images/join/sprite-icon.png') no-repeat 0 -253px;
 }
 
