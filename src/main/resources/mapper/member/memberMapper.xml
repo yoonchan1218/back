@@ -46,10 +46,11 @@
     </update>
 
     <select id="selectMemberForLogin" resultType="MemberVO">
-        select id, member_id, member_password, member_name, member_email, member_phone,
-               address_id, member_status, member_agree_privacy, member_agree_marketing,
-               created_datetime, updated_datetime
-        from tbl_member
-        where member_id = #{memberId} and member_password = #{memberPassword} and member_status = 'active'
+        select m.id, m.member_id, m.member_password, m.member_name, m.member_email, m.member_phone,
+               m.address_id, m.member_status, m.member_agree_privacy, m.member_agree_marketing,
+               m.created_datetime, m.updated_datetime
+        from tbl_member m
+        join tbl_individual_member i on m.id = i.id
+        where m.member_id = #{memberId} and m.member_password = #{memberPassword} and m.member_status = 'active'
     </select>
 </mapper>

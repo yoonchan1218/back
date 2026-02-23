@@ -4,7 +4,10 @@ import com.app.trycatch.domain.member.IndividualMemberVO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Optional;
+
 @Mapper
 public interface IndividualMemberMapper {
-    public void insert(IndividualMemberVO individualMemberVO);
+    void insert(IndividualMemberVO individualMemberVO);
+    Optional<IndividualMemberDTO> selectById(Long id);
 }

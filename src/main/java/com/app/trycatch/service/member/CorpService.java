@@ -1,8 +1,10 @@
 package com.app.trycatch.service.member;
 
+import com.app.trycatch.common.exception.LoginFailException;
 import com.app.trycatch.domain.member.AddressVO;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.repository.member.AddressDAO;
 import com.app.trycatch.repository.member.CorpMemberDAO;
 import com.app.trycatch.repository.member.MemberDAO;
@@ -38,6 +40,11 @@ public class CorpService {
         return corpMemberDAO.findByCorpBusinessNumber(corpBusinessNumber).isEmpty();
     }
 
+
+    //  기업 로그인
+    public CorpMemberDTO login(MemberDTO memberDTO) {
+        return corpMemberDAO.findForLogin(memberDTO).orElseThrow(LoginFailException::new);
+    }
 
     //  기업 회원가입
     public void joinCorp(CorpMemberDTO corpMemberDTO) {

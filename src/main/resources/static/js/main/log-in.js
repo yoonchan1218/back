@@ -19,6 +19,7 @@ const individualButton = document.getElementById("devMemTab").firstElementChild;
 const companyButton = document.getElementById("devMemTab").lastElementChild;
 const inpTxtId = document.querySelector(".inpTxt.input-id");
 const kakaoLogin = document.getElementById("btnKaLogin");
+const loginForm = document.getElementById("login-form");
 
 individualButton.addEventListener("click", (e) => {
     individualButton.classList.add("on");
@@ -26,6 +27,7 @@ individualButton.addEventListener("click", (e) => {
     inpTxtId.classList.remove("corp");
     keepId.style.display = "block";
     kakaoLogin.style.display = "block";
+    loginForm.action = "/main/log-in";
 });
 
 companyButton.addEventListener("click", (e) => {
@@ -34,6 +36,7 @@ companyButton.addEventListener("click", (e) => {
     inpTxtId.classList.add("corp");
     keepId.style.display = "none";
     kakaoLogin.style.display = "none";
+    loginForm.action = "/main/corp-log-in";
 });
 
 // 로그인 실패 시 에러 메시지 표시

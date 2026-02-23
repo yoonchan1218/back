@@ -26,3 +26,6 @@ delete from tbl_member;
 select * from tbl_individual_member;
 set FOREIGN_KEY_CHECKS = 1;
 drop table tbl_member;
+
+
+

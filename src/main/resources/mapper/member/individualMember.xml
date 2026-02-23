@@ -5,4 +5,9 @@
         insert into tbl_individual_member (id, individual_member_birth, individual_member_gender)
         values(#{id}, #{individualMemberBirth}, #{individualMemberGender})
     </insert>
+
+    <select id="selectById" resultType="IndividualMemberDTO">
+        select * from view_member_profile
+        where id = #{id}
+    </select>
 </mapper>

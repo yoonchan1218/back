@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -65,22 +64,8 @@ public class IndividualMemberService {
     }
 
     //    로그인
-    public MemberDTO login(MemberDTO memberDTO) {
-        Optional<MemberVO> foundMember = memberDAO.findForLogin(memberDTO);
-        return toDTO(foundMember.orElseThrow(LoginFailException::new));
-    }
-
-    public MemberDTO toDTO(MemberVO memberVO) {
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setId(memberVO.getId());
-        memberDTO.setMemberId(memberVO.getMemberId());
-        memberDTO.setMemberName(memberVO.getMemberName());
-        memberDTO.setMemberEmail(memberVO.getMemberEmail());
-        memberDTO.setMemberPhone(memberVO.getMemberPhone());
-        memberDTO.setAddressId(memberVO.getAddressId());
-        memberDTO.setMemberStatus(memberVO.getMemberStatus());
-        memberDTO.setCreatedDatetime(memberVO.getCreatedDatetime());
-        memberDTO.setUpdatedDatetime(memberVO.getUpdatedDatetime());
-        return memberDTO;
+    public IndividualMemberDTO login(MemberDTO memberDTO) {
+        MemberVO memberVO = memberDAO.findForLogin(memberDTO).orElseThrow(LoginFailException::new);
+        return individualMemberDAO.findById(memberVO.getId()).orElseThrow(LoginFailException::new);
     }
 }

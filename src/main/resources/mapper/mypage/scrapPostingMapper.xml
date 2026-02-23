@@ -17,8 +17,10 @@
             ep.experience_program_status,
             ep.corp_id
         from tbl_scrap_posting sp
-        join tbl_experience_program ep on sp.experience_program_id = ep.id
+        join tbl_experience_program ep
+        on sp.experience_program_id = ep.id
         where sp.member_id = #{memberId}
+        and sp.scrap_status = 'active'
         order by sp.created_datetime desc
     </select>
 
