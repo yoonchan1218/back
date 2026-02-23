@@ -14,6 +14,9 @@ import com.app.trycatch.dto.mypage.PointDetailsDTO;
 import com.app.trycatch.dto.mypage.ScrapPostingDTO;
 import com.app.trycatch.dto.mypage.ApplyListDTO;
 import com.app.trycatch.dto.mypage.ExperienceProgramRankDTO;
+import com.app.trycatch.common.enumeration.file.FileContentType;
+import com.app.trycatch.dto.file.FileDTO;
+import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.repository.mypage.ApplyListDAO;
 import com.app.trycatch.repository.mypage.ExperienceProgramRankDAO;
 import com.app.trycatch.repository.mypage.LatestWatchPostingDAO;
@@ -37,6 +40,7 @@ import java.util.UUID;
 @Transactional(rollbackFor = Exception.class)
 public class MyPageService {
     private final MyPageDAO myPageDAO;
+    private final FileDAO fileDAO;
     private final ScrapPostingDAO scrapPostingDAO;
     private final LatestWatchPostingDAO latestWatchPostingDAO;
     private final PointDetailsDAO pointDetailsDAO;
@@ -78,7 +82,7 @@ public class MyPageService {
         myPageDAO.readNotification(memberId, notificationId);
     }
 
-    public String uploadProfileImage(MultipartFile file) {
+    public String uploadProfileImage(Long memberId, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return null;
         }
@@ -99,6 +103,16 @@ public class MyPageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setFilePath(todayPath);
+        fileDTO.setFileName(fileName);
+        fileDTO.setFileOriginalName(file.getOriginalFilename());
+        fileDTO.setFileSize(String.valueOf(file.getSize()));
+        fileDTO.setFileContentType(FileContentType.IMAGE);
+        fileDAO.save(fileDTO);
+
+        myPageDAO.updateProfileFileId(memberId, fileDTO.getId());
 
         return "/api/files/display?filePath=" + todayPath + "&fileName=" + fileName;
     }

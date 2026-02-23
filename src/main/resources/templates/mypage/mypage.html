@@ -60,7 +60,7 @@
                                     "
                                 >
                                     <div class="profile-img">
-                                        <p class="img"><img src="" alt="" /></p>
+                                        <p class="img"><img th:src="${profile.memberProfileImageUrl != null ? profile.memberProfileImageUrl : '/image/default_photo.png'}" src="/image/default_photo.png" alt="" /></p>
                                     </div>
                                 </div>
                                 <button
