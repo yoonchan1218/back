@@ -21,11 +21,11 @@ select
     i.individual_member_level,
     i.individual_member_post_count,
     i.individual_member_question_count,
-    if(i.member_profile_file_id is not null,
+    if(m.member_profile_file_id is not null,
         concat('/api/files/display?filePath=', f.file_path, '&fileName=', f.file_name),
         null) as member_profile_image_url
 from tbl_member m
 left join tbl_individual_member i on m.id = i.id
-left join tbl_file f on i.member_profile_file_id = f.id;
+left join tbl_file f on m.member_profile_file_id = f.id;
 
 select * from view_member_profile;

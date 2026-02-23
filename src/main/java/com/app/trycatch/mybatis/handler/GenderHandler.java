@@ -22,7 +22,9 @@ public class GenderHandler implements TypeHandler<Gender> {
 
     @Override
     public Gender getResult(ResultSet rs, String columnName) throws SQLException {
-        switch (rs.getString(columnName)) {
+        String value = rs.getString(columnName);
+        if (value == null) return null;
+        switch (value) {
             case "man":
                 return Gender.MAN;
             case "women":
@@ -33,7 +35,9 @@ public class GenderHandler implements TypeHandler<Gender> {
 
     @Override
     public Gender getResult(ResultSet rs, int columnIndex) throws SQLException {
-        switch (rs.getString(columnIndex)) {
+        String value = rs.getString(columnIndex);
+        if (value == null) return null;
+        switch (value) {
             case "man":
                 return Gender.MAN;
             case "women":
@@ -44,7 +48,9 @@ public class GenderHandler implements TypeHandler<Gender> {
 
     @Override
     public Gender getResult(CallableStatement cs, int columnIndex) throws SQLException {
-        switch (cs.getString(columnIndex)) {
+        String value = cs.getString(columnIndex);
+        if (value == null) return null;
+        switch (value) {
             case "man":
                 return Gender.MAN;
             case "women":

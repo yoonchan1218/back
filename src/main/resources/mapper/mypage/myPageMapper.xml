@@ -13,7 +13,7 @@
     </select>
 
     <update id="updateProfileFileId">
-        update tbl_individual_member
+        update tbl_member
         set member_profile_file_id = #{fileId}
         where id = #{memberId}
     </update>
