@@ -601,7 +601,7 @@
                                                 target="_blank"
                                             >
                                                 <div class="recruitment">
-                                                    <div class="item" th:text="${posting.experienceProgramStartDate + ' ~ ' + posting.experienceProgramEndDate}">기간</div>
+                                                    <div class="item" th:if="${posting.experienceProgramDeadline != null}" th:text="'마감 ' + ${posting.experienceProgramDeadline}">마감일</div>
                                                     <div class="item" th:text="${posting.experienceProgramStatus != null ? posting.experienceProgramStatus.value : ''}">모집상태</div>
                                                 </div>
                                             </a>
@@ -653,7 +653,7 @@
                                                th:href="@{/experience/program/{id}(id=${scrap.experienceProgramId})}"
                                                target="_blank">
                                                 <div class="recruitment">
-                                                    <div class="item" th:text="${scrap.experienceProgramStartDate + ' ~ ' + scrap.experienceProgramEndDate}">기간</div>
+                                                    <div class="item" th:if="${scrap.experienceProgramDeadline != null}" th:text="'마감 ' + ${scrap.experienceProgramDeadline}">마감일</div>
                                                     <div class="item" th:text="${scrap.experienceProgramStatus != null ? scrap.experienceProgramStatus.value : ''}">모집상태</div>
                                                 </div>
                                             </a>
@@ -720,13 +720,7 @@
                         <h2 class="lnbTit">체험 지원 관리</h2>
                         <ul>
                             <li>
-                                <a
-                                    href=""
-                                    onclick="
-                                        
-                                    "
-                                    >체험 지원 현황</a
-                                >
+                                <a href="/mypage/experience">체험 지원 현황</a>
                             </li>
                         </ul>
                     </div>

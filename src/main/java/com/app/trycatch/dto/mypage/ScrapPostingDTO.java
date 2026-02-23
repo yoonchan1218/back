@@ -23,8 +23,6 @@ public class ScrapPostingDTO {
     private String updatedDatetime;
 
     private String experienceProgramTitle;
-    private String experienceProgramStartDate;
-    private String experienceProgramEndDate;
     private String experienceProgramDeadline;
     private ExperienceProgramStatus experienceProgramStatus;
     private Long corpId;

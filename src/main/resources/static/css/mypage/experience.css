@@ -120,6 +120,19 @@ button {
     color: #fff !important;
 }
 
+.btnGyBd:disabled, a.btnGyBd:disabled {
+    border-color: #ddd;
+    background: #f5f5f5;
+    color: #bbb;
+    cursor: default;
+}
+
+.btnGyBd:disabled:hover, a.btnGyBd:disabled:hover {
+    border-color: #ddd !important;
+    background: #f5f5f5 !important;
+    color: #bbb !important;
+}
+
 .formBx .month {
     background-color: #fff;
     /* width: 54px; */
@@ -2890,9 +2903,9 @@ input[type=date], input[type=file], input[type=number], input[type=password], in
 .user-table .table .apply-board .company {
     overflow: hidden;
     width: 100%;
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 0;
-    color: #333;
+    color: #666;
     white-space: nowrap;
     text-overflow: ellipsis;
 }

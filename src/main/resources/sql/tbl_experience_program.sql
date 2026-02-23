@@ -9,8 +9,6 @@ create table tbl_experience_program
     experience_program_recruitment_count int                                                 default 1 comment '모집 인원',
     experience_program_work_days         varchar(100) comment '근무 요일',
     experience_program_work_hours        varchar(100) comment '근무 시간',
-    experience_program_start_date        date comment '시작일',
-    experience_program_end_date          date comment '종료일',
     experience_program_deadline          date comment '지원 마감일',
     experience_program_status            enum ('draft', 'recruiting', 'closed', 'cancelled') default 'draft' comment '프로그램 상태',
     experience_program_view_count        int                                                 default 0 comment '조회수',
@@ -24,4 +22,8 @@ create table tbl_experience_program
 select * from tbl_experience_program;
 set foreign_key_checks = 1;
 drop table tbl_experience_program;
+
+ALTER TABLE tbl_experience_program DROP COLUMN experience_program_start_date;
+ALTER TABLE tbl_experience_program DROP COLUMN experience_program_end_date;
+
 

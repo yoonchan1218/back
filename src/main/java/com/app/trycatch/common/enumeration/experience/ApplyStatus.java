@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ApplyStatus {
-    APPLIED("applied"), DOCUMENT_PASS("document_pass"), DOCUMENT_FAIL("document_fail"), CANCELLED("cancelled");
+    APPLIED("applied"), DOCUMENT_PASS("document_pass"), DOCUMENT_FAIL("document_fail"), ACTIVITY_DONE("activity_done"), CANCELLED("cancelled");
 
     private String value;
     private static final Map<String, ApplyStatus> APPLY_STATUS_MAP = Arrays.stream(ApplyStatus.values())

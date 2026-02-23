@@ -140,8 +140,6 @@
                                                 </div>
                                                 <div class="info">
                                                     <span th:text="${program.experienceProgramLevel != null ? program.experienceProgramLevel : '체험형'}">체험형</span>
-                                                    <span th:if="${program.experienceProgramStartDate != null and program.experienceProgramEndDate != null}"
-                                                          th:text="${T(java.time.temporal.ChronoUnit).WEEKS.between(T(java.time.LocalDate).parse(program.experienceProgramStartDate), T(java.time.LocalDate).parse(program.experienceProgramEndDate))} + '주'">4주</span>
                                                     <span th:if="${program.experienceProgramDeadline != null}"
                                                           th:with="dDay=${T(java.time.temporal.ChronoUnit).DAYS.between(T(java.time.LocalDate).now(), T(java.time.LocalDate).parse(program.experienceProgramDeadline))}"
                                                           th:text="${dDay >= 0 ? 'D-' + dDay : 'D+' + T(java.lang.Math).abs(dDay)}">D-7</span>

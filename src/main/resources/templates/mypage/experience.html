@@ -153,19 +153,19 @@
                         <div class="applyStatus">
                             <ul class="clear">
                                 <li>
-                                    <p class="num">0</p>
+                                    <p class="num" id="count-activity-done" th:text="${activityDoneCount}">0</p>
                                     <p class="txt">참여완료</p>
                                 </li>
                                 <li>
-                                    <p class="num" th:text="${documentPassCount}">0</p>
+                                    <p class="num" id="count-document-pass" th:text="${documentPassCount}">0</p>
                                     <p class="txt">참여중</p>
                                 </li>
                                 <li>
-                                    <p class="num" th:text="${documentFailCount}">0</p>
+                                    <p class="num" id="count-document-fail" th:text="${documentFailCount}">0</p>
                                     <p class="txt">심사완료</p>
                                 </li>
                                 <li>
-                                    <p class="num" th:text="${appliedCount}">0</p>
+                                    <p class="num" id="count-applied" th:text="${appliedCount}">0</p>
                                     <p class="txt">심사중</p>
                                 </li>
                             </ul>
@@ -289,144 +289,49 @@
                                             </span>
                                         </span>
                                         <div class="mtcListFillter">
-                                            <!-- 버튼 클릭했을경우 on 클래스 추가, 추가시 lyItems 레이어 영역 display:block 적용됩니다 -->
                                             <label>진행여부</label>
-                                            <div class="lyTplArea">
-                                                <button
-                                                    type="button"
-                                                    class="btnMtcLySel mtcBtnB"
-                                                    onclick="
-                                                        
-                                                    "
-                                                >
+                                            <div class="lyTplArea" data-filter="programStatus">
+                                                <button type="button" class="btnMtcLySel mtcBtnB" data-selected-val="">
                                                     전체
                                                 </button>
-                                                <div
-                                                    class="lyItems devlyIngItems"
-                                                    style="display: none"
-                                                >
+                                                <div class="lyItems devlyIngItems" style="display: none">
                                                     <ul>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="0"
-                                                                >전체</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="1"
-                                                                >진행중</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="2"
-                                                                >마감</a
-                                                            >
-                                                        </li>
+                                                        <li><a href="javascript:void(0);" data-val="">전체</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="recruiting">진행중</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="closed">마감</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mtcListFillter">
                                             <label>열람여부</label>
-                                            <!-- 버튼 클릭했을경우 on 클래스 추가, 추가시 lyItems 레이어 영역 display:block 적용됩니다 -->
-                                            <div class="lyTplArea">
-                                                <button
-                                                    type="button"
-                                                    class="btnMtcLySel mtcBtnB"
-                                                    onclick="
-                                                      
-                                                    "
-                                                >
+                                            <div class="lyTplArea" data-filter="readStatus">
+                                                <button type="button" class="btnMtcLySel mtcBtnB" data-selected-val="">
                                                     전체
                                                 </button>
-                                                <div
-                                                    class="lyItems devlyReadItems"
-                                                    style="display: none"
-                                                >
+                                                <div class="lyItems devlyReadItems" style="display: none">
                                                     <ul>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="0"
-                                                                >전체</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="1"
-                                                                >열람</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="2"
-                                                                >미열람</a
-                                                            >
-                                                        </li>
+                                                        <li><a href="javascript:void(0);" data-val="">전체</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="read">열람</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="unread">미열람</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mtcListFillter status">
                                             <label>지원상태</label>
-                                            <!-- 버튼 클릭했을경우 on 클래스 추가, 추가시 lyItems 레이어 영역 display:block 적용됩니다 -->
-                                            <div class="lyTplArea">
-                                                <button
-                                                    type="button"
-                                                    class="btnMtcLySel mtcBtnB"
-                                                    onclick="
-                                                       
-                                                    "
-                                                >
+                                            <div class="lyTplArea" data-filter="applyStatus">
+                                                <button type="button" class="btnMtcLySel mtcBtnB" data-selected-val="">
                                                     전체
                                                 </button>
-                                                <div
-                                                    class="lyItems devlyApplyItems"
-                                                    style="display: none"
-                                                >
+                                                <div class="lyItems devlyApplyItems" style="display: none">
                                                     <ul>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="0"
-                                                                >전체</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="1"
-                                                                >체험완료</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="1"
-                                                                >체험중</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="1"
-                                                                >심사완료</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href="javascript:void(0);"
-                                                                data-val="2"
-                                                                >심사중</a
-                                                            >
-                                                        </li>
+                                                        <li><a href="javascript:void(0);" data-val="">전체</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="applied">심사중</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="document_pass">참여중</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="document_fail">심사완료</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="activity_done">수료</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="cancelled">취소</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -475,7 +380,7 @@
                                         <th scope="col">체험공고</th>
                                         <th scope="col">공고진행상태</th>
                                         <th scope="col">열람</th>
-                                        <th scope="col">취소/삭제</th>
+                                        <th scope="col">처리</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -499,9 +404,7 @@
                                             <div class="vertical-align-middle apply-board">
                                                 <div class="inner">
                                                     <div class="company">
-                                                        <a th:href="'/experience/program/' + ${apply.experienceProgramId}"
-                                                           target="_blank"
-                                                           th:text="${apply.corpCompanyName}">기업명</a>
+                                                        <span th:text="${apply.corpCompanyName + ' : ' + apply.experienceProgramLevelLabel}">기업명 : A유형</span>
                                                     </div>
                                                     <div class="description">
                                                         <a th:href="'/experience/program/' + ${apply.experienceProgramId}"
@@ -512,6 +415,10 @@
                                                         <div class="item applicants-field"
                                                              th:text="'지원분야 : ' + ${apply.experienceProgramJob}">
                                                             지원분야 :
+                                                        </div>
+                                                        <div class="item"
+                                                             th:text="'지원자수 : ' + ${apply.applicantCount} + '/' + ${apply.experienceProgramRecruitmentCount}">
+                                                            지원자수 :
                                                         </div>
                                                     </div>
                                                 </div>
@@ -535,9 +442,14 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn btnGyBd devBtnCancel devBtnOddInfo"
+                                            <span th:if="${apply.applyStatus == 'cancelled'}">지원취소됨</span>
+                                            <span th:if="${apply.applyStatus == 'document_pass'}">참여중</span>
+                                            <span th:if="${apply.applyStatus == 'activity_done'}">수료</span>
+                                            <button th:if="${apply.applyStatus == 'applied' or apply.applyStatus == 'document_fail'}"
+                                                    class="btn btnGyBd devBtnCancel devBtnOddInfo"
                                                     type="button"
-                                                    th:data-idx="${apply.applyId}">
+                                                    th:data-idx="${apply.applyId}"
+                                                    th:data-status="${apply.applyStatus}">
                                                 <span>지원취소</span>
                                             </button>
                                             <div class="oddInfo mtuLayerWrap">
@@ -636,7 +548,7 @@
                         <h2 class="lnbTit">체험 지원 관리</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="" class="on">체험 지원 현황</a>
+                                <a href="/mypage/experience" class="on">체험 지원 현황</a>
                             </li>
                         </ul>
                     </div>

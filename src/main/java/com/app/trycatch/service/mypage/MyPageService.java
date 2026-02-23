@@ -161,13 +161,21 @@ public class MyPageService {
         return pointDetailsDAO.findAllByMemberId(memberId);
     }
 
-    public void cancelApply(Long memberId, Long applyId) {
-        myPageDAO.cancelApply(memberId, applyId);
+    public boolean cancelApply(Long memberId, Long applyId) {
+        return myPageDAO.cancelApply(memberId, applyId) > 0;
     }
 
     @Transactional(readOnly = true)
     public List<ApplyListDTO> getApplyList(Long memberId) {
         return applyListDAO.findAllByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ApplyListDTO> getApplyListWithFilter(
+            Long memberId, String fromDt, String toDt,
+            String programStatus, String applyStatus, String keyword) {
+        return applyListDAO.findAllByMemberIdWithFilter(
+                memberId, fromDt, toDt, programStatus, applyStatus, keyword);
     }
 
     @Transactional(readOnly = true)

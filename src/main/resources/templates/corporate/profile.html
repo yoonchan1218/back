@@ -53,6 +53,7 @@
                 <div class="companyContent">
                     <div class="companyMngWrap">
                         <form id="devInfoForm" name="form" method="post" th:action="@{/corporate/profile}">
+                            <input type="hidden" id="devWelfareData" name="welfareData">
                             <!-- 기업정보관리 입력폼 -->
                             <fieldset>
                                 <div class="artCompany artCoSummary">
@@ -1040,6 +1041,9 @@
         <div th:replace="~{corporate/footer :: footer}"></div>
     </div>
 </body>
+<script th:inline="javascript">
+    const savedWelfareItems = /*[[${corpInfo.welfareList}]]*/ [];
+</script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/corporate/profile/event.js"></script>
 <script src="/js/corporate/header/event.js"></script>

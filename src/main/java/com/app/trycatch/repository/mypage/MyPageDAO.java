@@ -40,8 +40,8 @@ public class MyPageDAO {
         myPageMapper.updateMemberStatusToInactive(memberId);
     }
 
-    public void cancelApply(Long memberId, Long applyId) {
-        myPageMapper.updateApplyStatusToCancelled(memberId, applyId);
+    public int cancelApply(Long memberId, Long applyId) {
+        return myPageMapper.updateApplyStatusToCancelled(memberId, applyId);
     }
 
     public void updateProfileFileId(Long memberId, Long fileId) {

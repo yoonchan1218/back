@@ -11,8 +11,6 @@
             sp.created_datetime,
             sp.updated_datetime,
             ep.experience_program_title,
-            ep.experience_program_start_date,
-            ep.experience_program_end_date,
             ep.experience_program_deadline,
             ep.experience_program_status,
             ep.corp_id

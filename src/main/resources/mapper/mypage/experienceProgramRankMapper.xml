@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.trycatch.mapper.mypage.ExperienceProgramRankMapper">
 
-    <!-- 조회수 상위 N개 (원픽 공고 / TOP100) -->
+
     <select id="selectTopByViewCount" resultType="ExperienceProgramRankDTO">
         select
             ep.id                          as experienceProgramId,
@@ -19,7 +19,7 @@
         limit #{limit}
     </select>
 
-    <!-- 공기업 필터 + 조회수 상위 N개 -->
+
     <select id="selectTopPublicByViewCount" resultType="ExperienceProgramRankDTO">
         select
             ep.id                          as experienceProgramId,

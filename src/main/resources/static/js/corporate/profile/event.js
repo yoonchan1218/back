@@ -1022,6 +1022,9 @@ submitButton.addEventListener("click", (e) => {
         const capitalB = parseInt(document.getElementById("devCapital_B").value) || 0;
         document.getElementById("corpCapitalHidden").value = capitalA * 100000000 + capitalB * 10000;
 
+        // 복리후생 데이터 직렬화
+        document.getElementById("devWelfareData").value = JSON.stringify(tempWelfareInputValues);
+
         // 폼 제출
         document.getElementById("devInfoForm").submit();
     }
@@ -1036,6 +1039,100 @@ submitButton.addEventListener("click", (e) => {
         if (capitalA > 0) document.getElementById("devCapital_A").value = capitalA;
         if (capitalB > 0) document.getElementById("devCapital_B").value = capitalB;
     }
+})();
+
+// 페이지 로드 시 저장된 값 표시 (기업형태, 업종, 주소, 연혁/개요)
+(function initializeSavedValues() {
+    // 기업형태 표시
+    const companyTypeValue = companyTypeInput.value;
+    if (companyTypeValue) {
+        const item = document.querySelector(`.devCoTypeItem[data-type="${companyTypeValue}"]`);
+        if (item) {
+            item.classList.add("on");
+            companyTypeResultSpan.textContent = item.querySelector("button").textContent;
+            typeSelectButton.closest(".elWrap").classList.add("ok");
+            tempTypeSelectButton = item.querySelector("button");
+        }
+    }
+
+    // 업종 표시
+    const industryValue = industryInput.value;
+    const industrySmallValue = industrySmallInput.value;
+    if (industryValue && industrySmallValue) {
+        const ctgr = document.querySelector(`.devPartCtgr[data-part-ctgr-code="${industryValue}"]`);
+        const partList = document.querySelector(`.devPartList[data-part-ctgr-code="${industryValue}"]`);
+        const partItem = document.querySelector(`.devPartItem[data-part="${industrySmallValue}"]`);
+
+        if (ctgr) {
+            ctgr.classList.add("on");
+            tempIndustryType = ctgr.querySelector("button");
+        }
+        if (partList) {
+            partList.style.display = "block";
+            tempIndustryPartList = partList;
+        }
+        if (partItem) {
+            partItem.classList.add("on");
+            industryResultSpan.textContent = partItem.querySelector("button").textContent;
+            industrySelectButton.closest(".elWrap").classList.add("ok");
+            tempIndustryPartItem = partItem.querySelector("button");
+            tempIndustryPartItemValue = tempIndustryPartItem.textContent;
+        }
+    }
+
+    // 주소 표시
+    const postcodeEl = document.getElementById("postcode");
+    const addressEl = document.getElementById("address");
+    const detailAddressEl = document.getElementById("detailAddress");
+    if (postcodeEl.value && addressEl.value) {
+        let addrText = addressEl.value;
+        if (detailAddressEl.value) addrText += " " + detailAddressEl.value;
+        addressResultSpan.textContent = addrText;
+        addressLayer.classList.add("ok");
+    }
+
+    // 연혁 및 실적 placeholder 숨기기
+    if (historyTextareaLayer.lastElementChild.value.trim()) {
+        historyTextareaLayer.firstElementChild.style.display = "none";
+    }
+
+    // 기업개요 및 비전 placeholder 숨기기
+    if (overviewTextareaLayer.lastElementChild.value.trim()) {
+        overviewTextareaLayer.firstElementChild.style.display = "none";
+    }
+})();
+
+// 페이지 로드 시 저장된 복리후생 초기화
+(function initializeSavedWelfare() {
+    if (typeof savedWelfareItems === "undefined" || !savedWelfareItems || savedWelfareItems.length === 0) {
+        return;
+    }
+
+    // JS 상태 복원
+    savedWelfareItems.forEach((item) => {
+        tempWelfareInputValues[item.welfareCode] = item.welfareName;
+    });
+
+    // devWlfrList UI 생성
+    welfareList.innerHTML = "";
+    Object.entries(tempWelfareInputValues).forEach(([code, name]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<button type="button" class="devItemDel" data-item-code="${code}">${name}</button>`;
+        welfareList.appendChild(li);
+    });
+
+    // 안내문구 숨기기
+    if (welfareList.querySelectorAll("li").length) {
+        welfareList.previousElementSibling.style.display = "none";
+    }
+
+    // 모달 체크박스 동기화
+    welfareModalInputList.forEach((input) => {
+        if (tempWelfareInputValues[input.value]) {
+            input.checked = true;
+            input.closest("span").classList.add("chk");
+        }
+    });
 })();
 
 // 이벤트 핸들러 - 맨 위로

@@ -1,11 +1,13 @@
 package com.app.trycatch.dto.member;
 
-import com.app.trycatch.common.enumeration.member.Gender;
 import com.app.trycatch.common.enumeration.member.Status;
+import com.app.trycatch.domain.corporate.CorpWelfareRelVO;
 import com.app.trycatch.domain.member.AddressVO;
 import com.app.trycatch.domain.member.CorpVO;
 import com.app.trycatch.domain.member.MemberVO;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +36,7 @@ public class CorpMemberDTO {
     private String corpWebsiteUrl;
     private String corpFax;
     private Long corpCapital;
-    private Long corpTotalSales;
+    private String corpTotalSales;
     private String corpMainBusiness;
     private String corpPerformance;
     private String corpVision;
@@ -45,6 +47,8 @@ public class CorpMemberDTO {
     private String updatedDatetime;
     private String logoFilePath;
     private String logoFileName;
+    private String welfareData;
+    private List<CorpWelfareRelVO> welfareList;
 
     public MemberVO toMemberVO() {
         return MemberVO.builder()

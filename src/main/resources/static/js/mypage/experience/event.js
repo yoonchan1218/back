@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. 지원취소 팝업
-    const applyCancelButtons = document.querySelectorAll(".btn.btnGyBd.devBtnCancel.devBtnOddInfo");
     const buttonClose = document.querySelector(".butClose.mtuSpImg.devLyBtnClose");
     const dimmedDiv = document.querySelector(".dimmed");
     const popupApplyCancel = document.querySelector(".mtuPopup.popupApplyCancel");
@@ -9,15 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentApplyId = null;
     let currentCancelBtn = null;
+    let currentApplyStatus = null;
 
-    if (applyCancelButtons.length > 0 && popupApplyCancel) {
-        applyCancelButtons.forEach((btn) => {
+    // 현재 필터 파라미터 수집
+    const getFilterParams = () => {
+        const fromDt = document.getElementById("txtFromDt")?.value || "";
+        const toDt = document.getElementById("txtToDt")?.value || "";
+        const keyword = document.getElementById("txtSearchText")?.value || "";
+        const programStatus = document.querySelector("[data-filter='programStatus'] .btnMtcLySel")?.dataset.selectedVal || "";
+        const applyStatus = document.querySelector("[data-filter='applyStatus'] .btnMtcLySel")?.dataset.selectedVal || "";
+        return { fromDt, toDt, keyword, programStatus, applyStatus };
+    };
+
+    const doFilter = () => {
+        const params = getFilterParams();
+        experienceService.filterApplyList(params, (applies) => {
+            if (applies !== false) experienceLayout.renderApplyList(applies);
+        });
+    };
+
+    // 1. 지원취소 팝업 - 개별 리스너 등록 함수
+    const setupCancelListeners = () => {
+        document.querySelectorAll(".devBtnCancel").forEach(btn => {
+            if (btn.dataset.listenerAttached === "true") return;
+            btn.dataset.listenerAttached = "true";
             btn.addEventListener("click", () => {
                 currentApplyId = btn.dataset.idx;
                 currentCancelBtn = btn;
+                currentApplyStatus = btn.dataset.status;
                 experienceLayout.openCancelPopup(dimmedDiv, popupApplyCancel);
             });
         });
+    };
+
+    if (popupApplyCancel) {
+        setupCancelListeners();
+        document.addEventListener("appliesRendered", setupCancelListeners);
 
         const close = () => experienceLayout.closeCancelPopup(dimmedDiv, popupApplyCancel);
         if (buttonClose) buttonClose.addEventListener("click", close);
@@ -31,8 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (success) {
                         close();
                         experienceLayout.showCancelled(currentCancelBtn);
+                        experienceLayout.decrementStatusCount(currentApplyStatus);
                         currentApplyId = null;
                         currentCancelBtn = null;
+                        currentApplyStatus = null;
                     }
                 });
             });
@@ -67,13 +94,42 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 3. 조회기간 버튼
-    const selectDueButtons = document.querySelectorAll(".formBx.clear button");
+    // 3. 조회기간 버튼 - 클릭 즉시 필터 적용
+    const selectDueButtons = document.querySelectorAll(".dev-btn-period");
     selectDueButtons.forEach((btn) => {
-        btn.addEventListener("click", () => experienceLayout.updatePeriodActive(btn, selectDueButtons));
+        btn.addEventListener("click", () => {
+            experienceLayout.updatePeriodActive(btn, selectDueButtons);
+
+            const toStr = d => d.toISOString().split("T")[0];
+            const today = new Date();
+            const period = btn.dataset.period;
+            let fromDt;
+
+            if (period === "99") {
+                const d = new Date(today);
+                d.setDate(d.getDate() - 7);
+                fromDt = toStr(d);
+            } else {
+                const d = new Date(today);
+                d.setMonth(d.getMonth() - parseInt(period));
+                fromDt = toStr(d);
+            }
+            const toDt = toStr(today);
+
+            // 날짜 입력 필드도 동기화
+            const fromInput = document.getElementById("txtFromDt");
+            const toInput = document.getElementById("txtToDt");
+            if (fromInput) fromInput.value = fromDt;
+            if (toInput) toInput.value = toDt;
+
+            const params = { ...getFilterParams(), fromDt, toDt };
+            experienceService.filterApplyList(params, (applies) => {
+                if (applies !== false) experienceLayout.renderApplyList(applies);
+            });
+        });
     });
 
-    // 4. 공통 드롭다운
+    // 4. 공통 드롭다운 (진행여부, 열람여부, 지원상태)
     const dropDownButtons = document.querySelectorAll(".btnMtcLySel.mtcBtnB");
     dropDownButtons.forEach((btn) => {
         const dropDownDiv = btn.nextElementSibling;
@@ -87,14 +143,29 @@ document.addEventListener("DOMContentLoaded", () => {
         dropDownItems.forEach((item) => {
             item.addEventListener("click", (e) => {
                 e.stopPropagation();
-                experienceLayout.selectCommonDropItem(btn, dropDownDiv, item.textContent);
+                experienceLayout.selectCommonDropItem(btn, dropDownDiv, item.textContent.trim());
+                btn.dataset.selectedVal = item.dataset.val || "";
             });
         });
     });
 
     document.addEventListener("click", () => experienceLayout.closeAllDrops());
 
-    // 5. 지원이력서 모달
+    // 5. 검색 버튼
+    const btnSubmit = document.getElementById("btnSubmit");
+    if (btnSubmit) {
+        btnSubmit.addEventListener("click", doFilter);
+    }
+
+    // 6. 키워드 입력 엔터키
+    const txtSearchText = document.getElementById("txtSearchText");
+    if (txtSearchText) {
+        txtSearchText.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") doFilter();
+        });
+    }
+
+    // 7. 지원이력서 모달
     const resumeButtons = document.querySelectorAll(".button.button-resume.resumeTile");
     const resumeModalOverlay = document.getElementById("resumeModalOverlay");
     const resumeModalClose = document.getElementById("resumeModalClose");

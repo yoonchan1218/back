@@ -20,8 +20,6 @@ public class ExperienceProgramDTO {
     private int experienceProgramRecruitmentCount;
     private String experienceProgramWorkDays;
     private String experienceProgramWorkHours;
-    private String experienceProgramStartDate;
-    private String experienceProgramEndDate;
     private String experienceProgramDeadline;
     private ExperienceProgramStatus experienceProgramStatus;
     private int experienceProgramViewCount;
@@ -55,8 +53,6 @@ public class ExperienceProgramDTO {
                 .experienceProgramRecruitmentCount(experienceProgramRecruitmentCount)
                 .experienceProgramWorkDays(experienceProgramWorkDays)
                 .experienceProgramWorkHours(experienceProgramWorkHours)
-                .experienceProgramStartDate(experienceProgramStartDate)
-                .experienceProgramEndDate(experienceProgramEndDate)
                 .experienceProgramDeadline(experienceProgramDeadline)
                 .experienceProgramStatus(experienceProgramStatus)
                 .experienceProgramViewCount(experienceProgramViewCount)

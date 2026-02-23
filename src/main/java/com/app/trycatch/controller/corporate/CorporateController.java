@@ -101,7 +101,9 @@ public class CorporateController {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
         Long corpId = getMemberId();
-        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
+        CorpMemberDTO corpInfo = corporateService.getCorpInfo(corpId);
+        corpInfo.setWelfareList(corporateService.getWelfareByCorpId(corpId));
+        model.addAttribute("corpInfo", corpInfo);
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/profile";
     }
@@ -184,8 +186,6 @@ public class CorporateController {
         Long corpId = getMemberId();
         dto.setCorpId(corpId);
         dto.setExperienceProgramStatus(ExperienceProgramStatus.RECRUITING);
-        dto.setExperienceProgramDeadline(dto.getExperienceProgramStartDate());
-        dto.setExperienceProgramEndDate(dto.getExperienceProgramStartDate());
         log.info("프로그램 등록 DTO: {}", dto);
         corporateService.createProgram(dto, files != null ? files : new ArrayList<>());
         return "redirect:/corporate/program-management";
@@ -218,12 +218,13 @@ public class CorporateController {
 
     @GetMapping("/participant-list")
     public String participantList(
-            @RequestParam Long programId,
+            @RequestParam(required = false) Long programId,
             @RequestParam(defaultValue = "") String status,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
+        if (programId == null) return "redirect:/corporate/program-management";
         Long corpId = getMemberId();
         model.addAttribute("participantWithPaging",
                 corporateService.getParticipants(programId, corpId, status, page));
