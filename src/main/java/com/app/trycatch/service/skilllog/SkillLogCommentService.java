@@ -38,7 +38,7 @@ public class SkillLogCommentService {
     private final SkillLogCommentFileDAO skillLogCommentFileDAO;
     private final FileDAO fileDAO;
 
-//    추가
+    //    추가
     public void write(SkillLogCommentDTO skillLogCommentDTO, MultipartFile multipartFile){
         String rootPath = "C:/file/";
         String todayPath = getTodayPath();
@@ -74,40 +74,14 @@ public class SkillLogCommentService {
         }
     }
 
-//    댓글 목록
+    //    댓글 목록
     public SkillLogCommentWithPagingDTO getListInSkillLog(int page, Long id){
-        // 댓글
         SkillLogCommentWithPagingDTO skillLogCommentWithPagingDTO = new SkillLogCommentWithPagingDTO();
         Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllBySkillLogId(id));
         List<SkillLogCommentDTO> comments = skillLogCommentDAO.findAllBySkillLogId(criteria, id);
 
-
-
-
-        for (SkillLogCommentDTO comment : comments) {
-            // 작성일
-            comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
-
-            // 답글
-            Long skillLogId = comment.getSkillLogId();
-            Long commentId = comment.getco()
-            Criteria nestedCommentsCriteria = new Criteria(page, skillLogCommentDAO.findCountAllByCommentParentIdAndSkillLogId(skillLogId, commentId));
-            List<SkillLogCommentDTO> nestedComments = skillLogCommentDAO.findAllByCommentParentIdAndSkillLogId(criteria, skillLogId, commentId);
-        }
-
-
         comments.forEach((comment) -> {
-
-
-
-
-            nestedComments.forEach((comment) -> {
-                comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
-            });
-
-            skillLogNestedCommentWithPagingDTO.setCriteria(criteria);
-            skillLogNestedCommentWithPagingDTO.setSkillLogNestedComments(nestedComments);
-
+            comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
         });
 
         skillLogCommentWithPagingDTO.setCriteria(criteria);
@@ -115,15 +89,23 @@ public class SkillLogCommentService {
 
         return skillLogCommentWithPagingDTO;
     }
-//    대댓글 목록
+    //    대댓글 목록
     public SkillLogNestedCommentWithPagingDTO getListInSkillLogAndParentComment(int page, Long skillLogId, Long commentId){
         SkillLogNestedCommentWithPagingDTO skillLogNestedCommentWithPagingDTO = new SkillLogNestedCommentWithPagingDTO();
+        Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllByCommentParentIdAndSkillLogId(skillLogId, commentId));
+        List<SkillLogCommentDTO> nestedComments = skillLogCommentDAO.findAllByCommentParentIdAndSkillLogId(criteria, skillLogId, commentId);
 
+        nestedComments.forEach((comment) -> {
+            comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
+        });
+
+        skillLogNestedCommentWithPagingDTO.setCriteria(criteria);
+        skillLogNestedCommentWithPagingDTO.setSkillLogNestedComments(nestedComments);
 
         return skillLogNestedCommentWithPagingDTO;
     }
 
-//    수정
+    //    수정
     public void update(SkillLogCommentDTO skillLogCommentDTO, MultipartFile multipartFile){
         String rootPath = "C:/file/";
         String todayPath = getTodayPath();
@@ -170,7 +152,7 @@ public class SkillLogCommentService {
         }
     }
 
-//    삭제
+    //    삭제
 //    댓글 삭제
     public void delete(Long skillLogCommentId, Long fileId) {
 //        답글 파일 삭제

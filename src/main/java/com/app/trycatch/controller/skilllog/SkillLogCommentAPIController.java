@@ -25,14 +25,14 @@ public class SkillLogCommentAPIController {
     }
 
 //    목록
-//    @GetMapping("comment-list/{page}")
-//    public SkillLogCommentWithPagingDTO commentList(@PathVariable int page, Long id) {
-//        return skillLogCommentService.getListInSkillLog(page, id);
-//    }
-//    @GetMapping("nested-comment-list/{page}")
-//    public SkillLogNestedCommentWithPagingDTO commentList(@PathVariable int page, Long skillLogId, Long commentId) {
-//        return skillLogCommentService.getListInSkillLogAndParentComment(page, skillLogId, commentId);
-//    }
+    @GetMapping("comment-list/{page}")
+    public SkillLogCommentWithPagingDTO commentList(@PathVariable int page, Long id) {
+        return skillLogCommentService.getListInSkillLog(page, id);
+    }
+    @GetMapping("nested-comment-list/{page}")
+    public SkillLogNestedCommentWithPagingDTO commentList(@PathVariable int page, Long skillLogId, Long commentId) {
+        return skillLogCommentService.getListInSkillLogAndParentComment(page, skillLogId, commentId);
+    }
 
 //    수정
     @PutMapping("{id}")

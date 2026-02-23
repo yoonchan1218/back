@@ -162,10 +162,127 @@ const commentLayout = (() => {
                         </div>
                     </div>
                     <!-- // 내 답글 수정 영역 -->
+                    <div class="commentSec" style="display: none;">
+                        <div class="cmtArea">
+                            <ul class="cmtList replyWrap">
+<!--                                대댓글 -->
+                                <!-- [Dev] 내 댓글일 경우 contSec에 클래스 myCmt 추가, cellBx 버튼: 삭제만 노출 -->
+                            </ul>
+
+<!--                            대댓글 작성 -->
+                            <div class="writeBoxWrap cmtWrite qnaSpB dev-ComtEditor case">
+                                <form id="" action="/api/skill-log/comments/${comment.id}" method="put" oncopy="return false;" oncut="return false;" onpaste="return false;">
+                                    <fieldset>
+                                        <legend>
+                                            답변하기 입력
+                                        </legend>
+                                        <div class="uiPlaceholder">
+                                            <span class="ph ph_1" style="
+                                                    display: block;
+                                                ">댓글을
+                                                입력해주세요.</span>
+                                            <span class="ph ph_2" style="
+                                                    display: none;
+                                                ">
+                                                개인정보를
+                                                공유 및
+                                                요청하거나,
+                                                명예 훼손,
+                                                무단 광고,
+                                                불법 정보
+                                                유포 시 이에
+                                                대한
+                                                민형사상
+                                                책임은
+                                                작성자에게<br>
+                                                있습니다.
+                                                부적절한
+                                                댓글은
+                                                비노출 또는
+                                                서비스 이용
+                                                정지 사유가
+                                                될 수
+                                                있습니다.
+                                            </span>
+
+                                            <textarea name="skillLogCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
+                                        </div>
+                                        <div class="btnWrap">
+                                            <div class="answer-util-wrap">
+                                                <div class="answer-util-item">
+                                                    <button type="button" class="icon-emoticon qnaSpB">
+                                                        이모티콘
+                                                    </button>
+                                                </div>
+                                                <div class="answer-util-item">
+                                                    <label>
+                                                        <input type="file" style="
+                                                                display: none;
+                                                            " class="reply-file">
+                                                        <button type="button" class="button icon-photo qnaSpB">
+                                                            사진
+                                                        </button>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <span class="byte"><b id="count">0</b>
+                                                /
+                                                1,000</span>
+                                            <button type="button" id="btnSubmit" class="btnSbm devBtnComtWrite">
+                                                등록
+                                            </button>
+                                            <div class="layer-box-wrap emotion-layer">
+                                                <p class="layer-header">
+                                                    이모티콘
+                                                </p>
+                                                <ul class="emotion-area">
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png" data-idx="1" alt="">
+                                                        </button>
+                                                    </li>
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png" data-idx="2" alt="">
+                                                        </button>
+                                                    </li>
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png" data-idx="3" alt="">
+                                                        </button>
+                                                    </li>
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png" data-idx="4" alt="">
+                                                        </button>
+                                                    </li>
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png" data-idx="5" alt="">
+                                                        </button>
+                                                    </li>
+                                                    <li class="emotion-item">
+                                                        <button type="button" class="emotion-button">
+                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png" data-idx="6" alt="">
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                                <button type="button" class="btn-layer-close qnaSpB">
+                                                    <span class="blind">닫기</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <button type="button" class="btnCmtClose qnaSpA qnaBtnClose">
+                            댓글접기
+                        </button>
+                    </div>
                 `;
             }
 
-            // 답글 리스트
 
 
             li.innerHTML = text;
@@ -223,6 +340,7 @@ const commentLayout = (() => {
                 <ul class="cmtList replyWrap">`;
 
         comments.forEach((comment) => {
+            // 대댓글 내용
             text = `
                 <li class="devCmtWrap ${comment.memberId === memberId && 'myCmt'}" id="parentCommentId${comment.id}">
                     <div class="devComtSection">
@@ -246,11 +364,13 @@ const commentLayout = (() => {
                             </span>
                         </div>
                     </div>`;
+            //
+            // 내 대댓글 수정
             if(comment.memberId === memberId){
                 text += `
                     <div class="modify-comt" style="display: none;">
                         <div class="writeBoxWrap cmtWrite qnaSpB modify-comt" style="display: block;">
-                            <form action="#">
+                            <form action="/api/skill-log/comments/${comment.id}" method="put">
                                 <fieldset>
                                     <legend>
                                         댓글하기
@@ -260,7 +380,7 @@ const commentLayout = (() => {
                                         <span class="ph ph_2" style="display: none;">
                                             댓글을 입력해주세요.<br>*휴대폰번호, 메일주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리될 수 있습니다.
                                         </span>
-                                        <textarea name="Cntnt" maxlength="1000" title="답변쓰기">                                                                        네~</textarea>
+                                        <textarea name="Cntnt" maxlength="1000" title="답변쓰기" value=""></textarea>
                                     </div>
                                     <div class="btnWrap">
                                         <div class="answer-util-wrap">
@@ -333,94 +453,6 @@ const commentLayout = (() => {
                     </div>
                     `;
             }
-            text += `
-                </li>
-                    </ul>
-                        <div class="writeBoxWrap cmtWrite qnaSpB dev-ComtEditor case" style="display: block">
-                            <form id="" action="/api/skill-log/comments/write" method="post" oncopy="return false;" oncut="return false;" onpaste="return false;">
-                                <input type="hidden" name="skillLogCommentParentId" value="${comment.id}">
-                                <fieldset>
-                                    <legend>
-                                        답변하기 입력
-                                    </legend>
-                                    <div class="uiPlaceholder">
-                                        <span class="ph ph_1" style="display: block;">댓글을 입력해주세요.</span>
-                                        <span class="ph ph_2" style="display: none;">
-                                            개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게<br>
-                                            있습니다. 부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
-                                        </span>
-                                        <textarea name="skillLogCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
-                                    </div>
-                                    <div class="btnWrap">
-                                        <div class="answer-util-wrap">
-                                            <div class="answer-util-item">
-                                                <button type="button" class="icon-emoticon qnaSpB on">
-                                                    이모티콘
-                                                </button>
-                                            </div>
-                                            <div class="answer-util-item">
-                                                <label>
-                                                    <input type="file" style="display: none;" class="reply-file">
-                                                    <button type="button" class="button icon-photo qnaSpB">
-                                                        사진
-                                                    </button>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <span class="byte"><b id="count">0</b>/1,000</span>
-                                        <button type="button" id="btnSubmit" class="btnSbm devBtnComtWrite">
-                                            등록
-                                        </button>
-                                        <div class="layer-box-wrap emotion-layer open">
-                                            <p class="layer-header">
-                                                이모티콘
-                                            </p>
-                                            <ul class="emotion-area">
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png" data-idx="1" alt="">
-                                                    </button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png" data-idx="2" alt="">
-                                                    </button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png" data-idx="3" alt="">
-                                                    </button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png" data-idx="4" alt="">
-                                                    </button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png" data-idx="5" alt="">
-                                                    </button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button">
-                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png" data-idx="6" alt="">
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                            <button type="button" class="btn-layer-close qnaSpB">
-                                                <span class="blind">닫기</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                    <button type="button" class="btnCmtClose qnaSpA qnaBtnClose">
-                        댓글접기
-                    </button>
-                </div>
-            `;
         });
 
     }
