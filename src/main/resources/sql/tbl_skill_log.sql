@@ -26,3 +26,9 @@ from tbl_member m join tbl_skill_log s
 on m.id = s.member_id
 where m.id;
 
+select * from tbl_tag  where skill_log_id = 30;
+select * from view_skill_log_file  where skill_log_id = 30;
+
+insert into tbl_skill_log (member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status)
+select member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status
+from tbl_skill_log;

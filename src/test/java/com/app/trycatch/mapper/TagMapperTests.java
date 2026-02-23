@@ -39,6 +39,6 @@ public class TagMapperTests {
 
     @Test
     public void testDelete() {
-        tagMapper.delete(47L);
+        tagMapper.delete(400L);
     }
 }
