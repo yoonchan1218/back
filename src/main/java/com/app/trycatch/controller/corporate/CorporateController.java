@@ -1,6 +1,7 @@
 package com.app.trycatch.controller.corporate;
 
 import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.service.corporate.CorporateService;
 import jakarta.servlet.http.HttpSession;
@@ -22,31 +23,47 @@ public class CorporateController {
     private final CorporateService corporateService;
 
     private static final String LOGIN_REDIRECT = "redirect:/main/log-in";
+    private static final String MAIN_REDIRECT = "redirect:/main/main";
 
-    /** 세션에서 기업회원 id 추출 */
-    private Long getCorpId() {
+    /**
+     * 세션에서 회원 ID 추출 (MemberDTO / IndividualMemberDTO / CorpMemberDTO 모두 지원)
+     * 로그인하지 않았으면 null 반환
+     */
+    private Long getMemberId() {
         Object member = session.getAttribute("member");
         if (member instanceof MemberDTO dto) return dto.getId();
-        throw new IllegalStateException("기업회원 로그인이 필요합니다.");
+        if (member instanceof IndividualMemberDTO dto) return dto.getId();
+        if (member instanceof CorpMemberDTO dto) return dto.getId();
+        return null;
     }
 
     /** 로그인 여부 확인 — 비로그인이면 true */
     private boolean notLoggedIn() {
-        return !(session.getAttribute("member") instanceof MemberDTO);
+        return getMemberId() == null;
+    }
+
+    /** 로그인했지만 기업회원이 아니면 true */
+    private boolean notCorpMember() {
+        Long memberId = getMemberId();
+        if (memberId == null) return true;
+        return !corporateService.isCorpMember(memberId);
     }
 
     // ── 홈 대시보드 ────────────────────────────────────────────────────
 
     @GetMapping("/home")
     public String home(Model model) {
-        Object member = session.getAttribute("member");
-        if (member instanceof MemberDTO dto) {
-            Long corpId = dto.getId();
-            model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
-            model.addAttribute("programStats", corporateService.getProgramStats(corpId));
-            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(corpId, 5));
+        Long memberId = getMemberId();
+        if (memberId != null) {
+            // 로그인했는데 기업회원이 아니면 메인으로
+            if (!corporateService.isCorpMember(memberId)) {
+                return MAIN_REDIRECT;
+            }
+            model.addAttribute("corpInfo", corporateService.getCorpInfo(memberId));
+            model.addAttribute("programStats", corporateService.getProgramStats(memberId));
+            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(memberId, 5));
         }
-        model.addAttribute("loginMember", member);
+        model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/home";
     }
 
@@ -55,14 +72,17 @@ public class CorporateController {
     @GetMapping("/profile")
     public String profileForm(Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
-        model.addAttribute("corpInfo", corporateService.getCorpInfo(getCorpId()));
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/profile";
     }
 
     @PostMapping("/profile")
     public String profileSave(CorpMemberDTO dto) {
-        Long corpId = getCorpId();
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
         dto.setId(corpId);
         // addressId는 폼에 없으므로 기존 데이터에서 조회
         CorpMemberDTO existing = corporateService.getCorpInfo(corpId);
@@ -76,14 +96,17 @@ public class CorporateController {
     @GetMapping("/member-info")
     public String memberInfoForm(Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
-        model.addAttribute("corpInfo", corporateService.getCorpInfo(getCorpId()));
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/member-info";
     }
 
     @PostMapping("/member-info")
     public String memberInfoSave(CorpMemberDTO dto) {
-        dto.setId(getCorpId());
+        if (notCorpMember()) return MAIN_REDIRECT;
+        dto.setId(getMemberId());
         corporateService.updateMemberInfo(dto);
         return "redirect:/corporate/member-info";
     }
@@ -93,20 +116,24 @@ public class CorporateController {
     @GetMapping("/team-member")
     public String teamMember(@RequestParam(defaultValue = "1") int page, Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
-        model.addAttribute("teamWithPaging", corporateService.getTeamMembers(getCorpId(), page));
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        model.addAttribute("teamWithPaging", corporateService.getTeamMembers(corpId, page));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/team-member";
     }
 
     @PostMapping("/team-member/invite")
     public String inviteMember(@RequestParam String invitation_mail) {
-        corporateService.inviteTeamMember(getCorpId(), invitation_mail);
+        if (notCorpMember()) return MAIN_REDIRECT;
+        corporateService.inviteTeamMember(getMemberId(), invitation_mail);
         return "redirect:/corporate/team-member";
     }
 
     @PostMapping("/team-member/remove")
     public String removeMember(@RequestParam Long memberId) {
-        corporateService.removeTeamMember(memberId, getCorpId());
+        if (notCorpMember()) return MAIN_REDIRECT;
+        corporateService.removeTeamMember(memberId, getMemberId());
         return "redirect:/corporate/team-member";
     }
 
@@ -120,7 +147,8 @@ public class CorporateController {
             @RequestParam(defaultValue = "10") int TopCount,
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
-        Long corpId = getCorpId();
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
         model.addAttribute("programWithPaging",
                 corporateService.getPrograms(corpId, page, TopCount, status, SrchKeyword));
         model.addAttribute("programStats", corporateService.getProgramStats(corpId));
@@ -140,8 +168,10 @@ public class CorporateController {
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
         model.addAttribute("participantWithPaging",
-                corporateService.getParticipants(programId, getCorpId(), status, page));
+                corporateService.getParticipants(programId, corpId, status, page));
         model.addAttribute("programId", programId);
         model.addAttribute("currentStatus", status);
         model.addAttribute("loginMember", session.getAttribute("member"));
@@ -151,7 +181,8 @@ public class CorporateController {
     @PostMapping("/participant/promote")
     @ResponseBody
     public Map<String, Object> promote(@RequestParam Long participantId) {
-        corporateService.updateParticipantStatus(participantId, getCorpId(), "promoted");
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        corporateService.updateParticipantStatus(participantId, getMemberId(), "promoted");
         return Map.of("success", true);
     }
 
@@ -159,14 +190,16 @@ public class CorporateController {
     @ResponseBody
     public Map<String, Object> reject(@RequestParam Long participantId,
                                       @RequestParam String feedback) {
-        corporateService.rejectParticipant(participantId, getCorpId(), feedback);
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        corporateService.rejectParticipant(participantId, getMemberId(), feedback);
         return Map.of("success", true);
     }
 
     @PostMapping("/participant/withdraw")
     @ResponseBody
     public Map<String, Object> withdraw(@RequestParam Long participantId) {
-        corporateService.updateParticipantStatus(participantId, getCorpId(), "withdrawn");
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        corporateService.updateParticipantStatus(participantId, getMemberId(), "withdrawn");
         return Map.of("success", true);
     }
 }

@@ -31,6 +31,13 @@ public class CorporateService {
     private final ExperienceProgramDAO experienceProgramDAO;
     private final CorpTeamMemberDAO corpTeamMemberDAO;
 
+    // ── 기업회원 여부 확인 ──────────────────────────────────────────────
+
+    /** 해당 memberId가 tbl_corp에 존재하는지 확인 */
+    public boolean isCorpMember(Long memberId) {
+        return corpMemberDAO.findById(memberId).isPresent();
+    }
+
     // ── 기업 정보 ──────────────────────────────────────────────────────
 
     /** 기업 + 회원 통합 정보 조회 */

@@ -30,7 +30,9 @@ function checkLogin() {
 const noticeBanner = document.querySelector(".notice-box .swiper-wrapper");
 let noticeCount = 0;
 
-noticeBanner.style.height = "260px";
+if (noticeBanner) {
+    noticeBanner.style.height = "260px";
+}
 //
 //
 
@@ -52,25 +54,30 @@ subNavLis.forEach((li) => {
 });
 
 // 기업 로그인 시
-// notification-menu
-bell.addEventListener("click", (e) => {
-    notificationMenu.classList.toggle("active");
+if (bell) {
+    // notification-menu
+    bell.addEventListener("click", (e) => {
+        notificationMenu.classList.toggle("active");
 
-    notificationContainer.classList.remove("active");
-    noNotification.classList.remove("active");
+        notificationContainer.classList.remove("active");
+        noNotification.classList.remove("active");
 
-    (notificationCheck ? notificationContainer : noNotification).classList.add(
-        "active",
-    );
-});
+        (notificationCheck ? notificationContainer : noNotification).classList.add(
+            "active",
+        );
+    });
+}
 
 // top-menu-modal
-corporateName.addEventListener("click", (e) => {
-    topMenuModal.classList.toggle("active");
-});
+if (corporateName) {
+    corporateName.addEventListener("click", (e) => {
+        topMenuModal.classList.toggle("active");
+    });
+}
 
 document.addEventListener("click", (e) => {
     if (
+        notificationMenu &&
         !e.target.closest(".notification-menu") &&
         !e.target.classList.contains("bell")
     ) {
@@ -78,6 +85,7 @@ document.addEventListener("click", (e) => {
     }
 
     if (
+        topMenuModal &&
         !e.target.closest(".top-menu-modal") &&
         !e.target.classList.contains("top-menu-modal-button")
     ) {
@@ -87,16 +95,18 @@ document.addEventListener("click", (e) => {
 //
 
 // 공지사항
-setInterval(() => {
-    noticeCount++;
-    noticeBanner.style.transform = `translate(0, -${52 * noticeCount}px)`;
-    noticeBanner.style.transition = `transform 0.3s`;
+if (noticeBanner) {
+    setInterval(() => {
+        noticeCount++;
+        noticeBanner.style.transform = `translate(0, -${52 * noticeCount}px)`;
+        noticeBanner.style.transition = `transform 0.3s`;
 
-    if (noticeCount === 4) {
-        setTimeout(() => {
-            noticeBanner.style.transform = `translate(0px)`;
-            noticeBanner.style.transition = `transform 0s`;
-        }, 300);
-        noticeCount = 0;
-    }
-}, 3500);
+        if (noticeCount === 4) {
+            setTimeout(() => {
+                noticeBanner.style.transform = `translate(0px)`;
+                noticeBanner.style.transition = `transform 0s`;
+            }, 300);
+            noticeCount = 0;
+        }
+    }, 3500);
+}

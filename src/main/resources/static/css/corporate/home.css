@@ -1431,3 +1431,7 @@ fieldset, img {
     cursor: auto;
     pointer-events: none;
 }
+
+.common-modal.service-modal.active {
+    display: block;
+}

@@ -30,6 +30,9 @@ public interface MemberMapper {
     //      주소 id 추가
     public void updateAddressIdById(Long id);
 
+    //    회원 정보 수정
+    public void update(MemberVO memberVO);
+
     //    로그인
     public Optional<MemberVO> selectMemberForLogin(MemberDTO memberDTO);
 }

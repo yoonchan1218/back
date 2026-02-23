@@ -7,8 +7,8 @@ import com.app.trycatch.mapper.experience.ExperienceProgramMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.awt.desktop.OpenFilesEvent;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -30,5 +30,25 @@ public class ExperienceProgramDAO {
 //    조회
     public Optional<ExperienceProgramDTO> findById(Long id) {
         return experienceProgramMapper.selectById(id);
+    }
+
+//    기업 대시보드: 상태별 프로그램 수
+    public Map<String, Long> countByStatus(Long corpId) {
+        return experienceProgramMapper.countByStatus(corpId);
+    }
+
+//    기업 대시보드: 최신 프로그램 N개
+    public List<ExperienceProgramDTO> findLatestByCorpId(Long corpId, int limit) {
+        return experienceProgramMapper.selectLatestByCorpId(corpId, limit);
+    }
+
+//    기업 프로그램 관리: 전체 개수 (필터)
+    public int countByCorpId(Long corpId, String status, String keyword) {
+        return experienceProgramMapper.countByCorpId(corpId, status, keyword);
+    }
+
+//    기업 프로그램 관리: 목록 (페이징 + 필터)
+    public List<ExperienceProgramDTO> findByCorpId(Long corpId, Criteria criteria, String status, String keyword) {
+        return experienceProgramMapper.selectByCorpId(corpId, criteria, status, keyword);
     }
 }

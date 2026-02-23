@@ -48,6 +48,62 @@
         </where>
     </select>
 
+    <!-- 기업 대시보드: 상태별 프로그램 수 -->
+    <select id="countByStatus" resultType="map">
+        SELECT
+            COALESCE(SUM(experience_program_status = 'draft'), 0)      AS draft,
+            COALESCE(SUM(experience_program_status = 'recruiting'), 0) AS recruiting,
+            COALESCE(SUM(experience_program_status = 'closed'), 0)     AS closed,
+            COALESCE(SUM(experience_program_status = 'cancelled'), 0)  AS cancelled
+        FROM tbl_experience_program
+        WHERE corp_id = #{corpId}
+    </select>
+
+    <!-- 기업 대시보드: 최신 프로그램 N개 -->
+    <select id="selectLatestByCorpId" resultType="ExperienceProgramDTO">
+        SELECT ep.id, ep.experience_program_title, ep.experience_program_status,
+               ep.experience_program_deadline, ep.experience_program_recruitment_count,
+               ep.created_datetime, ep.updated_datetime
+        FROM tbl_experience_program ep
+        WHERE ep.corp_id = #{corpId}
+        ORDER BY ep.created_datetime DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 기업 프로그램 관리: 전체 개수 (필터) -->
+    <select id="countByCorpId" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_experience_program
+        WHERE corp_id = #{corpId}
+        <if test="status != null and status != ''">
+            AND experience_program_status = #{status}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND experience_program_title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <!-- 기업 프로그램 관리: 목록 (페이징 + 필터) -->
+    <select id="selectByCorpId" resultType="ExperienceProgramDTO">
+        SELECT ep.id, ep.experience_program_title, ep.experience_program_description,
+               ep.experience_program_level, ep.experience_program_recruitment_count,
+               ep.experience_program_work_days, ep.experience_program_work_hours,
+               ep.experience_program_start_date, ep.experience_program_end_date,
+               ep.experience_program_deadline, ep.experience_program_status,
+               ep.experience_program_view_count, ep.created_datetime, ep.updated_datetime,
+               ep.corp_id
+        FROM tbl_experience_program ep
+        WHERE ep.corp_id = #{corpId}
+        <if test="status != null and status != ''">
+            AND ep.experience_program_status = #{status}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND ep.experience_program_title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY ep.created_datetime DESC
+        LIMIT #{criteria.count} OFFSET #{criteria.offset}
+    </select>
+
     <select id="selectById">
         select
             ep.id,

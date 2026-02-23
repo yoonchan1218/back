@@ -17,4 +17,10 @@ public interface CorpMemberMapper {
 
     //    사업자등록번호 검사
     Optional<CorpVO> selectByCorpBusinessNumber(String corpBusinessNumber);
+
+    //    기업회원 정보 조회 (tbl_member + tbl_corp + tbl_address JOIN)
+    Optional<CorpMemberDTO> selectCorpMemberById(Long id);
+
+    //    기업 정보 수정
+    void updateCorp(CorpVO corpVO);
 }
