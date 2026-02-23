@@ -15,7 +15,7 @@ create table tbl_skill_log
 );
 
 
-select * from tbl_skill_log where id = 30;
+select * from tbl_skill_log;
 set foreign_key_checks = 1;
 drop table tbl_skill_log;
 delete from tbl_skill_log;
@@ -28,3 +28,7 @@ where m.id;
 
 select * from tbl_tag  where skill_log_id = 30;
 select * from view_skill_log_file  where skill_log_id = 30;
+
+insert into tbl_skill_log (member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status)
+select member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status
+from tbl_skill_log;

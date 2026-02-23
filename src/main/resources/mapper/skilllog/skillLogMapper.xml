@@ -86,15 +86,15 @@
             f.file_original_name as experienceProgramFileOriginalName,
             f.file_size as experienceProgramFileSize, f.file_content_type as experienceProgramFileContentType
         from tbl_member m
-                 join tbl_skill_log s
-                      on m.id = s.member_id
-                 join tbl_experience_program e
-                      on e.id = s.experience_program_id
-                 join tbl_corp c
-                      on e.corp_id = c.id
-                 join view_experience_program_file f
-                      on f.experience_program_id = e.id
-        where s.id = 30 and s.skill_log_status = 'published'
+        join tbl_skill_log s
+        on m.id = s.member_id
+        left join tbl_experience_program e
+        on e.id = s.experience_program_id
+        left join tbl_corp c
+        on e.corp_id = c.id
+        left join view_experience_program_file f
+        on f.experience_program_id = e.id
+        where s.id = #{id} and s.skill_log_status = 'published'
         order by f.id
         limit 1 offset 0
     </select>

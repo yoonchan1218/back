@@ -56,7 +56,7 @@ const skillLogLayout = (() => {
         if(criteria.startPage > 1){
             const previousButton = document.createElement("p");
             previousButton.innerHTML = `
-                <a href="/api/skill-log/list/${criteria.startPage - 1}${queryString}" class="tplBtn btnPgn btnPgnPrev">
+                <a href="${criteria.startPage - 1}" class="tplBtn btnPgn btnPgnPrev paging">
                     <span class="blind">이전</span>
                     <i class="ico"></i>
                 </a>
@@ -76,7 +76,7 @@ const skillLogLayout = (() => {
             }
             text += `
                 <li>
-                    <a href="/api/skill-log/list/${i}${queryString}">${i}</a>
+                    <a href="${i}" class="paging">${i}</a>
                 </li>
             `;
         }
@@ -86,7 +86,7 @@ const skillLogLayout = (() => {
         if(criteria.endPage !== criteria.realEnd) {
             const nextButton = document.createElement("p");
             nextButton.innerHTML = `
-                <a href="/api/skill-log/list/${criteria.endPage + 1}${queryString}" class="tplBtn btnPgnNext">
+                <a href="${criteria.endPage + 1}" class="tplBtn btnPgnNext paging">
                     <span class="blind">다음</span>
                     <i class="ico"></i>
                 </a>

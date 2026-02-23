@@ -50,7 +50,7 @@ public class SkillLogController {
                       @RequestParam("file") ArrayList<MultipartFile> multipartFiles ) {
         skillLogService.write(skillLogDTO, multipartFiles);
 
-        return new RedirectView("/skill-log/list");
+        return new RedirectView("/skill-log/detail?id=" + skillLogDTO.getId());
     }
 
     @GetMapping("list")
@@ -102,4 +102,13 @@ public class SkillLogController {
         model.addAttribute("aside", skillLogService.aside(memberId));
         return "skill-log/update";
     }
+
+    @PostMapping("update")
+    public RedirectView update(SkillLogDTO skillLogDTO,
+                              @RequestParam("file") ArrayList<MultipartFile> multipartFiles ) {
+        skillLogService.update(skillLogDTO, multipartFiles);
+
+        return new RedirectView("/skill-log/detail?id=" + skillLogDTO.getId());
+    }
+
 }

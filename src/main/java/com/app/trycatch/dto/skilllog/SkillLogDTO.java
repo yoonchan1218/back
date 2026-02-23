@@ -40,8 +40,6 @@ public class SkillLogDTO {
     private String experienceProgramFilePath;
     private String experienceProgramFileName;
     private String experienceProgramFileOriginalName;
-    private String experienceProgramFileSize;
-    private FileContentType experienceProgramFileContentType;
 
 //    tag 목록
     private List<TagDTO> tags = new ArrayList<>();

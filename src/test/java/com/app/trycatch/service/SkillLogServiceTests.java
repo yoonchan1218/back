@@ -81,7 +81,7 @@ public class SkillLogServiceTests {
 
     @Test
     public void testDetail() {
-        SkillLogDTO skillLogDTO = skillLogService.detail(30L, 9L);
+        SkillLogDTO skillLogDTO = skillLogService.detail(70L, 9L);
         log.info("{}", skillLogDTO);
     }
 
@@ -97,7 +97,7 @@ public class SkillLogServiceTests {
     @Test
     public void testUpdate() {
         SkillLogDTO skillLogDTO = skillLogService.detail(30L, 9L);
-        String[] arTag = {"416"};
+//        String[] arTag = {"416"};
 
 //        삭제할 태그 id 배열
 //        for (int i = 0; i < arTag.length; i++) {
@@ -108,10 +108,9 @@ public class SkillLogServiceTests {
 
 //        추가한 태그
         List<TagDTO> tags = new ArrayList<>();
-        IntStream.range(3, 5).forEach((index) -> {
+        IntStream.range(5, 7).forEach((index) -> {
             TagDTO tagDTO = new TagDTO();
             tagDTO.setTagName("태그" + index);
-
             tags.add(tagDTO);
         });
 
@@ -128,7 +127,7 @@ public class SkillLogServiceTests {
 //        skillLogDTO.setSkillLogTitle("수정");
 //        skillLogDTO.setSkillLogContent("수정 테스트 내용");
 //
-        skillLogDTO.setTagIdsToDelete(arTag);
+//        skillLogDTO.setTagIdsToDelete(arTag);
         skillLogDTO.setTags(tags);
 
 //

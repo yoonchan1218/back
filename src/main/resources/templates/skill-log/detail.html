@@ -382,16 +382,16 @@
                                     </div>
                                 </div>
                                 <div class="cont">
-                                    <th:block th:if="${skillLog.experienceProgram != null}">
+                                    <th:block th:if="${skillLog.experienceProgramId != null}">
                                         <div class="experience-program">
                                             <a th:href="@{/Recruit/GI_Read/${gno}}" target="_blank" class="attach-box">
                                             <span class="thumb-img-area">
-                                                <img th:src="@{/api/files/display?filePath=*{experienceProgram.experienceProgramFiles[0].filePath}&fileName=*{experienceProgram.experienceProgramFiles[0].fileName}}"
+                                                <img th:src="@{/api/files/display?filePath=*{experienceProgramFilePath}&fileName=*{experienceProgramFileName}}"
                                                      onerror="this.src='//img.jobkorea.co.kr/Images/Logo/200/l/o/logo_none_200.png'">
                                             </span>
                                                 <div class="corp-info-area qnaSpA">
-                                                    <p class="corp-name" th:text="*{experienceProgram.corpCompanyName}"></p>
-                                                    <p class="content" th:text="*{experienceProgram.experienceProgramTitle}"></p>
+                                                    <p class="corp-name" th:text="*{corpCompanyName}"></p>
+                                                    <p class="content" th:text="*{experienceProgramTitle}"></p>
                                                 </div>
                                             </a>
                                         </div>
@@ -3883,6 +3883,9 @@
         </div>
         <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
+    <script src="/js/skill-log/comment/service.js"></script>
+    <script src="/js/skill-log/comment/layout.js"></script>
+    <script src="/js/skill-log/comment/event.js"></script>
     <script src="/js/skill-log/detail/service.js"></script>
     <script src="/js/skill-log/detail/layout.js"></script>
     <script src="/js/skill-log/detail/event.js"></script>
