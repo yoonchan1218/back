@@ -35,6 +35,11 @@ public class SkillLogDAO {
         return skillLogMapper.selectTotal(search);
     }
 
+//    최근 N개 조회
+    public List<SkillLogDTO> findLatest(int limit) {
+        return skillLogMapper.selectLatest(limit);
+    }
+
 //    조회
     public Optional<SkillLogDTO> findById(Long id) {
         return skillLogMapper.selectById(id);

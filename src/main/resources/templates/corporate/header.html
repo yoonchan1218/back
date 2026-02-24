@@ -15,7 +15,7 @@
                 <div class="top-menu clearfix">
                     <!-- 로고 -->
                     <h1>
-                        <a href=""></a>
+                        <a th:href="@{/corporate/home}"></a>
                     </h1>
                     <!-- 로그인/회원가입 메뉴 -->
                     <ul class="top-menu-list clearfix">
@@ -159,65 +159,63 @@
                 <div class="inner clearfix">
                     <div class="category">
                         <div class="title">
-                            <a href="" onclick="checkLogin()">프로그램 관리</a>
+                            <a th:href="@{/corporate/program-management}">프로그램 관리</a>
                         </div>
                         <ul>
                             <li>
-                                <a href="" onclick="checkLogin()">전체 프로그램</a>
+                                <a th:href="@{/corporate/program-management}">전체 프로그램</a>
                             </li>
                             <li>
-                                <a href="" onclick="checkLogin()">진행 중인 프로그램</a>
+                                <a th:href="@{/corporate/program-management(status='recruiting')}">진행 중인 프로그램</a>
                             </li>
                             <li>
-                                <a href="" onclick="checkLogin()">종료된 프로그램</a>
+                                <a th:href="@{/corporate/program-management(status='closed')}">종료된 프로그램</a>
                             </li>
                         </ul>
                     </div>
 
                     <div class="category">
                         <div class="title">
-                            <a href="" onclick="checkLogin()">인재 관리</a>
+                            <a th:href="@{/corporate/program-management}">인재 관리</a>
                         </div>
                         <ul>
-                            <li class="">
-                                <a href="" onclick="checkLogin()">지원자 관리</a>
+                            <li>
+                                <a th:href="@{/corporate/program-management}">지원자 관리</a>
                             </li>
                             <li>
-                                <a href="" onclick="checkLogin()">참여자 관리</a>
+                                <a th:href="@{/corporate/program-management}">참여자 관리</a>
                             </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="category">
-                        <div class="title">
-                            <a href="">인재 찾기</a>
-                        </div>
-                        <ul>
-                            <li class="">
-                                <a href="">기술 블로그</a>
-                            </li>
-                            
                         </ul>
                     </div>
 
                     <div class="category">
                         <div class="title">
-                            <a href="">커뮤니티</a>
+                            <a th:href="@{/skill-log/list}">인재 찾기</a>
                         </div>
                         <ul>
-                            <li class="">
-                                <a href="">Q&A</a>
+                            <li>
+                                <a th:href="@{/skill-log/list}">기술 블로그</a>
                             </li>
-                            <li class="">
-                                <a href="" onclick="checkLogin()">내 댓글 목록</a>
-                            </li>
-                            
                         </ul>
                     </div>
 
                     <div class="category">
                         <div class="title">
-                            <a href="" onclick="checkLogin()">마이페이지</a>
+                            <a th:href="@{/qna/list}">커뮤니티</a>
+                        </div>
+                        <ul>
+                            <li>
+                                <a th:href="@{/qna/list}">Q&A</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/qna/list}">내 댓글 목록</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="category">
+                        <div class="title">
+                            <a th:href="@{/corporate/profile}">마이페이지</a>
                         </div>
                         <ul>
                             <!-- 담당자로 로그인 시 -->

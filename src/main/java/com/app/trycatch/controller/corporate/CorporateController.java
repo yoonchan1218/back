@@ -70,6 +70,7 @@ public class CorporateController {
             model.addAttribute("recentPrograms", corporateService.getRecentPrograms(memberId, 6));
         }
         model.addAttribute("recentQnas", corporateService.getRecentQnas(5));
+        model.addAttribute("recentSkillLogs", corporateService.getRecentSkillLogs(5));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/home";
     }

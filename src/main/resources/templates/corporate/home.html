@@ -96,16 +96,16 @@
                                 <div class="current-data">
                                     <h5>인재 관리 현황</h5>
                                     <ul>
-                                        <li class="data-none">
-                                            <a href="">
-                                                <strong>0</strong>
-                                                <p>승인 대기 지원자</p>
+                                        <li th:classappend="${programStats['closed'] == 0 ? 'data-none' : ''}">
+                                            <a th:href="@{/corporate/program-management(status='closed')}">
+                                                <strong th:text="${programStats['closed']}">0</strong>
+                                                <p>모집마감 프로그램</p>
                                             </a>
                                         </li>
-                                        <li class="data-none">
-                                            <a href="">
-                                                <strong>0</strong>
-                                                <p>승급 대기 참여자</p>
+                                        <li th:classappend="${programStats['draft'] == 0 ? 'data-none' : ''}">
+                                            <a th:href="@{/corporate/program-management(status='draft')}">
+                                                <strong th:text="${programStats['draft']}">0</strong>
+                                                <p>진행중 프로그램</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -410,7 +410,7 @@
                     <!-- TRY-CATCH 배너 -->
                     <div class="sub-banner-section">
                         <div class="border-round-section clearfix">
-                            <a href="" target="_blank">
+                            <a th:href="@{/skill-log/list}">
                                 <div class="description">하루 하루 쌓여가는 학습 기록</div>
                                 <div class="title">TRY-CATCH 기술 블로그</div>
                             </a>
@@ -522,34 +522,10 @@
                                 <a th:href="@{/skill-log/list}">더보기</a>
                             </h2>
                             <ul class="board-list">
-                                <li>
-                                    <a href="" class="clearfix">
-                                        <div class="title">[Spring Boot] JPA와 MyBatis 비교 분석</div>
-                                        <div class="date">2026.02.20</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="clearfix">
-                                        <div class="title">[React] 컴포넌트 최적화를 위한 메모이제이션 전략</div>
-                                        <div class="date">2026.02.18</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="clearfix">
-                                        <div class="title">[DevOps] Docker를 활용한 CI/CD 파이프라인 구축기</div>
-                                        <div class="date">2026.02.15</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="clearfix">
-                                        <div class="title">[Java] 동시성 프로그래밍과 Thread-Safe 패턴 정리</div>
-                                        <div class="date">2026.02.12</div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="" class="clearfix">
-                                        <div class="title">[AWS] EC2 + RDS 배포 환경 세팅 가이드</div>
-                                        <div class="date">2026.02.10</div>
+                                <li th:each="blog : ${recentSkillLogs}">
+                                    <a th:href="@{/skill-log/detail(id=${blog.id})}" class="clearfix">
+                                        <div class="title" th:text="${blog.skillLogTitle}">기술 블로그 제목</div>
+                                        <div class="date" th:text="${#strings.replace(blog.createdDatetime?.substring(0,10), '-', '.')}">2026.02.20</div>
                                     </a>
                                 </li>
                             </ul>

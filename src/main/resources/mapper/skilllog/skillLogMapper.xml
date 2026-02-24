@@ -76,6 +76,15 @@
         </where>
     </select>
 
+    <select id="selectLatest">
+        select
+            s.id, s.skill_log_title, s.created_datetime
+        from tbl_skill_log s
+        where s.skill_log_status = 'published'
+        order by s.created_datetime desc
+        limit #{limit}
+    </select>
+
     <select id="selectById">
         select
             m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,

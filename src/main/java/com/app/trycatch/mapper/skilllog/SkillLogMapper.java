@@ -28,6 +28,9 @@ public interface SkillLogMapper {
 //    조회수 증가
     public void updateSkillLogViewCount(Long id);
 
+//    최근 N개 조회
+    public List<SkillLogDTO> selectLatest(int limit);
+
 //    수정
     public void update(SkillLogVO skillLogVO);
 

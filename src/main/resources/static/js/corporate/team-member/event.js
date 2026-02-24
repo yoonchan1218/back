@@ -11,33 +11,37 @@ const invitationInput = form.invitation_mail;
 
 // 팀원 메뉴 버튼
 const teamMemberRows = document.querySelectorAll(
-    ".teamWrap .mtcSchListTb table tbody tr",
+    ".teamWrap .mtcSchListTb table tbody tr:not(.no-team-member)",
 );
 
-// 팀원 초대
+// 팀원 초대 모달 열기
 invitationButton.addEventListener("click", (e) => {
-    // 모달 열기
     invitationModal.classList.add("active");
 });
+// 팀원 초대 모달 닫기
 invitationModalCloseButton.addEventListener("click", (e) => {
-    // 모달 닫기
     invitationModal.classList.remove("active");
 });
 
-// 팀원 초대
+// 팀원 초대 - 폼 제출
 invitationTeamMemberButton.addEventListener("click", (e) => {
     if (!invitationInput.value) {
-        // server: 이메일 유효성 검사 필요
         alert("초대할 팀원의 이메일을 입력해주세요.");
-    } else {
-        // server: 이메일을 보내고 초대가 정상적으로 되었는지 검사
-        alert("정상적으로 초대되었습니다.");
+        return;
     }
+    // 이메일 유효성 검사
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(invitationInput.value)) {
+        alert("올바른 이메일 주소를 입력해주세요.");
+        return;
+    }
+    form.submit();
 });
 
 // 팀원 내보내기
 teamMemberRows.forEach((row) => {
     const moreOptionLayer = row.querySelector(".more-option");
+    if (!moreOptionLayer) return;
 
     row.addEventListener("click", (e) => {
         if (e.target.closest(".moreOptionButton")) {
@@ -45,15 +49,32 @@ teamMemberRows.forEach((row) => {
         }
 
         if (e.target.closest(".memberDelBtn")) {
-            confirm("정말로 팀원을 내보내시겠습니까?") &&
-                alert("팀원이 내보내기가 완료되었습니다.");
+            if (!confirm("정말로 팀원을 내보내시겠습니까?")) return;
+
+            const memberId = e.target.closest(".memberDelBtn").dataset.memberId
+                || row.dataset.memberId;
+
+            const removeForm = document.createElement("form");
+            removeForm.method = "POST";
+            removeForm.action = "/corporate/team-member/remove";
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "memberId";
+            input.value = memberId;
+
+            removeForm.appendChild(input);
+            document.body.appendChild(removeForm);
+            removeForm.submit();
         }
     });
 });
+
 document.addEventListener("click", (e) => {
-    if (!e.target.closest(".moreOptionButton")) {
+    if (!e.target.closest(".moreOptionButton") && !e.target.closest(".more-option")) {
         teamMemberRows.forEach((row) => {
-            row.querySelector(".more-option").classList.remove("active");
+            const moreOption = row.querySelector(".more-option");
+            if (moreOption) moreOption.classList.remove("active");
         });
     }
 });

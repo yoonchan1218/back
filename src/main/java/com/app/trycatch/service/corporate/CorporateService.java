@@ -31,6 +31,8 @@ import com.app.trycatch.repository.member.AddressDAO;
 import com.app.trycatch.repository.member.CorpMemberDAO;
 import com.app.trycatch.repository.member.MemberDAO;
 import com.app.trycatch.repository.qna.QnaDAO;
+import com.app.trycatch.repository.skilllog.SkillLogDAO;
+import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +70,7 @@ public class CorporateService {
     private final ApplyDAO applyDAO;
     private final ChallengerDAO challengerDAO;
     private final FeedbackDAO feedbackDAO;
+    private final SkillLogDAO skillLogDAO;
 
     // ── 기업회원 여부 확인 ──────────────────────────────────────────────
 
@@ -332,6 +335,13 @@ public class CorporateService {
     /** 최신 QNA N개 */
     public List<QnaDTO> getRecentQnas(int limit) {
         return qnaDAO.findLatest(limit);
+    }
+
+    // ── 홈 하단: 기술 블로그 ────────────────────────────────────────────
+
+    /** 최신 기술 블로그 N개 */
+    public List<SkillLogDTO> getRecentSkillLogs(int limit) {
+        return skillLogDAO.findLatest(limit);
     }
 
     // ── 지원자 관리 ──────────────────────────────────────────────────

@@ -20,10 +20,9 @@ const notificationCheck = true;
 const topMenuModal = document.querySelector(".top-menu-modal");
 const corporateName = document.querySelector(".top-menu-modal-button");
 
-// server: 비로그인 시, 로그인 페이지로 이동
+// 비로그인 시 로그인 페이지로 이동 (로그인 상태는 서버에서 체크하므로 기본 동작 유지)
 function checkLogin() {
-    e.preventDefault();
-    location.href = "로그인" ? e.target.href : "로그인페이지 경로";
+    // 서버 Controller에서 세션 체크 후 리다이렉트 처리
 }
 
 // 공지사항
