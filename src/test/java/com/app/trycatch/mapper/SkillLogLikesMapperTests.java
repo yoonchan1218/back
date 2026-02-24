@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
-public class SkillLogLikeMapperTests {
+public class SkillLogLikesMapperTests {
     @Autowired
     private SkillLogLikesMapper skillLogLikeMapper;
 
@@ -46,4 +46,10 @@ public class SkillLogLikeMapperTests {
 
         skillLogLikeMapper.delete(skillLogLikeVO.getId());
     }
+
+    @Test
+    public void testDeleteBySkillLogId() {
+        skillLogLikeMapper.deleteBySkillLogId(60L);
+    }
+
 }

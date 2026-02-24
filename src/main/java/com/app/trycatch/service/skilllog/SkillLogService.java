@@ -42,11 +42,16 @@ import java.util.stream.Collectors;
 public class SkillLogService {
     private final SkillLogDAO skillLogDAO;
     private final TagDAO tagDAO;
+    private final SkillLogLikesDAO skillLogLikesDAO;
     private final SkillLogFileDAO skillLogFileDAO;
     private final FileDAO fileDAO;
-    private final SkillLogLikesDAO skillLogLikesDAO;
+
     private final ExperienceProgramDAO experienceProgramDAO;
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
+
+    private final SkillLogCommentDAO skillLogCommentDAO;
+    private final SkillLogCommentFileDAO skillLogCommentFileDAO;
+    private final SkillLogCommentLikesDAO skillLogCommentLikesDAO;
 
 //    작성
     public void write(SkillLogDTO skillLogDTO, List<MultipartFile> multipartFiles) {
@@ -253,11 +258,37 @@ public class SkillLogService {
     }
 
 //    삭제
-//    public void delete(Long id) {
-//        skillLogDAO.setSkillLogStatus(id);
-//    }
+    public void delete(Long id) {
+        String rootPath = "C:/file/";
 
+//        태그 삭제
+        tagDAO.findAllBySkillLogId(id).forEach((tagVO) -> {
+            tagDAO.delete(Long.valueOf(tagVO.getId()));
+        });
 
+//        파일 삭제
+        skillLogFileDAO.findAllBySkillLogId(id).forEach((skillLogFileDTO) -> {
+            FileVO fileVO = fileDAO.findById(Long.valueOf(skillLogFileDTO.getId())).orElseThrow(FileNotFoundException::new);
+            File file = new File(rootPath + fileVO.getFilePath(), fileVO.getFileName());
+            if(file.exists()) {
+                file.delete();
+            }
+            skillLogFileDAO.delete(Long.valueOf(skillLogFileDTO.getId()));
+            fileDAO.delete(Long.valueOf(skillLogFileDTO.getId()));
+        });
+
+//        좋아요 삭제
+        skillLogCommentLikesDAO.deleteBySkillLogId(id); // 댓글
+        skillLogLikesDAO.deleteBySkillLogId(id); // 게시글
+
+//        댓글 삭제
+        skillLogCommentFileDAO.deleteAllBySkillLogId(id); // 파일
+        skillLogCommentDAO.deleteNestedCommentsBySkillLogId(id); // 대댓글
+        skillLogCommentDAO.deleteParentCommentsBySkillLogId(id); // 댓글
+
+//        게시글 삭제
+        skillLogDAO.setSkillLogStatus(id);
+    }
 
     public TagDTO toTagDTO(TagVO tagVO) {
         TagDTO tagDTO = new TagDTO();

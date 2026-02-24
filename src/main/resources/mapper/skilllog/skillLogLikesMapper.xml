@@ -23,6 +23,11 @@
         where id = #{id}
     </delete>
 
+    <delete id="deleteBySkillLogId">
+        delete from tbl_skill_log_likes
+        where skill_log_id = #{id}
+    </delete>
+
 </mapper>
 
 

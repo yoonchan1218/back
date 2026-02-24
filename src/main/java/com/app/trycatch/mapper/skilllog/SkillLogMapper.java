@@ -32,5 +32,5 @@ public interface SkillLogMapper {
     public void update(SkillLogVO skillLogVO);
 
 //    삭제
-//    public void updateSkillLogStatus(Long id);
+    public void updateSkillLogStatus(Long id);
 }

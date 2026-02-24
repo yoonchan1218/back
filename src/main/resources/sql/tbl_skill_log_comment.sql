@@ -19,3 +19,6 @@ select * from tbl_file;
 
 set foreign_key_checks = 1;
 drop table tbl_skill_log_comment;
+
+select * from tbl_skill_log_comment;
+

@@ -102,7 +102,7 @@ public class SkillLogCommentMapperTests {
         Long skillLogId = 30L;
 
         skillLogCommentFileMapper.deleteAllBySkillLogId(skillLogId);
-        skillLogCommentMapper.deleteAllBySkillLogId(skillLogId);
+//        skillLogCommentMapper.deleteAllBySkillLogId(skillLogId);
     }
 
 }

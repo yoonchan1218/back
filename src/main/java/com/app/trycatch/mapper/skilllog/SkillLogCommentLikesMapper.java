@@ -19,4 +19,5 @@ public interface SkillLogCommentLikesMapper {
 //    삭제
     public void delete(Long id);
     public void deleteBySkillLogCommentId(Long id);
+    public void deleteBySkillLogId(Long id);
 }

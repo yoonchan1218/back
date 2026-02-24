@@ -22,6 +22,7 @@
                     <form action="/report/skill-log" method="post" name="reportForm">
                         <input type="hidden" name="memberId" th:value="${session.member} ? ${session.member.id}"/>
                         <input type="hidden" name="skillLogId" th:value="${skillLog.id}"/>
+                        <input type="hidden" name="skillLogCommentId"/>
                         <fieldset>
                             <legend>신고사유 입력</legend>
                             <ul class="reportBx radioCommWrap">
@@ -440,24 +441,24 @@
                                                 좋아요<em th:text="*{likeCount}"></em>
                                             </button>
                                         </div>
-                                        <div class="reaction-item has-toolip">
-                                            <button
-                                                onclick="loginHref()"
-                                                type="button"
-                                                class="btnBookmark qnaSpB devQnaDetailBookmark"
-                                                data-qstn-no="128418"
-                                            >
-                                                북마크
-                                            </button>
-                                            <div
-                                                class="book-mark-layer tooltip-layer qnaSpA"
-                                            >
-                                                <p class="txt">
-                                                    내 프로필 &gt; 북마크 에
-                                                    추가되었습니다
-                                                </p>
-                                            </div>
-                                        </div>
+<!--                                        <div class="reaction-item has-toolip">-->
+<!--                                            <button-->
+<!--                                                onclick="loginHref()"-->
+<!--                                                type="button"-->
+<!--                                                class="btnBookmark qnaSpB devQnaDetailBookmark"-->
+<!--                                                data-qstn-no="128418"-->
+<!--                                            >-->
+<!--                                                북마크-->
+<!--                                            </button>-->
+<!--                                            <div-->
+<!--                                                class="book-mark-layer tooltip-layer qnaSpA"-->
+<!--                                            >-->
+<!--                                                <p class="txt">-->
+<!--                                                    내 프로필 &gt; 북마크 에-->
+<!--                                                    추가되었습니다-->
+<!--                                                </p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div class="reaction-item">
                                             <button
                                                 type="button"
@@ -468,12 +469,12 @@
                                             <div
                                                 class="share-layer tooltip-layer qnaSpA"
                                             >
-                                                <a
-                                                    href="javascript:void(0)"
-                                                    class="button button-facebook"
-                                                    data-url="https://www.jobkorea.co.kr/net/User/Qstn/AnswerWrite?QstnNo=128418"
-                                                    >페이스북</a
-                                                >
+<!--                                                <a-->
+<!--                                                    href="javascript:void(0)"-->
+<!--                                                    class="button button-facebook"-->
+<!--                                                    data-url="https://www.jobkorea.co.kr/net/User/Qstn/AnswerWrite?QstnNo=128418"-->
+<!--                                                    >페이스북</a-->
+<!--                                                >-->
                                                 <a
                                                     href="javascript:void(0)"
                                                     class="button button-bookmark"
@@ -523,7 +524,7 @@
                             </div>
                             <!-- // contBox -->
 
-                            <div class="inputBox">
+                            <div class="inputBox" th:if="${session.member != null}">
                                 <div
                                     class="writeBoxWrap cmtWrite case"
                                     style="margin-bottom: 10px"
@@ -3868,7 +3869,7 @@
                         </div>
                         <div class="bottom-btn-wrap">
                             <a
-                                href="javascript:void(0)"
+                                href="/skill-log/list"
                                 class="btn-all-question qnaSpB devBtnQstnList"
                                 data-backtoqstnlist="https://www.jobkorea.co.kr/User/Qstn/Index"
                                 >목록보기</a

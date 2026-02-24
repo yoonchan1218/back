@@ -111,4 +111,9 @@ public class SkillLogController {
         return new RedirectView("/skill-log/detail?id=" + skillLogDTO.getId());
     }
 
+    @GetMapping("delete")
+    public RedirectView delete(Long id) {
+        skillLogService.delete(id);
+        return new RedirectView("/skill-log/list");
+    }
 }

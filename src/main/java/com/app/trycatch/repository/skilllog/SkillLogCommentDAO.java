@@ -53,9 +53,9 @@ public class SkillLogCommentDAO {
     public void delete(Long id) {
         skillLogCommentMapper.delete(id);
     }
-    public void deleteAllBySkillLogId(Long id) {
-        skillLogCommentMapper.deleteAllBySkillLogId(id);
-    }
+//    public void deleteAllBySkillLogId(Long id) {
+//        skillLogCommentMapper.deleteAllBySkillLogId(id);
+//    }
     public void deleteAllByCommentParentId(Long id) {
         skillLogCommentMapper.deleteAllByCommentParentId(id);
     }

@@ -17,4 +17,5 @@ public interface SkillLogLikesMapper {
     public void insert(SkillLogLikesVO skillLogLikesVO);
 //    삭제
     public void delete(Long id);
+    public void deleteBySkillLogId(Long id);
 }

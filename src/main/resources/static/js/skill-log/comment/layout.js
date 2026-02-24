@@ -1,5 +1,5 @@
 const commentLayout = (() => {
-    const showCommentList = ({skillLogComments, criteria}, memberId) => {
+    const showCommentList = ({skillLogComments, criteria, totalCount}, memberId) => {
         const commentContainer = document.querySelector(".answerArea");
         const commentCount = document.querySelector(".viewListWrap .headerWrap .numBx .num");
         const pageWrap = document.querySelector(".tplPagination.newVer");
@@ -9,7 +9,7 @@ const commentLayout = (() => {
         commentContainer.innerHTML = "";
         pageWrap.innerHTML = "";
 
-        commentCount.textContent = Object.values(skillLogComments).length;
+        commentCount.textContent = totalCount;
 
         Object.values(skillLogComments).forEach((comment) => {
             const li = document.createElement("li");
@@ -19,7 +19,7 @@ const commentLayout = (() => {
             text = `
                 <!-- 댓글 -->
                 <!-- [Dev] 내 답변일 경우 contSec에 클래스 myCmt 추가, cellBx 버튼: 수정/삭제만 노출 -->
-                <div class="${comment.id} contSec devContSection ${condition && "myCmt"}" style="display: block">
+                <div class="cont${comment.id} contSec devContSection ${condition && "myCmt"}" style="display: block">
 <!--                    프로필 -->
                     <div class="infoBx">
                         <a href="/User/Qstn/MainProfile?Target=29448138" class="my-profile" target="_blank">
@@ -32,7 +32,7 @@ const commentLayout = (() => {
                     </div>
 <!--                    댓글 내용 -->
                     <p class="cont">${comment.skillLogCommentContent}</p>
-                    `;
+                `;
 
             // 첨부 파일
             if(comment.fileName) {
@@ -134,51 +134,56 @@ const commentLayout = (() => {
                     <div class="cmtArea">
                         <ul class="cmtList replyWrap">
                             <!-- [Dev] 내 댓글일 경우 contSec에 클래스 myCmt 추가, cellBx 버튼: 삭제만 노출 -->
-                        </ul>
+                        </ul>`;
 
-                        <div class="writeBoxWrap cmtWrite qnaSpB dev-ComtEditor case">
-                            <form id="" action="/api/skill-log/comments/${comment.id}" method="put" oncopy="return false;" oncut="return false;" onpaste="return false;">
-                                <fieldset>
-                                    <legend>
-                                        답변하기 입력
-                                    </legend>
-                                    <div class="uiPlaceholder">
-                                        <span class="ph ph_1" style="
-                                                display: block;
-                                            ">댓글을
-                                            입력해주세요.</span>
-                                        <span class="ph ph_2" style="
-                                                display: none;
-                                            ">
-                                            개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게
-                                            <br> 있습니다. 부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
-                                        </span>
-
-                                        <textarea name="skillLogCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
-                                    </div>
-                                    <div class="btnWrap">
-                                        <div class="answer-util-wrap">
-                                            <div class="answer-util-item">
-                                                <label>
-                                                    <input type="file" style="
-                                                            display: none;
-                                                        " class="reply-file">
-                                                    <button type="button" class="button icon-photo qnaSpB">
-                                                        사진
-                                                    </button>
-                                                </label>
-                                            </div>
+            if(memberId) {
+                text += `
+                            <div class="writeBoxWrap cmtWrite qnaSpB dev-ComtEditor case">
+                                <form id="" action="/api/skill-log/comments/${comment.id}" method="put" oncopy="return false;" oncut="return false;" onpaste="return false;">
+                                    <fieldset>
+                                        <legend>
+                                            답변하기 입력
+                                        </legend>
+                                        <div class="uiPlaceholder">
+                                            <span class="ph ph_1" style="
+                                                    display: block;
+                                                ">댓글을
+                                                입력해주세요.</span>
+                                            <span class="ph ph_2" style="
+                                                    display: none;
+                                                ">
+                                                개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포 시 이에 대한 민형사상 책임은 작성자에게
+                                                <br> 있습니다. 부적절한 댓글은 비노출 또는 서비스 이용 정지 사유가 될 수 있습니다.
+                                            </span>
+    
+                                            <textarea name="skillLogCommentContent" maxlength="1000" class="devComtWrite" title="답변쓰기"></textarea>
                                         </div>
-                                        <span class="byte"><b id="count">0</b>
-                                            /
-                                            1,000</span>
-                                        <button type="button" id="btnSubmit" class="btnSbm devBtnComtWrite">
-                                            등록
-                                        </button>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
+                                        <div class="btnWrap">
+                                            <div class="answer-util-wrap">
+                                                <div class="answer-util-item">
+                                                    <label>
+                                                        <input type="file" style="
+                                                                display: none;
+                                                            " class="reply-file">
+                                                        <button type="button" class="button icon-photo qnaSpB">
+                                                            사진
+                                                        </button>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <span class="byte"><b id="count">0</b>
+                                                /
+                                                1,000</span>
+                                            <button type="button" id="btnSubmit" class="btnSbm devBtnComtWrite">
+                                                등록
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>`;
+            }
+
+            text += `
                     </div>
                     <button type="button" class="btnCmtClose qnaSpA qnaBtnClose">
                         댓글접기
@@ -194,8 +199,8 @@ const commentLayout = (() => {
             const previousButton = document.createElement("p");
             previousButton.innerHTML = `
                 <a href="${criteria.startPage - 1}" class="tplBtn btnPgn btnPgnPrev paging">
-                    <span class="blind">이전</span>
-                    <i class="ico"></i>
+                    <span class="">이전</span>
+<!--                    <i class="ico"></i>-->
                 </a>
             `;
             pageWrap.appendChild(previousButton);
@@ -221,11 +226,13 @@ const commentLayout = (() => {
         pageWrap.appendChild(pageList);
 
         if(criteria.endPage !== criteria.realEnd) {
+            if (skillLogComments.length < 1) return;
+
             const nextButton = document.createElement("p");
             nextButton.innerHTML = `
                 <a href="${criteria.endPage + 1}" class="tplBtn btnPgnNext paging">
-                    <span class="blind">다음</span>
-                    <i class="ico"></i>
+                    <span class="">다음</span>
+<!--                    <i class="ico"></i>-->
                 </a>
             `;
             pageWrap.appendChild(nextButton);
@@ -339,11 +346,11 @@ const commentLayout = (() => {
         });
     }
 
-    const showLikeCount = (likeCount) => {
-        const likeCountButton = document.querySelector(".btnHeart.qnaSpB.devBtnAnswerLike");
+    const showLikeCount = (likeCount, skillLogCommentId) => {
+        const contentDiv = document.querySelector(`.cont${skillLogCommentId}.contSec.devContSection`)
+        const likeCountButton = contentDiv.querySelector(".btnHeart.qnaSpB.devBtnAnswerLike");
         likeCountButton.textContent = likeCount;
     }
-
 
     return {
         showCommentList: showCommentList,

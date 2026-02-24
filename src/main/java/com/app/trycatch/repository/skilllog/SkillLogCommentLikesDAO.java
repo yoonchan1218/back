@@ -35,4 +35,7 @@ public class SkillLogCommentLikesDAO {
     public void deleteBySkillLogCommentId(Long id) {
         skillLogCommentLikesMapper.deleteBySkillLogCommentId(id);
     }
+    public void deleteBySkillLogId(Long id) {
+        skillLogCommentLikesMapper.deleteBySkillLogId(id);
+    }
 }

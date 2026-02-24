@@ -84,8 +84,8 @@ public class SkillLogMapperTests {
         skillLogMapper.update(skillLogDTO.toSkillLogVO());
     }
 
-//    @Test
-//    public void testUpdateSkillLogStatus() {
-//        skillLogMapper.updateSkillLogStatus(33L);
-//    }
+    @Test
+    public void testUpdateSkillLogStatus() {
+        skillLogMapper.updateSkillLogStatus(481L);
+    }
 }
