@@ -18,4 +18,16 @@ public class AlramDTO {
     private Long skillLogId;
     private String createdDatetime;
     private String updatedDatetime;
+
+    public String getExperienceStatusLabel() {
+        if (notificationContent == null) return "-";
+        return switch (notificationContent) {
+            case "applied" -> "심사중";
+            case "document_pass" -> "참여중";
+            case "document_fail" -> "심사완료";
+            case "activity_done" -> "참여완료";
+            case "cancelled" -> "취소";
+            default -> notificationContent;
+        };
+    }
 }

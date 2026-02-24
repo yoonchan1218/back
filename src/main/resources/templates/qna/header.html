@@ -431,7 +431,7 @@
                                                             </div>
                                                             <div class="notification-body">
                                                                 <div class="notification-title">
-                                                                    <a th:href="@{/mypage/experience}" th:text="|${#strings.abbreviate(alram.notificationTitle, 15)}... 지원 결과가 변경되었습니다|"></a>
+                                                                    <a th:href="@{/mypage/experience}" th:text="|${#strings.abbreviate(alram.notificationTitle, 15)}... ${alram.experienceStatusLabel}|"></a>
                                                                 </div>
                                                             </div>
                                                             <div class="notificaiton-footer">
