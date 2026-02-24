@@ -76,7 +76,8 @@
     <!-- //사이드 네비게이션 -->
     <div class="side-navigation">
         <h2 class="skip">취업톡톡 세부메뉴</h2>
-        <div class="navi-top-area has-tooltip">
+        <!-- 기업회원이 아닐 때만 질문·목록 버튼 표시 -->
+        <div class="navi-top-area has-tooltip" th:if="${loginMember == null or loginMember instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO)}">
             <a href="javascript:;" class="select-tooltip btn-question qnaSpB"
             >질문 · 목록</a
             >
@@ -119,11 +120,9 @@
                     </li>
                 </ul>
             </div>
-            <!-- //로그인 시 사이드 네비게이션 -->
-            <!-- 로그인 시 사이드 네비게이션 -->
-            <div class="myInfoSec" th:if="${loginMember != null}">
+            <!-- 개인회원 사이드 네비게이션 -->
+            <div class="myInfoSec" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO)}">
                 <a href="" class="myInfo">
-                    <!-- [Dev] 프로필 랜덤 이미지 파일명 : random_1 ~ random_20, 이미지 없음 : random_default -->
                     <span class="proThumb"><img
                             onerror="this.src='https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'"
                             src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg"
@@ -144,7 +143,6 @@
                         class="btnCoupon qnaSpA">별 교환</span>
                 </button>
             </div>
-            <!-- //로그인 시 사이드 네비게이션 -->
             <!-- 비로그인 시 사이드 네비게이션 -->
             <div class="myInfoSec logout" th:unless="${loginMember != null}">
                 <a href="" class="myInfo devLoginLayer" devalert="0">
@@ -159,9 +157,28 @@
                     </p>
                 </a>
             </div>
-            <!-- //비로그인 시 사이드 네비게이션 -->
         </div>
-        <!-- 비로그인 시 사이드 네비게이션 -->
+        <!-- 기업회원 사이드 네비게이션 -->
+        <div class="myInfoSec" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.CorpMemberDTO)}">
+            <a href="" class="myInfo">
+                <span class="proThumb">
+                    <img th:if="${loginMember.logoFilePath != null}"
+                         th:src="@{/api/files/display(filePath=${loginMember.logoFilePath}, fileName=${loginMember.logoFileName})}"
+                         alt="기업 로고" />
+                    <img th:if="${loginMember.logoFilePath == null}"
+                         src="/images/corporate/logo_default.png"
+                         alt="기업 로고" />
+                </span>
+                <dl class="infoBx">
+                    <dt class="qnaSpA">
+                        <span class="nickname" th:text="${loginMember.memberName}">담당자명</span>
+                    </dt>
+                    <dd>
+                        <span th:text="${loginMember.corpCompanyName}">회사명</span>
+                    </dd>
+                </dl>
+            </a>
+        </div>
         <div class="navi-list-area">
             <!-- 인기 질문 Top 5 -->
             <div class="sideNavLow">
