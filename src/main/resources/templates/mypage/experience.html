@@ -479,7 +479,17 @@
                         <!-- 체험 지원 주의사항 시작 -->
                         <div class="tplPagination">
                             <ul>
-                                <li><span class="now">1</span></li>
+                                <li th:if="${criteria.realEnd > 10 and criteria.startPage > 1}">
+                                    <a href="javascript:void(0);" class="dev-page-btn" th:data-page="${criteria.startPage - 1}">&lt;</a>
+                                </li>
+                                <li th:each="i : ${#numbers.sequence(criteria.startPage, criteria.endPage)}">
+                                    <span th:if="${i == criteria.page}" class="now" th:text="${i}">1</span>
+                                    <a th:if="${i != criteria.page}" href="javascript:void(0);"
+                                       class="dev-page-btn" th:data-page="${i}" th:text="${i}">1</a>
+                                </li>
+                                <li th:if="${criteria.realEnd > 10 and criteria.endPage < criteria.realEnd}">
+                                    <a href="javascript:void(0);" class="dev-page-btn" th:data-page="${criteria.endPage + 1}">&gt;</a>
+                                </li>
                             </ul>
                         </div>
                         <input type="hidden" id="UserSmartMatchItems" />
@@ -528,7 +538,7 @@
                     <h1 class="skip">개인회원 서비스 메뉴</h1>
                     <div class="lnbGroup">
                         <h2 class="lnbTit">
-                            <a href="" onclick="">개인회원 홈</a>
+                            <a href="/mypage/mypage" onclick="">개인회원 홈</a>
                         </h2>
                     </div>
                     <div class="lnbGroup">
@@ -570,10 +580,10 @@
                         <h2 class="lnbTit">회원정보 관리</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="">회원정보 수정</a>
+                                <a href="/mypage/change-my-information" onclick="">회원정보 수정</a>
                             </li>
                             <li>
-                                <a href="" onclick="">비밀번호 변경</a>
+                                <a href="/mypage/unsubscribe" onclick="">회원 탈퇴</a>
                             </li>
                         </ul>
                     </div>
@@ -713,5 +723,15 @@
         <script src="/js/mypage/experience/service.js"></script>
         <script src="/js/mypage/experience/layout.js"></script>
         <script src="/js/mypage/experience/event.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".tplPagination .dev-page-btn").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const page = parseInt(btn.dataset.page, 10);
+                        window.location.href = "/mypage/experience?page=" + page;
+                    });
+                });
+            });
+        </script>
     </html>
     

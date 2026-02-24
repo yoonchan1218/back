@@ -98,20 +98,49 @@ const experienceLayout = (() => {
         }
     };
 
-    // 8. 필터 결과로 테이블 재렌더링
-    const updateStatusCounts = (applies) => {
-        const counts = { applied: 0, document_pass: 0, document_fail: 0, activity_done: 0 };
-        applies.forEach(a => {
-            if (counts[a.applyStatus] !== undefined) counts[a.applyStatus]++;
-        });
+    // 8. 상태별 집계 숫자 갱신 (필터된 전체 데이터 기준)
+    const updateStatusCounts = (result) => {
         const appliedEl = document.getElementById("count-applied");
         const passEl = document.getElementById("count-document-pass");
         const failEl = document.getElementById("count-document-fail");
         const activityDoneEl = document.getElementById("count-activity-done");
-        if (appliedEl) appliedEl.textContent = counts.applied;
-        if (passEl) passEl.textContent = counts.document_pass;
-        if (failEl) failEl.textContent = counts.document_fail;
-        if (activityDoneEl) activityDoneEl.textContent = counts.activity_done;
+        if (appliedEl) appliedEl.textContent = result.appliedCount ?? 0;
+        if (passEl) passEl.textContent = result.documentPassCount ?? 0;
+        if (failEl) failEl.textContent = result.documentFailCount ?? 0;
+        if (activityDoneEl) activityDoneEl.textContent = result.activityDoneCount ?? 0;
+    };
+
+    const renderPagination = (criteria, onPageClick) => {
+        const paginationUl = document.querySelector(".tplPagination ul");
+        if (!paginationUl || !criteria) return;
+
+        const { startPage, endPage, page, realEnd } = criteria;
+        let html = "";
+
+        if (realEnd > 10 && startPage > 1) {
+            html += `<li><a href="javascript:void(0);" class="dev-page-btn" data-page="${startPage - 1}">&lt;</a></li>`;
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            if (i === page) {
+                html += `<li><span class="now">${i}</span></li>`;
+            } else {
+                html += `<li><a href="javascript:void(0);" class="dev-page-btn" data-page="${i}">${i}</a></li>`;
+            }
+        }
+
+        if (realEnd > 10 && endPage < realEnd) {
+            html += `<li><a href="javascript:void(0);" class="dev-page-btn" data-page="${endPage + 1}">&gt;</a></li>`;
+        }
+
+        paginationUl.innerHTML = html;
+
+        paginationUl.querySelectorAll(".dev-page-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const targetPage = parseInt(btn.dataset.page, 10);
+                if (onPageClick) onPageClick(targetPage);
+            });
+        });
     };
 
     const renderApplyList = (applies) => {
@@ -120,7 +149,6 @@ const experienceLayout = (() => {
 
         if (!applies || applies.length === 0) {
             tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 30px;">체험 지원 내역이 없습니다.</td></tr>`;
-            updateStatusCounts([]);
             return;
         }
 
@@ -184,14 +212,12 @@ const experienceLayout = (() => {
                     <td>${cancelCell}</td>
                 </tr>`;
         }).join("");
-
-        updateStatusCounts(applies);
     };
 
     return {
         openCancelPopup, closeCancelPopup, toggleReasonDrop, selectReason,
         updatePeriodActive, toggleCommonDrop, selectCommonDropItem, closeAllDrops,
         openResumeModal, closeResumeModal, showCancelled, decrementStatusCount,
-        renderApplyList
+        renderApplyList, renderPagination, updateStatusCounts
     };
 })();

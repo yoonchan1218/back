@@ -19,10 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return { fromDt, toDt, keyword, programStatus, applyStatus };
     };
 
-    const doFilter = () => {
-        const params = getFilterParams();
-        experienceService.filterApplyList(params, (applies) => {
-            if (applies !== false) experienceLayout.renderApplyList(applies);
+    // 마지막으로 사용된 파라미터 저장 (페이지네이션 시 동일 조건 유지)
+    let lastParams = getFilterParams();
+
+    const doFilter = (page, overrideParams) => {
+        const params = overrideParams || getFilterParams();
+        lastParams = params;
+        experienceService.filterApplyList(params, page || 1, (result) => {
+            if (result !== false) {
+                experienceLayout.renderApplyList(result.applies);
+                experienceLayout.updateStatusCounts(result);
+                experienceLayout.renderPagination(result.criteria, (targetPage) => doFilter(targetPage, lastParams));
+            }
         });
     };
 
@@ -109,10 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             const toDt = toStr(today);
 
-            const params = { ...getFilterParams(), fromDt, toDt };
-            experienceService.filterApplyList(params, (applies) => {
-                if (applies !== false) experienceLayout.renderApplyList(applies);
-            });
+            doFilter(1, { ...getFilterParams(), fromDt, toDt });
         });
     });
 
@@ -142,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. 검색 버튼
     const btnSubmit = document.getElementById("btnSubmit");
     if (btnSubmit) {
-        btnSubmit.addEventListener("click", doFilter);
+        btnSubmit.addEventListener("click", () => doFilter(1));
     }
 
     // 6. 키워드 입력 엔터키
