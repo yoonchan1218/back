@@ -90,6 +90,9 @@ public class SkillLogCommentService {
             String formattedDate = DateUtils.toRelativeTime(comment.getCreatedDatetime()) + (updateCheck ? " (수정됨)" : "");
             comment.setCreatedDatetime(formattedDate);
 
+//            대댓글 수
+            comment.setSkillLogCommentChildCount(skillLogCommentDAO.findCountAllByCommentParentIdAndSkillLogId(comment.getSkillLogId(), comment.getId()));
+
 //            likes
             skillLogCommentLikesDTO.setSkillLogCommentId(comment.getId());
             skillLogCommentLikesDTO.setMemberId(memberId);

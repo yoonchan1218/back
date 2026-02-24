@@ -76,6 +76,44 @@
         </where>
     </select>
 
+    <select id="selectAllByMemberId">
+        select
+            distinct
+            m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
+            s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime,
+            (select count(*) from tbl_skill_log_likes l where l.skill_log_id = s.id) as like_count,
+            (select count(*) from tbl_skill_log_comment c where c.skill_log_id = s.id and c.skill_log_comment_parent_id is null) as comment_count,
+        from tbl_member m join tbl_skill_log s
+        on m.id = s.member_id
+        left outer join tbl_tag t
+        on s.id = t.skill_log_id
+        <where>
+            s.member_id = #{memberId} and
+            <include refid="search"></include>
+        </where>
+        <if test="search.type != null">
+            <choose>
+                <when test="search.type == '인기'.toString()">
+                    order by s.skill_log_view_count desc
+                </when>
+                <otherwise>
+                    order by s.created_datetime desc
+                </otherwise>
+            </choose>
+        </if>
+        limit #{criteria.count} offset #{criteria.offset}
+    </select>
+    <select id="selectTotalByMemberId">
+        select count(distinct s.id)
+        from tbl_skill_log s
+        left outer join tbl_tag t
+        on s.id = t.skill_log_id
+        <where>
+            s.memberId = #{memberId} and
+            <include refid="search"></include>
+        </where>
+    </select>
+
     <select id="selectById">
         select
             m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
