@@ -199,16 +199,18 @@ public class CorporateController {
             @RequestParam(defaultValue = "") String status,
             @RequestParam(defaultValue = "") String SrchKeyword,
             @RequestParam(defaultValue = "10") int TopCount,
+            @RequestParam(defaultValue = "created_desc") String sort,
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
         Long corpId = getMemberId();
         model.addAttribute("programWithPaging",
-                corporateService.getPrograms(corpId, page, TopCount, status, SrchKeyword));
+                corporateService.getPrograms(corpId, page, TopCount, status, SrchKeyword, sort));
         model.addAttribute("programStats", corporateService.getProgramStats(corpId));
         model.addAttribute("currentStatus", status);
         model.addAttribute("currentKeyword", SrchKeyword);
         model.addAttribute("currentTopCount", TopCount);
+        model.addAttribute("currentSort", sort);
         model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/program-management";
@@ -235,11 +237,27 @@ public class CorporateController {
         return "corporate/participant-list";
     }
 
+    // ── 지원자관리 ───────────────────────────────────────────────────
+
+    @GetMapping("/applicant-list")
+    public String applicantList(
+            @RequestParam(required = false) Long programId,
+            Model model) {
+        if (notLoggedIn()) return LOGIN_REDIRECT;
+        if (notCorpMember()) return MAIN_REDIRECT;
+        if (programId == null) return "redirect:/corporate/program-management";
+        Long corpId = getMemberId();
+        model.addAttribute("programId", programId);
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
+        model.addAttribute("loginMember", session.getAttribute("member"));
+        return "corporate/applicant-list";
+    }
+
     @PostMapping("/participant/promote")
     @ResponseBody
     public Map<String, Object> promote(@RequestParam Long participantId) {
         if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
-        corporateService.updateParticipantStatus(participantId, getMemberId(), "promoted");
+        corporateService.updateParticipantStatus(participantId, getMemberId(), "completed");
         return Map.of("success", true);
     }
 
@@ -256,7 +274,7 @@ public class CorporateController {
     @ResponseBody
     public Map<String, Object> withdraw(@RequestParam Long participantId) {
         if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
-        corporateService.updateParticipantStatus(participantId, getMemberId(), "withdrawn");
+        corporateService.updateParticipantStatus(participantId, getMemberId(), "out_of_process");
         return Map.of("success", true);
     }
 }

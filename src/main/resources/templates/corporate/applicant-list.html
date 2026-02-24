@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지원자 목록 관리</title>
-    <link rel="stylesheet" href="../../static/css/corporate/applicant-list.css">
+    <link rel="stylesheet" href="/css/corporate/header.css">
+    <link rel="stylesheet" href="/css/corporate/footer.css">
+    <link rel="stylesheet" href="/css/corporate/applicant-list.css">
 </head>
 <body>
+    <div th:replace="~{corporate/header :: header}"></div>
     <div class="page-container">
         <div class="content-wrapper">
             <div class="content-inner">
@@ -14,7 +17,7 @@
                     <!-- 상태 통계 박스 -->
                     <div class="status-summary">
                         <div class="status-header">
-                            <h2 class="status-title">포지션 제안 인재</h2>
+                            <h2 class="status-title">지원자 관리</h2>
                         </div>
                         <ul class="status-tabs">
                             <li>
@@ -318,10 +321,9 @@
                     <!-- 안내 사항 -->
                     <div class="notice-box">
                         <ul class="notice-list">
-                            <li>잡코리아의 인재정보를 통해 수집된 개인정보 및 이력서/프로필은 <strong>개인정보보호정책에 의거 인재채용의 목적</strong>으로만 이용하셔야 합니다.</li>
-                            <li>제안을 보낸 이력서/프로필은 발송일로부터 1년간 보관되며, 연락처 및 이력서/프로필은 열람 후, 90일간 확인 할 수 있습니다.</li>
+                            <li>TRY-CATCH의 인재정보를 통해 수집된 개인정보 및 이력서/프로필은 <strong>개인정보보호정책에 의거 인재채용의 목적</strong>으로만 이용하셔야 합니다.</li>
+                            <li>제안을 보낸 자기소개서는 발송일로부터 1년간 보관되며, 연락처 및 자기소개서는 열람 후, 90일간 확인 할 수 있습니다.</li>
                             <li><strong>연락처 비공개 인재가 포지션 제안을 수락하면 연락처가 포함된 이력서/프로필을 확인</strong> 할 수 있습니다.</li>
-                            <li><strong>포지션제안 발송 후, 수락 전까지 인재에게 무료 1회 재발송 가능합니다.</strong> (이후 추가 제안 또는 다른포지션으로 제안 시 상품 1건이 차감됩니다.)</li>
                         </ul>
                     </div>
                 </div>
@@ -347,6 +349,7 @@
         </div>
     </div>
 
-    <script src="../../static/js/corporate/applicant-list/event.js"></script>
+    <div th:replace="~{corporate/footer :: footer}"></div>
+    <script src="/js/corporate/applicant-list/event.js"></script>
 </body>
 </html>

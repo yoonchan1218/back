@@ -47,23 +47,20 @@
     </select>
 
     <select id="selectAll" resultType="QnaDTO">
-        select q.*, count(distinct l.id) as qna_like_count, count(distinct c.id) as qna_comment_count
-        from tbl_qna q
-        left join tbl_qna_likes l on q.id = l.qna_id
-        left join tbl_qna_comment c on q.id = c.id
+        select *
+        from view_qna_list
         <where>
-            q.qna_status = 'published'
+            qna_status = 'published'
             <if test="keyword != null and keyword != ''">
-                AND (q.qna_title LIKE CONCAT('%', #{keyword}, '%')
-                  OR q.qna_content LIKE CONCAT('%', #{keyword}, '%'))
+                AND (qna_title LIKE CONCAT('%', #{keyword}, '%')
+                  OR qna_content LIKE CONCAT('%', #{keyword}, '%'))
             </if>
         </where>
-        group by q.id
         <choose>
-            <when test="sort == 2">order by qna_like_count desc, q.id desc</when>
-            <when test="sort == 3">order by q.qna_view_count desc, q.id desc</when>
-            <when test="sort == 4">order by qna_comment_count desc, q.id desc</when>
-            <otherwise>order by q.id desc</otherwise>
+            <when test="sort == 2">order by qna_like_count desc, id desc</when>
+            <when test="sort == 3">order by qna_view_count desc, id desc</when>
+            <when test="sort == 4">order by qna_comment_count desc, id desc</when>
+            <otherwise>order by id desc</otherwise>
         </choose>
         limit #{criteria.count} offset #{criteria.offset}
     </select>
@@ -112,20 +109,18 @@
     </update>
 
     <select id="selectTopByViewCount" resultType="QnaDTO">
-        select q.*, m.member_name
-        from tbl_qna q
-        left join tbl_member m on q.individual_member_id = m.id
-        where q.qna_status = 'published'
-        order by q.qna_view_count desc, q.id desc
+        select *
+        from view_qna_list
+        where qna_status = 'published'
+        order by qna_view_count desc, id desc
         limit #{limit}
     </select>
 
     <select id="selectLatest" resultType="QnaDTO">
-        select q.*, m.member_name
-        from tbl_qna q
-        left join tbl_member m on q.individual_member_id = m.id
-        where q.qna_status = 'published'
-        order by q.id desc
+        select *
+        from view_qna_list
+        where qna_status = 'published'
+        order by id desc
         limit #{limit}
     </select>
 

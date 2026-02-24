@@ -36,5 +36,6 @@ public interface ExperienceProgramMapper {
 
 //    기업 프로그램 관리: 목록 (페이징 + 필터)
     List<ExperienceProgramDTO> selectByCorpId(@Param("corpId") Long corpId, @Param("criteria") Criteria criteria,
-                                              @Param("status") String status, @Param("keyword") String keyword);
+                                              @Param("status") String status, @Param("keyword") String keyword,
+                                              @Param("sort") String sort);
 }

@@ -39,7 +39,6 @@
                c.corp_establishment_date, c.corp_website_url, c.corp_fax,
                c.corp_capital, c.corp_total_sales, c.corp_main_business, c.corp_performance, c.corp_vision,
                a.address_zipcode, a.address_address, a.address_detail,
-
                m.created_datetime, m.updated_datetime,
                lf.file_path AS logo_file_path, lf.file_name AS logo_file_name
         FROM tbl_member m
@@ -48,7 +47,6 @@
         LEFT JOIN tbl_corp_logo_file clf ON c.id = clf.corp_id
         LEFT JOIN tbl_file lf ON clf.id = lf.id
         WHERE m.id = #{id}
-
     </select>
 
     <update id="updateCorp">

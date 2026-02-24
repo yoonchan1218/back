@@ -66,6 +66,14 @@ if (startInputClick) {
     });
 }
 
+// 접수마감일 날짜 picker
+const deadlineInput = document.getElementById("deadline");
+if (deadlineInput) {
+    deadlineInput.addEventListener("click", (e) => {
+        e.target.showPicker?.();
+    });
+}
+
 // 근무요일 날짜 picker
 const workdayStart = document.getElementById("workday-start");
 if (workdayStart) {
