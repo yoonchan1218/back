@@ -31,6 +31,7 @@
         LEFT JOIN tbl_corp_logo_file clf ON c.id = clf.corp_id
         LEFT JOIN tbl_file lf ON clf.id = lf.id
         where m.member_id = #{memberId} and m.member_password = #{memberPassword} and m.member_status = 'active'
+        LIMIT 1
     </select>
 
     <select id="selectCorpMemberById" resultType="CorpMemberDTO">

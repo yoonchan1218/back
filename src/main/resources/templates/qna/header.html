@@ -14,7 +14,7 @@
                 <!-- //비로그인/로그인 상단(로그인, 회원가입, 별충전, 기업서비스) -->
                 <div class="headInner">
                     <h1 class="jkLogo">
-                        <a href="">
+                        <a th:href="@{/main/main}">
                             <img
                                 height="78"
                                 src="/images/logo.png"
@@ -239,7 +239,7 @@
                                     >
                                 </li>
                                 <li class="userNav-item corp">
-                                    <a th:href="@{/corporate/home.html}" target="_blank"
+                                    <a th:href="@{/corporate/home}"
                                         ><span class="spGnb"
                                             >기업서비스</span
                                         ></a
@@ -305,7 +305,7 @@
                                     <span class="user-name" th:text="${session.member?.memberName}">담당자</span>
                                 </li>
                                 <li class="userNav-item corp">
-                                    <a th:href="@{/corporate/home}" target="_blank"
+                                    <a th:href="@{/corporate/home}"
                                         ><span class="spGnb"
                                             >기업서비스</span
                                         ></a

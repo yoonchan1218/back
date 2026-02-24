@@ -11,10 +11,15 @@ import lombok.*;
 public class QnaCommentDTO {
     private Long id;
     private Long qnaId;
-    private Long individualMemberId;
+    private Long memberId;
     private String memberName;
     private Long qnaCommentParent;
     private String qnaCommentContent;
+    private String logoFilePath;
+    private String logoFileName;
+    private String commentFilePath;
+    private String commentFileName;
+    private int replyCount;
     private String createdDatetime;
     private String updatedDatetime;
 
@@ -22,7 +27,7 @@ public class QnaCommentDTO {
         return QnaCommentVO.builder()
                 .id(id)
                 .qnaId(qnaId)
-                .individualMemberId(individualMemberId)
+                .memberId(memberId)
                 .qnaCommentParent(qnaCommentParent)
                 .qnaCommentContent(qnaCommentContent)
                 .build();
