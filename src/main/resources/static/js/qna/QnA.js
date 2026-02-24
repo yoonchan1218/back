@@ -4,9 +4,11 @@ const writeButton = document.querySelector(
 );
 const tooltipOpenDiv = document.querySelector(".navi-top-area.has-tooltip");
 
-writeButton.addEventListener("click", (e) => {
-    tooltipOpenDiv.classList.toggle("tooltip-open");
-});
+if(writeButton !== null) {
+    writeButton.addEventListener("click", (e) => {
+        tooltipOpenDiv.classList.toggle("tooltip-open");
+    });
+}
 
 // 자동완성 기능
 const inputFocus = document.querySelector(".jkSchInput.keywordSearch.devFocus");

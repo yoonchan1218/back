@@ -14,7 +14,8 @@
 <div id="wrap">
     <div class="side-navigation">
         <h2 class="skip">취업톡톡 세부메뉴</h2>
-        <div class="navi-top-area has-tooltip">
+        <!-- 기업회원이 아닐 때만 질문·목록 버튼 표시 -->
+        <div class="navi-top-area has-tooltip" th:if="${loginMember == null or loginMember instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO)}">
             <a
                     href="javascript:;"
                     class="select-tooltip btn-question qnaSpB"
@@ -64,10 +65,9 @@
                     </li>
                 </ul>
             </div>
-            <!-- 로그인 시 사이드 네비게이션 -->
-            <div class="myInfoSec" th:if="${loginMember != null}">
+            <!-- 개인회원 사이드 네비게이션 -->
+            <div class="myInfoSec" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO)}">
                 <a href="" class="myInfo">
-                    <!-- [Dev] 프로필 랜덤 이미지 파일명 : random_1 ~ random_20, 이미지 없음 : random_default -->
                     <span class="proThumb"><img
                             onerror="this.src='https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'"
                             src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg"
@@ -98,6 +98,27 @@
                     <p class="msg"><em>로그인</em> 후 구독과 활동을<br/>시작해보세요</p>
                 </a>
             </div>
+        </div>
+        <!-- 기업회원 사이드 네비게이션 -->
+        <div class="myInfoSec" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.CorpMemberDTO)}">
+            <a href="" class="myInfo">
+                <span class="proThumb">
+                    <img th:if="${loginMember.logoFilePath != null}"
+                         th:src="@{/api/files/display(filePath=${loginMember.logoFilePath}, fileName=${loginMember.logoFileName})}"
+                         alt="기업 로고" />
+                    <img th:if="${loginMember.logoFilePath == null}"
+                         src="/images/corporate/logo_default.png"
+                         alt="기업 로고" />
+                </span>
+                <dl class="infoBx">
+                    <dt class="qnaSpA">
+                        <span class="nickname" th:text="${loginMember.memberName}">담당자명</span>
+                    </dt>
+                    <dd>
+                        <span th:text="${loginMember.corpCompanyName}">회사명</span>
+                    </dd>
+                </dl>
+            </a>
         </div>
         <div class="navi-list-area">
             <div class="sideNavLow">
@@ -328,7 +349,7 @@
                                     </button>
                                     <span class="cell">
                                         <i class="qnaSpB icon-answer-bubble">답변</i>
-                                        <span class="num">0</span>
+                                        <span class="num" th:text="${qna.qnaCommentCount}">0</span>
                                     </span>
                                     <span class="cell devQnaCreatedTime"
                                           th:data-created="${qna.createdDatetime}"
