@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,100 +22,84 @@
                                 <h2 class="subTits">참여자 관리</h2>
                             </div>
                             <ul class="status-list">
-                                <!-- server, javascript: 서버에서 rPageCode를 쿼리스트링으로 보내 어떤 버튼인지 확인 후, 동적으로 active 추가  -->
                                 <li>
-                                    <!-- onclick -->
-                                    <a href="" class="active">
+                                    <a th:href="@{/corporate/participant-list(programId=${programId})}"
+                                       th:classappend="${currentStatus == '' or currentStatus == null} ? 'active' : ''">
                                         전체
-                                        <em>0</em>
+                                        <em th:text="${participantWithPaging.statusCounts['total'] ?: 0}">0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <!-- onclick -->
-                                    <a href="" class="" >
-                                        참여중 
-                                        <em>0</em>
+                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='in_progress')}"
+                                       th:classappend="${currentStatus == 'in_progress'} ? 'active' : ''">
+                                        참여중
+                                        <em th:text="${participantWithPaging.statusCounts['inProgress'] ?: 0}">0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <!-- onclick -->
-                                    <a href="" class="" >
-                                        승급탈락/중도탈락 
-                                        <em>0</em>
+                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='failed')}"
+                                       th:classappend="${currentStatus == 'failed'} ? 'active' : ''">
+                                        승급탈락/중도탈락
+                                        <em th:text="${participantWithPaging.statusCounts['failed'] ?: 0}">0</em>
                                     </a>
                                 </li>
                                 <li>
-                                    <!-- onclick -->
-                                    <a href="" class="" >
+                                    <a th:href="@{/corporate/participant-list(programId=${programId}, status='completed')}"
+                                       th:classappend="${currentStatus == 'completed'} ? 'active' : ''">
                                         참여완료
-                                        <em>0</em>
+                                        <em th:text="${participantWithPaging.statusCounts['completed'] ?: 0}">0</em>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        
+
                         <!-- 참여자 리스트 -->
                         <table class="participant-list-table">
                             <tbody>
                                 <tr>
                                     <th></th>
                                     <th>
-                                        <button class="order-button ">이름/나이</button>
+                                        <button class="order-button">이름/나이</button>
                                     </th>
-
                                     <th>
                                         <div class="order-select-box">
-                                            <button class="order-button  ">전화번호</button>
+                                            <button class="order-button">전화번호</button>
                                         </div>
                                     </th>
                                     <th>
                                         <div class="order-select-box">
-                                            <button class="order-button  ">이메일</button>
+                                            <button class="order-button">이메일</button>
                                         </div>
                                     </th>
-
                                     <th>
                                         <div class="order-select-box">
-                                            <button class="order-button  ">자기소개서</button>
+                                            <button class="order-button">자기소개서</button>
                                         </div>
                                     </th>
-
                                     <th>
                                         <div class="order-select-box">
-                                            <button class="order-button  ">현재 상태</button>
+                                            <button class="order-button">현재 상태</button>
                                         </div>
                                     </th>
-
-                                    <th>
-                                    </th>
-
+                                    <th></th>
                                     <th></th>
                                 </tr>
 
-                                <!-- server: data가 없을 경우 -->
-                                <!-- <tr class="data-none-case">
-                                    <td colspan="5">
+                                <!-- data가 없을 경우 -->
+                                <tr class="data-none-case" th:if="${#lists.isEmpty(participantWithPaging.list)}">
+                                    <td colspan="8">
                                         <div class="icon-frown"></div>
-                                        <div class="large-text">포지션제안을 보낸 인재가 없습니다.</div>
-                                        <div class="text">좋은 인재에게 이직 제안 해보세요.</div>
-                                        <div class="btn-box"> -->
-                                            <!-- onclick -->
-                                            <!-- <button type="button" >인재검색하기</button>
-                                        </div>
+                                        <div class="large-text">참여자가 없습니다.</div>
                                     </td>
-                                </tr> -->
+                                </tr>
 
-                                <!-- server: data 있을 경우 -->
-                                <!-- server: 참여자 구분을 user-id- 값으로 구분 -->
-                                <tr id="user-id-1234">
-                                    <!-- 승급 대기 중 -->
+                                <!-- data 있을 경우 -->
+                                <tr th:each="p : ${participantWithPaging.list}" th:id="'participant-' + ${p.id}" th:data-id="${p.id}">
                                     <td class="profile-img">
                                         <div class="tdInner">
-                                            <!-- server, javascript: 개인 프로필 페이지로 이동 -->
                                             <a class="photoItem linkProfile devLinkProfile" href="">
                                                 <span class="itemWrap">
                                                     <span class="photoEl not-read">
-                                                        <!-- server, javascript: 프로필 사진없을경우 이미지 태그 삭제, span.imgDefault 추가 -->
                                                         <span class="imgDefault"></span>
                                                     </span>
                                                     <span class="maskEl"></span>
@@ -124,150 +108,81 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- server, javascript: 개인 프로필 페이지로 이동 -->
                                         <a class="nameItem linkProfile devLinkProfile" href="">
-                                            <span class="name">백OO</span>
+                                            <span class="name" th:text="${p.memberName}">홍길동</span>
                                             <span class="nmAge">
-                                                <span>여</span> 만 30세
+                                                <span th:text="${p.individualMemberGender != null and p.individualMemberGender.name() == 'MAN'} ? '남' : '여'">여</span>
                                             </span>
                                         </a>
                                     </td>
                                     <td>
-                                        <span class="contact">010-1234-1234</span>
+                                        <span class="contact" th:text="${p.memberPhone}">010-1234-1234</span>
                                     </td>
                                     <td>
-                                        <span class="contact">test@gmail.com</span>
+                                        <span class="contact" th:text="${p.memberEmail}">test@gmail.com</span>
                                     </td>
                                     <td>
-                                        <!-- server, javascript: 자기소개서 파일 다운 -->
                                         <button type="button" class="btnMtcTpl devLinkResume">자기소개서 보기</button>
                                     </td>
                                     <td>
-                                        <!-- server: 참여 중일 경우 -->
-                                        <span>참여중</span>
-
-                                        <!-- server: 탈락했을 경우 -->
-                                        <!-- <span class="rejection">탈락</span> -->
-
-                                        <!-- server: 모든 과정을 완료한 경우 -->
-                                        <!-- <span class="complete">완료</span> -->
+                                        <!-- 참여중 -->
+                                        <span th:if="${p.challengerStatus.name() == 'IN_PROGRESS'}">참여중</span>
+                                        <!-- 승급탈락 -->
+                                        <span class="rejection" th:if="${p.challengerStatus.name() == 'STEP_FAILED'}">승급탈락</span>
+                                        <!-- 중도탈락 -->
+                                        <span class="rejection" th:if="${p.challengerStatus.name() == 'OUT_OF_PROCESS'}">중도탈락</span>
+                                        <!-- 참여완료 -->
+                                        <span class="complete" th:if="${p.challengerStatus.name() == 'COMPLETED'}">완료</span>
                                     </td>
                                     <td>
-                                        <button type="button" class="moreOptionButton">
-                                            <span>
-                                                <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
-                                            </span>
-                                        </button>
-                                        <!-- javascript: moreOptionButton 을 클릭 시 active 추가 -->
-                                        <div class="more-option">
-                                            <ul>
-                                                <li class="challengerPromoteBtn">
-                                                    <button type="button" >승급</button>
-                                                </li>
-                                                <li class="challengerRejectBtn">
-                                                    <button type="button" >탈락</button>
-                                                </li>
-                                                <li class="challengerDelBtn">
-                                                    <button type="button" >중도 탈락</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr id="user-id-4321">
-                                    <!-- 승급 대기 중 -->
-                                    <td class="profile-img">
-                                        <div class="tdInner">
-                                            <!-- server, javascript: 개인 프로필 페이지로 이동 -->
-                                            <a class="photoItem linkProfile devLinkProfile" href="">
-                                                <span class="itemWrap">
-                                                    <span class="photoEl not-read">
-                                                        <!-- server, javascript: 프로필 사진없을경우 이미지 태그 삭제, span.imgDefault 추가 -->
-                                                        <span class="imgDefault"></span>
-                                                    </span>
-                                                    <span class="maskEl"></span>
+                                        <!-- 참여중일 때만 액션 버튼 표시 -->
+                                        <th:block th:if="${p.challengerStatus.name() == 'IN_PROGRESS'}">
+                                            <button type="button" class="moreOptionButton">
+                                                <span>
+                                                    <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
                                                 </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <!-- server, javascript: 개인 프로필 페이지로 이동 -->
-                                        <a class="nameItem linkProfile devLinkProfile" href="">
-                                            <span class="name">백OO</span>
-                                            <span class="nmAge">
-                                                <span>여</span> 만 30세
-                                            </span>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <span class="contact">010-1234-1234</span>
-                                    </td>
-                                    <td>
-                                        <span class="contact">test@gmail.com</span>
-                                    </td>
-                                    <td>
-                                        <!-- server, javascript: 자기소개서 파일 다운 -->
-                                        <button type="button" class="btnMtcTpl devLinkResume">자기소개서 보기</button>
-                                    </td>
-                                    <td>
-                                        <!-- server: 참여 중일 경우 -->
-                                        <!-- <span>참여중</span> -->
-
-                                        <!-- server: 탈락했을 경우 -->
-                                        <span class="rejection">탈락</span>
-
-                                        <!-- server: 모든 과정을 완료한 경우 -->
-                                        <!-- <span class="complete">완료</span> -->
-                                    </td>
-                                    <td>
-                                        <button type="button" class="moreOptionButton">
-                                            <span>
-                                                <svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
-                                            </span>
-                                        </button>
-                                        <!-- javascript: moreOptionButton 을 클릭 시 active 추가 -->
-                                        <div class="more-option">
-                                            <ul>
-                                                <li class="challengerPromoteBtn">
-                                                    <button type="button" >승급</button>
-                                                </li>
-                                                <li class="challengerRejectBtn">
-                                                    <button type="button" >탈락</button>
-                                                </li>
-                                                <li class="challengerDelBtn">
-                                                    <button type="button" >중도 탈락</button>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                            </button>
+                                            <div class="more-option">
+                                                <ul>
+                                                    <li class="challengerPromoteBtn">
+                                                        <button type="button">승급</button>
+                                                    </li>
+                                                    <li class="challengerRejectBtn">
+                                                        <button type="button">탈락</button>
+                                                    </li>
+                                                    <li class="challengerDelBtn">
+                                                        <button type="button">중도 탈락</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </th:block>
                                     </td>
                                     <td></td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
 
-                        <!-- 페이지 -->
-                        <!-- server: 참여자 리스트에 데이터가 있을 경우에만 보이게 -->
-                        <div class="button_area">
+                        <!-- 페이지네이션 -->
+                        <div class="button_area" th:if="${!#lists.isEmpty(participantWithPaging.list)}">
                             <div class="tplPagination">
                                 <ul>
-                                    <li>
-                                        <!-- server, javascript: 현재 페이지에 now 추가 -->
-                                        <a class="now">1</a>
+                                    <li th:if="${participantWithPaging.criteria.page > 1}">
+                                        <a th:href="@{/corporate/participant-list(programId=${programId}, status=${currentStatus}, page=${participantWithPaging.criteria.page - 1})}">&#8249;</a>
+                                    </li>
+                                    <th:block th:each="pageNum : ${#numbers.sequence(participantWithPaging.criteria.startPage, participantWithPaging.criteria.endPage)}">
+                                        <li>
+                                            <a th:href="@{/corporate/participant-list(programId=${programId}, status=${currentStatus}, page=${pageNum})}"
+                                               th:text="${pageNum}"
+                                               th:classappend="${pageNum == participantWithPaging.criteria.page} ? 'now' : ''">1</a>
+                                        </li>
+                                    </th:block>
+                                    <li th:if="${participantWithPaging.criteria.page < participantWithPaging.criteria.realEnd}">
+                                        <a th:href="@{/corporate/participant-list(programId=${programId}, status=${currentStatus}, page=${participantWithPaging.criteria.page + 1})}">&#8250;</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        
-                        
-
-                        <!-- <form name="sPrint" id="sPrint" action="/corp/person/resume_scrap_print" method="post">
-                            <input type="hidden" name="arrPKey">
-                            <input type="hidden" name="rPageCode" value="PC">
-                            <input type="hidden" name="arrR_No">
-                            <input type="hidden" name="arrM_ID">
-                        </form> -->
 
                         <div class="notice-box">
                             <ul class="point-bullet-list">
@@ -290,7 +205,6 @@
             </div>
 
             <!-- 피드백 모달 -->
-            <!-- javascript: 탈락/중도탈락 버튼을 누를 경우 active -->
             <div class="common-modal feedback-modal">
                 <div class="modal-dimmed"></div>
                 <div class="modal-contents">
@@ -302,24 +216,20 @@
                         </p>
                     </div>
                     <fieldset>
-                        <!-- server: 참여자 탈락 처리하기 -->
                         <form method="post" id="form" name="form">
                             <div class="modal-data">
                                 <div class="data-info">
-
                                     <div class="row_group">
                                         <div class="form_feedback flex-start">
                                             <div class="col_2 ">
-                                                <textarea id="feedback" style="resize: none; width: 430px; height: 200px;" 
+                                                <textarea id="feedback" style="resize: none; width: 430px; height: 200px;"
                                                 placeholder="참여자의 성장에 도움이 될 피드백을 작성해 주세요! (예: 강점, 개선점, 응원 메시지 등)"></textarea>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="modal-bts">
-                                <!-- server: 회원탈퇴 페이지로 이동 -->
                                 <button type="button" class="modal-btn cancel">취소</button>
                                 <button type="button" class="modal-btn reject">탈락 처리</button>
                             </div>
@@ -331,5 +241,8 @@
         <div th:replace="~{corporate/footer :: footer}"></div>
     </div>
 </body>
+<script th:inline="javascript">
+    const programId = /*[[${programId}]]*/ 0;
+</script>
 <script src="/js/corporate/participant-list/event.js"></script>
 </html>

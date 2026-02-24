@@ -9,9 +9,14 @@ import com.app.trycatch.dto.corporate.CorpTeamMemberWithPagingDTO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.dto.corporate.CorpProgramWithPagingDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.dto.corporate.ParticipantWithPagingDTO;
+import com.app.trycatch.dto.experience.ChallengerDTO;
+import com.app.trycatch.dto.experience.FeedbackDTO;
 import com.app.trycatch.repository.corporate.CorpTeamMemberDAO;
+import com.app.trycatch.repository.experience.ChallengerDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
+import com.app.trycatch.repository.experience.FeedbackDAO;
 import com.app.trycatch.domain.experience.ExperienceProgramFileVO;
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.dto.file.FileDTO;
@@ -57,6 +62,8 @@ public class CorporateService {
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
     private final QnaDAO qnaDAO;
     private final CorpWelfareRelDAO corpWelfareRelDAO;
+    private final ChallengerDAO challengerDAO;
+    private final FeedbackDAO feedbackDAO;
 
     // ── 기업회원 여부 확인 ──────────────────────────────────────────────
 
@@ -261,33 +268,52 @@ public class CorporateService {
 
     /** 프로그램 목록 (페이징 + 상태 필터 + 키워드 검색) */
     public CorpProgramWithPagingDTO getPrograms(Long corpId, int page, int rowCount,
-                                                       String status, String keyword) {
+                                                       String status, String keyword, String sort) {
         int total = experienceProgramDAO.countByCorpId(corpId, status, keyword);
 
         Criteria criteria = new Criteria(page, total);
         recalcCriteria(criteria, rowCount);
 
         List<ExperienceProgramDTO> list =
-                experienceProgramDAO.findByCorpId(corpId, criteria, status, keyword);
+                experienceProgramDAO.findByCorpId(corpId, criteria, status, keyword, sort);
         boolean hasMore = list.size() > rowCount;
         if (hasMore) list = list.subList(0, rowCount);
 
         return new CorpProgramWithPagingDTO(list, criteria, hasMore);
     }
 
-    // ── 참여자 관리 (tbl_challenger 스키마 확인 후 구현 예정) ──────────
+    // ── 참여자 관리 ──────────────────────────────────────────────────
 
-    public Object getParticipants(Long programId, Long corpId, String status, int page) {
-        // tbl_challenger / tbl_apply 스키마 확인 후 별도 구현
-        return Map.of("list", List.of(), "total", 0);
+    /** 참여자 목록 (페이징 + 상태 필터 + 상태별 카운트) */
+    public ParticipantWithPagingDTO getParticipants(Long programId, Long corpId, String status, int page) {
+        final int rowCount = 10;
+        int total = challengerDAO.countByProgramId(programId, status);
+
+        Criteria criteria = new Criteria(page, total);
+        recalcCriteria(criteria, rowCount);
+
+        List<ChallengerDTO> list = challengerDAO.findByProgramId(programId, status, criteria);
+        boolean hasMore = list.size() > rowCount;
+        if (hasMore) list = list.subList(0, rowCount);
+
+        Map<String, Long> statusCounts = challengerDAO.countStatusByProgramId(programId);
+
+        return new ParticipantWithPagingDTO(list, criteria, hasMore, statusCounts);
     }
 
+    /** 참여자 상태 변경 (승급 = completed) */
     public void updateParticipantStatus(Long participantId, Long corpId, String newStatus) {
-        // tbl_challenger 상태 변경 — 추후 구현
+        challengerDAO.setStatus(participantId, newStatus);
     }
 
+    /** 참여자 탈락 처리 + 피드백 저장 */
     public void rejectParticipant(Long participantId, Long corpId, String feedback) {
-        // tbl_challenger 상태 변경 + tbl_feedback 저장 — 추후 구현
+        challengerDAO.setStatus(participantId, "step_failed");
+
+        FeedbackDTO feedbackDTO = new FeedbackDTO();
+        feedbackDTO.setId(participantId);
+        feedbackDTO.setFeedbackContent(feedback);
+        feedbackDAO.save(feedbackDTO);
     }
 
     // ── 복리후생 조회 ──────────────────────────────────────────────────

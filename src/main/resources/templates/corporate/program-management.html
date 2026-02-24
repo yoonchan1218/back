@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전체 채용공고 | TRY-CATCH</title>
+    <title>전체 채험공고 | TRY-CATCH</title>
     <link rel="stylesheet" href="/css/corporate/header.css">
     <link rel="stylesheet" href="/css/corporate/footer.css">
     <link rel="stylesheet" href="/css/corporate/program-management.css">
@@ -26,6 +26,8 @@
                     <input id="statusInput" name="status" type="hidden" th:value="${currentStatus}">
                     <!-- 개수별 -->
                     <input id="TopCountInput" name="TopCount" type="hidden" th:value="${currentTopCount}">
+                    <!-- 정렬 -->
+                    <input id="sortInput" name="sort" type="hidden" th:value="${currentSort}">
                     <!-- 페이지 -->
                     <input id="pageInput" name="page" type="hidden" value="1">
 
@@ -33,26 +35,26 @@
                     <div class="noticeContent">
                         <!-- header -->
                         <div class="topArea">
-                            <h2 class="subTits">전체 채용공고</h2>
+                            <h2 class="subTits">전체 채험공고</h2>
                         </div>
 
                         <!-- 메뉴(탭) -->
                         <div class="mtcTplTab">
                             <ul class="tabItems">
                                 <li th:classappend="${currentStatus == 'recruiting' ? 'on' : ''}">
-                                    <a th:href="@{/corporate/program-management(status='recruiting', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}">모집중<span class="verdana" th:text="${programStats['recruiting']}">0</span></a>
+                                    <a th:href="@{/corporate/program-management(status='recruiting', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}">모집중<span class="verdana" th:text="${programStats['recruiting']}">0</span></a>
                                 </li>
                                 <li th:classappend="${currentStatus == 'closed' ? 'on' : ''}">
-                                    <a th:href="@{/corporate/program-management(status='closed', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}">모집마감<span class="verdana" th:text="${programStats['closed']}">0</span></a>
+                                    <a th:href="@{/corporate/program-management(status='closed', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}">모집마감<span class="verdana" th:text="${programStats['closed']}">0</span></a>
                                 </li>
                                 <li th:classappend="${currentStatus == 'draft' ? 'on' : ''}">
-                                    <a th:href="@{/corporate/program-management(status='draft', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}">진행중<span class="verdana" th:text="${programStats['draft']}">0</span></a>
+                                    <a th:href="@{/corporate/program-management(status='draft', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}">진행중<span class="verdana" th:text="${programStats['draft']}">0</span></a>
                                 </li>
                                 <li th:classappend="${currentStatus == 'cancelled' ? 'on' : ''}">
-                                    <a th:href="@{/corporate/program-management(status='cancelled', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}">진행종료<span class="verdana" th:text="${programStats['cancelled']}">0</span></a>
+                                    <a th:href="@{/corporate/program-management(status='cancelled', TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}">진행종료<span class="verdana" th:text="${programStats['cancelled']}">0</span></a>
                                 </li>
                                 <li th:classappend="${currentStatus == '' or currentStatus == null ? 'on' : ''}">
-                                    <a th:href="@{/corporate/program-management(TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}">전체<span class="verdana" th:text="${programStats['recruiting'] + programStats['closed'] + programStats['draft'] + programStats['cancelled']}">0</span></a>
+                                    <a th:href="@{/corporate/program-management(TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}">전체<span class="verdana" th:text="${programStats['recruiting'] + programStats['closed'] + programStats['draft'] + programStats['cancelled']}">0</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -63,20 +65,23 @@
                                 <div class="drop-down-box">
                                     <!-- 날짜별 -->
                                     <div class="button-box">
-                                        <button type="button" class="sort-button sort1">최근 등록일순</button>
-                                        <div class="sort-select-modal select-modal_common check-version ">
+                                        <button type="button" class="sort-button sort1"
+                                                th:text="${currentSort == 'created_asc' ? '과거 등록일순' :
+                                                           currentSort == 'updated_desc' ? '수정일순' :
+                                                           currentSort == 'deadline_asc' ? '마감일순' : '최근 등록일순'}">최근 등록일순</button>
+                                        <div class="sort-select-modal select-modal_common check-version">
                                             <ul>
                                                 <li>
-                                                    <button type="button" class="active">최근 등록일</button>
+                                                    <button type="button" data-sort="created_desc" th:classappend="${currentSort == null or currentSort == '' or currentSort == 'created_desc' ? 'active' : ''}">최근 등록일</button>
                                                 </li>
                                                 <li>
-                                                    <button type="button" class="">과거 등록일</button>
+                                                    <button type="button" data-sort="created_asc" th:classappend="${currentSort == 'created_asc' ? 'active' : ''}">과거 등록일</button>
                                                 </li>
                                                 <li>
-                                                    <button type="button" class="">수정일</button>
+                                                    <button type="button" data-sort="updated_desc" th:classappend="${currentSort == 'updated_desc' ? 'active' : ''}">수정일</button>
                                                 </li>
                                                 <li>
-                                                    <button type="button" class="">마감일</button>
+                                                    <button type="button" data-sort="deadline_asc" th:classappend="${currentSort == 'deadline_asc' ? 'active' : ''}">마감일</button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -147,7 +152,7 @@
                                                     <div class="more-option">
                                                         <ul>
                                                             <li>
-                                                                <a th:href="@{/corporate/participant-list(programId=${program.id})}">
+                                                                <a th:href="@{/corporate/applicant-list(programId=${program.id})}">
                                                                     <button type="button" class="applicantBtn">지원자 관리</button>
                                                                 </a>
                                                             </li>
@@ -188,21 +193,21 @@
                                 <!-- 페이지네이션 -->
                                 <div class="pagination" th:if="${programWithPaging.criteria.realEnd > 1}" style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:24px; padding-bottom:20px;">
                                     <a th:if="${programWithPaging.criteria.page > 1}"
-                                       th:href="@{/corporate/program-management(page=1, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}"
+                                       th:href="@{/corporate/program-management(page=1, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}"
                                        style="padding:6px 12px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#333;">&#171;</a>
                                     <a th:if="${programWithPaging.criteria.page > 1}"
-                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.page - 1}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}"
+                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.page - 1}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}"
                                        style="padding:6px 12px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#333;">&#8249;</a>
                                     <th:block th:each="pageNum : ${#numbers.sequence(programWithPaging.criteria.startPage, programWithPaging.criteria.endPage)}">
-                                        <a th:href="@{/corporate/program-management(page=${pageNum}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}"
+                                        <a th:href="@{/corporate/program-management(page=${pageNum}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}"
                                            th:text="${pageNum}"
                                            th:style="${pageNum == programWithPaging.criteria.page ? 'padding:6px 12px; border:1px solid #2563eb; border-radius:4px; text-decoration:none; color:#fff; background-color:#2563eb; font-weight:bold;' : 'padding:6px 12px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#333;'}">1</a>
                                     </th:block>
                                     <a th:if="${programWithPaging.criteria.page < programWithPaging.criteria.realEnd}"
-                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.page + 1}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}"
+                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.page + 1}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}"
                                        style="padding:6px 12px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#333;">&#8250;</a>
                                     <a th:if="${programWithPaging.criteria.page < programWithPaging.criteria.realEnd}"
-                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.realEnd}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword})}"
+                                       th:href="@{/corporate/program-management(page=${programWithPaging.criteria.realEnd}, status=${currentStatus}, TopCount=${currentTopCount}, SrchKeyword=${currentKeyword}, sort=${currentSort})}"
                                        style="padding:6px 12px; border:1px solid #ddd; border-radius:4px; text-decoration:none; color:#333;">&#187;</a>
                                 </div>
                             </div>

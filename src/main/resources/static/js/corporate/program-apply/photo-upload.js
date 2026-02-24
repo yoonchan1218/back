@@ -6,6 +6,9 @@
 
     if (!photoUploadBox || !photoInput || !photoPreviewList) return;
 
+    // 파일 누적 관리용 DataTransfer
+    const dataTransfer = new DataTransfer();
+
     photoUploadBox.addEventListener('click', function () {
         photoInput.click();
     });
@@ -36,15 +39,20 @@
                 alert('파일 크기는 5MB 이하만 가능합니다.');
                 return;
             }
-            if (photoPreviewList.children.length >= 5) {
+            if (dataTransfer.files.length >= 5) {
                 alert('최대 5장까지 업로드 가능합니다.');
                 return;
             }
+
+            // DataTransfer에 파일 추가
+            dataTransfer.items.add(file);
+            const fileIndex = dataTransfer.files.length - 1;
 
             var reader = new FileReader();
             reader.onload = function (e) {
                 var item = document.createElement('div');
                 item.className = 'photo-preview-item';
+                item.dataset.fileIndex = fileIndex;
                 item.innerHTML =
                     '<img src="' + e.target.result + '" alt="미리보기">' +
                     '<button type="button" class="photo-remove-btn">' +
@@ -52,12 +60,30 @@
                     '</button>';
 
                 item.querySelector('.photo-remove-btn').addEventListener('click', function () {
-                    item.remove();
+                    removeFile(item);
                 });
 
                 photoPreviewList.appendChild(item);
             };
             reader.readAsDataURL(file);
         });
+
+        // input의 files를 DataTransfer로 동기화
+        photoInput.files = dataTransfer.files;
+    }
+
+    function removeFile(item) {
+        // 현재 남아있는 미리보기 목록에서 인덱스 찾기
+        const items = Array.from(photoPreviewList.children);
+        const index = items.indexOf(item);
+
+        // DataTransfer에서 해당 파일 제거
+        dataTransfer.items.remove(index);
+
+        // input 동기화
+        photoInput.files = dataTransfer.files;
+
+        // 미리보기 제거
+        item.remove();
     }
 })();

@@ -114,17 +114,17 @@
                         </div>
                     </section>
 
-                    <!-- Section 2: 근무조건 -->
+                    <!-- Section 2: 체험조건 -->
                     <section class="form-section" id="workingSection">
                         <div class="section-header">
-                            <h2 class="section-header__title">근무조건을 입력해주세요.</h2>
+                            <h2 class="section-header__title">체험조건을 입력해주세요.</h2>
                         </div>
 
                         <div class="form-content">
-                            <!-- 근무지 주소 -->
+                            <!-- 체험지 주소 -->
                             <div class="form-row">
                                 <div class="form-row__label" style="top: 7px;">
-                                    <label class="label label--required">근무지 주소
+                                    <label class="label label--required">체험지 주소
                                         <span class="label-inner-span labae-icon">필수</span>
                                     </label>
                                 </div>
@@ -133,10 +133,10 @@
                                     <input type="text" id="detailAddress" class="input-field" placeholder="상세주소를 입력하세요" style="margin-top: 10px; display: none;">
                                 </div>
                             </div>
-                            <!-- 근무요일 -->
+                            <!-- 체험요일 -->
                             <div class="form-row">
                                 <div class="form-row__label">
-                                    <label class="radio-title">근무요일</label>
+                                    <label class="radio-title">체험요일</label>
                                 </div>
                                 <div class="form-row__content">
                                     <div class="date-range-input">
@@ -152,10 +152,10 @@
                                 </div>
                             </div>
 
-                            <!-- 근무시간 -->
+                            <!-- 체험시간 -->
                             <div class="form-row">
                                 <div class="form-row__label">
-                                    <label class="radio-title">근무시간</label>
+                                    <label class="radio-title">체험시간</label>
                                 </div>
                                 <div class="form-row__content">
                                     <div class="time-input-group">
@@ -208,7 +208,17 @@
                         </div>
 
                         <div class="form-content">
-                            <!-- 접수기간: 시작일/종료일 컬럼 제거로 삭제됨 -->
+                            <!-- 접수마감일 -->
+                            <div class="form-row">
+                                <div class="form-row__label">
+                                    <label class="label label--required">접수마감일
+                                        <span class="label-inner-span labae-icon">필수</span>
+                                    </label>
+                                </div>
+                                <div class="form-row__content">
+                                    <input type="date" class="input-field input-field--date" id="deadline" name="experienceProgramDeadline" required>
+                                </div>
+                            </div>
                             <!-- 제출서류 -->
                             <div class="form-row">
                                 <div class="form-row__label" style="top: 0px;">
@@ -311,7 +321,7 @@
                         <div class="regNotice">
                             <h4 class="regNotice-title">잠깐! 공고 등록 시 꼭 확인해 주세요!</h4>
                             <ul class="regNotice-list">
-                                <li class="regNotice-item">- 채용절차 공정화에 관한 법률에 따라 직무 수행과 상관없는 신체조건, 출신 지역, 재산 등의 개인정보를 요구, 수집하는 경우 <strong>500만 원 이하의 과태료가 부과될</strong> 수 있습니다.</li>
+                                <li class="regNotice-item">- 채험절차 공정화에 관한 법률에 따라 직무 수행과 상관없는 신체조건, 출신 지역, 재산 등의 개인정보를 요구, 수집하는 경우 <strong>500만 원 이하의 과태료가 부과될</strong> 수 있습니다.</li>
                                 <li class="regNotice-item">- 합리적 이유 없이 성별 제한 또는 연령 제한을 하는 경우 관련 법령에 따라 과태료가 부과될 수 있습니다.</li>
                                 <li class="regNotice-item">- 상세요강에 '고수익' '고소득' 으로 구직자를 현혹하는 내용이 포함된 공고는 <strong>사전 고지 없이 마감/삭제 될 수</strong> 있습니다.</li>
                             </ul>
@@ -351,7 +361,36 @@
         e.preventDefault();
         e.returnValue = '';
     });
-    document.getElementById('recruitForm').addEventListener('submit', function() {
+    document.getElementById('recruitForm').addEventListener('submit', function(e) {
+        const title = document.querySelector('input[name="experienceProgramTitle"]');
+        const job = document.querySelector('input[name="experienceProgramJob"]');
+        const level = document.querySelector('input[name="experienceProgramLevel"]:checked');
+        const deadline = document.getElementById('deadline');
+
+        if (!title.value.trim()) {
+            alert('프로그램 제목을 입력해주세요.');
+            title.focus();
+            e.preventDefault();
+            return;
+        }
+        if (!job.value.trim()) {
+            alert('직무를 입력해주세요.');
+            job.focus();
+            e.preventDefault();
+            return;
+        }
+        if (!level) {
+            alert('체험단계를 선택해주세요.');
+            e.preventDefault();
+            return;
+        }
+        if (!deadline.value) {
+            alert('접수마감일을 선택해주세요.');
+            deadline.focus();
+            e.preventDefault();
+            return;
+        }
+
         isSubmitting = true;
     });
 </script>

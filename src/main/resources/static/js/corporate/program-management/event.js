@@ -25,6 +25,17 @@ sortButtons.forEach((button) => {
             e.target.classList.add("active");
 
             if (button.classList.contains("sort1")) {
+                // 정렬 옵션 선택 시 서버로 전송
+                const sortValue = e.target.getAttribute("data-sort");
+                if (sortValue) {
+                    const sortInput = document.getElementById("sortInput");
+                    const pageInput = document.getElementById("pageInput");
+                    if (sortInput) sortInput.value = sortValue;
+                    if (pageInput) pageInput.value = "1";
+                    button.textContent = e.target.textContent + "순";
+                    document.getElementById("form").submit();
+                    return;
+                }
                 button.textContent = e.target.textContent + "순";
             } else if (button.classList.contains("sort2")) {
                 // 개수별 선택 시 폼 제출

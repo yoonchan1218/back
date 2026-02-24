@@ -7,13 +7,10 @@
     </insert>
 
     <select id="selectByQnaId" resultType="QnaCommentDTO">
-        select c.id, c.qna_id, c.individual_member_id, m.member_name,
-               c.qna_comment_parent, c.qna_comment_content,
-               c.created_datetime as createdDatetime, c.updated_datetime as updatedDatetime
-        from tbl_qna_comment c
-        left join tbl_member m on c.individual_member_id = m.id
-        where c.qna_id = #{qnaId}
-        order by c.created_datetime asc
+        select *
+        from view_qna_comment
+        where qna_id = #{qnaId}
+        order by created_datetime asc
     </select>
 
     <delete id="delete">

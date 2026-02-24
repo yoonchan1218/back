@@ -53,7 +53,7 @@ public class ExperienceProgramDAO {
     }
 
 //    기업 프로그램 관리: 목록 (페이징 + 필터)
-    public List<ExperienceProgramDTO> findByCorpId(Long corpId, Criteria criteria, String status, String keyword) {
-        return experienceProgramMapper.selectByCorpId(corpId, criteria, status, keyword);
+    public List<ExperienceProgramDTO> findByCorpId(Long corpId, Criteria criteria, String status, String keyword, String sort) {
+        return experienceProgramMapper.selectByCorpId(corpId, criteria, status, keyword, sort);
     }
 }
