@@ -20,6 +20,9 @@ public interface SkillLogCommentFileMapper {
     public List<FileDTO> selectFilesBySkillLogId(Long id);
     public List<FileDTO> selectFilesByCommentParentId(Long id);
 
+//    id 찾기
+    public Long selectFileIdBySkillLogCommentId(Long id);
+
 //    삭제
     public void delete(Long id);
     public void deleteAllBySkillLogId(Long id);

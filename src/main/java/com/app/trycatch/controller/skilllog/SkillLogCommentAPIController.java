@@ -31,19 +31,19 @@ public class SkillLogCommentAPIController {
     }
     @GetMapping("nested-comment-list/{page}")
     public SkillLogNestedCommentWithPagingDTO commentList(@PathVariable int page, Long skillLogId, Long commentId) {
-        log.info("{}", skillLogCommentService.getListInSkillLogAndParentComment(page, skillLogId, commentId));
         return skillLogCommentService.getListInSkillLogAndParentComment(page, skillLogId, commentId);
     }
 
 //    수정
     @PutMapping("{id}")
-    public void update(SkillLogCommentDTO skillLogCommentDTO, @RequestParam("file") MultipartFile multipartFile){
+    public void update(SkillLogCommentDTO skillLogCommentDTO, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
+
         skillLogCommentService.update(skillLogCommentDTO, multipartFile);
     }
 
     //    삭제
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long skillLogCommentId, Long fileId){
-        skillLogCommentService.delete(skillLogCommentId, fileId);
+    @DeleteMapping("{skillLogCommentId}")
+    public void delete(@PathVariable Long skillLogCommentId){
+        skillLogCommentService.delete(skillLogCommentId);
     }
 }

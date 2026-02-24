@@ -13,7 +13,7 @@ const commentLayout = (() => {
 
         Object.values(skillLogComments).forEach((comment) => {
             const li = document.createElement("li");
-            const condition = memberId === comment.memberId;
+            const condition = Number(memberId) === comment.memberId;
             li.id = `li${comment.id}`;
 
             text = `
@@ -59,14 +59,19 @@ const commentLayout = (() => {
                             <span class="cell">
                                 <button type="button" class="btnDelete devAnswerDeleteButton ${comment.id}">삭제</button>
                             </span>`;
+            } else {
+                text += `
+                            <span class="cell">
+                                <button type="button" class="btnReport devBtnReport" data-idf-no="${comment.id}" data-type="3">신고</button>
+                            </span>`;
             }
 
             text += `
                     </div>
-                    <div class="btnBx devComtRoot ${comment.id}">
+                    <div class="btnBx devComtRoot div${comment.id}">
                         <!-- 댓글, 좋아요 버튼 클릭시 클래스 active 추가 -->
                         <button type="button" class="btnCmt devBtnComtList">
-                            댓글 <em>2</em>
+                            댓글 <em>${comment.skillLogCommentChildCount}</em>
                         </button>
                         <button type="button" class="btnHeart qnaSpB devBtnAnswerLike">
                             0
@@ -124,7 +129,7 @@ const commentLayout = (() => {
 
 
             text += `
-                <!-- // 내 답글 수정 영역 -->
+                <!-- // 내 대댓글 수정 영역 -->
                 <div class="commentSec" style="display: none;">
                     <div class="cmtArea">
                         <ul class="cmtList replyWrap">
@@ -228,46 +233,73 @@ const commentLayout = (() => {
     }
 
     const showNestedCommentList = ({skillLogNestedComments, criteria}, memberId, commentId) => {
-        const div = document.createElement("div");
-        const li = document.getElementById(`li${commentId}}`);
+        const ul = document.querySelector(`#li${commentId} .cmtList.replyWrap`);
+        let text = "";
 
-        console.log(skillLogNestedComments);
-
-        div.classList.add("commentSec");
-        div.style.display = "none";
-
-        let text = `
-            <div class="cmtArea">
-                <ul class="cmtList replyWrap">`;
-
+        ul.innerHTML = "";
         skillLogNestedComments.forEach((comment) => {
+            const li = document.createElement("li");
+            const condition = Number(memberId) === comment.memberId;
+
+            li.classList.add(comment.id);
+            condition && li.classList.add("myCmt");
+            li.classList.add("devCmtWrap");
+
+
             // 대댓글 내용
-            text += `
-                <li class="devCmtWrap ${comment.memberId === memberId && 'myCmt'}" id="parentCommentId${comment.id}">
-                    <div class="devComtSection">
-                        <div class="infoBx">
-                            <i class="icoCmt qnaSpB">댓글</i>
-                            <a href="/User/Qstn/MainProfile?Target=50176432" class="my-profile" target="_blank">
-                                <span class="proThumb">
-                                    <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg" alt="프로필 이미지" 
-                                        onerror="this.src = 'https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'"
-                                    >
-                                </span>
-                                <span class="nickname">${comment.memberName}</span>
-                            </a>
-                            <span class="lvIcon">Lv ${comment.individualMemberLevel}</span>
-                        </div>
-                        <p class="cont">${comment.skillLogCommentContent}</p>
-                        <div class="cellBx">
-                            <span class="cell devComtDate">${comment.createdDatetime}</span>
-                            <span class="cell">
-                                <button type="button" class="btnReport devBtnReport ${comment.id}">신고</button>
+            text = `
+                <div class="devComtSection">
+                    <div class="infoBx">
+                        <i class="icoCmt qnaSpB">댓글</i>
+                        <a href="/User/Qstn/MainProfile?Target=50176432" class="my-profile" target="_blank">
+                            <span class="proThumb">
+                                <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_13.jpg" alt="프로필 이미지" 
+                                    onerror="this.src = 'https://cdn-assets.jobkorea.co.kr/images/jk-pc/m/ver_2/user/qna/profile_thumb/random_default.jpg'"
+                                >
                             </span>
+                            <span class="nickname">${comment.memberName}</span>
+                        </a>
+                        <span class="lvIcon">Lv ${comment.individualMemberLevel}</span>
+                    </div>
+                    <p class="cont">${comment.skillLogCommentContent}</p>`;
+
+            // 첨부 파일
+            if(comment.fileName) {
+                text += `
+                    <div class="attach-wrap">
+                        <div class="attach-emoticon">
+                            <img src="/api/files/display?filePath=${comment.filePath}&fileName=${comment.fileName}\" alt="">
                         </div>
-                    </div>`;
+                    </div>
+                `;
+            }
+
+            text += `
+                    <div class="cellBx">
+                        <span class="cell devComtDate">${comment.createdDatetime}</span>
+                    `;
+
+            if(condition) {
+                text += `
+                        <span class="cell">
+                            <button type="button" class="btnEdit devAnswerEditButton ${comment.id}">수정</button>
+                        </span>
+                        <span class="cell">
+                            <button type="button" class="btnDelete devAnswerDeleteButton ${comment.id}">삭제</button>
+                        </span>`;
+            } else {
+                text += `
+                        <span class="cell">
+                            <button type="button" class="btnReport devBtnReport" data-idf-no="${comment.id}" data-type="3">신고</button>
+                        </span>`;
+            }
+
+            text += `
+                    </div>
+                </div>`;
             //
             // 내 대댓글 수정
-            if(comment.memberId === memberId){
+            if(condition){
                 text += `
                     <div class="modify-comt" style="display: none;">
                         <div class="writeBoxWrap cmtWrite qnaSpB modify-comt" style="display: block;">
@@ -281,29 +313,17 @@ const commentLayout = (() => {
                                         <span class="ph ph_2" style="display: none;">
                                             댓글을 입력해주세요.<br>*휴대폰번호, 메일주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리될 수 있습니다.
                                         </span>
-                                        <textarea name="Cntnt" maxlength="1000" title="답변쓰기" value=""></textarea>
+                                        <textarea name="skillLogCommentContent" maxlength="1000" title="답변쓰기" value="${comment.skillLogCommentContent}"></textarea>
                                     </div>
                                     <div class="btnWrap">
                                         <div class="answer-util-wrap">
                                             <div class="answer-util-item">
-                                                <button type="button" class="icon-emoticon qnaSpB on">
-                                                    이모티콘
-                                                </button>
+                                                <button type="button" class="button icon-photo qnaSpB">사진</button>
+                                                <input type="file" style="display: none;" class="reply-file">
                                             </div>
-                                            <label>
-                                                <input type="file" style="
-                                                        display: none;
-                                                    " class="reply-file">
-                                                <button type="button" class="button icon-photo qnaSpB">
-                                                    사진
-                                                </button>
-                                            </label>
                                         </div>
                                         <span class="byte"><b id="count">0</b>/1,000</span>
-                                        <button type="button" id="btnSubmit" class="btnSbm devComtEditSubmitButton" data-comtno="94628">
-                                            등록
-                                        </button>
-                                        </div>
+                                        <button type="button" id="btnSubmit" class="btnSbm devComtEditSubmitButton" data-comtno="94628">등록</button>
                                     </div>
                                 </fieldset>
                             </form>
@@ -311,11 +331,12 @@ const commentLayout = (() => {
                                 닫기
                             </button>
                         </div>
+                    </div>
                     `;
             }
+            li.innerHTML = text;
+            if(ul) ul.appendChild(li);
         });
-        div.innerHTML = text;
-        if(li) li.appendChild(div);
     }
 
 

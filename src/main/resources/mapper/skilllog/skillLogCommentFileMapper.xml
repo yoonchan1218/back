@@ -29,6 +29,15 @@
         where c.skill_log_comment_parent_id = #{id}
     </select>
 
+    <select id="selectFileIdBySkillLogCommentId">
+        select
+            f.id
+        from tbl_skill_log_comment_file cf
+        join tbl_file f
+        on cf.id = f.id
+        where cf.skill_log_comment_id = #{id}
+    </select>
+
     <delete id="delete">
         delete from tbl_skill_log_comment_file
         where id = #{id}

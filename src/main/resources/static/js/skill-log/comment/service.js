@@ -28,19 +28,16 @@ const commentService = (() => {
     }
 
     // 수정
-    const update = async (reply) => {
-        await fetch(`/api/replies/${reply.id}`, {
+    const update = async (formData) => {
+        await fetch(`/api/skill-log/comments/${formData.get("id")}`, {
             method: "PUT",
-            body: JSON.stringify(reply),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            body: formData
         })
     }
 
     // 삭제
     const remove = async (id) => {
-        await fetch(`/api/replies/${id}`, {
+        await fetch(`/api/skill-log/comments/${id}`, {
             method: "DELETE"
         });
     }

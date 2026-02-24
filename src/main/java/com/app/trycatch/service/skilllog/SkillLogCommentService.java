@@ -156,13 +156,16 @@ public class SkillLogCommentService {
 
     //    삭제
 //    댓글 삭제
-    public void delete(Long skillLogCommentId, Long fileId) {
+    public void delete(Long skillLogCommentId) {
+        Long fileId = skillLogCommentFileDAO.findFileIdBySkillLogCommentId(skillLogCommentId);
+
 //        답글 파일 삭제
         List<FileDTO> commentFiles = skillLogCommentFileDAO.findFilesByCommentParentId(skillLogCommentId);
         skillLogCommentFileDAO.deleteAllBySkillLogCommentParentId(skillLogCommentId);
 
 //        답글 삭제
-        skillLogCommentDAO.deleteAllByCommentParentId(skillLogCommentId);
+//        skillLogCommentDAO.deleteAllByCommentParentId(skillLogCommentId);
+//        skillLogCommentId로 ParentId 찾기
 
 //        댓글 파일 삭제
         if (fileId != null) {

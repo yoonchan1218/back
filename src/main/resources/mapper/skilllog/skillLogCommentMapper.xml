@@ -8,10 +8,12 @@
 
     <select id="selectAllBySkillLogId">
         select
-           m.member_name, im.individual_member_level,
-           c.id, c.skill_log_id, c.member_id, c.skill_log_comment_parent_id, c.skill_log_comment_content,
-           c.created_datetime, c.updated_datetime,
-           f.file_path, f.file_name, f.file_original_name
+            m.member_name, im.individual_member_level,
+            c.id, c.skill_log_id, c.member_id, c.skill_log_comment_parent_id, c.skill_log_comment_content,
+            c.created_datetime, c.updated_datetime,
+            f.file_path, f.file_name, f.file_original_name,
+            (select count(*) from tbl_skill_log_comment child
+                where child.skill_log_comment_parent_id = c.id) as skill_log_comment_child_count
         from tbl_skill_log_comment c
         join tbl_member m
         on m.id = c.member_id
