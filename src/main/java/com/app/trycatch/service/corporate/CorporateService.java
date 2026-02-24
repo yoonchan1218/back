@@ -5,7 +5,9 @@ import com.app.trycatch.domain.corporate.CorpTeamMemberVO;
 import com.app.trycatch.domain.corporate.CorpWelfareRelVO;
 import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.corporate.CorpTeamMemberDTO;
+import com.app.trycatch.dto.corporate.ApplicantWithPagingDTO;
 import com.app.trycatch.dto.corporate.CorpTeamMemberWithPagingDTO;
+import com.app.trycatch.dto.experience.ApplyDTO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.dto.corporate.CorpProgramWithPagingDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
@@ -13,6 +15,7 @@ import com.app.trycatch.dto.corporate.ParticipantWithPagingDTO;
 import com.app.trycatch.dto.experience.ChallengerDTO;
 import com.app.trycatch.dto.experience.FeedbackDTO;
 import com.app.trycatch.repository.corporate.CorpTeamMemberDAO;
+import com.app.trycatch.repository.experience.ApplyDAO;
 import com.app.trycatch.repository.experience.ChallengerDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
@@ -62,6 +65,7 @@ public class CorporateService {
     private final ExperienceProgramFileDAO experienceProgramFileDAO;
     private final QnaDAO qnaDAO;
     private final CorpWelfareRelDAO corpWelfareRelDAO;
+    private final ApplyDAO applyDAO;
     private final ChallengerDAO challengerDAO;
     private final FeedbackDAO feedbackDAO;
 
@@ -131,7 +135,7 @@ public class CorporateService {
         // 기존 로고 삭제
         corpLogoFileDAO.findByCorpId(corpId).ifPresent(existing -> {
             corpLogoFileDAO.deleteByCorpId(corpId);
-            fileDAO.delete((Long) existing.get("id"));
+            fileDAO.delete(((Number) existing.get("id")).longValue());
         });
 
         // 파일 저장
@@ -165,7 +169,7 @@ public class CorporateService {
     public void deleteCorpLogo(Long corpId) {
         corpLogoFileDAO.findByCorpId(corpId).ifPresent(existing -> {
             corpLogoFileDAO.deleteByCorpId(corpId);
-            fileDAO.delete((Long) existing.get("id"));
+            fileDAO.delete(((Number) existing.get("id")).longValue());
         });
     }
 
@@ -328,6 +332,31 @@ public class CorporateService {
     /** 최신 QNA N개 */
     public List<QnaDTO> getRecentQnas(int limit) {
         return qnaDAO.findLatest(limit);
+    }
+
+    // ── 지원자 관리 ──────────────────────────────────────────────────
+
+    /** 지원자 목록 (페이징 + 상태 필터 + 키워드/학력/성별 검색 + 상태별 카운트) */
+    public ApplicantWithPagingDTO getApplicants(Long programId, String status, String keyword,
+                                                String education, String gender, int page) {
+        final int rowCount = 10;
+        int total = applyDAO.countByProgramId(programId, status, keyword, education, gender);
+
+        Criteria criteria = new Criteria(page, total);
+        recalcCriteria(criteria, rowCount);
+
+        List<ApplyDTO> list = applyDAO.findByProgramId(programId, status, keyword, education, gender, criteria);
+        boolean hasMore = list.size() > rowCount;
+        if (hasMore) list = list.subList(0, rowCount);
+
+        Map<String, Long> statusCounts = applyDAO.countStatusByProgramId(programId);
+
+        return new ApplicantWithPagingDTO(list, criteria, hasMore, statusCounts);
+    }
+
+    /** 지원자 반려 처리 (체크된 ID 배열) */
+    public void rejectApplicants(List<Long> applyIds) {
+        applyIds.forEach(id -> applyDAO.setStatus(id, "document_fail"));
     }
 
     // ── 내부 헬퍼 ────────────────────────────────────────────────────

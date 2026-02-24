@@ -565,6 +565,7 @@
                                 <li th:each="qna : ${recentQnas}">
                                     <a th:href="@{/qna/detail(id=${qna.id})}" class="clearfix">
                                         <div class="title" th:text="${qna.qnaTitle}">QNA 제목</div>
+                                        <div class="date" th:text="${#strings.replace(qna.createdDatetime?.substring(0,10), '-', '.')}">2026.02.20</div>
                                     </a>
                                 </li>
                             </ul>

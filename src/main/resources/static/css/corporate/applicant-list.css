@@ -137,9 +137,9 @@ input[type="checkbox"] {
     margin-left: 4px;
 }
 
-.status-tabs li:nth-child(5){
+.status-tabs__actions {
     margin-inline-start: auto;
-    text-box-trim: trim-start;
+    display: flex;
     gap: 5px;
 }
 
@@ -769,6 +769,79 @@ input[type="checkbox"] {
 
 .modal__confirm:hover {
     background: #006E3F;
+}
+
+.modal__buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal__cancel {
+    padding: 10px 24px;
+    background: #e0e0e0;
+    color: #333;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.modal__cancel:hover {
+    background: #ccc;
+}
+
+/* ============================================
+   필터 태그 삭제 버튼
+   ============================================ */
+.filter-tag-del,
+.active-filter-del {
+    width: 12px;
+    height: 12px;
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkgM0wzIDkiIHN0cm9rZT0iIzY2NiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMyAzTDkgOSIgc3Ryb2tlPSIjNjY2IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPgo=) no-repeat center;
+    background-size: contain;
+}
+
+/* ============================================
+   페이지네이션
+   ============================================ */
+.button_area {
+    margin-top: 20px;
+}
+
+.tplPagination {
+    text-align: center;
+}
+
+.tplPagination ul {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.tplPagination ul li a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.tplPagination ul li a:hover {
+    border-color: #006E3F;
+    color: #006E3F;
+}
+
+.tplPagination ul li a.now {
+    background: #006E3F;
+    border-color: #006E3F;
+    color: #fff;
+    font-weight: 700;
 }
 
 /* ============================================

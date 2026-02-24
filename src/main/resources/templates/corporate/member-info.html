@@ -180,7 +180,7 @@
                                             <div class="tbCell">
                                                 <div class="tbBx">
                                                     <!-- javascript: input 선택시 on 추가, 입력 완료시 .ok 추가 -->
-                                                    <div class="elWrap devElWrap">  
+                                                    <div class="elWrap devElWrap" th:classappend="${corpInfo.memberPhone != null and !corpInfo.memberPhone.isEmpty()} ? ' ok' : ''">
                                                         <div class="schInpType">
                                                             <label class="ph" for="devPhone">
                                                                 가입자 전화번호
@@ -198,7 +198,7 @@
                                             <div class="tbCell">
                                                 <div class="tbBx">
                                                     <!-- javascript: input 선택시 on 추가, 입력 완료시 .ok 추가 -->
-                                                    <div class="elWrap devElWrap">
+                                                    <div class="elWrap devElWrap" th:classappend="${corpInfo.memberEmail != null and !corpInfo.memberEmail.isEmpty()} ? ' ok' : ''">
                                                         <div class="schInpType">
                                                             <label class="ph" for="devEmail">
                                                                 가입자 이메일

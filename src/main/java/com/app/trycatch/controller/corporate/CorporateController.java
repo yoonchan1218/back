@@ -242,15 +242,34 @@ public class CorporateController {
     @GetMapping("/applicant-list")
     public String applicantList(
             @RequestParam(required = false) Long programId,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "") String education,
+            @RequestParam(defaultValue = "") String gender,
+            @RequestParam(defaultValue = "1") int page,
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
         if (programId == null) return "redirect:/corporate/program-management";
         Long corpId = getMemberId();
+        model.addAttribute("applicantWithPaging",
+                corporateService.getApplicants(programId, status, keyword, education, gender, page));
         model.addAttribute("programId", programId);
+        model.addAttribute("currentStatus", status);
+        model.addAttribute("currentKeyword", keyword);
+        model.addAttribute("currentEducation", education);
+        model.addAttribute("currentGender", gender);
         model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/applicant-list";
+    }
+
+    @PostMapping("/applicant/reject")
+    @ResponseBody
+    public Map<String, Object> rejectApplicants(@RequestBody List<Long> applyIds) {
+        if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
+        corporateService.rejectApplicants(applyIds);
+        return Map.of("success", true);
     }
 
     @PostMapping("/participant/promote")

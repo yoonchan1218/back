@@ -47,6 +47,7 @@
         LEFT JOIN tbl_corp_logo_file clf ON c.id = clf.corp_id
         LEFT JOIN tbl_file lf ON clf.id = lf.id
         WHERE m.id = #{id}
+        LIMIT 1
     </select>
 
     <update id="updateCorp">

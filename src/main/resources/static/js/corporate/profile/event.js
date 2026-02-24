@@ -133,6 +133,8 @@ const nationTags = nations
     )
     .join("");
 
+
+
 // 이벤트 핸들러 - 공통 Input
 companyBasicinputs
     .filter((input) => !input.closest(".addrMngWrap"))
@@ -148,6 +150,7 @@ companyBasicinputs
             if (input.id === "devOpenDate" || input.id === "devFax") {
                 input.value = input.value.replace(/[^0-9]/g, "");
             }
+
 
             // 자본금 필드 특수 처리
             if (input.classList.contains("devCapitalText")) {
@@ -1030,14 +1033,22 @@ submitButton.addEventListener("click", (e) => {
     }
 });
 
+
+
 // 페이지 로드 시 자본금 기존값 표시
 (function () {
     const corpCapitalValue = parseInt(document.getElementById("corpCapitalHidden").value) || 0;
     if (corpCapitalValue > 0) {
         const capitalA = Math.floor(corpCapitalValue / 100000000);
         const capitalB = Math.floor((corpCapitalValue % 100000000) / 10000);
-        if (capitalA > 0) document.getElementById("devCapital_A").value = capitalA;
-        if (capitalB > 0) document.getElementById("devCapital_B").value = capitalB;
+        if (capitalA > 0) {
+            document.getElementById("devCapital_A").value = capitalA;
+            document.getElementById("devCapitalUnitA").textContent = "억";
+        }
+        if (capitalB > 0) {
+            document.getElementById("devCapital_B").value = capitalB;
+            document.getElementById("devCapitalUnitB").textContent = "만원";
+        }
     }
 })();
 
