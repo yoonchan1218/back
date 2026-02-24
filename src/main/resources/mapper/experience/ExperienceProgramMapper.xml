@@ -63,7 +63,6 @@
     <select id="selectLatestByCorpId" resultType="ExperienceProgramDTO">
         SELECT ep.id, ep.experience_program_title, ep.experience_program_description,
                ep.experience_program_level, ep.experience_program_status,
-               ep.experience_program_start_date, ep.experience_program_end_date,
                ep.experience_program_deadline, ep.experience_program_recruitment_count,
                ep.created_datetime, ep.updated_datetime
         FROM tbl_experience_program ep
@@ -90,7 +89,6 @@
         SELECT ep.id, ep.experience_program_title, ep.experience_program_description,
                ep.experience_program_level, ep.experience_program_recruitment_count,
                ep.experience_program_work_days, ep.experience_program_work_hours,
-               ep.experience_program_start_date, ep.experience_program_end_date,
                ep.experience_program_deadline, ep.experience_program_status,
                ep.experience_program_view_count, ep.created_datetime, ep.updated_datetime,
                ep.corp_id
@@ -112,14 +110,12 @@
             corp_id, experience_program_title, experience_program_description,
             experience_program_level, experience_program_recruitment_count,
             experience_program_work_days, experience_program_work_hours,
-            experience_program_start_date, experience_program_end_date,
             experience_program_deadline, experience_program_status,
             experience_program_view_count, experience_program_job
         ) VALUES (
             #{corpId}, #{experienceProgramTitle}, #{experienceProgramDescription},
             #{experienceProgramLevel}, #{experienceProgramRecruitmentCount},
             #{experienceProgramWorkDays}, #{experienceProgramWorkHours},
-            #{experienceProgramStartDate}, #{experienceProgramEndDate},
             #{experienceProgramDeadline}, #{experienceProgramStatus},
             0, #{experienceProgramJob}
         )
@@ -130,7 +126,7 @@
             ep.id,
             ep.experience_program_title, ep.experience_program_description, ep.experience_program_level,
             ep.experience_program_recruitment_count, ep.experience_program_work_days, ep.experience_program_work_hours,
-            ep.experience_program_start_date, ep.experience_program_end_date, ep.experience_program_deadline, ep.experience_program_status,
+            ep.experience_program_deadline, ep.experience_program_status,
             ep.experience_program_view_count, ep.experience_program_job, ep.created_datetime, ep.updated_datetime,
 
             ep.corp_id, co.corp_company_name, co.corp_kind_small_id, co.corp_company_type,

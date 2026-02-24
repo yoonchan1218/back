@@ -24,9 +24,12 @@
                c.corp_kind_id, c.corp_kind_small_id, c.corp_company_type, c.corp_company_size,
                c.corp_establishment_date, c.corp_website_url, c.corp_fax,
                c.corp_capital, c.corp_total_sales, c.corp_main_business, c.corp_performance, c.corp_vision,
-               m.created_datetime, m.updated_datetime
-        from tbl_member m
-        join tbl_corp c on m.id = c.id
+               m.created_datetime, m.updated_datetime,
+               lf.file_path AS logo_file_path, lf.file_name AS logo_file_name
+        FROM tbl_member m
+        JOIN tbl_corp c ON m.id = c.id
+        LEFT JOIN tbl_corp_logo_file clf ON c.id = clf.corp_id
+        LEFT JOIN tbl_file lf ON clf.id = lf.id
         where m.member_id = #{memberId} and m.member_password = #{memberPassword} and m.member_status = 'active'
     </select>
 
