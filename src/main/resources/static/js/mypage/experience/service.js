@@ -11,9 +11,10 @@ const experienceService = (() => {
         }
     };
 
-    const filterApplyList = async (params, callback) => {
+    const filterApplyList = async (params, page, callback) => {
         try {
             const urlParams = new URLSearchParams();
+            urlParams.append("page", page || 1);
             Object.entries(params).forEach(([k, v]) => {
                 if (v !== null && v !== undefined && v !== "") urlParams.append(k, v);
             });

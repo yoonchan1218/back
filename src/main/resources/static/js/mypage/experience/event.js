@@ -19,30 +19,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return { fromDt, toDt, keyword, programStatus, applyStatus };
     };
 
-    const doFilter = () => {
-        const params = getFilterParams();
-        experienceService.filterApplyList(params, (applies) => {
-            if (applies !== false) experienceLayout.renderApplyList(applies);
+    // 마지막으로 사용된 파라미터 저장 (페이지네이션 시 동일 조건 유지)
+    let lastParams = getFilterParams();
+
+    const doFilter = (page, overrideParams) => {
+        const params = overrideParams || getFilterParams();
+        lastParams = params;
+        experienceService.filterApplyList(params, page || 1, (result) => {
+            if (result !== false) {
+                experienceLayout.renderApplyList(result.applies);
+                experienceLayout.updateStatusCounts(result);
+                experienceLayout.renderPagination(result.criteria, (targetPage) => doFilter(targetPage, lastParams));
+            }
         });
     };
 
-    // 1. 지원취소 팝업 - 개별 리스너 등록 함수
-    const setupCancelListeners = () => {
-        document.querySelectorAll(".devBtnCancel").forEach(btn => {
-            if (btn.dataset.listenerAttached === "true") return;
-            btn.dataset.listenerAttached = "true";
-            btn.addEventListener("click", () => {
-                currentApplyId = btn.dataset.idx;
-                currentCancelBtn = btn;
-                currentApplyStatus = btn.dataset.status;
-                experienceLayout.openCancelPopup(dimmedDiv, popupApplyCancel);
-            });
-        });
-    };
-
+    // 1. 지원취소 팝업 - document 위임 방식 (렌더링 시점 무관)
     if (popupApplyCancel) {
-        setupCancelListeners();
-        document.addEventListener("appliesRendered", setupCancelListeners);
+        document.addEventListener("click", (e) => {
+            const cancelBtn = e.target.closest(".devBtnCancel");
+            if (!cancelBtn) return;
+            currentApplyId = cancelBtn.dataset.idx;
+            currentCancelBtn = cancelBtn;
+            currentApplyStatus = cancelBtn.dataset.status;
+            experienceLayout.openCancelPopup(dimmedDiv, popupApplyCancel);
+        });
 
         const close = () => experienceLayout.closeCancelPopup(dimmedDiv, popupApplyCancel);
         if (buttonClose) buttonClose.addEventListener("click", close);
@@ -100,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => {
             experienceLayout.updatePeriodActive(btn, selectDueButtons);
 
-            const toStr = d => d.toISOString().split("T")[0];
+            const toStr = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             const today = new Date();
             const period = btn.dataset.period;
             let fromDt;
@@ -116,16 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             const toDt = toStr(today);
 
-            // 날짜 입력 필드도 동기화
-            const fromInput = document.getElementById("txtFromDt");
-            const toInput = document.getElementById("txtToDt");
-            if (fromInput) fromInput.value = fromDt;
-            if (toInput) toInput.value = toDt;
-
-            const params = { ...getFilterParams(), fromDt, toDt };
-            experienceService.filterApplyList(params, (applies) => {
-                if (applies !== false) experienceLayout.renderApplyList(applies);
-            });
+            doFilter(1, { ...getFilterParams(), fromDt, toDt });
         });
     });
 
@@ -145,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.stopPropagation();
                 experienceLayout.selectCommonDropItem(btn, dropDownDiv, item.textContent.trim());
                 btn.dataset.selectedVal = item.dataset.val || "";
+                doFilter();
             });
         });
     });
@@ -154,14 +147,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // 5. 검색 버튼
     const btnSubmit = document.getElementById("btnSubmit");
     if (btnSubmit) {
-        btnSubmit.addEventListener("click", doFilter);
+        btnSubmit.addEventListener("click", () => doFilter(1));
     }
 
     // 6. 키워드 입력 엔터키
     const txtSearchText = document.getElementById("txtSearchText");
     if (txtSearchText) {
         txtSearchText.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") doFilter();
+            if (e.key === "Enter") {
+                e.preventDefault();
+                doFilter();
+            }
         });
     }
 
