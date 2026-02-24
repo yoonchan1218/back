@@ -364,14 +364,13 @@
                                             href="javascript:void(0)"
                                             class="bell notify"
                                             id="js-bell"
-                                            onclick="
-                                                
-                                            "
                                         >
                                             알림
-                                            <span id="js-alarmCnt" class="" th:text="${(qnaAlrams != null ? #lists.size(qnaAlrams) : 0) + (applyAlrams != null ? #lists.size(applyAlrams) : 0)}">
+                                            <span id="js-alarmCnt" class="" th:text="${(qnaAlrams != null ? #lists.size(qnaAlrams) : 0) + (applyAlrams != null ? #lists.size(applyAlrams) : 0) + (skillLogAlrams != null ? #lists.size(skillLogAlrams) : 0)}">
                                                 0
                                             </span>
+                                            <span class="alarm-dot" id="js-alarmDot"
+                                                  th:if="${(qnaAlrams != null and !#lists.isEmpty(qnaAlrams)) or (applyAlrams != null and !#lists.isEmpty(applyAlrams)) or (skillLogAlrams != null and !#lists.isEmpty(skillLogAlrams))}"></span>
                                         </a>
                                         <div
                                             class="popup-notification"
@@ -411,28 +410,28 @@
                                                     <ul class="list-notification">
                                                         <li class="notification-item" th:each="alram : ${qnaAlrams}">
                                                             <div class="notification-header">
-                                                                <div class="notification-header-item category" th:text="${alram.alramCategory}"></div>
-                                                                <div class="notification-header-item date" th:text="${alram.alramReceivedAt}"></div>
+                                                                <div class="notification-header-item category">취업톡톡</div>
+                                                                <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
                                                             </div>
                                                             <div class="notification-body">
                                                                 <div class="notification-title">
-                                                                    <a th:href="@{/qna/detail(id=${alram.alramId})}" th:text="|${#strings.abbreviate(alram.alramTitle, 15)}... 질문에 댓글이 달렸습니다|"></a>
+                                                                    <a th:href="@{/qna/detail(id=${alram.qnaId})}" th:text="|${#strings.abbreviate(alram.notificationTitle, 15)}... 질문에 댓글이 달렸습니다|"></a>
                                                                 </div>
                                                             </div>
                                                             <div class="notificaiton-footer">
                                                                 <div class="buttons">
-                                                                    <a th:href="@{/qna/detail(id=${alram.alramId})}" class="button">자세히보기</a>
+                                                                    <a th:href="@{/qna/detail(id=${alram.qnaId})}" class="button">자세히보기</a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li class="notification-item" th:each="alram : ${applyAlrams}">
                                                             <div class="notification-header">
-                                                                <div class="notification-header-item category" th:text="${alram.alramCategory}"></div>
-                                                                <div class="notification-header-item date" th:text="${alram.alramReceivedAt}"></div>
+                                                                <div class="notification-header-item category">체험지원현황</div>
+                                                                <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
                                                             </div>
                                                             <div class="notification-body">
                                                                 <div class="notification-title">
-                                                                    <a th:href="@{/mypage/experience}" th:text="|${#strings.abbreviate(alram.alramTitle, 15)}... 지원 결과가 변경되었습니다|"></a>
+                                                                    <a th:href="@{/mypage/experience}" th:text="|${#strings.abbreviate(alram.notificationTitle, 15)}... 지원 결과가 변경되었습니다|"></a>
                                                                 </div>
                                                             </div>
                                                             <div class="notificaiton-footer">
@@ -441,7 +440,23 @@
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li class="notification-item" th:if="${(qnaAlrams == null or #lists.isEmpty(qnaAlrams)) and (applyAlrams == null or #lists.isEmpty(applyAlrams))}">
+                                                        <li class="notification-item" th:each="alram : ${skillLogAlrams}">
+                                                            <div class="notification-header">
+                                                                <div class="notification-header-item category">기술블로그</div>
+                                                                <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
+                                                            </div>
+                                                            <div class="notification-body">
+                                                                <div class="notification-title">
+                                                                    <a th:href="@{/skill-log/detail(id=${alram.skillLogId})}" th:text="|${#strings.abbreviate(alram.notificationTitle, 15)}... 글에 댓글이 달렸습니다|"></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="notificaiton-footer">
+                                                                <div class="buttons">
+                                                                    <a th:href="@{/skill-log/detail(id=${alram.skillLogId})}" class="button">자세히보기</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="notification-item" th:if="${(qnaAlrams == null or #lists.isEmpty(qnaAlrams)) and (applyAlrams == null or #lists.isEmpty(applyAlrams)) and (skillLogAlrams == null or #lists.isEmpty(skillLogAlrams))}">
                                                             <div class="notification-body">
                                                                 <div class="notification-title">새로운 알림이 없습니다.</div>
                                                             </div>

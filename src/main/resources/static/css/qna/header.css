@@ -865,6 +865,16 @@ li {
     animation: wobble 1.15s ease-in;
 }
 
+#headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item.notification .bell .alarm-dot {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff3b3b;
+    border-radius: 50%;
+}
+
 #headerWrap #header .headNavBar .userNav .corp>a .spGnb {
     display: inline-block;
     font-weight: 400;

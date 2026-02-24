@@ -19,4 +19,12 @@ public class IndividualAlramDAO {
     public List<AlramDTO> findApplyAlramsByMemberId(Long memberId) {
         return individualAlramMapper.selectApplyAlramsByMemberId(memberId);
     }
+
+    public List<AlramDTO> findSkillLogAlramsByMemberId(Long memberId) {
+        return individualAlramMapper.selectSkillLogAlramsByMemberId(memberId);
+    }
+
+    public void setReadByMemberId(Long memberId) {
+        individualAlramMapper.updateReadByMemberId(memberId);
+    }
 }

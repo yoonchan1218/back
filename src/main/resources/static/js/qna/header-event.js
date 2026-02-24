@@ -102,6 +102,11 @@ const notifyToggleOpen = document.querySelector(
 if (notifyButton) {
     notifyButton.addEventListener("click", (e) => {
         if (notifyToggleAttached) notifyToggleAttached.classList.toggle("attached");
+        const alarmDot = document.getElementById("js-alarmDot");
+        if (alarmDot) {
+            alarmDot.style.display = "none";
+            fetch("/api/alarm/read", { method: "PUT" });
+        }
     });
     notifyButton.addEventListener("mouseenter", (e) => {
         if (notifyToggleOpen) notifyToggleOpen.classList.add("open");

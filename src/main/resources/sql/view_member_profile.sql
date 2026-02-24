@@ -1,6 +1,7 @@
 -- 기존 뷰 재생성 시
 drop view if exists view_member_profile;
 
+
 create view view_member_profile as
 select
     m.id,

@@ -1,12 +1,19 @@
-package com.app.trycatch.dto.alarm;
+package com.app.trycatch.vo.alarm;
 
+import com.app.trycatch.audit.Period;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Getter @Setter @ToString @NoArgsConstructor
-public class AlramDTO {
+@Getter
+@ToString(callSuper = true)
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
+public class AlramVO extends Period {
     private Long id;
     private Long memberId;
     private String notificationType;
@@ -16,6 +23,4 @@ public class AlramDTO {
     private Long qnaId;
     private Long experienceProgramId;
     private Long skillLogId;
-    private String createdDatetime;
-    private String updatedDatetime;
 }

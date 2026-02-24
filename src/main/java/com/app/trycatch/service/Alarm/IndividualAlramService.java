@@ -14,13 +14,22 @@ import java.util.List;
 public class IndividualAlramService {
     private final IndividualAlramDAO individualAlramDAO;
 
-    @Transactional(readOnly = true)
+
     public List<AlramDTO> findQnaAlrams(Long memberId) {
         return individualAlramDAO.findQnaAlramsByMemberId(memberId);
     }
 
-    @Transactional(readOnly = true)
+
     public List<AlramDTO> findApplyAlrams(Long memberId) {
         return individualAlramDAO.findApplyAlramsByMemberId(memberId);
+    }
+
+
+    public List<AlramDTO> findSkillLogAlrams(Long memberId) {
+        return individualAlramDAO.findSkillLogAlramsByMemberId(memberId);
+    }
+
+    public void readAll(Long memberId) {
+        individualAlramDAO.setReadByMemberId(memberId);
     }
 }

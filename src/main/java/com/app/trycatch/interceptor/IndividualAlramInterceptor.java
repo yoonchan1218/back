@@ -1,7 +1,6 @@
 package com.app.trycatch.interceptor;
 
 import com.app.trycatch.dto.member.IndividualMemberDTO;
-import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.service.Alarm.IndividualAlramService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,18 +16,15 @@ public class IndividualAlramInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Long memberId = getMemberId(request.getSession(false));
-        request.setAttribute("qnaAlrams", memberId != null ? individualAlramService.findQnaAlrams(memberId) : null);
-        request.setAttribute("applyAlrams", memberId != null ? individualAlramService.findApplyAlrams(memberId) : null);
+        HttpSession session = request.getSession(false);
+        if (session == null || !(session.getAttribute("member") instanceof IndividualMemberDTO member)) {
+            return true;
+        }
+
+        Long memberId = member.getId();
+        request.setAttribute("qnaAlrams", individualAlramService.findQnaAlrams(memberId));
+        request.setAttribute("applyAlrams", individualAlramService.findApplyAlrams(memberId));
+        request.setAttribute("skillLogAlrams", individualAlramService.findSkillLogAlrams(memberId));
         return true;
-    }
-
-
-    private Long getMemberId(HttpSession session) {
-        if (session == null) return null;
-        Object member = session.getAttribute("member");
-        if (member instanceof MemberDTO memberDTOdto) return memberDTOdto.getId();
-        if (member instanceof IndividualMemberDTO individualMemberDTO) return individualMemberDTO.getId();
-        return null;
     }
 }

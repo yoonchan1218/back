@@ -17,6 +17,7 @@ create table tbl_qna_comment
     constraint fk_qna_comment_parent foreign key (qna_comment_parent)    references tbl_qna_comment (id) on delete cascade
 ) comment 'QnA 댓글';
 
+select * from tbl_qna_comment;
 
 set FOREIGN_KEY_CHECKS = 1;
 

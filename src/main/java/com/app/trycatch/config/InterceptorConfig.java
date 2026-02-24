@@ -15,6 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(individualAlramInterceptor)
                 .addPathPatterns("/qna/**")
-                .addPathPatterns("/mypage/**");
+                .addPathPatterns("/mypage/**")
+                .addPathPatterns("/skill-log/**");
     }
 }
