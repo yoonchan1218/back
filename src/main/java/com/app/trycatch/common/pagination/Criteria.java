@@ -21,7 +21,7 @@ public class Criteria {
 
     public Criteria(int page, int total) {
         this.total = total;
-        rowCount = 20;
+        rowCount = 10;
         pageCount = 10;
         count = rowCount + 1;
         this.page = Math.max(1, page);
