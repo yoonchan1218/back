@@ -297,7 +297,7 @@
                                                 <div class="lyItems devlyIngItems" style="display: none">
                                                     <ul>
                                                         <li><a href="javascript:void(0);" data-val="">전체</a></li>
-                                                        <li><a href="javascript:void(0);" data-val="recruiting">진행중</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="recruiting">모집 중</a></li>
                                                         <li><a href="javascript:void(0);" data-val="closed">마감</a></li>
                                                     </ul>
                                                 </div>
@@ -330,7 +330,7 @@
                                                         <li><a href="javascript:void(0);" data-val="applied">심사중</a></li>
                                                         <li><a href="javascript:void(0);" data-val="document_pass">참여중</a></li>
                                                         <li><a href="javascript:void(0);" data-val="document_fail">심사완료</a></li>
-                                                        <li><a href="javascript:void(0);" data-val="activity_done">수료</a></li>
+                                                        <li><a href="javascript:void(0);" data-val="activity_done">참여완료</a></li>
                                                         <li><a href="javascript:void(0);" data-val="cancelled">취소</a></li>
                                                     </ul>
                                                 </div>
@@ -443,8 +443,8 @@
                                         </td>
                                         <td>
                                             <span th:if="${apply.applyStatus == 'cancelled'}">지원취소됨</span>
-                                            <span th:if="${apply.applyStatus == 'document_pass'}">참여중</span>
-                                            <span th:if="${apply.applyStatus == 'activity_done'}">수료</span>
+                                            <span th:if="${apply.applyStatus == 'document_pass'}">마감</span>
+                                            <span th:if="${apply.applyStatus == 'activity_done'}">마감</span>
                                             <button th:if="${apply.applyStatus == 'applied' or apply.applyStatus == 'document_fail'}"
                                                     class="btn btnGyBd devBtnCancel devBtnOddInfo"
                                                     type="button"
@@ -479,7 +479,17 @@
                         <!-- 체험 지원 주의사항 시작 -->
                         <div class="tplPagination">
                             <ul>
-                                <li><span class="now">1</span></li>
+                                <li th:if="${criteria.realEnd > 10 and criteria.startPage > 1}">
+                                    <a href="javascript:void(0);" class="dev-page-btn" th:data-page="${criteria.startPage - 1}">&lt;</a>
+                                </li>
+                                <li th:each="i : ${#numbers.sequence(criteria.startPage, criteria.endPage)}">
+                                    <span th:if="${i == criteria.page}" class="now" th:text="${i}">1</span>
+                                    <a th:if="${i != criteria.page}" href="javascript:void(0);"
+                                       class="dev-page-btn" th:data-page="${i}" th:text="${i}">1</a>
+                                </li>
+                                <li th:if="${criteria.realEnd > 10 and criteria.endPage < criteria.realEnd}">
+                                    <a href="javascript:void(0);" class="dev-page-btn" th:data-page="${criteria.endPage + 1}">&gt;</a>
+                                </li>
                             </ul>
                         </div>
                         <input type="hidden" id="UserSmartMatchItems" />
@@ -528,7 +538,7 @@
                     <h1 class="skip">개인회원 서비스 메뉴</h1>
                     <div class="lnbGroup">
                         <h2 class="lnbTit">
-                            <a href="" onclick="">개인회원 홈</a>
+                            <a href="/mypage/mypage" onclick="">개인회원 홈</a>
                         </h2>
                     </div>
                     <div class="lnbGroup">
@@ -570,10 +580,10 @@
                         <h2 class="lnbTit">회원정보 관리</h2>
                         <ul>
                             <li>
-                                <a href="" onclick="">회원정보 수정</a>
+                                <a href="/mypage/change-my-information" onclick="">회원정보 수정</a>
                             </li>
                             <li>
-                                <a href="" onclick="">비밀번호 변경</a>
+                                <a href="/mypage/unsubscribe" onclick="">회원 탈퇴</a>
                             </li>
                         </ul>
                     </div>
@@ -713,5 +723,15 @@
         <script src="/js/mypage/experience/service.js"></script>
         <script src="/js/mypage/experience/layout.js"></script>
         <script src="/js/mypage/experience/event.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".tplPagination .dev-page-btn").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const page = parseInt(btn.dataset.page, 10);
+                        window.location.href = "/mypage/experience?page=" + page;
+                    });
+                });
+            });
+        </script>
     </html>
     

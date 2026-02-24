@@ -6,6 +6,8 @@ import com.app.trycatch.common.exception.UnauthorizedMemberAccessException;
 import com.app.trycatch.domain.mypage.LatestWatchPostingVO;
 import com.app.trycatch.domain.mypage.PointDetailsVO;
 import com.app.trycatch.domain.mypage.ScrapPostingVO;
+import com.app.trycatch.common.pagination.Criteria;
+import com.app.trycatch.dto.mypage.ApplyListWithPagingDTO;
 import com.app.trycatch.dto.mypage.LatestWatchPostingDTO;
 import com.app.trycatch.dto.mypage.MyPageNotificationDTO;
 import com.app.trycatch.dto.mypage.MyPageProfileDTO;
@@ -176,6 +178,31 @@ public class MyPageService {
             String programStatus, String applyStatus, String keyword) {
         return applyListDAO.findAllByMemberIdWithFilter(
                 memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+    }
+
+    @Transactional(readOnly = true)
+    public ApplyListWithPagingDTO getApplyListWithPagingAndFilter(
+            Long memberId, int page, String fromDt, String toDt,
+            String programStatus, String applyStatus, String keyword) {
+        int total = applyListDAO.findCountByMemberIdWithFilter(
+                memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+        Criteria criteria = new Criteria(page, total);
+        List<ApplyListDTO> list = applyListDAO.findAllByMemberIdWithFilterAndPaging(
+                memberId, fromDt, toDt, programStatus, applyStatus, keyword, criteria);
+        criteria.setHasMore(list.size() == criteria.getCount());
+        if (criteria.isHasMore()) list.remove(list.size() - 1);
+
+        ApplyListWithPagingDTO statusCounts = applyListDAO.findStatusCountsByMemberIdWithFilter(
+                memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+
+        ApplyListWithPagingDTO result = new ApplyListWithPagingDTO();
+        result.setApplies(list);
+        result.setCriteria(criteria);
+        result.setAppliedCount(statusCounts.getAppliedCount());
+        result.setDocumentPassCount(statusCounts.getDocumentPassCount());
+        result.setDocumentFailCount(statusCounts.getDocumentFailCount());
+        result.setActivityDoneCount(statusCounts.getActivityDoneCount());
+        return result;
     }
 
     @Transactional(readOnly = true)

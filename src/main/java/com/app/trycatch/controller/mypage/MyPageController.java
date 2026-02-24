@@ -4,6 +4,7 @@ import com.app.trycatch.common.enumeration.member.Status;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.mypage.ApplyListDTO;
+import com.app.trycatch.dto.mypage.ApplyListWithPagingDTO;
 import com.app.trycatch.dto.mypage.MyPageUpdateDTO;
 import com.app.trycatch.dto.mypage.ScrapPostingDTO;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MyPageController {
     private final MyPageService myPageService;
     private final HttpSession session;
-// 공고 완료되면 추가 수정 예정
+
     @GetMapping({"", "/"})
     public RedirectView goToMyPageRoot() {
         return new RedirectView("/mypage/mypage");
@@ -100,15 +101,17 @@ public class MyPageController {
     }
 
     @GetMapping("experience")
-    public String goToExperience(Model model) {
+    public String goToExperience(@RequestParam(defaultValue = "1") int page, Model model) {
         Long memberId = getSessionMemberId();
         model.addAttribute("profile", myPageService.getProfile(memberId));
-        List<ApplyListDTO> applies = myPageService.getApplyList(memberId);
-        model.addAttribute("applies", applies);
-        model.addAttribute("appliedCount", applies.stream().filter(a -> "applied".equals(a.getApplyStatus())).count());
-        model.addAttribute("documentPassCount", applies.stream().filter(a -> "document_pass".equals(a.getApplyStatus())).count());
-        model.addAttribute("documentFailCount", applies.stream().filter(a -> "document_fail".equals(a.getApplyStatus())).count());
-        model.addAttribute("activityDoneCount", applies.stream().filter(a -> "activity_done".equals(a.getApplyStatus())).count());
+        ApplyListWithPagingDTO result = myPageService.getApplyListWithPagingAndFilter(
+                memberId, page, null, null, null, null, null);
+        model.addAttribute("applies", result.getApplies());
+        model.addAttribute("criteria", result.getCriteria());
+        model.addAttribute("appliedCount", result.getAppliedCount());
+        model.addAttribute("documentPassCount", result.getDocumentPassCount());
+        model.addAttribute("documentFailCount", result.getDocumentFailCount());
+        model.addAttribute("activityDoneCount", result.getActivityDoneCount());
         return "mypage/experience";
     }
 
@@ -129,14 +132,16 @@ public class MyPageController {
 
     @GetMapping("experience/filter")
     @ResponseBody
-    public List<ApplyListDTO> filterApplyList(
+    public ApplyListWithPagingDTO filterApplyList(
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(required = false) String fromDt,
             @RequestParam(required = false) String toDt,
             @RequestParam(required = false) String programStatus,
             @RequestParam(required = false) String applyStatus,
             @RequestParam(required = false) String keyword) {
         Long memberId = getSessionMemberId();
-        return myPageService.getApplyListWithFilter(memberId, fromDt, toDt, programStatus, applyStatus, keyword);
+        return myPageService.getApplyListWithPagingAndFilter(
+                memberId, page, fromDt, toDt, programStatus, applyStatus, keyword);
     }
 
     @PostMapping("experience/cancel")
