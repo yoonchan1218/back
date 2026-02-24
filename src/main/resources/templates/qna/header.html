@@ -300,7 +300,7 @@
                             <!-- 비로그인 상단(로그인,회원가입,별충전,기업서비스 드롭다운)// -->
                             <!-- //로그인 상단(알림,개인서비스) -->
                             <!-- //기업회원 로그인 상단(기업서비스, 담당자명) -->
-                            <ul class="userNav" th:if="${session.member != null and session.member instanceof T(com.app.trycatch.dto.member.CorpMemberDTO)}">
+                            <ul class="userNav" th:if="${session.member != null and session.member.class.name == 'com.app.trycatch.dto.member.CorpMemberDTO'}">
                                 <li class="userNav-item notification devLiNotification">
                                     <a href="javascript:void(0)" class="bell notify" id="js-corpBell">
                                         알림
@@ -394,7 +394,7 @@
                             </ul>
                             <!-- 기업회원 로그인 상단(기업서비스, 담당자명)// -->
                             <!-- //개인회원 로그인 상단(알림,개인서비스) -->
-                            <ul id="devMyPage" class="userNav" th:if="${session.member != null and session.member instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO)}">
+                            <ul id="devMyPage" class="userNav" th:if="${session.member != null and session.member.class.name == 'com.app.trycatch.dto.member.IndividualMemberDTO'}">
                                     <li
                                         class="userNav-item notification devLiNotification"
                                     >
@@ -813,13 +813,13 @@
                                                 <div class="lyRow">
                                                     <div class="btnRowWrap">
                                                         <a
-                                                            th:if="${session.member != null and session.member instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO) and session.member.provider != null and session.member.provider.value == 'kakao'}"
+                                                            th:if="${session.member != null and session.member.class.name == 'com.app.trycatch.dto.member.IndividualMemberDTO' and session.member.provider != null and session.member.provider.value == 'kakao'}"
                                                             href="https://kauth.kakao.com/oauth/logout?client_id=edeefdf5ab96d36811571fbd1e56a4cf&logout_redirect_uri=http://localhost:10000/main/log-out"
                                                             class="btnLogOut"
                                                             >로그아웃</a
                                                         >
                                                         <a
-                                                            th:unless="${session.member != null and session.member instanceof T(com.app.trycatch.dto.member.IndividualMemberDTO) and session.member.provider != null and session.member.provider.value == 'kakao'}"
+                                                            th:unless="${session.member != null and session.member.class.name == 'com.app.trycatch.dto.member.IndividualMemberDTO' and session.member.provider != null and session.member.provider.value == 'kakao'}"
                                                             href="/main/log-out"
                                                             class="btnLogOut"
                                                             >로그아웃</a
