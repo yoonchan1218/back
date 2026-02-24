@@ -343,79 +343,6 @@ commentReplyCloseButtons.forEach((closeBtn) => {
 //     alert("로그인 후 이용하실 수 있습니다.");
 // });
 
-// 댓글에 이모티콘(로그인)
-const imoticonButtons = document.querySelectorAll(".icon-emoticon.qnaSpB");
-const imoticonToolbars = document.querySelectorAll(
-    ".layer-box-wrap.emotion-layer",
-);
-const buttonLayerCloses = document.querySelectorAll(".btn-layer-close.qnaSpB");
-
-imoticonButtons.forEach((imoticonButton, i) => {
-    imoticonButton.addEventListener("click", (e) => {
-        imoticonButton.classList.toggle("on");
-        imoticonToolbars[i].classList.toggle("open");
-    });
-});
-
-// 이모티콘 버튼 x눌렀을 때 나가기
-buttonLayerCloses.forEach((buttonLayerClose, idx) => {
-    buttonLayerClose.addEventListener("click", (e) => {
-        imoticonToolbars[idx].classList.remove("open");
-        imoticonButtons[idx].classList.remove("on");
-    });
-});
-
-// 이모티콘 첨부하기(로그인)
-// 이모티콘 추가
-const emotionButtons = document.querySelectorAll(".emotion-button");
-
-emotionButtons.forEach((emotionButton) => {
-    emotionButton.addEventListener("click", (e) => {
-        const img = emotionButton.querySelector("img");
-        const imgSrc = img?.src || "";
-
-        const writeBoxWrap = emotionButton.closest(".writeBoxWrap");
-        if (!writeBoxWrap) return;
-
-        const uiPlaceholder = writeBoxWrap.querySelector(".uiPlaceholder");
-        const ph1 = writeBoxWrap.querySelector(".ph_1");
-        const ph2 = writeBoxWrap.querySelector(".ph_2");
-        const emotionLayer = writeBoxWrap.querySelector(".emotion-layer");
-        const imoticonButton = writeBoxWrap.querySelector(".icon-emoticon");
-
-        // 댓글창 열린 상태로 만들기
-        writeBoxWrap.classList.remove("case");
-        if (uiPlaceholder) uiPlaceholder.classList.add("focus");
-        if (ph1) ph1.style.display = "none";
-
-        // ✅ textarea에 글이 있는지 확인
-        const textarea = writeBoxWrap.querySelector("textarea");
-        if (ph2) {
-            ph2.style.display = textarea?.value ? "none" : "block";
-        }
-        // ✅ 기존 attach-wrap 삭제 (하나만 허용)
-        const existingAttach = uiPlaceholder?.querySelector(".attach-wrap");
-        if (existingAttach) existingAttach.remove();
-
-        const div = document.createElement("div");
-        div.classList.add("attach-wrap");
-        div.innerHTML = `
-            <div class="attach-emoticon">
-                <img src="${imgSrc}" alt="">
-                <button type="button" class="remove-button qnaSpB">삭제하기</button>
-            </div>
-        `;
-
-        if (uiPlaceholder) uiPlaceholder.appendChild(div);
-
-        div.querySelector(".remove-button")?.addEventListener("click", () => {
-            div.remove();
-        });
-
-        if (emotionLayer) emotionLayer.classList.remove("open");
-        if (imoticonButton) imoticonButton.classList.remove("on");
-    });
-});
 
 // 첨부파일
 const addFiles = document.querySelectorAll(".reply-file");
@@ -436,16 +363,17 @@ addFiles.forEach((addFile) => {
 
         if (!writeBoxWrap) return;
 
+        // 파일을 writeBoxWrap에 저장 (submit 시 사용)
+        writeBoxWrap._selectedFile = file;
+
         const uiPlaceholder = writeBoxWrap.querySelector(".uiPlaceholder");
         const ph1 = writeBoxWrap.querySelector(".ph_1");
         const ph2 = writeBoxWrap.querySelector(".ph_2");
 
-        // 댓글창 열린 상태로 만들기
         writeBoxWrap.classList.remove("case");
         if (uiPlaceholder) uiPlaceholder.classList.add("focus");
         if (ph1) ph1.style.display = "none";
 
-        // ✅ textarea에 글이 있는지 확인
         const textarea = writeBoxWrap.querySelector("textarea");
         if (ph2) {
             ph2.style.display = textarea?.value ? "none" : "block";
@@ -466,7 +394,6 @@ addFiles.forEach((addFile) => {
             );
             if (imgPathInput) imgPathInput.value = path;
 
-            // ✅ 기존 attach-wrap 삭제 (하나만 허용)
             const existingAttach = uiPlaceholder?.querySelector(".attach-wrap");
             if (existingAttach) existingAttach.remove();
 
@@ -486,6 +413,7 @@ addFiles.forEach((addFile) => {
                 () => {
                     div.remove();
                     if (imgPathInput) imgPathInput.value = "";
+                    writeBoxWrap._selectedFile = null;
                 },
             );
         });
@@ -493,7 +421,20 @@ addFiles.forEach((addFile) => {
         e.target.value = "";
     });
 });
-// 대댓글 전용(로그인)
+
+// 기존 첨부 이미지 삭제 버튼 (서버 렌더링된 이미지) - 이벤트 위임
+document.addEventListener("click", (e) => {
+    const removeBtn = e.target.closest(".attach-wrap .remove-button");
+    if (!removeBtn) return;
+    const attachWrap = removeBtn.closest(".attach-wrap");
+    const writeBoxWrap = removeBtn.closest(".writeBoxWrap");
+    if (attachWrap) attachWrap.remove();
+    if (writeBoxWrap) {
+        writeBoxWrap._selectedFile = null;
+        writeBoxWrap._imageRemoved = true;
+    }
+});
+
 // 댓글 통합
 const wrappers = document.querySelectorAll(".writeBoxWrap.cmtWrite");
 
@@ -537,26 +478,14 @@ wrappers.forEach((wrapper) => {
 
     // 외부 클릭(로그인)
     document.addEventListener("click", (e) => {
-        // 1. 클릭 대상이 mainTextarea 아닐 경우
-        // 2. 작성된 내용이 없을 경우
-        // 3. 클릭 대상이 이모티콘 버튼이 아닐 경우
-        // 4. 클릭 대상이 이모티콘이 아닐 경우
-        const hasAttachment = wrapper.querySelector(".attach-wrap");
-
         if (
             e.target.tagName !== "TEXTAREA" &&
-            !hasAttachment &&
-            !textarea.value &&
-            !e.target.classList.contains("icon-emoticon") &&
-            !e.target.closest(".emotion-area")
+            !textarea.value
         ) {
-            const emotionLayer = document.querySelector(".emotion-layer");
-            if (!emotionLayer || !emotionLayer.classList.contains("open")) {
-                wrapper.classList.add("case");
-                if (uiPlaceholder) uiPlaceholder.classList.remove("focus");
-                if (ph1) ph1.style.display = "block";
-                if (ph2) ph2.style.display = "none";
-            }
+            wrapper.classList.add("case");
+            if (uiPlaceholder) uiPlaceholder.classList.remove("focus");
+            if (ph1) ph1.style.display = "block";
+            if (ph2) ph2.style.display = "none";
         }
     });
 });
@@ -576,8 +505,15 @@ replyOfReplySubmitButtons.forEach((replyOfReplySubmitButton) => {
         const parent = form.querySelector("[name=qnaCommentParent]").value;
         const content = form.querySelector("textarea.devComtWrite").value;
         if (!content.trim()) { alert("내용을 입력해주세요."); return; }
-        const params = new URLSearchParams({ qnaId, qnaCommentContent: content, qnaCommentParent: parent });
-        const res = await fetch("/qna/comment/write", { method: "POST", body: params });
+        const formData = new FormData();
+        formData.append("qnaId", qnaId);
+        formData.append("qnaCommentContent", content);
+        formData.append("qnaCommentParent", parent);
+        const writeBox = form.closest(".writeBoxWrap");
+        if (writeBox && writeBox._selectedFile) {
+            formData.append("file", writeBox._selectedFile);
+        }
+        const res = await fetch("/qna/comment/write", { method: "POST", body: formData });
         const data = await res.json();
         if (data.success === false) { alert(data.message); return; }
         location.reload();
@@ -591,8 +527,14 @@ if (replySubmitButton) {
         const qnaId = form.querySelector("[name=qnaId]").value;
         const content = form.querySelector("textarea[name=qnaCommentContent]").value;
         if (!content.trim()) { alert("내용을 입력해주세요."); return; }
-        const params = new URLSearchParams({ qnaId, qnaCommentContent: content });
-        const res = await fetch("/qna/comment/write", { method: "POST", body: params });
+        const formData = new FormData();
+        formData.append("qnaId", qnaId);
+        formData.append("qnaCommentContent", content);
+        const writeBox = form.closest(".writeBoxWrap");
+        if (writeBox && writeBox._selectedFile) {
+            formData.append("file", writeBox._selectedFile);
+        }
+        const res = await fetch("/qna/comment/write", { method: "POST", body: formData });
         const data = await res.json();
         if (data.success === false) { alert(data.message); return; }
         location.reload();
@@ -721,8 +663,17 @@ document.addEventListener("click", async (e) => {
     if (!textarea) return;
     const content = textarea.value;
     if (!content.trim()) { alert("내용을 입력해주세요."); return; }
-    const params = new URLSearchParams({ id, qnaCommentContent: content });
-    const res = await fetch("/qna/comment/update", { method: "PUT", body: params });
+    const writeBox = container.querySelector(".writeBoxWrap");
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("qnaCommentContent", content);
+    if (writeBox && writeBox._imageRemoved) {
+        formData.append("removeFile", "true");
+    }
+    if (writeBox && writeBox._selectedFile) {
+        formData.append("file", writeBox._selectedFile);
+    }
+    const res = await fetch("/qna/comment/update", { method: "PUT", body: formData });
     const data = await res.json();
     if (data.success) location.reload();
     else alert(data.message || "수정에 실패했습니다.");

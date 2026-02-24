@@ -1,6 +1,7 @@
 package com.app.trycatch.controller.qna;
 
 import com.app.trycatch.domain.qna.QnaVO;
+import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.qna.CorpNameKeywordDTO;
@@ -43,6 +44,8 @@ public class QnaController {
             return memberDTO.getId();
         } else if (member instanceof IndividualMemberDTO individualMemberDTO) {
             return individualMemberDTO.getId();
+        } else if (member instanceof CorpMemberDTO corpMemberDTO) {
+            return corpMemberDTO.getId();
         }
         return null;
     }
@@ -80,6 +83,7 @@ public class QnaController {
         model.addAttribute("qna", qnaService.detail(id, memberId));
         model.addAttribute("loginMember", member);
         model.addAttribute("comments", qnaCommentService.list(id));
+        model.addAttribute("hasMyComment", memberId != null && qnaCommentService.hasComment(id, memberId));
         model.addAttribute("sideTopPosts", qnaService.getTopByViewCount(5));
         model.addAttribute("sideLatestPosts", qnaService.getLatest(5));
         return "qna/QnA-detail";

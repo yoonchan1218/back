@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 public class QnaCommentVO extends Period {
     private Long id;
     private Long qnaId;
-    private Long individualMemberId;
+    private Long memberId;
     private Long qnaCommentParent;
     private String qnaCommentContent;
 }

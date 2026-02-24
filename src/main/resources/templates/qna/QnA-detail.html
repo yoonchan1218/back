@@ -210,6 +210,7 @@
     <div id="container">
         <!-- 뷰 : qnaViewWrap -->
         <div id="content" class="qnaViewWrap">
+            <input type="hidden" name="qnaId" id="pageQnaId" th:value="${qna.id}">
             <div class="top-title-wrap">
                 <h2 class="title">
                     <span class="skip">질문 상세 보기</span>
@@ -390,7 +391,14 @@
                         </div>
                     </div>
                     <!-- // contBox -->
-                    <div class="inputBox">
+                    <!-- 이미 댓글을 작성한 경우 안내문 -->
+                    <div class="inputBox" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.CorpMemberDTO) and hasMyComment}">
+                        <div class="notice-box-wrap" style="text-align: center; padding: 20px 0; color: #888;">
+                            <p style="font-size: medium">질문당 하나의 댓글만 작성할 수 있습니다.</p>
+                        </div>
+                    </div>
+                    <!-- 댓글 미작성 기업회원: 입력폼 표시 -->
+                    <div class="inputBox" th:if="${loginMember != null and loginMember instanceof T(com.app.trycatch.dto.member.CorpMemberDTO) and !hasMyComment}">
                         <div
                                 class="writeBoxWrap cmtWrite case"
                                 style="margin-bottom: 10px"
@@ -403,7 +411,6 @@
                                     <input type="hidden" name="qnaId" th:value="${qna.id}">
                                     <input type="hidden" name="W_Type_Code" id="W_Type_Code" value="2">
                                     <input type="hidden" name="Img_Path" id="Img_Path">
-                                    <input type="hidden" name="Emtcon_Path" id="Emtcon_Path">
                                     <legend>후배에게 답변하기 입력</legend>
                                     <div class="uiPlaceholder">
                                         <span class="ph ph_1" style="display: block;">솔직하고 따뜻한 댓글을 남겨주세요.</span>
@@ -413,9 +420,6 @@
                                     </div>
                                     <div class="btnWrap">
                                         <div class="answer-util-wrap">
-                                            <div class="answer-util-item">
-                                                <button type="button" class="icon-emoticon qnaSpB">이모티콘</button>
-                                            </div>
                                             <div class="answer-util-item">
                                                 <label>
                                                     <input type="file" style="display: none;" class="reply-file">
@@ -427,44 +431,6 @@
                                         <button type="button" id="btnSubmit" class="btnSbm devBtnAnswerWrite"
                                                 data-qstnno="128418">등록
                                         </button>
-                                        <div class="layer-box-wrap emotion-layer">
-                                            <p class="layer-header">이모티콘</p>
-                                            <ul class="emotion-area">
-                                                <!-- [dev] 이모티콘 총 6개 -->
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"
-                                                            data-idx="1" alt=""></button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"
-                                                            data-idx="2" alt=""></button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"
-                                                            data-idx="3" alt=""></button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"
-                                                            data-idx="4" alt=""></button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"
-                                                            data-idx="5" alt=""></button>
-                                                </li>
-                                                <li class="emotion-item">
-                                                    <button type="button" class="emotion-button"><img
-                                                            src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"
-                                                            data-idx="6" alt=""></button>
-                                                </li>
-                                            </ul>
-                                            <button type="button" class="btn-layer-close qnaSpB"><span
-                                                    class="blind">닫기</span></button>
-                                        </div>
                                     </div>
                                 </fieldset>
                             </form>
@@ -549,15 +515,25 @@
                             <th:block th:each="comment : ${comments}" th:if="${comment.qnaCommentParent == null}">
                                 <li th:data-comment-id="${comment.id}">
                                     <div class="contSec devContSection"
-                                         th:classappend="${loginMember != null and comment.individualMemberId == loginMember.id} ? 'myCmt'">
+                                         th:classappend="${loginMember != null and comment.memberId == loginMember.id} ? 'myCmt'">
                                         <div class="infoBx">
+                                            <span class="proThumb" th:if="${comment.logoFilePath != null}" style="display:inline-block; width:24px; height:24px; vertical-align:middle; margin-right:6px;">
+                                                <img th:src="@{/api/files/display(filePath=${comment.logoFilePath}, fileName=${comment.logoFileName})}"
+                                                     alt="기업 로고" style="width:24px; height:24px; border-radius:50%; object-fit:cover;" />
+                                            </span>
                                             <span class="nickname" th:text="${comment.memberName}">닉네임</span>
                                         </div>
                                         <p class="cont" th:text="${comment.qnaCommentContent}">댓글내용</p>
+                                        <div th:if="${comment.commentFilePath != null}" class="attach-wrap" style="margin-top:8px;">
+                                            <div class="attach-image">
+                                                <img th:src="@{/api/files/display(filePath=${comment.commentFilePath}, fileName=${comment.commentFileName})}"
+                                                     alt="첨부 이미지" style="max-width:100%;">
+                                            </div>
+                                        </div>
                                         <div class="cellBx">
                                             <span class="cell" th:text="${comment.createdDatetime}"></span>
                                             <th:block
-                                                    th:if="${loginMember != null and comment.individualMemberId == loginMember.id}">
+                                                    th:if="${loginMember != null and comment.memberId == loginMember.id}">
                                                 <span class="cell"><button type="button"
                                                                            class="btnEdit devAnswerEditButton">수정</button></span>
                                                 <span class="cell"><button type="button"
@@ -566,7 +542,7 @@
                                             </th:block>
                                         </div>
                                         <div class="btnBx devComtRoot">
-                                            <button type="button" class="btnCmt devBtnComtList">댓글 <em>0</em></button>
+                                            <button type="button" class="btnCmt devBtnComtList">댓글 <em th:text="${comment.replyCount}">0</em></button>
                                         </div>
                                     </div>
                                     <!-- 댓글 수정 폼 (숨김) -->
@@ -579,23 +555,20 @@
                                                     <div class="uiPlaceholder focus">
                                                         <textarea name="qnaCommentContent" maxlength="1000"
                                                                   th:text="${comment.qnaCommentContent}"></textarea>
+                                                        <div th:if="${comment.commentFilePath != null}" class="attach-wrap">
+                                                            <div class="attach-image">
+                                                                <img th:src="@{/api/files/display(filePath=${comment.commentFilePath}, fileName=${comment.commentFileName})}"
+                                                                     alt="첨부 이미지" style="max-width:100%;">
+                                                                <button type="button" class="remove-button qnaSpB">삭제하기</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="btnWrap">
                                                         <div class="answer-util-wrap">
                                                             <div class="answer-util-item">
-                                                                <button type="button" class="icon-emoticon qnaSpB">
-                                                                    이모티콘
-                                                                </button>
-                                                            </div>
-                                                            <div class="answer-util-item">
                                                                 <label>
-                                                                    <input type="file" style="
-                                                                                display: none;
-                                                                            " class="reply-file">
-                                                                    <button type="button"
-                                                                            class="button icon-photo qnaSpB">
-                                                                        사진
-                                                                    </button>
+                                                                    <input type="file" style="display: none;" class="reply-file">
+                                                                    <button type="button" class="button icon-photo qnaSpB">사진</button>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -603,56 +576,9 @@
                                                                 / 1,000</span>
                                                         <button type="button" id="btnSubmit"
                                                                 class="btnSbm devAnswerEditSubmitButton"
-                                                                data-answerno="497814">
+                                                                th:data-id="${comment.id}">
                                                             등록
                                                         </button>
-                                                        <div class="layer-box-wrap emotion-layer">
-                                                            <p class="layer-header">
-                                                                이모티콘
-                                                            </p>
-                                                            <ul class="emotion-area">
-                                                                <!-- [dev] 이모티콘 총 36개 -->
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"
-                                                                             data-idx="1" alt="">
-                                                                    </button>
-                                                                </li>
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"
-                                                                             data-idx="2" alt="">
-                                                                    </button>
-                                                                </li>
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"
-                                                                             data-idx="3" alt="">
-                                                                    </button>
-                                                                </li>
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"
-                                                                             data-idx="4" alt="">
-                                                                    </button>
-                                                                </li>
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"
-                                                                             data-idx="5" alt="">
-                                                                    </button>
-                                                                </li>
-                                                                <li class="emotion-item">
-                                                                    <button type="button" class="emotion-button">
-                                                                        <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"
-                                                                             data-idx="6" alt="">
-                                                                    </button>
-                                                                </li>
-                                                            </ul>
-                                                            <button type="button" class="btn-layer-close qnaSpB">
-                                                                <span class="blind">닫기</span>
-                                                            </button>
-                                                        </div>
                                                     </div>
                                                 </fieldset>
                                             </form>
@@ -666,20 +592,30 @@
                                                 <th:block th:each="reply : ${comments}"
                                                           th:if="${reply.qnaCommentParent == comment.id}">
                                                     <li th:data-comment-id="${reply.id}"
-                                                        th:class="${loginMember != null and reply.individualMemberId == loginMember.id} ? 'devCmtWrap myCmt' : 'devCmtWrap'">
+                                                        th:class="${loginMember != null and reply.memberId == loginMember.id} ? 'devCmtWrap myCmt' : 'devCmtWrap'">
                                                         <div class="devComtSection">
                                                             <div class="infoBx">
                                                                 <i class="icoCmt qnaSpB">댓글</i>
+                                                                <span class="proThumb" th:if="${reply.logoFilePath != null}" style="display:inline-block; width:20px; height:20px; vertical-align:middle; margin-right:4px;">
+                                                                    <img th:src="@{/api/files/display(filePath=${reply.logoFilePath}, fileName=${reply.logoFileName})}"
+                                                                         alt="기업 로고" style="width:20px; height:20px; border-radius:50%; object-fit:cover;" />
+                                                                </span>
                                                                 <span class="nickname"
                                                                       th:text="${reply.memberName}">닉네임</span>
                                                             </div>
                                                             <p class="cont" th:text="${reply.qnaCommentContent}">
                                                                 대댓글내용</p>
+                                                            <div th:if="${reply.commentFilePath != null}" class="attach-wrap" style="margin-top:8px;">
+                                                                <div class="attach-image">
+                                                                    <img th:src="@{/api/files/display(filePath=${reply.commentFilePath}, fileName=${reply.commentFileName})}"
+                                                                         alt="첨부 이미지" style="max-width:100%;">
+                                                                </div>
+                                                            </div>
                                                             <div class="cellBx">
                                                                 <span class="cell"
                                                                       th:text="${reply.createdDatetime}"></span>
                                                                 <th:block
-                                                                        th:if="${loginMember != null and reply.individualMemberId == loginMember.id}">
+                                                                        th:if="${loginMember != null and reply.memberId == loginMember.id}">
                                                                     <span class="cell"><button type="button"
                                                                                                class="btnEdit devComtEditButton">수정</button></span>
                                                                     <span class="cell"><button type="button"
@@ -697,88 +633,30 @@
                                                                             <textarea name="qnaCommentContent"
                                                                                       maxlength="1000"
                                                                                       th:text="${reply.qnaCommentContent}"></textarea>
+                                                                            <div th:if="${reply.commentFilePath != null}" class="attach-wrap">
+                                                                                <div class="attach-image">
+                                                                                    <img th:src="@{/api/files/display(filePath=${reply.commentFilePath}, fileName=${reply.commentFileName})}"
+                                                                                         alt="첨부 이미지" style="max-width:100%;">
+                                                                                    <button type="button" class="remove-button qnaSpB">삭제하기</button>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="btnWrap">
                                                                             <div class="answer-util-wrap">
                                                                                 <div class="answer-util-item">
-                                                                                    <button type="button"
-                                                                                            class="icon-emoticon qnaSpB">
-                                                                                        이모티콘
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="answer-util-item">
                                                                                     <label>
-                                                                                        <input type="file" style="
-                                                                                display: none;
-                                                                            " class="reply-file">
-                                                                                        <button type="button"
-                                                                                                class="button icon-photo qnaSpB">
-                                                                                            사진
-                                                                                        </button>
+                                                                                        <input type="file" style="display: none;" class="reply-file">
+                                                                                        <button type="button" class="button icon-photo qnaSpB">사진</button>
                                                                                     </label>
                                                                                 </div>
                                                                             </div>
                                                                             <span class="byte"><b id="count">6</b>
                                                                 / 1,000</span>
                                                                             <button type="button" id="btnSubmit"
-                                                                                    class="btnSbm devAnswerEditSubmitButton"
-                                                                                    data-answerno="497814">
+                                                                                    class="btnSbm devComtEditSubmitButton"
+                                                                                    th:data-id="${reply.id}">
                                                                                 등록
                                                                             </button>
-                                                                            <div class="layer-box-wrap emotion-layer">
-                                                                                <p class="layer-header">
-                                                                                    이모티콘
-                                                                                </p>
-                                                                                <ul class="emotion-area">
-                                                                                    <!-- [dev] 이모티콘 총 36개 -->
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"
-                                                                                                 data-idx="1" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"
-                                                                                                 data-idx="2" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"
-                                                                                                 data-idx="3" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"
-                                                                                                 data-idx="4" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"
-                                                                                                 data-idx="5" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                    <li class="emotion-item">
-                                                                                        <button type="button"
-                                                                                                class="emotion-button">
-                                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"
-                                                                                                 data-idx="6" alt="">
-                                                                                        </button>
-                                                                                    </li>
-                                                                                </ul>
-                                                                                <button type="button"
-                                                                                        class="btn-layer-close qnaSpB">
-                                                                                    <span class="blind">닫기</span>
-                                                                                </button>
-                                                                            </div>
                                                                         </div>
                                                                     </fieldset>
                                                                 </form>
@@ -807,76 +685,18 @@
                                                         <div class="btnWrap">
                                                             <div class="answer-util-wrap">
                                                                 <div class="answer-util-item">
-                                                                    <button type="button" class="icon-emoticon qnaSpB">
-                                                                        이모티콘
-                                                                    </button>
-                                                                </div>
-                                                                <div class="answer-util-item">
                                                                     <label>
-                                                                        <input type="file" style="
-                                                                                display: none;
-                                                                            " class="reply-file">
-                                                                        <button type="button"
-                                                                                class="button icon-photo qnaSpB">
-                                                                            사진
-                                                                        </button>
+                                                                        <input type="file" style="display: none;" class="reply-file">
+                                                                        <button type="button" class="button icon-photo qnaSpB">사진</button>
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                            <span class="byte"><b id="count">6</b>
+                                                            <span class="byte"><b id="count">0</b>
                                                                 / 1,000</span>
-                                                            <button type="button" id="btnSubmit"
-                                                                    class="btnSbm devAnswerEditSubmitButton"
-                                                                    data-answerno="497814">
+                                                            <button type="button"
+                                                                    class="btnSbm devBtnComtWrite">
                                                                 등록
                                                             </button>
-                                                            <div class="layer-box-wrap emotion-layer">
-                                                                <p class="layer-header">
-                                                                    이모티콘
-                                                                </p>
-                                                                <ul class="emotion-area">
-                                                                    <!-- [dev] 이모티콘 총 36개 -->
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_1.png"
-                                                                                 data-idx="1" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_2.png"
-                                                                                 data-idx="2" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_3.png"
-                                                                                 data-idx="3" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_4.png"
-                                                                                 data-idx="4" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_5.png"
-                                                                                 data-idx="5" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                    <li class="emotion-item">
-                                                                        <button type="button" class="emotion-button">
-                                                                            <img src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/emoticon/emoticon_6.png"
-                                                                                 data-idx="6" alt="">
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
-                                                                <button type="button" class="btn-layer-close qnaSpB">
-                                                                    <span class="blind">닫기</span>
-                                                                </button>
-                                                            </div>
                                                         </div>
                                                     </fieldset>
                                                 </form>

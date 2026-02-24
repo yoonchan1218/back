@@ -2056,6 +2056,8 @@ button, input, select {
     max-width: 82px;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: 16px;
+    color: #0e0f10;
 }
 
 .userNav-item.my.member.open .lyMyArea {
@@ -2119,6 +2121,7 @@ button, input, select {
 
 #headerWrap #header .headNavBar .jkNavArea .userNav .userNav-item .user-name:hover {
     color: hsl(154.36deg 100% 21.57%);
+    font-size: 16px;
 }
 
 .autoSearch.autoSearchDisabled #SearchStop {

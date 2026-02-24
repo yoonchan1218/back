@@ -14,8 +14,7 @@ create table tbl_qna_comment
     updated_datetime     datetime default current_timestamp on update current_timestamp,
     constraint fk_qna_comment_qna    foreign key (qna_id)               references tbl_qna (id) on delete cascade,
     constraint fk_qna_comment_member foreign key (individual_member_id)  references tbl_individual_member (id),
-    constraint fk_qna_comment_parent foreign key (qna_comment_parent)    references tbl_qna_comment (id) on delete cascade,
-    unique key uk_qna_member_comment (qna_id, individual_member_id, qna_comment_parent)
+    constraint fk_qna_comment_parent foreign key (qna_comment_parent)    references tbl_qna_comment (id) on delete cascade
 ) comment 'QnA 댓글';
 
 
