@@ -27,5 +27,4 @@ select id, qna_title from tbl_qna;
 
 select id, notification_title, notification_is_read from tbl_main_notification where member_id = 7;
 
--- "이미 읽었습니다" 테스트 데이터 삭제
-delete from tbl_main_notification where notification_content like '%이미 읽%';
+
