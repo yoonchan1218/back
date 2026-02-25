@@ -21,18 +21,6 @@
             </trim>
         </if>
     </sql>
-    <sql id="searchByMemberId">
-        s.skill_log_status = 'published'
-        <if test="search.tagNames != null">
-            and
-            t.tag_name in
-            <trim prefix="(" suffix=")">
-                <foreach item="tagName" collection="search.tagNames" separator=",">
-                    #{tagName}
-                </foreach>
-            </trim>
-        </if>
-    </sql>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_skill_log(member_id, experience_program_id, skill_log_title, skill_log_content)
@@ -103,18 +91,13 @@
         m.member_name, s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
         s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime,
         (select count(*) from tbl_skill_log_likes l where l.skill_log_id = s.id) as like_count,
-        (select count(*) from tbl_skill_log_comment c where c.skill_log_id = s.id and c.skill_log_comment_parent_id is null) as comment_count,
+        (select count(*) from tbl_skill_log_comment c where c.skill_log_id = s.id and c.skill_log_comment_parent_id is null) as comment_count
         from tbl_member m join tbl_skill_log s
         on m.id = s.member_id
-        left outer join tbl_tag t
-        on s.id = t.skill_log_id
-        <where>
-            s.member_id = #{memberId} and
-            <include refid="searchByMemberId"></include>
-        </where>
+        where s.member_id = #{memberId} and s.skill_log_status = 'published'
         <if test="search.type != null">
             <choose>
-                <when test="search.type == '인기'.toString()">
+                <when test="search.type == '인기순'.toString()">
                     order by s.skill_log_view_count desc
                 </when>
                 <otherwise>
@@ -125,14 +108,9 @@
         limit #{criteria.count} offset #{criteria.offset}
     </select>
     <select id="selectTotalByMemberId">
-        select count(distinct s.id)
-        from tbl_skill_log s
-        left outer join tbl_tag t
-        on s.id = t.skill_log_id
-        <where>
-            s.memberId = #{memberId} and
-            <include refid="searchByMemberId"></include>
-        </where>
+        select count(id)
+        from tbl_skill_log
+        where member_id = #{memberId} and skill_log_status = 'published'
     </select>
 
     <select id="selectById">

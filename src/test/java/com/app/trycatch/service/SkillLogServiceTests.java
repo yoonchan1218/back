@@ -80,6 +80,20 @@ public class SkillLogServiceTests {
     }
 
     @Test
+    public void testMyList() {
+        Search search = new Search();
+        SkillLogWithPagingDTO skillLogWithPagingDTO = null;
+        Long memberId = 9L;
+
+        search.setType("최신순");
+
+//        skillLogWithPagingDTO = skillLogService.dashboard(1, search, memberId);
+        skillLogWithPagingDTO.getSkillLogs().forEach((skillLogDTO) -> {
+            log.info("{}", skillLogDTO);
+        });
+    }
+
+    @Test
     public void testDetail() {
         SkillLogDTO skillLogDTO = skillLogService.detail(70L, 9L);
         log.info("{}", skillLogDTO);

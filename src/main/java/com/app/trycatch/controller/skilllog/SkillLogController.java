@@ -69,6 +69,21 @@ public class SkillLogController {
         return "skill-log/list";
     }
 
+    @GetMapping("dashboard")
+    public String goToDashboard(Model model) {
+        Object member = session.getAttribute("member");
+        Long memberId = null;
+
+        if(member instanceof IndividualMemberDTO) {
+            memberId = ((IndividualMemberDTO) member).getId();
+        } else if(member instanceof MemberDTO) {
+            memberId = ((MemberDTO) member).getId();
+        }
+
+        model.addAttribute("aside", skillLogService.aside(memberId));
+        return "skill-log/dashboard";
+    }
+
     @GetMapping("detail")
     public String detail(Long id, Model model) {
         Object member = session.getAttribute("member");

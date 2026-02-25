@@ -24,11 +24,14 @@ select s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_lo
        s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime,member_name
 from tbl_member m join tbl_skill_log s
 on m.id = s.member_id
-where m.id;
+where m.id = 9 and s.skill_log_status = 'published';
 
 select * from tbl_tag  where skill_log_id = 30;
 select * from view_skill_log_file  where skill_log_id = 30;
 
-insert into tbl_skill_log (member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status)
-select member_id, experience_program_id, skill_log_title, skill_log_content, skill_log_view_count, skill_log_status
-from tbl_skill_log;
+
+select count(distinct s.id)
+from tbl_skill_log s
+         left outer join tbl_tag t
+                         on s.id = t.skill_log_id
+where s.member_id = 9 and s.skill_log_status = 'published';

@@ -7,6 +7,7 @@ import com.app.trycatch.dto.skilllog.SkillLogAsideDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,6 +35,18 @@ public class SkillLogDAO {
     public int findTotal(Search search) {
         return skillLogMapper.selectTotal(search);
     }
+//    내 글 목록
+    public List<SkillLogDTO> findAllByMemberId(
+            @Param("criteria") Criteria criteria,
+            @Param("search") Search search,
+            @Param("memberId") Long memberId) {
+        return skillLogMapper.selectAllByMemberId(criteria, search, memberId);
+    }
+//    전체 개수
+    public int findTotalByMemberId(Long memberId) {
+        return skillLogMapper.selectTotalByMemberId(memberId);
+    }
+
 
 //    최근 N개 조회
     public List<SkillLogDTO> findLatest(int limit) {
