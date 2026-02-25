@@ -43,17 +43,17 @@ public class MailService {
             helper.setTo(receiverEmail);
             helper.setSubject("[TRY-CATCH] " + corpName + " 팀원 초대");
 
-            String acceptLink = "http://localhost:10000/mail/invite/accept?code=" + inviteCode;
+            String joinLink = "http://localhost:10000/mail/invite/join?code=" + inviteCode;
 
             String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>"
                     + "<h2 style='color: #333;'>TRY-CATCH 팀원 초대</h2>"
                     + "<p>안녕하세요,</p>"
                     + "<p><strong>" + corpName + "</strong>에서 팀원으로 초대했습니다.</p>"
-                    + "<p>아래 버튼을 클릭하면 초대를 수락할 수 있습니다.</p>"
+                    + "<p>아래 버튼을 클릭하여 가입해 주세요.</p>"
                     + "<div style='text-align: center; margin: 30px 0;'>"
-                    + "<a href='" + acceptLink + "' "
+                    + "<a href='" + joinLink + "' "
                     + "style='background-color: #4A90D9; color: white; padding: 12px 30px; "
-                    + "text-decoration: none; border-radius: 5px; font-size: 16px;'>초대 수락하기</a>"
+                    + "text-decoration: none; border-radius: 5px; font-size: 16px;'>가입하기</a>"
                     + "</div>"
                     + "<p style='color: #999; font-size: 12px;'>본 메일은 TRY-CATCH 서비스에서 발송되었습니다.</p>"
                     + "</div>";

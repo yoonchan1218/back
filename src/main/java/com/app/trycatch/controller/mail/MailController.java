@@ -1,12 +1,21 @@
 package com.app.trycatch.controller.mail;
 
+import com.app.trycatch.domain.corporate.CorpInviteVO;
+import com.app.trycatch.domain.member.MemberVO;
+import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.repository.corporate.CorpInviteDAO;
+import com.app.trycatch.repository.member.CorpMemberDAO;
 import com.app.trycatch.service.corporate.CorporateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -15,14 +24,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MailController {
 
     private final CorporateService corporateService;
+    private final CorpInviteDAO corpInviteDAO;
+    private final CorpMemberDAO corpMemberDAO;
 
-    @GetMapping("/invite/accept")
-    public String acceptInvite(@RequestParam String code) {
+    // 가입 폼 표시
+    @GetMapping("/invite/join")
+    public String joinForm(@RequestParam String code, Model model) {
+        Optional<CorpInviteVO> inviteOpt = corpInviteDAO.findByInviteCode(code);
+        if (inviteOpt.isEmpty()) {
+            return "redirect:/mail/invite/fail";
+        }
+
+        CorpInviteVO invite = inviteOpt.get();
+        String corpName = corpMemberDAO.findById(invite.getCorpId())
+                .map(CorpMemberDTO::getCorpCompanyName)
+                .orElse("TRY-CATCH 기업");
+
+        model.addAttribute("inviteCode", code);
+        model.addAttribute("email", invite.getInviteEmail());
+        model.addAttribute("corpName", corpName);
+        return "mail/team-member-join";
+    }
+
+    // 가입 처리
+    @PostMapping("/invite/join")
+    public String joinProcess(@RequestParam String inviteCode,
+                              @RequestParam String memberId,
+                              @RequestParam String memberPassword,
+                              @RequestParam String memberName,
+                              @RequestParam String memberPhone,
+                              @RequestParam String memberEmail) {
         try {
-            corporateService.acceptInvite(code);
+            MemberVO memberVO = MemberVO.builder()
+                    .memberId(memberId)
+                    .memberPassword(memberPassword)
+                    .memberName(memberName)
+                    .memberPhone(memberPhone)
+                    .memberEmail(memberEmail)
+                    .build();
+
+            corporateService.joinTeamMember(inviteCode, memberVO);
             return "redirect:/mail/invite/success";
         } catch (IllegalArgumentException e) {
-            log.warn("초대 수락 실패: code={}, reason={}", code, e.getMessage());
+            log.warn("팀원 가입 실패: code={}, reason={}", inviteCode, e.getMessage());
             return "redirect:/mail/invite/fail";
         }
     }

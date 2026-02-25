@@ -1,6 +1,7 @@
 package com.app.trycatch.service.corporate;
 
 import com.app.trycatch.common.pagination.Criteria;
+import com.app.trycatch.domain.corporate.CorpInviteVO;
 import com.app.trycatch.domain.corporate.CorpTeamMemberVO;
 import com.app.trycatch.domain.corporate.CorpWelfareRelVO;
 import com.app.trycatch.domain.member.MemberVO;
@@ -14,6 +15,7 @@ import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.dto.corporate.ParticipantWithPagingDTO;
 import com.app.trycatch.dto.experience.ChallengerDTO;
 import com.app.trycatch.dto.experience.FeedbackDTO;
+import com.app.trycatch.repository.corporate.CorpInviteDAO;
 import com.app.trycatch.repository.corporate.CorpTeamMemberDAO;
 import com.app.trycatch.repository.experience.AddressProgramDAO;
 import com.app.trycatch.repository.experience.ApplyDAO;
@@ -66,6 +68,7 @@ public class CorporateService {
     private final AddressDAO addressDAO;
     private final AddressProgramDAO addressProgramDAO;
     private final ExperienceProgramDAO experienceProgramDAO;
+    private final CorpInviteDAO corpInviteDAO;
     private final CorpTeamMemberDAO corpTeamMemberDAO;
     private final FileDAO fileDAO;
     private final CorpLogoFileDAO corpLogoFileDAO;
@@ -211,20 +214,16 @@ public class CorporateService {
         return new CorpTeamMemberWithPagingDTO(list, criteria, hasMore);
     }
 
-    /** 팀원 초대 — 이메일로 회원 조회 → invite_code 생성 → DB 저장 → 이메일 발송 */
+    /** 팀원 초대 — invite_code 생성 → tbl_corp_invite 저장 → 이메일 발송 */
     public void inviteTeamMember(Long corpId, String email) {
-        MemberVO member = memberDAO.findByMemberEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 회원을 찾을 수 없습니다."));
-
         String inviteCode = mailService.createCode();
 
-        CorpTeamMemberVO vo = CorpTeamMemberVO.builder()
-                .id(member.getId())
+        CorpInviteVO vo = CorpInviteVO.builder()
                 .corpId(corpId)
-                .corpTeamMemberStatus("wait")
+                .inviteEmail(email)
                 .inviteCode(inviteCode)
                 .build();
-        corpTeamMemberDAO.save(vo);
+        corpInviteDAO.save(vo);
 
         // 기업명 조회 후 이메일 발송
         String corpName = corpMemberDAO.findById(corpId)
@@ -233,11 +232,24 @@ public class CorporateService {
         mailService.sendInviteMail(email, inviteCode, corpName);
     }
 
-    /** 초대 수락 — inviteCode로 팀원 조회 → 상태 active로 변경 */
-    public void acceptInvite(String inviteCode) {
-        corpTeamMemberDAO.findByInviteCode(inviteCode)
+    /** 팀원 가입 — 회원 생성 + 팀원 연결 + 초대 상태 변경 */
+    public void joinTeamMember(String inviteCode, MemberVO memberVO) {
+        CorpInviteVO invite = corpInviteDAO.findByInviteCode(inviteCode)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 초대 코드입니다."));
-        corpTeamMemberDAO.updateStatusByInviteCode(inviteCode, "active");
+
+        // tbl_member INSERT
+        memberDAO.save(memberVO);
+
+        // tbl_corp_team_member INSERT (active 상태)
+        CorpTeamMemberVO teamMemberVO = CorpTeamMemberVO.builder()
+                .id(memberVO.getId())
+                .corpId(invite.getCorpId())
+                .corpTeamMemberStatus("active")
+                .build();
+        corpTeamMemberDAO.save(teamMemberVO);
+
+        // tbl_corp_invite 상태 변경
+        corpInviteDAO.updateStatus(inviteCode, "accepted");
     }
 
     /** 팀원 제거 */

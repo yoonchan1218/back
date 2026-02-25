@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팀원 가입 | TRY-CATCH</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+            width: 90%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        .header .corp-name {
+            color: #4A90D9;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #4A90D9;
+        }
+        .form-group input[readonly] {
+            background-color: #f5f5f5;
+            color: #999;
+        }
+        .form-group .error-msg {
+            color: #E74C3C;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #4A90D9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn-submit:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>팀원 가입</h1>
+            <p><span class="corp-name" th:text="${corpName}">기업명</span>에서 초대했습니다.</p>
+            <p>아래 정보를 입력하여 가입을 완료하세요.</p>
+        </div>
+
+        <form id="joinForm" method="post" th:action="@{/mail/invite/join}">
+            <input type="hidden" name="inviteCode" th:value="${inviteCode}">
+
+            <div class="form-group">
+                <label for="memberEmail">이메일</label>
+                <input type="text" id="memberEmail" name="memberEmail" th:value="${email}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="memberId">아이디</label>
+                <input type="text" id="memberId" name="memberId" maxlength="20" placeholder="아이디를 입력하세요">
+                <div class="error-msg" id="error-id">아이디를 입력해주세요.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="memberPassword">비밀번호</label>
+                <input type="password" id="memberPassword" name="memberPassword" maxlength="20" placeholder="비밀번호를 입력하세요">
+                <div class="error-msg" id="error-pw">비밀번호를 입력해주세요.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="memberName">이름</label>
+                <input type="text" id="memberName" name="memberName" maxlength="12" placeholder="이름을 입력하세요">
+                <div class="error-msg" id="error-name">이름을 입력해주세요.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="memberPhone">전화번호</label>
+                <input type="text" id="memberPhone" name="memberPhone" maxlength="13" placeholder="010-0000-0000">
+                <div class="error-msg" id="error-phone">전화번호를 입력해주세요.</div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btnSubmit">가입하기</button>
+        </form>
+    </div>
+
+    <script>
+        const btnSubmit = document.getElementById('btnSubmit');
+        const form = document.getElementById('joinForm');
+
+        btnSubmit.addEventListener('click', function() {
+            let isValid = true;
+
+            const fields = [
+                { id: 'memberId', errorId: 'error-id' },
+                { id: 'memberPassword', errorId: 'error-pw' },
+                { id: 'memberName', errorId: 'error-name' },
+                { id: 'memberPhone', errorId: 'error-phone' }
+            ];
+
+            fields.forEach(function(field) {
+                const input = document.getElementById(field.id);
+                const error = document.getElementById(field.errorId);
+                if (!input.value.trim()) {
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+
+            if (isValid) {
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>

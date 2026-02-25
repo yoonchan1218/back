@@ -195,10 +195,12 @@ public class MyPageService {
         ApplyListWithPagingDTO result = new ApplyListWithPagingDTO();
         result.setApplies(list);
         result.setCriteria(criteria);
-        result.setAppliedCount(statusCounts.getAppliedCount());
-        result.setDocumentPassCount(statusCounts.getDocumentPassCount());
-        result.setDocumentFailCount(statusCounts.getDocumentFailCount());
-        result.setActivityDoneCount(statusCounts.getActivityDoneCount());
+        if (statusCounts != null) {
+            result.setAppliedCount(statusCounts.getAppliedCount());
+            result.setDocumentPassCount(statusCounts.getDocumentPassCount());
+            result.setDocumentFailCount(statusCounts.getDocumentFailCount());
+            result.setActivityDoneCount(statusCounts.getActivityDoneCount());
+        }
         return result;
     }
 
