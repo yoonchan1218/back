@@ -18,6 +18,8 @@ create table tbl_corp_notification
     constraint fk_corp_notification_corp foreign key (corp_id) references tbl_corp (id)
 ) comment '기업 헤더 알림';
 
+select * from tbl_corp_notification;
+
 -- 테스트 데이터 (corp_id는 본인 기업 ID로 변경)
 insert into tbl_corp_notification (corp_id, notification_type, notification_title, notification_content)
 values (115, 'apply_received', '새로운 지원자가 있습니다', '홍길동님이 [백엔드 개발 체험] 프로그램에 지원하였습니다.');

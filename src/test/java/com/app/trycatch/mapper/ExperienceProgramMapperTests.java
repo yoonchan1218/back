@@ -96,7 +96,7 @@ public class ExperienceProgramMapperTests {
         Criteria criteria = new Criteria(1, total);
 
         List<ExperienceProgramDTO> list =
-                experienceProgramMapper.selectByCorpId(corpId, criteria, "", "");
+                experienceProgramMapper.selectByCorpId(corpId, criteria, "", "", "1");
 
         log.info("프로그램 목록 수: {}", list.size());
         list.forEach(p -> log.info("  id={}, title={}, status={}",
@@ -112,7 +112,7 @@ public class ExperienceProgramMapperTests {
         Criteria criteria = new Criteria(1, total);
 
         List<ExperienceProgramDTO> list =
-                experienceProgramMapper.selectByCorpId(corpId, criteria, "recruiting", "");
+                experienceProgramMapper.selectByCorpId(corpId, criteria, "recruiting", "", "1");
 
         log.info("모집중 프로그램 수: {}", list.size());
         list.forEach(p -> {

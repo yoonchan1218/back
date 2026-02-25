@@ -47,7 +47,7 @@ public class CorpServiceTests {
 
     @Test
     public void testGetPrograms_전체목록() {
-        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "", "");
+        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "", "", "1");
 
         log.info("전체 목록: list.size={}, hasMore={}", result.getList().size(), result.isHasMore());
         result.getList().forEach(p -> log.info("  id={}, title={}, status={}",
@@ -61,7 +61,7 @@ public class CorpServiceTests {
 
     @Test
     public void testGetPrograms_상태필터_recruiting() {
-        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "recruiting", "");
+        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "recruiting", "", "1");
 
         log.info("모집중 목록: list.size={}", result.getList().size());
 
@@ -73,7 +73,7 @@ public class CorpServiceTests {
 
     @Test
     public void testGetPrograms_키워드검색() {
-        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "", "테스트");
+        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 10, "", "테스트", "1");
 
         log.info("키워드 '테스트' 검색: list.size={}", result.getList().size());
 
@@ -82,7 +82,7 @@ public class CorpServiceTests {
 
     @Test
     public void testGetPrograms_페이징() {
-        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 5, "", "");
+        CorpProgramWithPagingDTO result = corporateService.getPrograms(TEST_CORP_ID, 1, 5, "", "", "1");
 
         log.info("페이징 테스트: page={}, startPage={}, endPage={}, realEnd={}, hasMore={}",
                 result.getCriteria().getPage(),
