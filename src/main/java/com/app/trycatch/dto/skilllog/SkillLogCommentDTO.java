@@ -20,8 +20,12 @@ public class SkillLogCommentDTO{
     private String createdDatetime;
     private String updatedDatetime;
 
+//    답글 수
     private int skillLogCommentChildCount;
+
+//    좋아요
     private int likeCount;
+    private boolean liked;
 
 //    file
     private Long fileId;

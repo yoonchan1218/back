@@ -13,7 +13,6 @@
 
                 <section class="content">
                     <div class="contWrap alarmCont">
-                        <input type="hidden" value="5" id="js-AlarmTotalCnt" />
                         <div class="hdWrap">
                             <h2 class="hd_1">수신 알림</h2>
                             <p class="noti">
@@ -21,17 +20,11 @@
                             </p>
                             <div class="alarmSort">
                                 <span class="selWrap">
-                                    <select
-                                        data-val="true"
-                                        id="sortSel"
-                                        name="Ts_Type"
-                                        title="수신 알림 선택"
-                                    >
-                                        <option selected="selected" value="0">
-                                            전체 알림
-                                        </option>
-                                        <option value="5">체험 진행 현황</option>
-                                        <option value="9">QnA</option>
+                                    <select id="sortSel" name="Ts_Type" title="수신 알림 선택">
+                                        <option selected="selected" value="">전체 알림</option>
+                                        <option value="qna">취업톡톡</option>
+                                        <option value="experience_apply">체험지원현황</option>
+                                        <option value="skill_log">기술블로그</option>
                                     </select>
                                 </span>
                             </div>
@@ -43,19 +36,37 @@
         <div class="hd">알림이 없습니다.</div>
     </div>
 
-    <div class="alarmList" th:each="notification : ${notifications}">
+    <div class="alarmList" th:each="notification : ${notifications}" th:data-type="${notification.notificationType}">
         <div class="hd">
-            <span class="tahoma" th:text="${notification.notificationReceiveAt}">-</span>
+            <span class="tahoma" th:text="${notification.createdDateLabel}">26.01.29 (목)</span>
         </div>
         <article class="cont">
             <ul>
                 <li th:classappend="${notification.notificationIsRead} ? ' read' : ''" class="type_red">
-                    <span class="update" th:text="${notification.notificationReceiveAt}">-</span>
+                    <span class="update" th:text="${notification.createdTimeLabel}">20:00</span>
                     <div class="box">
                         <div class="desc">
-                            <span class="state" th:text="${notification.notificationType}">type</span>
-                            <strong class="title" th:text="${notification.notificationTitle}">title</strong>
-                            <p class="answer" th:text="${notification.notificationContent}">content</p>
+                            <span class="state" th:text="${notification.notificationTypeLabel}">type</span>
+                            <strong class="title">
+                                <a th:if="${notification.notificationType == 'qna'}"
+                                   th:href="@{/qna/detail(id=${notification.qnaId})}"
+                                   th:text="${notification.notificationTitle}">title</a>
+                                <a th:if="${notification.notificationType == 'experience_apply'}"
+                                   th:href="@{/mypage/experience}"
+                                   th:text="${notification.notificationTitle}">title</a>
+                                <a th:if="${notification.notificationType == 'skill_log'}"
+                                   th:href="@{/skill-log/detail(id=${notification.skillLogId})}"
+                                   th:text="${notification.notificationTitle}">title</a>
+                            </strong>
+                            <p class="answer"
+                               th:if="${notification.notificationType == 'qna'}"
+                               th:text="'질문에 댓글이 달렸습니다'">질문에 댓글이 달렸습니다</p>
+                            <p class="answer"
+                               th:if="${notification.notificationType == 'experience_apply'}"
+                               th:text="${notification.experienceStatusLabel}">상태</p>
+                            <p class="answer"
+                               th:if="${notification.notificationType == 'skill_log'}"
+                               th:text="'글에 댓글이 달렸습니다'">글에 댓글이 달렸습니다</p>
                         </div>
                         <button type="button" class="btn-read-notification"
                                 th:unless="${notification.notificationIsRead}"

@@ -47,12 +47,14 @@
             notification_title,
             notification_content,
             notification_is_read,
-            notification_receive_at,
+            qna_id,
+            experience_program_id,
+            skill_log_id,
             created_datetime,
             updated_datetime
         from tbl_main_notification
         where member_id = #{memberId}
-        order by notification_receive_at desc
+        order by created_datetime desc
     </select>
 
     <update id="updateNotificationRead">

@@ -1769,6 +1769,7 @@ input[type="number"] {
     margin-top: 20px;
     padding: 25px 20px;
     background: #f9f9f9;
+    pointer-events: none;
 }
 
 .viewContWrap .inputBox .notice-box-wrap li {

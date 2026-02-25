@@ -26,23 +26,30 @@ public class SkillLogCommentAPIController {
 
 //    목록
     @GetMapping("comment-list/{page}")
-    public SkillLogCommentWithPagingDTO commentList(@PathVariable int page, Long id) {
-        return skillLogCommentService.getListInSkillLog(page, id);
+    public SkillLogCommentWithPagingDTO commentList(@PathVariable int page, Long id, Long memberId) {
+        return skillLogCommentService.getListInSkillLog(page, id, memberId);
     }
     @GetMapping("nested-comment-list/{page}")
-    public SkillLogNestedCommentWithPagingDTO commentList(@PathVariable int page, Long skillLogId, Long commentId) {
+    public SkillLogNestedCommentWithPagingDTO commentList(@PathVariable int page, Long skillLogId, Long commentId, Long memberId) {
         return skillLogCommentService.getListInSkillLogAndParentComment(page, skillLogId, commentId);
     }
 
 //    수정
     @PutMapping("{id}")
-    public void update(SkillLogCommentDTO skillLogCommentDTO, @RequestParam("file") MultipartFile multipartFile){
+    public void update(SkillLogCommentDTO skillLogCommentDTO, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
+
         skillLogCommentService.update(skillLogCommentDTO, multipartFile);
     }
 
     //    삭제
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long skillLogCommentId, Long fileId){
-        skillLogCommentService.delete(skillLogCommentId, fileId);
+    @DeleteMapping("{skillLogCommentId}")
+    public void delete(@PathVariable Long skillLogCommentId){
+        skillLogCommentService.delete(skillLogCommentId);
+    }
+
+//    좋아요
+    @GetMapping("like")
+    public int like(SkillLogCommentLikesDTO skillLogCommentLikesDTO) {
+        return skillLogCommentService.like(skillLogCommentLikesDTO);
     }
 }

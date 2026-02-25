@@ -5,6 +5,7 @@ import com.app.trycatch.common.exception.FileNotFoundException;
 import com.app.trycatch.common.exception.SkillLogNotFoundException;
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.domain.file.FileVO;
+import com.app.trycatch.domain.skilllog.SkillLogCommentLikesVO;
 import com.app.trycatch.domain.skilllog.SkillLogCommentVO;
 import com.app.trycatch.dto.file.FileDTO;
 import com.app.trycatch.dto.skilllog.*;
@@ -14,6 +15,7 @@ import com.app.trycatch.mapper.skilllog.SkillLogCommentMapper;
 import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.repository.skilllog.SkillLogCommentDAO;
 import com.app.trycatch.repository.skilllog.SkillLogCommentFileDAO;
+import com.app.trycatch.repository.skilllog.SkillLogCommentLikesDAO;
 import com.app.trycatch.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,7 @@ public class SkillLogCommentService {
     private final SkillLogCommentDAO skillLogCommentDAO;
     private final SkillLogCommentFileDAO skillLogCommentFileDAO;
     private final FileDAO fileDAO;
+    private final SkillLogCommentLikesDAO skillLogCommentLikesDAO;
 
     //    추가
     public void write(SkillLogCommentDTO skillLogCommentDTO, MultipartFile multipartFile){
@@ -75,15 +78,23 @@ public class SkillLogCommentService {
     }
 
     //    댓글 목록
-    public SkillLogCommentWithPagingDTO getListInSkillLog(int page, Long id){
+    public SkillLogCommentWithPagingDTO getListInSkillLog(int page, Long id, Long memberId){
         SkillLogCommentWithPagingDTO skillLogCommentWithPagingDTO = new SkillLogCommentWithPagingDTO();
         Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllBySkillLogId(id));
         List<SkillLogCommentDTO> comments = skillLogCommentDAO.findAllBySkillLogId(criteria, id);
-
-        log.info("{}", comments);
+        SkillLogCommentLikesDTO skillLogCommentLikesDTO = new SkillLogCommentLikesDTO();
 
         comments.forEach((comment) -> {
-            comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
+            boolean updateCheck = !comment.getCreatedDatetime().equals(comment.getUpdatedDatetime());
+            String formattedDate = DateUtils.toRelativeTime(comment.getCreatedDatetime()) + (updateCheck ? " (수정됨)" : "");
+            comment.setCreatedDatetime(formattedDate);
+
+//            likes
+            skillLogCommentLikesDTO.setSkillLogCommentId(comment.getId());
+            skillLogCommentLikesDTO.setMemberId(memberId);
+            comment.setLikeCount(skillLogCommentLikesDAO.findCountBySkillLogCommentId(comment.getId()));
+            comment.setLiked(skillLogCommentLikesDAO.findBySkillLogCommentIdAndMemberId(skillLogCommentLikesDTO.toVO()).isPresent());
+
         });
 
         skillLogCommentWithPagingDTO.setCriteria(criteria);
@@ -98,7 +109,9 @@ public class SkillLogCommentService {
         List<SkillLogCommentDTO> nestedComments = skillLogCommentDAO.findAllByCommentParentIdAndSkillLogId(criteria, skillLogId, commentId);
 
         nestedComments.forEach((comment) -> {
-            comment.setCreatedDatetime(DateUtils.toRelativeTime(comment.getCreatedDatetime()));
+            boolean updateCheck = !comment.getCreatedDatetime().equals(comment.getUpdatedDatetime());
+            String formattedDate = DateUtils.toRelativeTime(comment.getCreatedDatetime()) + (updateCheck ? " (수정됨)" : "");
+            comment.setCreatedDatetime(formattedDate);
         });
 
         skillLogNestedCommentWithPagingDTO.setCriteria(criteria);
@@ -156,7 +169,9 @@ public class SkillLogCommentService {
 
     //    삭제
 //    댓글 삭제
-    public void delete(Long skillLogCommentId, Long fileId) {
+    public void delete(Long skillLogCommentId) {
+        Long fileId = skillLogCommentFileDAO.findFileIdBySkillLogCommentId(skillLogCommentId);
+
 //        답글 파일 삭제
         List<FileDTO> commentFiles = skillLogCommentFileDAO.findFilesByCommentParentId(skillLogCommentId);
         skillLogCommentFileDAO.deleteAllBySkillLogCommentParentId(skillLogCommentId);
@@ -173,6 +188,9 @@ public class SkillLogCommentService {
             fileDAO.delete(fileId);
         }
 
+//        좋아요 삭제
+        skillLogCommentLikesDAO.deleteBySkillLogCommentId(skillLogCommentId);
+
 //        댓글 삭제
         skillLogCommentDAO.delete(skillLogCommentId);
 
@@ -185,6 +203,17 @@ public class SkillLogCommentService {
                 file.delete();
             }
         });
+    }
+
+//    좋아요
+    public int like(SkillLogCommentLikesDTO skillLogCommentLikesDTO) {
+        skillLogCommentLikesDAO.findBySkillLogCommentIdAndMemberId(skillLogCommentLikesDTO.toVO()).ifPresentOrElse((comment) -> {
+            skillLogCommentLikesDAO.delete(comment.getId());
+        }, () -> {
+            skillLogCommentLikesDAO.save(skillLogCommentLikesDTO.toVO());
+        });
+
+        return skillLogCommentLikesDAO.findCountBySkillLogCommentId(skillLogCommentLikesDTO.getSkillLogCommentId());
     }
 
 // 게시글 삭제 시 댓글 전체 삭제

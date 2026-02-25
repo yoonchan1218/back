@@ -20,5 +20,7 @@ public class MainNotificationVO extends Period {
     private String notificationTitle;
     private String notificationContent;
     private boolean notificationIsRead;
-    private String notificationReceiveAt;
+    private Long qnaId;
+    private Long experienceProgramId;
+    private Long skillLogId;
 }

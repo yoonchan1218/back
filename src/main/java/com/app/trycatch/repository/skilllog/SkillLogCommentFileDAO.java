@@ -30,6 +30,11 @@ public class SkillLogCommentFileDAO {
         return skillLogCommentFileMapper.selectFilesByCommentParentId(id);
     }
 
+//    id 찾기
+    public Long findFileIdBySkillLogCommentId(Long id){
+        return skillLogCommentFileMapper.selectFileIdBySkillLogCommentId(id);
+    }
+
 //    삭제
     public void delete(Long id) {
         skillLogCommentFileMapper.delete(id);

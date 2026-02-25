@@ -12,7 +12,6 @@ create table tbl_skill_log_comment
     constraint fk_skill_log_comment_parent foreign key (skill_log_comment_parent_id) references tbl_skill_log_comment (id)
 );
 
-
 select * from tbl_skill_log_comment;
 select * from tbl_skill_log_comment_file;
 select * from tbl_file;
