@@ -407,8 +407,7 @@
                                             <span id="js-alarmCnt" class="" th:text="${(qnaAlrams != null ? #lists.size(qnaAlrams) : 0) + (applyAlrams != null ? #lists.size(applyAlrams) : 0) + (skillLogAlrams != null ? #lists.size(skillLogAlrams) : 0)}">
                                                 0
                                             </span>
-                                            <span class="alarm-dot" id="js-alarmDot"
-                                                  th:if="${(qnaAlrams != null and !#lists.isEmpty(qnaAlrams)) or (applyAlrams != null and !#lists.isEmpty(applyAlrams)) or (skillLogAlrams != null and !#lists.isEmpty(skillLogAlrams))}"></span>
+                                            <span class="alarm-dot" id="js-alarmDot" style="display:none"></span>
                                         </a>
                                         <div
                                             class="popup-notification"
@@ -446,7 +445,7 @@
                                                     id="js-LayerFrame"
                                                 >
                                                     <ul class="list-notification">
-                                                        <li class="notification-item" th:each="alram : ${qnaAlrams}">
+                                                        <li class="notification-item" th:each="alram : ${qnaAlrams}" th:data-is-read="${alram.notificationIsRead}" th:data-date="${alram.createdDatetime}">
                                                             <div class="notification-header">
                                                                 <div class="notification-header-item category">취업톡톡</div>
                                                                 <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
@@ -462,7 +461,7 @@
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li class="notification-item" th:each="alram : ${applyAlrams}">
+                                                        <li class="notification-item" th:each="alram : ${applyAlrams}" th:data-is-read="${alram.notificationIsRead}" th:data-date="${alram.createdDatetime}">
                                                             <div class="notification-header">
                                                                 <div class="notification-header-item category">체험지원현황</div>
                                                                 <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
@@ -478,7 +477,7 @@
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li class="notification-item" th:each="alram : ${skillLogAlrams}">
+                                                        <li class="notification-item" th:each="alram : ${skillLogAlrams}" th:data-is-read="${alram.notificationIsRead}" th:data-date="${alram.createdDatetime}">
                                                             <div class="notification-header">
                                                                 <div class="notification-header-item category">기술블로그</div>
                                                                 <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
@@ -511,7 +510,7 @@
                                                 </div>
                                             </div>
                                             <a
-                                                href=""
+                                                href="/mypage/notification"
                                                 class="button button-footer button-all-view"
                                                 >모두보기</a
                                             >

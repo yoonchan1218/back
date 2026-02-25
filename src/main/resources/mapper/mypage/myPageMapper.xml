@@ -54,7 +54,6 @@
             updated_datetime
         from tbl_main_notification
         where member_id = #{memberId}
-          and notification_is_read = false
         order by created_datetime desc
     </select>
 

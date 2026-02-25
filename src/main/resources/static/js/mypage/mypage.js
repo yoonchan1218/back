@@ -103,11 +103,11 @@ tabLists.forEach((tabList) => {
         if (flag === "SC") {
             if (recentContent) recentContent.style.display = "none";
             if (scrapContent) scrapContent.style.display = "block";
-            if (moreLink) moreLink.textContent = "스크랩 공고 더보기";
+            if (moreLink) moreLink.textContent = "더보기";
         } else {
             if (scrapContent) scrapContent.style.display = "none";
             if (recentContent) recentContent.style.display = "block";
-            if (moreLink) moreLink.textContent = "최근 본 공고 더보기";
+            if (moreLink) moreLink.textContent = "더보기";
         }
     });
 });

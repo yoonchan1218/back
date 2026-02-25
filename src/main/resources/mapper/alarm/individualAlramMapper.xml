@@ -10,7 +10,6 @@
         from tbl_main_notification
         where member_id = #{memberId}
           and notification_type = 'qna'
-          and notification_is_read = false
         order by created_datetime desc
     </select>
 
@@ -22,7 +21,6 @@
         from tbl_main_notification
         where member_id = #{memberId}
           and notification_type = 'experience_apply'
-          and notification_is_read = false
         order by created_datetime desc
     </select>
 
@@ -34,7 +32,6 @@
         from tbl_main_notification
         where member_id = #{memberId}
           and notification_type = 'skill_log'
-          and notification_is_read = false
         order by created_datetime desc
     </select>
 
