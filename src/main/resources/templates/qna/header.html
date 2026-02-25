@@ -301,44 +301,6 @@
                             <!-- //로그인 상단(알림,개인서비스) -->
                             <!-- //기업회원 로그인 상단(기업서비스, 담당자명) -->
                             <ul class="userNav" th:if="${session.member != null and session.member.class.name == 'com.app.trycatch.dto.member.CorpMemberDTO'}">
-                                <li class="userNav-item notification devLiNotification">
-                                    <a href="javascript:void(0)" class="bell notify" id="js-corpBell">
-                                        알림
-                                        <span id="js-corpAlarmCnt" th:text="${corpAlrams != null ? #lists.size(corpAlrams) : 0}">0</span>
-                                        <span class="alarm-dot" id="js-corpAlarmDotQna"
-                                              th:if="${corpAlrams != null and !#lists.isEmpty(corpAlrams)}"></span>
-                                    </a>
-                                    <div class="popup-notification" id="js-corpNotiLayer">
-                                        <div class="popup-notification-body">
-                                            <div class="list list-notification-container">
-                                                <ul class="list-notification">
-                                                    <li class="notification-item" th:each="alram : ${corpAlrams}">
-                                                        <div class="notification-header">
-                                                            <div class="notification-header-item category"
-                                                                 th:text="${alram.notificationType == 'apply_received' ? '지원자 등록' : (alram.notificationType == 'experience_apply_received' ? '체험공고 등록마감' : '커뮤니티')}"></div>
-                                                            <div class="notification-header-item date" th:text="${alram.createdDatetime}"></div>
-                                                        </div>
-                                                        <div class="notification-body">
-                                                            <div class="notification-title" th:text="${alram.notificationTitle}"></div>
-                                                        </div>
-                                                        <div class="notificaiton-footer">
-                                                            <div class="buttons">
-                                                                <a th:if="${alram.notificationType == 'apply_received'}" th:href="@{/corporate/applicant-list}" class="button">자세히보기</a>
-                                                                <a th:if="${alram.notificationType == 'experience_apply_received'}" th:href="@{/corporate/program-management}" class="button">자세히보기</a>
-                                                                <a th:if="${alram.notificationType == 'qna'}" th:href="@{/qna/detail(id=${alram.notificationRelatedId})}" class="button">자세히보기</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="notification-item" th:if="${corpAlrams == null or #lists.isEmpty(corpAlrams)}">
-                                                        <div class="notification-body">
-                                                            <div class="notification-title">새로운 알림이 없습니다.</div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="userNav-item my member">
                                     <span class="user-name" th:text="${session.member?.memberName}">담당자</span>
                                 </li>
