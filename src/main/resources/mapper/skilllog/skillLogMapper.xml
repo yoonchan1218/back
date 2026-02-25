@@ -41,6 +41,22 @@
         where m.id = #{id} and s.skill_log_status = 'published'
     </select>
 
+    <select id="selectDashboardByMemberId" resultType="skillLogDashboardDTO">
+        select
+            count(distinct s.id) as individual_member_post_count,
+            sum(s.skill_log_view_count) as skill_log_view_count_total,
+            count(distinct l.id) as skill_log_like_count_total,
+            count(distinct c.id) as skill_log_comment_count
+        from view_member_profile m
+        left join tbl_skill_log s
+        on m.id = s.member_id and s.skill_log_status = 'published'
+        left join tbl_skill_log_comment c
+        on s.id = c.skill_log_id and c.skill_log_comment_parent_id is null
+        left join tbl_skill_log_likes l
+        on s.id = l.skill_log_id
+        where m.id = #{id};
+    </select>
+
     <select id="selectAll">
         select
             distinct

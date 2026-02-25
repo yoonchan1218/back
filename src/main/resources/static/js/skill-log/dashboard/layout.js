@@ -35,7 +35,7 @@ const skillLogLayout = (() => {
                     <!-- [Dev] 방문한 링크 : visited 클래스 추가 -->
                     <div class="contArea">
                         <!-- [Dev] 이미지 포함 컨텐츠 : image 클래스 추가 -->
-                        <a href="" class="post-type">
+                        <a href="/skill-log/detail?id=${skillLog.id}" class="post-type">
                             <div class="post-title">
                                 <span class="lineOne">${skillLog.skillLogTitle}</span>
                             </div>
@@ -76,8 +76,8 @@ const skillLogLayout = (() => {
             const previousButton = document.createElement("p");
             previousButton.innerHTML = `
             <a href="${criteria.startPage - 1}" class="tplBtn btnPgn btnPgnPrev paging">
-                <span class="blind">이전</span>
-                <i class="ico"></i>
+                <span class="">이전</span>
+<!--                <i class="ico"></i>-->
             </a>
         `;
             pageWrap.appendChild(previousButton);
@@ -108,8 +108,8 @@ const skillLogLayout = (() => {
             const nextButton = document.createElement("p");
             nextButton.innerHTML = `
             <a href="${criteria.endPage + 1}" class="tplBtn btnPgnNext paging">
-                <span class="blind">다음</span>
-                <i class="ico"></i>
+                <span class="">다음</span>
+<!--                <i class="ico"></i>-->
             </a>
         `;
             pageWrap.appendChild(nextButton);

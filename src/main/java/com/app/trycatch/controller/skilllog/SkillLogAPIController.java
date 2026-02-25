@@ -42,11 +42,8 @@ public class SkillLogAPIController {
         return skillLogService.list(page, search);
     }
 
-    @GetMapping("my-list/{page}")
+    @GetMapping("dashboard/{page}")
     public SkillLogWithPagingDTO myList(@PathVariable int page, Search search, Long memberId) {
-        log.info("{}", page);
-        log.info("{}", search);
-        log.info("{}", memberId);
         return skillLogService.myList(page, search, memberId);
     }
 

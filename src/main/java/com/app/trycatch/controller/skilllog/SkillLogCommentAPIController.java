@@ -37,11 +37,10 @@ public class SkillLogCommentAPIController {
 //    수정
     @PutMapping("{id}")
     public void update(SkillLogCommentDTO skillLogCommentDTO, @RequestParam(value = "file", required = false) MultipartFile multipartFile){
-
         skillLogCommentService.update(skillLogCommentDTO, multipartFile);
     }
 
-    //    삭제
+//    삭제
     @DeleteMapping("{skillLogCommentId}")
     public void delete(@PathVariable Long skillLogCommentId){
         skillLogCommentService.delete(skillLogCommentId);

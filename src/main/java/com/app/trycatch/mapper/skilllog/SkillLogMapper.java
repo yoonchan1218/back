@@ -5,6 +5,7 @@ import com.app.trycatch.common.search.Search;
 import com.app.trycatch.domain.skilllog.SkillLogVO;
 import com.app.trycatch.dto.skilllog.SkillLogAsideDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
+import com.app.trycatch.dto.skilllog.SkillLogDashboardDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,7 +31,7 @@ public interface SkillLogMapper {
 //    내 글 목록 개수
     public int selectTotalByMemberId(Long memberId);
 //    대시보드
-//    public  selectSkillLogInfoByMemberId(Long memberId);
+    public SkillLogDashboardDTO selectDashboardByMemberId(Long id);
 
 //    조회
     public Optional<SkillLogDTO> selectById(Long id);

@@ -6,6 +6,7 @@ import com.app.trycatch.common.search.Search;
 import com.app.trycatch.domain.skilllog.SkillLogVO;
 import com.app.trycatch.dto.skilllog.SkillLogAsideDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
+import com.app.trycatch.dto.skilllog.SkillLogDashboardDTO;
 import com.app.trycatch.dto.skilllog.TagDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -108,5 +109,11 @@ public class SkillLogMapperTests {
             log.info("{}", i) ;
             log.info("{}", skillLogs.get(i));
         }
+    }
+
+    @Test
+    public void testSelectDashboardByMemberId() {
+        SkillLogDashboardDTO skillLogDashboardDTO = skillLogMapper.selectDashboardByMemberId(12L);
+        log.info("{}", skillLogDashboardDTO);
     }
 }

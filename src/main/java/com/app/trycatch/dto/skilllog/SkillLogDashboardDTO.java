@@ -1,5 +1,7 @@
 package com.app.trycatch.dto.skilllog;
 
+import com.app.trycatch.dto.member.IndividualMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import lombok.*;
 
 @Getter
@@ -8,15 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class SkillLogDashboardDTO {
-    private Long id;
-    private String memberName;
-    private int individualMemberLevel;
-    private int individualMemberPoint;
+    private IndividualMemberDTO individualMemberDTO;
+
+    private int individualMemberPostCount;
     private int skillLogViewCountTotal;
     private int skillLogLikeCountTotal;
-    private int skillLogCount;
     private int skillLogCommentCount;
-
-//    프로필 파일
-
 }

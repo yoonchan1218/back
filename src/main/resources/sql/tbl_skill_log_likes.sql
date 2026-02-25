@@ -11,3 +11,7 @@ create table tbl_skill_log_likes
 ) comment '기술 블로그 좋아요';
 
 select * from tbl_skill_log_likes;
+
+select count(*)
+from tbl_skill_log_likes
+group by skill_log_id;
