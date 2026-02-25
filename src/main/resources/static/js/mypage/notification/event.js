@@ -1,16 +1,3 @@
-document.querySelectorAll(".btn-read-notification").forEach((btn) => {
-    btn.addEventListener("click", () => {
-        const notificationId = btn.dataset.id;
-        if (!notificationId) return;
-
-        notificationService.update(notificationId, (success) => {
-            if (success) {
-                notificationLayout.showRead(btn);
-            }
-        });
-    });
-});
-
 // 알림 유형 필터
 const sortSel = document.getElementById("sortSel");
 if (sortSel) {

@@ -32,10 +32,6 @@ public class MyPageDAO {
         return myPageMapper.selectNotificationsByMemberId(memberId);
     }
 
-    public void readNotification(Long memberId, Long notificationId) {
-        myPageMapper.updateNotificationRead(memberId, notificationId);
-    }
-
     public void deactivateMember(Long memberId) {
         myPageMapper.updateMemberStatusToInactive(memberId);
     }

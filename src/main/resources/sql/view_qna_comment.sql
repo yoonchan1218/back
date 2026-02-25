@@ -24,7 +24,8 @@ left join tbl_qna_comment_file cf on c.id = cf.qna_comment_id
 left join tbl_file f on cf.id = f.id
 );
 
-CREATE INDEX idx_qna_comment_qna_id ON tbl_qna_comment(qna_id);
+CREATE INDEX idx_qna_comment_qna_id ON tbl_qna_comment (qna_id);
+
 ALTER TABLE tbl_qna_comment DROP INDEX uk_qna_member_comment;
 
 select * from view_qna_comment;

@@ -92,14 +92,6 @@ public class MyPageController {
         return "mypage/notification";
     }
 
-    @PostMapping("notification/read")
-    @ResponseBody
-    public boolean readNotification(Long notificationId) {
-        Long memberId = getSessionMemberId();
-        myPageService.readNotification(memberId, notificationId);
-        return true;
-    }
-
     @GetMapping("experience")
     public String goToExperience(@RequestParam(defaultValue = "1") int page, Model model) {
         Long memberId = getSessionMemberId();

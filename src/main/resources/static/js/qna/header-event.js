@@ -99,10 +99,27 @@ const notifyToggleAttached = document.querySelector(".popup-notification");
 const notifyToggleOpen = document.querySelector(
     ".userNav-item.notification.devLiNotification",
 );
+
+// 페이지 로드 시 미읽음 알림이 있으면 빨간 점 표시
+const alarmDot = document.getElementById("js-alarmDot");
+if (alarmDot) {
+    const hasUnread = document.querySelector('.notification-item[data-is-read="false"]');
+    if (hasUnread) {
+        alarmDot.style.display = "";
+    }
+}
+
+// 헤더 알림 목록을 시간순(최신순)으로 정렬
+const alarmList = document.querySelector(".list-notification");
+if (alarmList) {
+    const items = Array.from(alarmList.querySelectorAll(".notification-item[data-date]"));
+    items.sort((a, b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+    items.forEach((item) => alarmList.appendChild(item));
+}
+
 if (notifyButton) {
     notifyButton.addEventListener("click", (e) => {
         if (notifyToggleAttached) notifyToggleAttached.classList.toggle("attached");
-        const alarmDot = document.getElementById("js-alarmDot");
         if (alarmDot) {
             alarmDot.style.display = "none";
             fetch("/api/alarm/read", { method: "PUT" });
