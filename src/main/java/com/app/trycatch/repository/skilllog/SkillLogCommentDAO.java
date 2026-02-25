@@ -66,4 +66,9 @@ public class SkillLogCommentDAO {
     public void deleteParentCommentsBySkillLogId(Long id) {
         skillLogCommentMapper.deleteParentCommentsBySkillLogId(id);
     }
+
+//    댓글 작성자 member_id 조회
+    public Long findMemberIdById(Long id) {
+        return skillLogCommentMapper.selectMemberIdById(id);
+    }
 }

@@ -7,6 +7,7 @@ import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.domain.file.FileVO;
 import com.app.trycatch.domain.skilllog.SkillLogCommentLikesVO;
 import com.app.trycatch.domain.skilllog.SkillLogCommentVO;
+import com.app.trycatch.dto.alarm.AlramDTO;
 import com.app.trycatch.dto.file.FileDTO;
 import com.app.trycatch.dto.skilllog.*;
 import com.app.trycatch.mapper.file.FileMapper;
@@ -16,6 +17,8 @@ import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.repository.skilllog.SkillLogCommentDAO;
 import com.app.trycatch.repository.skilllog.SkillLogCommentFileDAO;
 import com.app.trycatch.repository.skilllog.SkillLogCommentLikesDAO;
+import com.app.trycatch.repository.skilllog.SkillLogDAO;
+import com.app.trycatch.service.Alarm.IndividualAlramService;
 import com.app.trycatch.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +43,8 @@ public class SkillLogCommentService {
     private final SkillLogCommentFileDAO skillLogCommentFileDAO;
     private final FileDAO fileDAO;
     private final SkillLogCommentLikesDAO skillLogCommentLikesDAO;
+    private final SkillLogDAO skillLogDAO;
+    private final IndividualAlramService individualAlramService;
 
     //    추가
     public void write(SkillLogCommentDTO skillLogCommentDTO, MultipartFile multipartFile){
@@ -51,6 +56,32 @@ public class SkillLogCommentService {
         SkillLogCommentFileDTO skillLogCommentFileDTO = new SkillLogCommentFileDTO();
 
         skillLogCommentDAO.save(skillLogCommentDTO);
+
+//        알림 전송
+        AlramDTO alramDTO = new AlramDTO();
+        alramDTO.setNotificationType("skill_log");
+        alramDTO.setSkillLogId(skillLogCommentDTO.getSkillLogId());
+
+        if (skillLogCommentDTO.getSkillLogCommentParentId() == null) {
+//            댓글: 기술블로그 작성자에게 알림
+            skillLogDAO.findById(skillLogCommentDTO.getSkillLogId()).ifPresent(skillLog -> {
+                if (!skillLog.getMemberId().equals(skillLogCommentDTO.getMemberId())) {
+                    alramDTO.setMemberId(skillLog.getMemberId());
+                    alramDTO.setNotificationTitle("기술블로그에 댓글이 달렸습니다.");
+                    alramDTO.setNotificationContent(skillLogCommentDTO.getSkillLogCommentContent());
+                    individualAlramService.saveNotification(alramDTO);
+                }
+            });
+        } else {
+//            대댓글: 부모 댓글 작성자에게 알림
+            Long parentCommentMemberId = skillLogCommentDAO.findMemberIdById(skillLogCommentDTO.getSkillLogCommentParentId());
+            if (parentCommentMemberId != null && !parentCommentMemberId.equals(skillLogCommentDTO.getMemberId())) {
+                alramDTO.setMemberId(parentCommentMemberId);
+                alramDTO.setNotificationTitle("기술블로그 댓글에 답글이 달렸습니다.");
+                alramDTO.setNotificationContent(skillLogCommentDTO.getSkillLogCommentContent());
+                individualAlramService.saveNotification(alramDTO);
+            }
+        }
 
         if(multipartFile != null) {
             UUID uuid = UUID.randomUUID();

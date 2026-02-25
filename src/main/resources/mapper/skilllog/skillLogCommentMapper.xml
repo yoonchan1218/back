@@ -93,6 +93,11 @@
         where skill_log_id = #{id}
           and skill_log_comment_parent_id is null
     </delete>
+
+    <select id="selectMemberIdById" resultType="Long">
+        select member_id from tbl_skill_log_comment
+        where id = #{id}
+    </select>
 </mapper>
 
 

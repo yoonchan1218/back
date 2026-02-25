@@ -35,6 +35,11 @@
         order by created_datetime desc
     </select>
 
+    <insert id="insertNotification">
+        insert into tbl_main_notification (member_id, notification_type, notification_title, notification_content, skill_log_id)
+        values (#{memberId}, #{notificationType}, #{notificationTitle}, #{notificationContent}, #{skillLogId})
+    </insert>
+
     <update id="updateReadByMemberId">
         update tbl_main_notification
         set notification_is_read = true,
