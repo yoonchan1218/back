@@ -6,3 +6,6 @@ create table tbl_skill_log_comment_report
     constraint fk_skill_log_comment_report_report foreign key (id) references tbl_report (id),
     constraint fk_skill_log_comment_report_skill_log_comment foreign key (skill_log_comment_id) references tbl_skill_log_comment (id)
 ) comment '기술 블로그 댓글 리포트 서브타입';
+
+select * from tbl_skill_log_comment_report;
+select * from tbl_report;

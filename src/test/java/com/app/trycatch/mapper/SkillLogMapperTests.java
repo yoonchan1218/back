@@ -84,8 +84,28 @@ public class SkillLogMapperTests {
         skillLogMapper.update(skillLogDTO.toSkillLogVO());
     }
 
-//    @Test
-//    public void testUpdateSkillLogStatus() {
-//        skillLogMapper.updateSkillLogStatus(33L);
-//    }
+    @Test
+    public void testUpdateSkillLogStatus() {
+        skillLogMapper.updateSkillLogStatus(481L);
+    }
+
+    @Test
+    public void testSelectAllByMemberId() {
+        Search search = new Search();
+        Criteria criteria = null;
+        List<SkillLogDTO> skillLogs = null;
+        String[] tagNames = new String[1];
+
+//        search.setKeyword("1");
+//        tagNames[0] = "태그";
+//        search.setTagNames(tagNames);
+        search.setType("인기");
+
+        criteria = new Criteria(1, skillLogMapper.selectTotal(search));
+        skillLogs = skillLogMapper.selectAll(criteria, search);
+
+        skillLogs.forEach((skillLog) -> {
+            log.info("{}", skillLog);
+        });
+    }
 }

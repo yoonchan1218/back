@@ -1,5 +1,6 @@
 package com.app.trycatch.controller.report;
 
+import com.app.trycatch.dto.skilllog.SkillLogCommentReportDTO;
 import com.app.trycatch.dto.skilllog.SkillLogReportDTO;
 import com.app.trycatch.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,13 @@ public class ReportController {
 
     @PostMapping("skill-log")
     public RedirectView skillLog(SkillLogReportDTO skillLogReportDTO) {
-        reportService.report(skillLogReportDTO);
+        reportService.skillLogReport(skillLogReportDTO);
+        return new RedirectView("/skill-log/list");
+    }
+
+    @PostMapping("skill-log/comment")
+    public RedirectView skillLogComment(SkillLogCommentReportDTO skillLogCommentReportDTO) {
+        reportService.skillLogCommentReport(skillLogCommentReportDTO);
         return new RedirectView("/skill-log/list");
     }
 }

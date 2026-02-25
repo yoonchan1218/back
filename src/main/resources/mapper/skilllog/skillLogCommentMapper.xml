@@ -28,8 +28,10 @@
         limit #{criteria.rowCount} offset #{criteria.offset}
     </select>
     <select id="selectCountAllBySkillLogId">
-        select count(*) from tbl_skill_log_comment
-        where skill_log_id = #{id} and skill_log_comment_parent_id is null
+        select count(*) from tbl_skill_log_comment c
+        join tbl_member m on m.id = c.member_id
+        join tbl_individual_member im on m.id = im.id
+        where c.skill_log_id = #{id} and c.skill_log_comment_parent_id is null
     </select>
 
     <select id="selectAllByCommentParentIdAndSkillLogId">
@@ -48,11 +50,13 @@
         left join tbl_file f
         on f.id = cf.id
         where c.skill_log_id = #{skillLogId} and skill_log_comment_parent_id = #{commentParentId}
-        order by c.created_datetime desc
-        limit #{criteria.rowCount} offset #{criteria.offset}
+        order by c.id desc
+        limit #{criteria.count} offset #{criteria.offset}
     </select>
     <select id="selectCountAllByCommentParentIdAndSkillLogId">
-        select count(*) from tbl_skill_log_comment
+        select count(*) from tbl_skill_log_comment c
+        join tbl_member m on m.id = c.member_id
+        join tbl_individual_member im on m.id = im.id
         where skill_log_id = #{skillLogId} and skill_log_comment_parent_id = #{commentParentId}
     </select>
 

@@ -17877,3 +17877,25 @@ address, caption, em {
 .create-menu-item.carrier::before {
     background-position: -216px -431px;
 }
+
+/* 대댓글 더보기 버튼 */
+.nested-more-wrap {
+    padding: 4px 0;
+    text-align: center;
+}
+
+.btn-nested-more {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 13px;
+    letter-spacing: 0;
+    cursor: pointer;
+    padding: 6px 0;
+    line-height: 1;
+}
+
+.btn-nested-more:hover {
+    color: #333;
+    text-decoration: underline;
+}

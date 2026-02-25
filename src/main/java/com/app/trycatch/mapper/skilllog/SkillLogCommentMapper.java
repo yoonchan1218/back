@@ -33,7 +33,7 @@ public interface SkillLogCommentMapper {
 
 //    삭제
     public void delete(Long id);
-    public void deleteAllBySkillLogId(Long id);
+//    public void deleteAllBySkillLogId(Long id);
     public void deleteAllByCommentParentId(Long id);
 
     public void deleteNestedCommentsBySkillLogId(Long id);

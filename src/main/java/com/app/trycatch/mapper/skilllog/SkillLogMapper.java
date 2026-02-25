@@ -22,6 +22,15 @@ public interface SkillLogMapper {
     public List<SkillLogDTO> selectAll(@Param("criteria") Criteria criteria, @Param("search") Search search);
 //    전체 개수
     public int selectTotal(@Param("search") Search search);
+//    내 글 목록
+    public List<SkillLogDTO> selectAllByMemberId(
+            @Param("criteria") Criteria criteria,
+            @Param("search") Search search,
+            @Param("memberId") Long memberId);
+//    전체 개수
+    public int selectTotalByMemberId(
+            @Param("search") Search search,
+            @Param("memberId") Long memberId);
 
 //    조회
     public Optional<SkillLogDTO> selectById(Long id);
@@ -35,5 +44,5 @@ public interface SkillLogMapper {
     public void update(SkillLogVO skillLogVO);
 
 //    삭제
-//    public void updateSkillLogStatus(Long id);
+    public void updateSkillLogStatus(Long id);
 }

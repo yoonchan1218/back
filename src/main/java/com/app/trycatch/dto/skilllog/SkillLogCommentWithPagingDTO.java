@@ -16,4 +16,5 @@ import java.util.List;
 public class SkillLogCommentWithPagingDTO {
     private List<SkillLogCommentDTO> skillLogComments;
     private Criteria criteria;
+    private int totalCount;
 }

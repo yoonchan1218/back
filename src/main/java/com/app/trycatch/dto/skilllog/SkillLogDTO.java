@@ -31,6 +31,9 @@ public class SkillLogDTO {
     private int likeCount;
     private boolean liked;
 
+//    댓글 수
+    private int commentCount;
+
 //    experienceProgram
     private Long experienceProgramId;
     private String experienceProgramTitle;

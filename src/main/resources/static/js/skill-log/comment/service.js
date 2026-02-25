@@ -48,7 +48,7 @@ const commentService = (() => {
         const likeCount = await response.json();
 
         if(callback) {
-            callback(likeCount);
+            callback(likeCount, skillLogCommentId);
         }
     }
 

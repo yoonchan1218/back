@@ -1,11 +1,8 @@
 package com.app.trycatch.mapper;
 
 import com.app.trycatch.domain.skilllog.SkillLogCommentLikesVO;
-import com.app.trycatch.domain.skilllog.SkillLogLikesVO;
 import com.app.trycatch.dto.skilllog.SkillLogCommentLikesDTO;
-import com.app.trycatch.dto.skilllog.SkillLogLikesDTO;
 import com.app.trycatch.mapper.skilllog.SkillLogCommentLikesMapper;
-import com.app.trycatch.mapper.skilllog.SkillLogLikesMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
-public class SkillLogLikeCommentMapperTests {
+public class SkillLogCommentLikesMapperTests {
     @Autowired
     private SkillLogCommentLikesMapper skillLogCommentLikesMapper;
 
@@ -55,5 +52,10 @@ public class SkillLogLikeCommentMapperTests {
     @Test
     public void testDeleteBySkillLogCommentId() {
         skillLogCommentLikesMapper.deleteBySkillLogCommentId(84L);
+    }
+
+    @Test
+    public void testDeleteBySkillLogId() {
+        skillLogCommentLikesMapper.deleteBySkillLogId(480L);
     }
 }

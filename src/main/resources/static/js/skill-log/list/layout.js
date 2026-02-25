@@ -84,6 +84,8 @@ const skillLogLayout = (() => {
         pageWrap.appendChild(pageList);
 
         if(criteria.endPage !== criteria.realEnd) {
+            if(skillLogs.length < 1) return;
+
             const nextButton = document.createElement("p");
             nextButton.innerHTML = `
                 <a href="${criteria.endPage + 1}" class="tplBtn btnPgnNext paging">

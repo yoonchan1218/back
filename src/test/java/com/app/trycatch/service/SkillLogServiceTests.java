@@ -135,6 +135,11 @@ public class SkillLogServiceTests {
 
         skillLogService.update(skillLogDTO, multipartFiles);
     }
+
+    @Test
+    public void delete() {
+        skillLogService.delete(482L);
+    }
 }
 
 

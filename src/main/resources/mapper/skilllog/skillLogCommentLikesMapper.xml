@@ -28,6 +28,14 @@
         where skill_log_comment_id = #{id}
     </delete>
 
+    <delete id="deleteBySkillLogId">
+        delete l
+        from tbl_skill_log_comment_likes l
+        join tbl_skill_log_comment c
+        on l.skill_log_comment_id = c.id
+        where c.skill_log_id = #{id}
+    </delete>
+
 </mapper>
 
 

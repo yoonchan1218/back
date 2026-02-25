@@ -80,6 +80,7 @@ public class SkillLogCommentService {
     //    댓글 목록
     public SkillLogCommentWithPagingDTO getListInSkillLog(int page, Long id, Long memberId){
         SkillLogCommentWithPagingDTO skillLogCommentWithPagingDTO = new SkillLogCommentWithPagingDTO();
+        int totalCount = skillLogCommentDAO.findCountAllBySkillLogId(id);
         Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllBySkillLogId(id));
         List<SkillLogCommentDTO> comments = skillLogCommentDAO.findAllBySkillLogId(criteria, id);
         SkillLogCommentLikesDTO skillLogCommentLikesDTO = new SkillLogCommentLikesDTO();
@@ -88,6 +89,9 @@ public class SkillLogCommentService {
             boolean updateCheck = !comment.getCreatedDatetime().equals(comment.getUpdatedDatetime());
             String formattedDate = DateUtils.toRelativeTime(comment.getCreatedDatetime()) + (updateCheck ? " (수정됨)" : "");
             comment.setCreatedDatetime(formattedDate);
+
+//            대댓글 수
+            comment.setSkillLogCommentChildCount(skillLogCommentDAO.findCountAllByCommentParentIdAndSkillLogId(comment.getSkillLogId(), comment.getId()));
 
 //            likes
             skillLogCommentLikesDTO.setSkillLogCommentId(comment.getId());
@@ -99,6 +103,7 @@ public class SkillLogCommentService {
 
         skillLogCommentWithPagingDTO.setCriteria(criteria);
         skillLogCommentWithPagingDTO.setSkillLogComments(comments);
+        skillLogCommentWithPagingDTO.setTotalCount(totalCount);
 
         return skillLogCommentWithPagingDTO;
     }
@@ -107,6 +112,13 @@ public class SkillLogCommentService {
         SkillLogNestedCommentWithPagingDTO skillLogNestedCommentWithPagingDTO = new SkillLogNestedCommentWithPagingDTO();
         Criteria criteria = new Criteria(page, skillLogCommentDAO.findCountAllByCommentParentIdAndSkillLogId(skillLogId, commentId));
         List<SkillLogCommentDTO> nestedComments = skillLogCommentDAO.findAllByCommentParentIdAndSkillLogId(criteria, skillLogId, commentId);
+
+        criteria.setHasMore(nestedComments.size() > criteria.getRowCount());
+        skillLogNestedCommentWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()){
+            nestedComments.remove(nestedComments.size() - 1);
+        }
 
         nestedComments.forEach((comment) -> {
             boolean updateCheck = !comment.getCreatedDatetime().equals(comment.getUpdatedDatetime());

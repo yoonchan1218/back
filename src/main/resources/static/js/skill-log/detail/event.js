@@ -40,7 +40,12 @@ reportSubmitButton.addEventListener("click", (e) => {
         "신고된 글은 운영자에게 전달됩니다. 신고하시겠습니까?",
     );
     if (reportSubmitMessage) {
+        const skillLogCommentId = reportForm.skillLogCommentId.value;
+        if(skillLogCommentId) {
+            reportForm.setAttribute("action", "/report/skill-log/comment")
+        }
         alert("신고 처리 완료되었습니다.");
+
         reportForm.submit();
     }
 });
@@ -61,7 +66,7 @@ reportActiveButton.addEventListener("click", (e) => {
     reportButton.addEventListener("click", (e) => {
         if(e.target.classList.contains("report")) {
             // 신고
-            if(memberId.value) {
+            if(memberId) {
                 pressReportButton.style.display = "block";
             } else {
                 location.href = "/main/log-in";
@@ -169,24 +174,24 @@ if (qstnLikeButton) {
 // ################################################################################################################
 
 // 북마크 등록(로그인)
-const buttonBookMark = document.querySelector(
-    ".btnBookmark.qnaSpB.devQnaDetailBookmark",
-);
-const bookMarkLayer = document.querySelector(
-    ".book-mark-layer.tooltip-layer.qnaSpA",
-);
-
-buttonBookMark.addEventListener("click", (e) => {
-    if (!buttonBookMark.classList.contains("on")) {
-        bookMarkLayer.style.opacity = "1";
-        setTimeout(() => {
-            bookMarkLayer.style.opacity = "0";
-        }, 975);
-    } else {
-        bookMarkLayer.style.opacity = "0";
-    }
-    buttonBookMark.classList.toggle("on");
-});
+// const buttonBookMark = document.querySelector(
+//     ".btnBookmark.qnaSpB.devQnaDetailBookmark",
+// );
+// const bookMarkLayer = document.querySelector(
+//     ".book-mark-layer.tooltip-layer.qnaSpA",
+// );
+//
+// buttonBookMark.addEventListener("click", (e) => {
+//     if (!buttonBookMark.classList.contains("on")) {
+//         bookMarkLayer.style.opacity = "1";
+//         setTimeout(() => {
+//             bookMarkLayer.style.opacity = "0";
+//         }, 975);
+//     } else {
+//         bookMarkLayer.style.opacity = "0";
+//     }
+//     buttonBookMark.classList.toggle("on");
+// });
 
 // 비로그인 시 로그인 페이지로 이동(클릭 이벤트)
 function loginHref() {
@@ -312,7 +317,7 @@ function handleTextFocusin(e) {
 const mainCommentWriteButton = document.querySelector(".btnSbm.devBtnAnswerWrite");
 
 if (mainCommentWriteButton) {
-    mainCommentWriteButton.addEventListener("click", (e) => {
+    mainCommentWriteButton.addEventListener("click", async (e) => {
         const text = document.querySelector(".devTxtAreaAnswerWrite")?.value;
         const fileInput = mainCommentWriteButton.closest(".btnWrap")?.querySelector(".reply-file");
 
@@ -410,6 +415,9 @@ answerArea.addEventListener("click", (e) => {
         }
         const pressReportButton = document.querySelector(".mtuLyWrap.lyQnaReport");
         const reportFirstReasonRadio = document.querySelectorAll(".reportBx.radioCommWrap li input");
+        const skillLogCommentIdInput = reportForm.skillLogCommentId;
+
+        skillLogCommentIdInput.value = target.closest(".btnReport.devBtnReport").getAttribute("data-idf-no");
 
         if (pressReportButton) pressReportButton.style.display = "block";
         if (reportFirstReasonRadio.length > 0) reportFirstReasonRadio[0].checked = true;
@@ -427,8 +435,6 @@ answerArea.addEventListener("click", (e) => {
         const btn = target.closest(".btnHeart.qnaSpB.devBtnAnswerLike");
         const li = btn.closest("li[id^='li']");
         const skillLogCommentId = li.id.slice(2);
-
-        console.log(skillLogCommentId);
 
         commentService.getLikeCount(
             {skillLogCommentId: skillLogCommentId, memberId: memberId},
@@ -452,10 +458,26 @@ answerArea.addEventListener("click", (e) => {
 
         if (btn.classList.contains("active")) {
             commentSec.style.display = "block";
-            commentService.getNestedList(nestedPage, skillLogId, commentId, memberId, commentLayout.showNestedCommentList);
+            commentService.getNestedList(1, skillLogId, commentId, memberId, (data, mId, cId) => {
+                commentLayout.showNestedCommentList(data, mId, cId, false);
+            });
         } else {
             commentSec.style.display = "none";
         }
+        return;
+    }
+
+    // ----------------------------------------------------------
+    // 3-1. 대댓글 더보기 버튼
+    // ----------------------------------------------------------
+    if (target.closest(".devBtnNestedMore")) {
+        const btn = target.closest(".devBtnNestedMore");
+        const commentId = btn.dataset.commentId;
+        const nextPage = Number(btn.dataset.page);
+
+        commentService.getNestedList(nextPage, skillLogId, commentId, memberId, (data, mId, cId) => {
+            commentLayout.showNestedCommentList(data, mId, cId, true);
+        });
         return;
     }
 
@@ -514,6 +536,7 @@ answerArea.addEventListener("click", (e) => {
 
             commentService.remove(commentId).then(() => {
                 alert("삭제되었습니다.");
+                page = 1;
                 commentService.getList(page, skillLogId, memberId, commentLayout.showCommentList);
                 parentCommentId && commentService.getNestedList(nestedPage, skillLogId, parentCommentId, memberId, commentLayout.showNestedCommentList);
             });

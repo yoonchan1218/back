@@ -55,7 +55,7 @@ public class SkillLogDAO {
     }
 
 //    삭제
-//    public void setSkillLogStatus(Long id) {
-//        skillLogMapper.updateSkillLogStatus(id);
-//    }
+    public void setSkillLogStatus(Long id) {
+        skillLogMapper.updateSkillLogStatus(id);
+    }
 }
