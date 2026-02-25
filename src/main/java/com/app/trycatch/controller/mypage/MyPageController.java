@@ -155,7 +155,12 @@ public class MyPageController {
     @ResponseBody
     public String uploadProfileImage(@RequestParam("file") MultipartFile file) {
         Long memberId = getSessionMemberId();
-        return myPageService.uploadProfileImage(memberId, file);
+        String imageUrl = myPageService.uploadProfileImage(memberId, file);
+        Object member = session.getAttribute("member");
+        if (member instanceof IndividualMemberDTO individualMemberDTO) {
+            individualMemberDTO.setMemberProfileImageUrl(imageUrl);
+        }
+        return imageUrl;
     }
 
     @GetMapping("logout")

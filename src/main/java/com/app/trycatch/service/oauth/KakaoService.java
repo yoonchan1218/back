@@ -143,7 +143,7 @@ public class KakaoService {
                 kakaoInfo = new IndividualMemberDTO();
                 kakaoInfo.setMemberName(memberName);
                 kakaoInfo.setMemberEmail(memberEmail);
-                kakaoInfo.setProfileImageUrl(profileImageUrl);
+                kakaoInfo.setMemberProfileImageUrl(profileImageUrl);
 
 //                카카오에서 받은 이메일을 우리 DB에서 검사해본다.
                 Optional<MemberVO> foundMember = memberDAO.findByMemberEmail(kakaoInfo.getMemberEmail());
@@ -163,7 +163,7 @@ public class KakaoService {
                     existingMember.setId(memberVO.getId());
                     existingMember.setMemberEmail(memberVO.getMemberEmail());
                     existingMember.setMemberName(memberVO.getMemberName());
-                    existingMember.setProfileImageUrl(profileImageUrl);
+                    existingMember.setMemberProfileImageUrl(profileImageUrl);
                     existingMember.setProvider(Provider.KAKAO);
                     return existingMember;
                 }
