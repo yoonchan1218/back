@@ -1,8 +1,8 @@
-package com.app.trycatch.repository.mypage;
+package com.app.trycatch.repository.point;
 
-import com.app.trycatch.domain.mypage.PointDetailsVO;
-import com.app.trycatch.dto.mypage.PointDetailsDTO;
-import com.app.trycatch.mapper.mypage.PointDetailsMapper;
+import com.app.trycatch.domain.point.PointDetailsVO;
+import com.app.trycatch.dto.point.PointDetailsDTO;
+import com.app.trycatch.mapper.point.PointDetailsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

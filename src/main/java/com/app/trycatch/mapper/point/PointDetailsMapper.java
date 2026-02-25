@@ -1,7 +1,7 @@
-package com.app.trycatch.mapper.mypage;
+package com.app.trycatch.mapper.point;
 
-import com.app.trycatch.domain.mypage.PointDetailsVO;
-import com.app.trycatch.dto.mypage.PointDetailsDTO;
+import com.app.trycatch.domain.point.PointDetailsVO;
+import com.app.trycatch.dto.point.PointDetailsDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

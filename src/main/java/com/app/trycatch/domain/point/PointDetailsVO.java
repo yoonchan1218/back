@@ -1,6 +1,7 @@
-package com.app.trycatch.domain.mypage;
+package com.app.trycatch.domain.point;
 
 import com.app.trycatch.audit.Period;
+import com.app.trycatch.common.enumeration.point.PointType;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 public class PointDetailsVO extends Period {
     private Long id;
     private Long memberId;
-    private String pointType;
+    private PointType pointType;
     private int pointAmount;
 }
