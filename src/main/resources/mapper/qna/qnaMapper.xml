@@ -18,6 +18,7 @@
         <result property="companyName" column="company_name"/>
         <result property="collegeFriend" column="college_friend"/>
         <result property="memberName" column="member_name"/>
+        <result property="memberProfileImageUrl" column="member_profile_image_url"/>
         <result property="qnaFileId" column="qna_file_id"/>
         <result property="qnaLikeCount" column="qna_like_count"/>
         <result property="createdDatetime" column="created_datetime"/>
@@ -35,15 +36,19 @@
                q.company_name, q.college_friend, q.qna_file_id,
                q.created_datetime, q.updated_datetime,
                m.member_name,
+               if(m.member_profile_file_id is not null,
+                   concat('/api/files/display?filePath=', pf.file_path, '&amp;fileName=', pf.file_name),
+                   null) as member_profile_image_url,
                count(distinct l.id) as qna_like_count,
                f.id as file_id, f.file_path, f.file_name
         from tbl_qna q
         left join tbl_member m on q.individual_member_id = m.id
+        left join tbl_file pf on m.member_profile_file_id = pf.id
         left join tbl_qna_file qf on q.id = qf.qna_id
         left join tbl_file f on qf.id = f.id
         left join tbl_qna_likes l on q.id = l.qna_id
         where q.id = #{id} and q.qna_status = 'published'
-        group by q.id, m.member_name, f.id, f.file_path, f.file_name
+        group by q.id, m.member_name, pf.file_path, pf.file_name, m.member_profile_file_id, f.id, f.file_path, f.file_name
     </select>
 
     <select id="selectAll" resultType="QnaDTO">

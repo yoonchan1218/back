@@ -68,4 +68,9 @@ public class IndividualMemberService {
         MemberVO memberVO = memberDAO.findForLogin(memberDTO).orElseThrow(LoginFailException::new);
         return individualMemberDAO.findById(memberVO.getId()).orElseThrow(LoginFailException::new);
     }
+
+    //    ID로 회원 조회 (카카오 로그인 등에서 사용)
+    public IndividualMemberDTO findById(Long id) {
+        return individualMemberDAO.findById(id).orElseThrow(LoginFailException::new);
+    }
 }

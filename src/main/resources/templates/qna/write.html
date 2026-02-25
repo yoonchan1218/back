@@ -49,6 +49,9 @@
                         <a href="" class="myInfo">
                             <span class="proThumb"
                                 ><img
+                                    onerror="this.src='/images/default_image.png'"
+                                    th:src="${loginMember.memberProfileImageUrl != null ? loginMember.memberProfileImageUrl : '/images/default_image.png'}"
+                                    alt="프로필 이미지"
                             /></span>
 
                             <dl class="infoBx">
@@ -74,7 +77,7 @@
                         <a href="" class="myInfo devLoginLayer" devalert="0">
                             <span class="proThumb">
                                 <img
-                                    src="https://cdn-assets.jobkorea.co.kr/images/jk-pc/user/qna/profile_thumb/random_default.jpg"
+                                    src="/images/default_image.png"
                                     alt="프로필 이미지"
                                 />
                             </span>

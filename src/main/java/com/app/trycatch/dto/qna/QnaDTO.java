@@ -32,6 +32,7 @@ public class QnaDTO {
     private int qnaLikeCount;
     private int qnaCommentCount;
     private String memberName;
+    private String memberProfileImageUrl;
     private Long qnaFileId;     // 첨부 파일 ID (tbl_qna.qna_file_id) — 썸네일용
     private String filePath;    // 썸네일 이미지 경로 (목록용)
     private String fileName;    // 썸네일 이미지 파일명 (목록용)

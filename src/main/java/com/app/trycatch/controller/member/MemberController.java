@@ -59,7 +59,13 @@ public class MemberController {
         IndividualMemberDTO kakaoInfo = kakaoService.kakaoLogin(code);
 
         if (kakaoInfo.getId() != null) {
-            session.setAttribute("member", kakaoInfo);
+            // 기존 회원: DB에서 전체 프로필 조회 (레벨, 글 수, 프로필 이미지 등)
+            IndividualMemberDTO fullMember = individualMemberService.findById(kakaoInfo.getId());
+            // DB에 프로필 이미지가 없으면 카카오 프로필 이미지 사용
+            if (fullMember.getMemberProfileImageUrl() == null && kakaoInfo.getMemberProfileImageUrl() != null) {
+                fullMember.setMemberProfileImageUrl(kakaoInfo.getMemberProfileImageUrl());
+            }
+            session.setAttribute("member", fullMember);
             String reUrl = (String) session.getAttribute("re_url");
             session.removeAttribute("re_url");
             return "redirect:" + (reUrl != null ? reUrl : "/main/main");
