@@ -3,6 +3,7 @@ package com.app.trycatch.controller.skilllog;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.skilllog.SkillLogDTO;
+import com.app.trycatch.service.member.IndividualMemberService;
 import com.app.trycatch.service.skilllog.SkillLogService;
 import com.app.trycatch.service.tag.TagService;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ public class SkillLogController {
     private final SkillLogService skillLogService;
     private final TagService tagService;
     private final HttpSession session;
+    private final IndividualMemberService individualMemberService;
 
     @GetMapping("write")
     public String goToWrite(Model model){
@@ -80,7 +82,8 @@ public class SkillLogController {
             memberId = ((MemberDTO) member).getId();
         }
 
-        model.addAttribute("aside", skillLogService.aside(memberId));
+        model.addAttribute("aside", individualMemberService.findById(memberId));
+//        model.addAttribute("aside", skillLogService.aside(memberId));
         return "skill-log/dashboard";
     }
 

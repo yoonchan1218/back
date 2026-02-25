@@ -12,9 +12,15 @@
 // document.addEventListener("DOMContentLoaded", function () {
 //     setKeyword();
 // });
+const select = document.querySelector(".devSortList");
+const pageWrap = document.querySelector(".tplPagination.newVer");
+
 let page = 1;
-let type = "";
+let type = select.value;
 const memberId = document.querySelector("input[name=memberId]").value;
+
+
+
 
 if(!memberId) {
     location.href = "/skill-log/list";
@@ -56,7 +62,6 @@ skillLogService.getList(page, type, memberId, skillLogLayout.showList);
 // });
 
 // type 값
-const select = document.querySelector(".devSortList");
 select.addEventListener("change", async (e) => {
     type = e.target.value;
     page = 1;
@@ -64,14 +69,11 @@ select.addEventListener("change", async (e) => {
 })
 
 // 페이징 처리
-const pageWrap = document.querySelector(".tplPagination.newVer");
 pageWrap.addEventListener("click", async (e) => {
     e.preventDefault();
 
     if(e.target.closest(".paging")) {
-        console.log(type);
-
-        page = e.target.getAttribute("href");
+        page = e.target.closest(".paging").getAttribute("href");
         await skillLogService.getList(page, type, memberId, skillLogLayout.showList);
 
         window.scrollTo({

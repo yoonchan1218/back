@@ -20,18 +20,24 @@ set foreign_key_checks = 1;
 drop table tbl_skill_log;
 delete from tbl_skill_log;
 
-select s.id, s.member_id, s.experience_program_id, s.skill_log_title, s.skill_log_content,
-       s.skill_log_view_count, s.skill_log_status, s.created_datetime, s.updated_datetime,member_name
-from tbl_member m join tbl_skill_log s
-on m.id = s.member_id
-where m.id = 9 and s.skill_log_status = 'published';
-
-select * from tbl_tag  where skill_log_id = 30;
-select * from view_skill_log_file  where skill_log_id = 30;
+select * from tbl_skill_log;
+select * from tbl_member;
 
 
-select count(distinct s.id)
-from tbl_skill_log s
-         left outer join tbl_tag t
-                         on s.id = t.skill_log_id
-where s.member_id = 9 and s.skill_log_status = 'published';
+# select
+#     count(*) individualMemberPostCount,
+#     sum(skill_log_view_count) skillLogViewCountTotal,
+#     (select count(*) from tbl_skill_log_likes group by skill_log_id) skillLogLikeCountTotal,
+#     (select count(*) from tbl_skill_log_comment group by skill_log_id) skillLogCommentCount
+# from tbl_skill_log s
+# left join
+#
+# where skill_log_status = 'published' and member_id = 12
+# group by id;
+
+
+
+
+
+
+
