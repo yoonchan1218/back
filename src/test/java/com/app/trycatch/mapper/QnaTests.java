@@ -32,7 +32,6 @@ public class QnaTests {
     public void testInsertComment(){
         QnaCommentDTO qnaCommentDTO = new QnaCommentDTO();
         qnaCommentDTO.setQnaId(1L);
-        qnaCommentDTO.setIndividualMemberId(4L);
         qnaCommentDTO.setQnaCommentContent("테스트댓글1");
         qnaCommentMapper.insert(qnaCommentDTO.toQnaCommentVO());
     }

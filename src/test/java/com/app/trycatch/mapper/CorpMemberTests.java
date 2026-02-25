@@ -108,7 +108,7 @@ public class CorpMemberTests {
         dto.setCorpWebsiteUrl("https://trycatch.com");
         dto.setCorpFax("02-1234-5678");
         dto.setCorpCapital(100000000L);
-//        dto.setCorpTotalSales(500000000L);
+        dto.setCorpTotalSales("5000000");
         dto.setCorpMainBusiness("소프트웨어 개발");
         dto.setCorpPerformance("연혁 및 실적 내용");
         dto.setCorpVision("비전 내용");
