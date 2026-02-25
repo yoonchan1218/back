@@ -77,13 +77,6 @@ public class MyPageService {
         return myPageDAO.findNotificationsByMemberId(memberId);
     }
 
-    public void readNotification(Long memberId, Long notificationId) {
-        if (notificationId == null) {
-            return;
-        }
-        myPageDAO.readNotification(memberId, notificationId);
-    }
-
     public String uploadProfileImage(Long memberId, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return null;

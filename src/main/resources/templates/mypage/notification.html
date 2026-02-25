@@ -42,7 +42,7 @@
         </div>
         <article class="cont">
             <ul>
-                <li th:classappend="${notification.notificationIsRead} ? ' read' : ''" class="type_red">
+                <li class="type_red">
                     <span class="update" th:text="${notification.createdTimeLabel}">20:00</span>
                     <div class="box">
                         <div class="desc">
@@ -68,9 +68,6 @@
                                th:if="${notification.notificationType == 'skill_log'}"
                                th:text="'글에 댓글이 달렸습니다'">글에 댓글이 달렸습니다</p>
                         </div>
-                        <button type="button" class="btn-read-notification"
-                                th:unless="${notification.notificationIsRead}"
-                                th:data-id="${notification.id}">읽음</button>
                     </div>
                 </li>
             </ul>
@@ -141,7 +138,5 @@
             </section>
         </div>
     </body>
-    <script src="/js/mypage/notification/service.js"></script>
-    <script src="/js/mypage/notification/layout.js"></script>
     <script src="/js/mypage/notification/event.js"></script>
 </html>

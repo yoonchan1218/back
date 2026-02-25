@@ -54,17 +54,9 @@
             updated_datetime
         from tbl_main_notification
         where member_id = #{memberId}
+          and notification_is_read = false
         order by created_datetime desc
     </select>
-
-    <update id="updateNotificationRead">
-        update tbl_main_notification
-        set
-            notification_is_read = true,
-            updated_datetime = current_timestamp
-        where id = #{notificationId}
-          and member_id = #{memberId}
-    </update>
 
     <update id="updateMemberStatusToInactive">
         update tbl_member
