@@ -24,6 +24,10 @@ public class IndividualAlramDAO {
         return individualAlramMapper.selectSkillLogAlramsByMemberId(memberId);
     }
 
+    public void save(AlramDTO alramDTO) {
+        individualAlramMapper.insertNotification(alramDTO);
+    }
+
     public void setReadByMemberId(Long memberId) {
         individualAlramMapper.updateReadByMemberId(memberId);
     }

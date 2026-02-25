@@ -29,6 +29,10 @@ public class IndividualAlramService {
         return individualAlramDAO.findSkillLogAlramsByMemberId(memberId);
     }
 
+    public void saveNotification(AlramDTO alramDTO) {
+        individualAlramDAO.save(alramDTO);
+    }
+
     public void readAll(Long memberId) {
         individualAlramDAO.setReadByMemberId(memberId);
     }

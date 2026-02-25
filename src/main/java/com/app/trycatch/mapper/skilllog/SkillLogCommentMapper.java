@@ -38,4 +38,7 @@ public interface SkillLogCommentMapper {
 
     public void deleteNestedCommentsBySkillLogId(Long id);
     public void deleteParentCommentsBySkillLogId(Long id);
+
+//    댓글 작성자 member_id 조회
+    public Long selectMemberIdById(Long id);
 }
