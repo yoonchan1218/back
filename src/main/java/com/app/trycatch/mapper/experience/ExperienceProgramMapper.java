@@ -2,6 +2,7 @@ package com.app.trycatch.mapper.experience;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
+import com.app.trycatch.domain.experience.ExperienceProgramVO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public interface ExperienceProgramMapper {
 //    프로그램 등록
     public void insert(ExperienceProgramDTO experienceProgramDTO);
+
+//    프로그램 수정
+    public void update(ExperienceProgramVO experienceProgramVO);
 
 //    skill-log 최근 공고
 //    목록
@@ -41,4 +45,13 @@ public interface ExperienceProgramMapper {
 
 //    마감일 조회 (스케줄러용)
     List<ExperienceProgramDTO> selectByDeadline(@Param("deadline") String deadline);
+
+//    마감일 지난 모집중 공고 일괄 마감 처리
+    int closeExpiredPrograms(@Param("today") String today);
+
+//    체험 시작일 도달: 모집마감 → 진행중
+    int startPrograms(@Param("today") String today);
+
+//    체험 종료일 다음날: 진행중 → 진행종료
+    int finishPrograms(@Param("today") String today);
 }

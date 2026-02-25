@@ -2,6 +2,7 @@ package com.app.trycatch.repository.experience;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.common.search.Search;
+import com.app.trycatch.domain.experience.ExperienceProgramVO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.mapper.experience.ExperienceProgramMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class ExperienceProgramDAO {
 //    프로그램 등록
     public void save(ExperienceProgramDTO experienceProgramDTO) {
         experienceProgramMapper.insert(experienceProgramDTO);
+    }
+
+//    프로그램 수정
+    public void setExperienceProgram(ExperienceProgramVO experienceProgramVO) {
+        experienceProgramMapper.update(experienceProgramVO);
     }
 
 //    skill-log 최근 공고

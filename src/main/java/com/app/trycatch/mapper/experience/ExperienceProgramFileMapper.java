@@ -10,4 +10,5 @@ import java.util.List;
 public interface ExperienceProgramFileMapper {
     public List<ExperienceProgramFileDTO> selectAllByExperienceProgramId(Long id);
     public void insert(ExperienceProgramFileVO experienceProgramFileVO);
+    public void delete(Long id);
 }

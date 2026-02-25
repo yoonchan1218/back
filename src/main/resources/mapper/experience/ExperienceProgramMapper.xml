@@ -108,6 +108,47 @@
         )
     </insert>
 
+    <!-- 마감일 지난 모집중 공고 일괄 마감 처리 -->
+    <update id="closeExpiredPrograms">
+        UPDATE tbl_experience_program
+        SET experience_program_status = 'closed'
+        WHERE experience_program_status = 'recruiting'
+          AND experience_program_deadline &lt; #{today}
+    </update>
+
+    <!-- 체험 시작일 도달: 모집마감 → 진행중 -->
+    <update id="startPrograms">
+        UPDATE tbl_experience_program
+        SET experience_program_status = 'draft'
+        WHERE experience_program_status = 'closed'
+          AND experience_program_work_days IS NOT NULL
+          AND SUBSTRING_INDEX(experience_program_work_days, '~', 1) &lt;= #{today}
+    </update>
+
+    <!-- 체험 종료일 다음날: 진행중 → 진행종료 -->
+    <update id="finishPrograms">
+        UPDATE tbl_experience_program
+        SET experience_program_status = 'cancelled'
+        WHERE experience_program_status = 'draft'
+          AND experience_program_work_days IS NOT NULL
+          AND SUBSTRING_INDEX(experience_program_work_days, '~', -1) &lt; #{today}
+    </update>
+
+    <!-- 프로그램 수정 -->
+    <update id="update">
+        UPDATE tbl_experience_program
+        SET experience_program_title = #{experienceProgramTitle},
+            experience_program_description = #{experienceProgramDescription},
+            experience_program_level = #{experienceProgramLevel},
+            experience_program_recruitment_count = #{experienceProgramRecruitmentCount},
+            experience_program_work_days = #{experienceProgramWorkDays},
+            experience_program_work_hours = #{experienceProgramWorkHours},
+            experience_program_deadline = #{experienceProgramDeadline},
+            experience_program_job = #{experienceProgramJob}
+        WHERE id = #{id}
+          AND corp_id = #{corpId}
+    </update>
+
     <!-- 마감일 조회 (스케줄러용) -->
     <select id="selectByDeadline" resultType="ExperienceProgramDTO">
         select id, corp_id, experience_program_title, experience_program_deadline

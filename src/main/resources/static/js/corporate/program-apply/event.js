@@ -50,6 +50,10 @@ function execDaumPostcode() {
             // 주소 정보를 해당 필드에 넣는다.
             document.getElementById("address").value = addr + extraAddr;
 
+            // hidden 필드에 주소 데이터 동기화
+            document.getElementById("addressZipcode").value = data.zonecode;
+            document.getElementById("addressAddress").value = addr + extraAddr;
+
             // 상세주소 입력란 표시 및 포커스
             const detailAddressInput = document.getElementById("detailAddress");
             detailAddressInput.style.display = "block";

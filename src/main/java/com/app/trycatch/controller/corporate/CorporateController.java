@@ -2,6 +2,7 @@ package com.app.trycatch.controller.corporate;
 
 import com.app.trycatch.common.enumeration.experience.ExperienceProgramStatus;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
+import com.app.trycatch.dto.member.AddressDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
@@ -181,14 +182,42 @@ public class CorporateController {
     }
 
     @PostMapping("/program-apply")
-    public String programApplySave(ExperienceProgramDTO dto,
+    public String programApplySave(ExperienceProgramDTO dto, AddressDTO addressDTO,
                                    @RequestParam(value = "programFiles", required = false) List<MultipartFile> files) {
         if (notCorpMember()) return MAIN_REDIRECT;
         Long corpId = getMemberId();
         dto.setCorpId(corpId);
         dto.setExperienceProgramStatus(ExperienceProgramStatus.RECRUITING);
         log.info("프로그램 등록 DTO: {}", dto);
-        corporateService.createProgram(dto, files != null ? files : new ArrayList<>());
+        corporateService.createProgram(dto, files != null ? files : new ArrayList<>(), addressDTO);
+        return "redirect:/corporate/program-management";
+    }
+
+    // ── 프로그램 수정 ──────────────────────────────────────────────────
+
+    @GetMapping("/program-update")
+    public String programUpdateForm(@RequestParam Long id, Model model) {
+        if (notLoggedIn()) return LOGIN_REDIRECT;
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        ExperienceProgramDTO program = corporateService.getProgramDetail(id);
+        if (!program.getCorpId().equals(corpId)) return MAIN_REDIRECT;
+        model.addAttribute("program", program);
+        model.addAttribute("programAddress", corporateService.getProgramAddress(id));
+        model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
+        model.addAttribute("loginMember", session.getAttribute("member"));
+        return "corporate/program-update";
+    }
+
+    @PostMapping("/program-update")
+    public String programUpdateSave(ExperienceProgramDTO dto, AddressDTO addressDTO,
+                                    @RequestParam(value = "programFiles", required = false) List<MultipartFile> files,
+                                    @RequestParam(value = "deleteFileIds", required = false) String deleteFileIds) {
+        if (notCorpMember()) return MAIN_REDIRECT;
+        Long corpId = getMemberId();
+        dto.setCorpId(corpId);
+        log.info("프로그램 수정 DTO: {}", dto);
+        corporateService.updateProgram(dto, files != null ? files : new ArrayList<>(), deleteFileIds, addressDTO);
         return "redirect:/corporate/program-management";
     }
 

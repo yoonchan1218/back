@@ -15,6 +15,7 @@ import com.app.trycatch.dto.corporate.ParticipantWithPagingDTO;
 import com.app.trycatch.dto.experience.ChallengerDTO;
 import com.app.trycatch.dto.experience.FeedbackDTO;
 import com.app.trycatch.repository.corporate.CorpTeamMemberDAO;
+import com.app.trycatch.repository.experience.AddressProgramDAO;
 import com.app.trycatch.repository.experience.ApplyDAO;
 import com.app.trycatch.repository.experience.ChallengerDAO;
 import com.app.trycatch.repository.experience.ExperienceProgramDAO;
@@ -23,6 +24,8 @@ import com.app.trycatch.repository.experience.FeedbackDAO;
 import com.app.trycatch.domain.experience.ExperienceProgramFileVO;
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.dto.file.FileDTO;
+import com.app.trycatch.dto.member.AddressDTO;
+import com.app.trycatch.domain.experience.AddressProgramVO;
 import com.app.trycatch.repository.corporate.CorpWelfareRelDAO;
 import com.app.trycatch.repository.file.CorpLogoFileDAO;
 import com.app.trycatch.repository.file.FileDAO;
@@ -60,6 +63,7 @@ public class CorporateService {
     private final CorpMemberDAO corpMemberDAO;
     private final MemberDAO memberDAO;
     private final AddressDAO addressDAO;
+    private final AddressProgramDAO addressProgramDAO;
     private final ExperienceProgramDAO experienceProgramDAO;
     private final CorpTeamMemberDAO corpTeamMemberDAO;
     private final FileDAO fileDAO;
@@ -225,9 +229,19 @@ public class CorporateService {
     // ── 프로그램 등록 ──────────────────────────────────────────────────
 
     /** 새 프로그램 등록 */
-    public void createProgram(ExperienceProgramDTO dto, List<MultipartFile> files) {
+    public void createProgram(ExperienceProgramDTO dto, List<MultipartFile> files, AddressDTO addressDTO) {
         experienceProgramDAO.save(dto);
         Long programId = dto.getId();
+
+        // 주소 저장
+        if (addressDTO != null && addressDTO.getAddressAddress() != null && !addressDTO.getAddressAddress().isEmpty()) {
+            addressDAO.saveForProgram(addressDTO);
+            AddressProgramVO apVO = AddressProgramVO.builder()
+                    .addressId(addressDTO.getId())
+                    .experienceProgramId(programId)
+                    .build();
+            addressProgramDAO.save(apVO);
+        }
 
         // 파일이 있으면 저장
         if (files != null && !files.isEmpty()) {
@@ -256,6 +270,93 @@ public class CorporateService {
                 ExperienceProgramFileVO epfVO = ExperienceProgramFileVO.builder()
                         .id(fileDTO.getId())
                         .experienceProgramId(programId)
+                        .build();
+                experienceProgramFileDAO.save(epfVO);
+
+                // 디스크에 파일 저장
+                File directory = new File(path);
+                if (!directory.exists()) directory.mkdirs();
+                try {
+                    file.transferTo(new File(path, fileName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    // ── 프로그램 수정 ──────────────────────────────────────────────────
+
+    /** 프로그램 상세 조회 (수정 폼용) */
+    public ExperienceProgramDTO getProgramDetail(Long programId) {
+        ExperienceProgramDTO dto = experienceProgramDAO.findById(programId)
+                .orElseThrow(() -> new IllegalArgumentException("프로그램을 찾을 수 없습니다. id=" + programId));
+        dto.setExperienceProgramFiles(experienceProgramFileDAO.findAllByExperienceProgramId(programId));
+        return dto;
+    }
+
+    /** 프로그램 주소 조회 */
+    public AddressDTO getProgramAddress(Long programId) {
+        return addressProgramDAO.findByExperienceProgramId(programId).orElse(null);
+    }
+
+    /** 프로그램 수정 */
+    public void updateProgram(ExperienceProgramDTO dto, List<MultipartFile> files, String deleteFileIds, AddressDTO addressDTO) {
+        // 프로그램 정보 수정
+        experienceProgramDAO.setExperienceProgram(dto.toVO());
+
+        // 주소 수정 (기존 삭제 후 새로 저장)
+        if (addressDTO != null && addressDTO.getAddressAddress() != null && !addressDTO.getAddressAddress().isEmpty()) {
+            // 기존 주소 삭제
+            addressProgramDAO.findByExperienceProgramId(dto.getId()).ifPresent(existing -> {
+                addressProgramDAO.deleteByExperienceProgramId(dto.getId());
+                addressDAO.delete(existing.getId());
+            });
+            // 새 주소 저장
+            addressDAO.saveForProgram(addressDTO);
+            AddressProgramVO apVO = AddressProgramVO.builder()
+                    .addressId(addressDTO.getId())
+                    .experienceProgramId(dto.getId())
+                    .build();
+            addressProgramDAO.save(apVO);
+        }
+
+        // 기존 파일 삭제 처리
+        if (deleteFileIds != null && !deleteFileIds.isEmpty()) {
+            for (String fileIdStr : deleteFileIds.split(",")) {
+                Long fileId = Long.parseLong(fileIdStr.trim());
+                experienceProgramFileDAO.delete(fileId);
+                fileDAO.delete(fileId);
+            }
+        }
+
+        // 새 파일 저장
+        if (files != null && !files.isEmpty()) {
+            String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            String rootPath = "C:/file/";
+            String path = rootPath + todayPath;
+
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) continue;
+
+                String uuid = UUID.randomUUID().toString();
+                String fileName = uuid + "_" + file.getOriginalFilename();
+
+                // tbl_file INSERT
+                FileDTO fileDTO = new FileDTO();
+                fileDTO.setFilePath(todayPath);
+                fileDTO.setFileName(fileName);
+                fileDTO.setFileOriginalName(file.getOriginalFilename());
+                fileDTO.setFileSize(String.valueOf(file.getSize()));
+                fileDTO.setFileContentType(
+                        file.getContentType() != null && file.getContentType().contains("image")
+                                ? FileContentType.IMAGE : FileContentType.OTHER);
+                fileDAO.save(fileDTO);
+
+                // tbl_experience_program_file INSERT
+                ExperienceProgramFileVO epfVO = ExperienceProgramFileVO.builder()
+                        .id(fileDTO.getId())
+                        .experienceProgramId(dto.getId())
                         .build();
                 experienceProgramFileDAO.save(epfVO);
 

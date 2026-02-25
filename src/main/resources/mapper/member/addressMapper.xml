@@ -6,6 +6,15 @@
     VALUES (#{id}, #{addressZipcode}, #{addressAddress}, #{addressDetail})
 </insert>
 
+<insert id="insertForProgram" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO tbl_address (address_zipcode, address_address, address_detail)
+    VALUES (#{addressZipcode}, #{addressAddress}, #{addressDetail})
+</insert>
+
+<delete id="delete">
+    DELETE FROM tbl_address WHERE id = #{id}
+</delete>
+
 <update id="update">
     UPDATE tbl_address SET
         address_zipcode = #{addressZipcode},

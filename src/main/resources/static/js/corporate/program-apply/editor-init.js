@@ -114,7 +114,7 @@ ClassicEditor
 
         editor.setData(templateHTML);
 
-        // 폼 제출 시 에디터 데이터, 근무요일, 근무시간을 동기화
+        // 폼 제출 시 에디터 데이터, 근무요일, 근무시간, 주소를 동기화
         document.getElementById('recruitForm').addEventListener('submit', function () {
             document.querySelector('textarea[name="experienceProgramDescription"]').value = editor.getData();
 
@@ -127,6 +127,12 @@ ClassicEditor
             var eh = document.getElementById('workEndHour').value;
             var em = document.getElementById('workEndMin').value;
             document.getElementById('workHoursHidden').value = sh + ':' + sm + '~' + eh + ':' + em;
+
+            // 상세주소 hidden 동기화
+            var detailAddr = document.getElementById('detailAddress');
+            if (detailAddr) {
+                document.getElementById('addressDetailHidden').value = detailAddr.value;
+            }
         });
     })
     .catch(error => {

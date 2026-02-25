@@ -13,4 +13,9 @@
         INSERT INTO tbl_experience_program_file (id, experience_program_id)
         VALUES (#{id}, #{experienceProgramId})
     </insert>
+
+    <delete id="delete">
+        DELETE FROM tbl_experience_program_file
+        WHERE id = #{id}
+    </delete>
 </mapper>

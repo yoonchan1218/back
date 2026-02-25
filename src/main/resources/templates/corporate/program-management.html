@@ -152,6 +152,11 @@
                                                     <div class="more-option">
                                                         <ul>
                                                             <li>
+                                                                <a th:href="@{/corporate/program-update(id=${program.id})}">
+                                                                    <button type="button" class="updateBtn">공고 수정</button>
+                                                                </a>
+                                                            </li>
+                                                            <li>
                                                                 <a th:href="@{/corporate/applicant-list(programId=${program.id})}">
                                                                     <button type="button" class="applicantBtn">지원자 관리</button>
                                                                 </a>

@@ -20,4 +20,8 @@ public class ExperienceProgramFileDAO {
     public void save(ExperienceProgramFileVO vo) {
         experienceProgramFileMapper.insert(vo);
     }
+
+    public void delete(Long id) {
+        experienceProgramFileMapper.delete(id);
+    }
 }
