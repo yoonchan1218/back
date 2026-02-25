@@ -5,8 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>notification</title>
         <link rel="stylesheet" href="/css/mypage/notification.css" />
+        <link rel="stylesheet" href="/css/qna/header.css">
     </head>
     <body>
+    <div th:replace="~{/qna/header.html::div}"></div>
         <div id="wrap">
             <section id="container">
                 <h1 class="skip">개인회원 서비스</h1>
@@ -32,17 +34,17 @@
                         <section class="alarmListWrap">
                             <h3 class="skip">수신 알림 리스트</h3>
                             <div id="js-alarmFrame">
-    <div th:if="${notifications == null or #lists.isEmpty(notifications)}" class="alarmList">
+    <div th:if="${notificationsByDate == null or notificationsByDate.isEmpty()}" class="alarmList">
         <div class="hd">알림이 없습니다.</div>
     </div>
 
-    <div class="alarmList" th:each="notification : ${notifications}" th:data-type="${notification.notificationType}">
+    <div class="alarmList" th:each="entry : ${notificationsByDate}">
         <div class="hd">
-            <span class="tahoma" th:text="${notification.createdDateLabel}">26.01.29 (목)</span>
+            <span class="tahoma" th:text="${entry.key}">26.01.29 (목)</span>
         </div>
         <article class="cont">
             <ul>
-                <li class="type_red">
+                <li class="type_red" th:each="notification : ${entry.value}" th:data-type="${notification.notificationType}">
                     <span class="update" th:text="${notification.createdTimeLabel}">20:00</span>
                     <div class="box">
                         <div class="desc">
@@ -87,40 +89,32 @@
                         </h2>
                     </div>
                     <div class="lnbGroup">
-                        <h2 class="lnbTit">이력서/경력 관리</h2>
+                        <h2 class="lnbTit">기술블로그</h2>
                         <ul>
                             <li>
-                                <a href="" target="_blank"
-                                    >이력서/경력 등록</a
-                                >
+                                <a href="/skill-log/list">전체 글 목록</a>
                             </li>
                             <li>
-                                <a href="">첨부파일 관리</a>
+                                <a href="/skill-log/list?mine=true">내 글 목록</a>
                             </li>
                         </ul>
                     </div>
                     <div class="lnbGroup">
-                        <h2 class="lnbTit">체험 진행 관리</h2>
+                        <h2 class="lnbTit">체험 지원 관리</h2>
                         <ul>
                             <li>
-                                <a href="/mypage/experience">체험 진행 현황</a>
+                                <a href="/mypage/experience">체험 지원 현황</a>
                             </li>
                         </ul>
                     </div>
-
                     <div class="lnbGroup">
-                        <h2 class="lnbTit">스크랩</h2>
+                        <h2 class="lnbTit">QnA</h2>
                         <ul>
                             <li>
-                                <a href="">스크랩 공고</a>
-                            </li>
-
-                            <li>
-                                <a class="on" href="/mypage/notification">MY 알림</a>
+                                <a href="/qna/list">전체 목록</a>
                             </li>
                         </ul>
                     </div>
-
                     <div class="lnbGroup">
                         <h2 class="lnbTit">회원정보 관리</h2>
                         <ul>
@@ -128,7 +122,7 @@
                                 <a href="/mypage/change-my-information">회원정보 수정</a>
                             </li>
                             <li>
-                                <a href="">비밀번호 변경</a>
+                                <a href="/mypage/unsubscribe">회원탈퇴</a>
                             </li>
                         </ul>
                     </div>
@@ -139,4 +133,5 @@
         </div>
     </body>
     <script src="/js/mypage/notification/event.js"></script>
+    <script src="/js/qna/header-event.js"></script>
 </html>

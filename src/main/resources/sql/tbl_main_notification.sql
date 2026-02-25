@@ -27,9 +27,7 @@ select id, qna_title from tbl_qna;
 
 select id, notification_title, notification_is_read from tbl_main_notification where member_id = 7;
 
--- ============================================================
--- 테스트 데이터 (member_id는 본인 개인회원 ID로 변경)
--- ============================================================
+
 
 -- QnA 답변 알림 (취업톡톡)
 insert into tbl_main_notification (member_id, notification_type, notification_title, notification_content, qna_id)
