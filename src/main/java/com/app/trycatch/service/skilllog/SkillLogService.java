@@ -151,6 +151,33 @@ public class SkillLogService {
         return skillLogWithPagingDTO;
     }
 
+//    내 글 목록
+    public SkillLogWithPagingDTO myList(int page, Search search, Long memberId) {
+        SkillLogWithPagingDTO skillLogWithPagingDTO = new SkillLogWithPagingDTO();
+        int totalCount = skillLogDAO.findTotalByMemberId(memberId);
+        Criteria criteria = new Criteria(page, totalCount);
+
+        List<SkillLogDTO> skillLogs = skillLogDAO.findAllByMemberId(criteria, search, memberId);
+
+        criteria.setHasMore(skillLogs.size() > criteria.getRowCount());
+        skillLogWithPagingDTO.setCriteria(criteria);
+
+        if(criteria.isHasMore()){
+            skillLogs.remove(skillLogs.size() - 1);
+        }
+
+        skillLogs.forEach((skillLogDTO) -> {
+//            작성일
+            skillLogDTO.setCreatedDatetime(DateUtils.toRelativeTime(skillLogDTO.getCreatedDatetime()));
+//            태그
+            skillLogDTO.setTags(tagDAO.findAllBySkillLogId(skillLogDTO.getId())
+                    .stream().map((tagVO) -> toTagDTO(tagVO)).collect(Collectors.toList()));
+        });
+        skillLogWithPagingDTO.setSkillLogs(skillLogs);
+
+        return skillLogWithPagingDTO;
+    }
+
 //    조회
     public SkillLogDTO detail(Long id, Long memberId) {
         Optional<SkillLogDTO> foundSkillLog = null;

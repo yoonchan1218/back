@@ -95,17 +95,18 @@ public class SkillLogMapperTests {
         Criteria criteria = null;
         List<SkillLogDTO> skillLogs = null;
         String[] tagNames = new String[1];
+        Long memberId = 9L;
 
-//        search.setKeyword("1");
-//        tagNames[0] = "태그";
-//        search.setTagNames(tagNames);
-        search.setType("인기");
+        search.setTagNames(tagNames);
+        search.setType("최신순");
 
-        criteria = new Criteria(1, skillLogMapper.selectTotal(search));
-        skillLogs = skillLogMapper.selectAll(criteria, search);
+        criteria = new Criteria(1, skillLogMapper.selectTotalByMemberId(memberId));
+        skillLogs = skillLogMapper.selectAllByMemberId(criteria, search, memberId);
 
-        skillLogs.forEach((skillLog) -> {
-            log.info("{}", skillLog);
-        });
+
+        for (int i = 0; i < skillLogs.size(); i++)  {
+            log.info("{}", i) ;
+            log.info("{}", skillLogs.get(i));
+        }
     }
 }

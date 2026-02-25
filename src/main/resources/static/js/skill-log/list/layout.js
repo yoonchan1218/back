@@ -95,7 +95,6 @@ const skillLogLayout = (() => {
             `;
             pageWrap.appendChild(nextButton);
         }
-
         totalSpan.textContent = criteria.total;
     }
 
