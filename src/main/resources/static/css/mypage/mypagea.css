@@ -832,8 +832,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     box-sizing: border-box;
     padding: 12px 16px 24px;
     border: 1px solid #E8E8E8;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
 }
 
 .celebrate_my .swiper-slide .infoCol .company {
@@ -955,6 +954,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     position: absolute;
     top: 14px;
     right: 20px;
+    font-size: 12px;
+    line-height: 18px;
     color: #666;
 }
 

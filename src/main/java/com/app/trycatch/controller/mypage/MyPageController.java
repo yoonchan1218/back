@@ -88,7 +88,7 @@ public class MyPageController {
     @GetMapping("notification")
     public String goToNotification(Model model) {
         Long memberId = getSessionMemberId();
-        model.addAttribute("notifications", myPageService.getNotifications(memberId));
+        model.addAttribute("notificationsByDate", myPageService.getNotificationsGroupedByDate(memberId));
         return "mypage/notification";
     }
 

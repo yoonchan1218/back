@@ -34,8 +34,11 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +78,16 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public List<MyPageNotificationDTO> getNotifications(Long memberId) {
         return myPageDAO.findNotificationsByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, List<MyPageNotificationDTO>> getNotificationsGroupedByDate(Long memberId) {
+        return myPageDAO.findNotificationsByMemberId(memberId).stream()
+                .collect(Collectors.groupingBy(
+                        MyPageNotificationDTO::getCreatedDateLabel,
+                        LinkedHashMap::new,
+                        Collectors.toList()
+                ));
     }
 
     public String uploadProfileImage(Long memberId, MultipartFile file) {

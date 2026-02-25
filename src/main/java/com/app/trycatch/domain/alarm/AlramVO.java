@@ -1,11 +1,7 @@
-package com.app.trycatch.vo.alarm;
+package com.app.trycatch.domain.alarm;
 
 import com.app.trycatch.audit.Period;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
