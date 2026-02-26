@@ -17,5 +17,12 @@ const mainService = (() => {
         });
     };
 
-    return {insert, toggleScrap};
+    const addLatestWatch = async (experienceProgramId) => {
+        await fetch("/mypage/latest-watch", {
+            method: "POST",
+            body: new URLSearchParams({ experienceProgramId })
+        });
+    };
+
+    return {insert, toggleScrap, addLatestWatch};
 })();

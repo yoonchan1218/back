@@ -5,52 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>change-my-information</title>
         <link rel="stylesheet" href="/css/mypage/change-my-information.css">
+        <link rel="stylesheet" href="/css/qna/footer.css">
     </head>
     <body class="mbrSubMng mbrSubMngGG mbrSubMngInfo">
-        <!-- 개인회원 관리 헤더 시작 -->
-        <div id="header">
-            <div class="gnbWrap gnbWrap_mMng">
-                <div id="gnb">
-                    <!--// 로고 영역 -->
-                    <h1>
-                        <a class="logo" href=""
-                            ><img alt="try-catch" src="/images/logo.png" height="39" /></a>
-                        <span class="bar">
-                            <span class="title">
-                                <img
-                                    src="/images/h_mng_gg.gif"
-                                    width="117"
-                                    height="23"
-                                    alt="member title"
-                                />
-                            </span>
-                        </span>
-                    </h1>
-
-                    <h2 class="skip">개인회원 관리 메뉴</h2>
-                    <ul class="lnb">
-                        <li>
-                            <a href="/mypage/mypage">개인회원 홈</a>
-                        </li>
-                        <li><a href="/mypage/change-my-information">회원정보 수정</a></li>
-                        <li><a href="/mypage/logout">로그아웃</a></li>
-                    </ul>
-                    <div class="secNav">
-                        <ol>
-                            <li class="mn1">
-                                <a href="/mypage/change-my-information"><span></span>개인회원 정보수정/기본정보수정</a>
-                            </li>
-                            <li class="mn3 end">
-                                <a href="/mypage/unsubscribe"
-                                    ><span></span>회원탈퇴</a
-                                >
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 개인회원 관리 헤더 끝 -->
         <!-- 개인회원 정보수정 본문 시작 -->
         <div id="wrap">
             <!--// Contents Area -->
@@ -1668,6 +1625,7 @@
             </div>
         </div>
         <!-- 개인회원 정보수정 본문 끝 -->
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
     <script th:inline="javascript">
         const inputStatus = [[${input}]];
@@ -1679,5 +1637,6 @@
             <script src="/js/mypage/info/layout.js"></script>
             <script src="/js/mypage/info/event.js"></script>
             <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+            <script src="/js/qna/footer.js"></script>
         </html>
         

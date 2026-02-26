@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>log-in</title>
         <link rel="stylesheet" href="/css/main/log-in.css" />
+        <link rel="stylesheet" href="/css/main/footer.css">
     </head>
     <body id="login" class="login bg-gray">
         <p id="skipNavigation"><a href="#content">메뉴 건너뛰기</a></p>
@@ -435,14 +436,13 @@
             </div>
             <!-- container //-->
 
-            <div id="footer">
-                <p id="copyright">ⓒ TRY-CATCH LLC. All Rights Reserved.</p>
-            </div>
+            <footer th:replace="~{/main/footer.html :: #footer}"></footer>
             <!-- footer //-->
         </div>
     </body>
     <script th:inline="javascript">const login = [[${login}]];</script>
     <script src="/js/main/log-in.js"></script>
+    <script src="/js/main/footer.js"></script>
     <script>
         document.querySelector(".kakao").addEventListener("click", () => {
             location.href = "https://kauth.kakao.com/oauth/authorize?client_id=edeefdf5ab96d36811571fbd1e56a4cf&redirect_uri=http://localhost:10000/main/kakao-join&response_type=code";

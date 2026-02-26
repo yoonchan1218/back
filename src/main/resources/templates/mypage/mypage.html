@@ -4,11 +4,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>mypage</title>
-        <link rel="stylesheet" href="/css/mypage/mypagea.css" />
         <link rel="stylesheet" href="/css/qna/header.css">
+        <link rel="stylesheet" href="/css/mypage/mypagea.css" />
     </head>
     <body class="mtuHome">
-    <div th:replace="~{/qna/header.html::div}"></div>
+    <header th:replace="~{/qna/header.html::header}"></header>
         <div id="wrap">
             <section id="container">
                 <h1 class="skip">개인회원 서비스</h1>
@@ -248,50 +248,13 @@
 
                         </div>
                         <ul class="qna-list-wrap">
-                            <li>
-                                <a
-                                    href="/qna/list"
-                                    target="_blank"
-                                >
-                                    <span class="label">추천질문</span>
-                                    <p class="list-tit">
-                                        Spring Boot에서 JPA N+1 문제 해결법이 궁금합니다
-                                    </p>
+                            <li th:each="qna : ${topQnas}">
+                                <a th:href="@{/qna/detail(id=${qna.id})}" target="_blank">
+                                    <span class="label">인기질문</span>
+                                    <p class="list-tit" th:text="${qna.qnaTitle}"></p>
                                     <div class="list-info">
-                                        <span class="job">백엔드개발자</span>
-                                        <span class="corporation"
-                                            >네이버</span
-                                        >
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="label">추천질문</span>
-                                    <p class="list-tit">신입 백엔드 개발자 포트폴리오 어떻게 준비하나요?</p>
-                                    <div class="list-info">
-                                        <span class="job">백엔드개발자</span>
-                                        <span class="corporation"
-                                            >카카오</span
-                                        >
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href=""
-                                    target="_blank"
-                                >
-                                    <span class="label">추천질문</span>
-                                    <p class="list-tit">Docker와 Kubernetes 실무에서 꼭 필요한가요?</p>
-                                    <div class="list-info">
-                                        <span class="job">백엔드개발자</span>
-                                        <span class="corporation"
-                                            >라인</span
-                                        >
+                                        <span class="job" th:text="${qna.jobCategoryName}"></span>
+                                        <span class="corporation" th:text="${qna.companyName != null ? qna.companyName : qna.collegeFriend}"></span>
                                     </div>
                                 </a>
                             </li>
@@ -313,12 +276,12 @@
 
                     <div class="topContent aptitudeTest">
                         <div class="topHdWrap">
-                            <h2 class="top_hd_2">공기업 체험공고</h2>
+                            <h2 class="top_hd_2">최신 체험공고</h2>
                         </div>
 
                         <ol class="rankList">
                                 <li th:if="${#lists.isEmpty(topPublicPostings)}">
-                                    <div style="text-align: center; padding: 20px; color: #999;">공기업 체험공고가 없습니다.</div>
+                                    <div style="text-align: center; padding: 20px; color: #999;">체험공고가 없습니다.</div>
                                 </li>
                                 <li th:each="posting, iterStat : ${topPublicPostings}"
                                     th:class="'rank_' + ${iterStat.count}"
@@ -351,7 +314,6 @@
                     <div class="topContent">
                         <div class="topHdWrap">
                             <h2 class="top_hd_2">
-                                <strong>백엔드개발자</strong>
                                 <em>TOP100</em> 공고
                             </h2>
                             <!--// 안내 레이어, 이력서 없는 경우 미노출 -->

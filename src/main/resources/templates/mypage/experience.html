@@ -4,9 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>experience</title>
+        <link rel="stylesheet" href="/css/qna/header.css">
         <link rel="stylesheet" href="/css/mypage/experience.css">
+        <link rel="stylesheet" href="/css/qna/footer.css">
     </head>
     <body>
+        <header th:replace="~{/qna/header.html::header}"></header>
         <!-- 지원취소 누를 시 나오는 팝업 시작 -->
          <div class="mtuLyWrap" aria-hidden="true" style="display:block; position:relative;">
         <div class="dimmed" style="position: relative;"></div>
@@ -710,7 +713,8 @@
                 </div>
             </div>
         </div>
-        
+
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
         <script src="/js/mypage/experience/service.js"></script>
         <script src="/js/mypage/experience/layout.js"></script>
@@ -725,5 +729,7 @@
                 });
             });
         </script>
+        <script src="/js/qna/header-event.js"></script>
+        <script src="/js/qna/footer.js"></script>
     </html>
     

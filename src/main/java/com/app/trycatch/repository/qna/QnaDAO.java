@@ -29,6 +29,11 @@ public class QnaDAO {
         return qnaMapper.selectAll(criteria, sort, keyword);
     }
 
+//    원글 작성자 ID 조회
+    public Long findMemberIdById(Long id) {
+        return qnaMapper.selectMemberIdById(id);
+    }
+
 //    전체 개수
     public int findTotal(String keyword) {
         return qnaMapper.selectTotal(keyword);

@@ -20,6 +20,7 @@ public interface QnaMapper {
     void update(QnaVO qnaVO);
     void delete(Long id);
     void updateFileId(@Param("id") Long id, @Param("fileId") Long fileId);
+    Long selectMemberIdById(Long id);
     List<CorpNameKeywordDTO> selectCorpByKeyword(String keyword);
     List<QnaDTO> selectTopByViewCount(@Param("limit") int limit);
     List<QnaDTO> selectLatest(@Param("limit") int limit);

@@ -12,4 +12,6 @@ public interface ExperienceProgramRankMapper {
     List<ExperienceProgramRankDTO> selectTopByViewCount(@Param("limit") int limit);
     // 공기업 타입 필터 + 조회수 상위 N개
     List<ExperienceProgramRankDTO> selectTopPublicByViewCount(@Param("limit") int limit);
+    // 공기업 타입 필터 + 최신순 N개
+    List<ExperienceProgramRankDTO> selectTopPublicByLatest(@Param("limit") int limit);
 }
