@@ -28,7 +28,7 @@ public class PointController {
     private final MyPageService myPageService;
     private final QnaService qnaService;
     private final HttpSession session;
-
+//    포인트 완료
     @GetMapping("point")
     public String goToPoint(@RequestParam(defaultValue = "1") int page, Model model) {
         Long individualMemberId = getSessionMemberId();
