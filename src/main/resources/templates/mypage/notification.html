@@ -4,11 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>notification</title>
-        <link rel="stylesheet" href="/css/mypage/notification.css" />
         <link rel="stylesheet" href="/css/qna/header.css">
+        <link rel="stylesheet" href="/css/mypage/notification.css" />
+        <link rel="stylesheet" href="/css/qna/footer.css">
     </head>
     <body>
-    <div th:replace="~{/qna/header.html::div}"></div>
+    <header th:replace="~{/qna/header.html::header}"></header>
         <div id="wrap">
             <section id="container">
                 <h1 class="skip">개인회원 서비스</h1>
@@ -131,7 +132,9 @@
                 <!-- Lnb Area //-->
             </section>
         </div>
+        <footer th:replace="~{/qna/footer.html::footer}"></footer>
     </body>
     <script src="/js/mypage/notification/event.js"></script>
     <script src="/js/qna/header-event.js"></script>
+    <script src="/js/qna/footer.js"></script>
 </html>

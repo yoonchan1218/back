@@ -129,6 +129,10 @@
         limit #{limit}
     </select>
 
+    <select id="selectMemberIdById" resultType="Long">
+        select individual_member_id from tbl_qna where id = #{id}
+    </select>
+
     <select id="selectCorpByKeyword" >
         select id as corpId, corp_company_name as corpName
         from tbl_corp

@@ -52,6 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         mainLayout.updateSlider(wrapper, prevBtn, nextBtn, currentPage, totalPages, moveDistance);
     }
 
+    // 공고 클릭 시 최근 본 공고 저장
+    document.addEventListener("click", (e) => {
+        const link = e.target.closest("a[href*='/experience/program/']");
+        if (link) {
+            const match = link.href.match(/\/experience\/program\/(\d+)/);
+            if (match) {
+                mainService.addLatestWatch(match[1]);
+            }
+        }
+    });
+
     // 탭 전환
     const tabLists = document.querySelectorAll(".mtuTab.devFixedTab ul li");
     const recentContent = document.getElementById("recentContent");

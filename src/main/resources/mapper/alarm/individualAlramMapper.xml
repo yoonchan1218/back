@@ -36,8 +36,8 @@
     </select>
 
     <insert id="insertNotification">
-        insert into tbl_main_notification (member_id, notification_type, notification_title, notification_content, skill_log_id)
-        values (#{memberId}, #{notificationType}, #{notificationTitle}, #{notificationContent}, #{skillLogId})
+        insert into tbl_main_notification (member_id, notification_type, notification_title, notification_content, qna_id, skill_log_id)
+        values (#{memberId}, #{notificationType}, #{notificationTitle}, #{notificationContent}, #{qnaId}, #{skillLogId})
     </insert>
 
     <update id="updateReadByMemberId">

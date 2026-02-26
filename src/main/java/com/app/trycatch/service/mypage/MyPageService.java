@@ -17,11 +17,13 @@ import com.app.trycatch.dto.mypage.ExperienceProgramRankDTO;
 import com.app.trycatch.common.enumeration.file.FileContentType;
 import com.app.trycatch.dto.file.FileDTO;
 import com.app.trycatch.repository.file.FileDAO;
+import com.app.trycatch.dto.qna.QnaDTO;
 import com.app.trycatch.repository.mypage.ApplyListDAO;
 import com.app.trycatch.repository.mypage.ExperienceProgramRankDAO;
 import com.app.trycatch.repository.mypage.LatestWatchPostingDAO;
 import com.app.trycatch.repository.mypage.MyPageDAO;
 import com.app.trycatch.repository.mypage.ScrapPostingDAO;
+import com.app.trycatch.repository.qna.QnaDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,7 @@ public class MyPageService {
     private final LatestWatchPostingDAO latestWatchPostingDAO;
     private final ExperienceProgramRankDAO experienceProgramRankDAO;
     private final ApplyListDAO applyListDAO;
+    private final QnaDAO qnaDAO;
 
     @Transactional(readOnly = true)
     public MyPageProfileDTO getProfile(Long memberId) {
@@ -212,5 +215,15 @@ public class MyPageService {
     @Transactional(readOnly = true)
     public List<ExperienceProgramRankDTO> getTopPublicPostings(int limit) {
         return experienceProgramRankDAO.findTopPublicByViewCount(limit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ExperienceProgramRankDTO> getTopPublicPostingsByLatest(int limit) {
+        return experienceProgramRankDAO.findTopPublicByLatest(limit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<QnaDTO> getTopQnas(int limit) {
+        return qnaDAO.findTopByViewCount(limit);
     }
 }

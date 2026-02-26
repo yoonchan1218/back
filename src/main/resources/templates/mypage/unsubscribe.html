@@ -6,6 +6,7 @@
     <title>unsubscribe</title>
     <link rel="stylesheet" href="/css/mypage/unsubscribe.css">
     <link rel="stylesheet" href="/css/mypage/change-my-information.css">
+    <link rel="stylesheet" href="/css/qna/footer.css">
 </head>
 <body class="mbrSubMng mbrSubMngGG mbrSubMngLeave" id="secHelp">
     <!-- 개인회원 관리 헤더 시작 -->
@@ -142,6 +143,7 @@
     </section>
 </div>
 <!-- 회원탈퇴 본문 끝 -->
+<footer th:replace="~{/qna/footer.html::footer}"></footer>
 </body>
 <script src="/js/mypage/unsubscribe/service.js"></script>
 <script src="/js/mypage/unsubscribe/layout.js"></script>
@@ -149,4 +151,5 @@
 <script th:if="${unsubscribe == 'name-mismatch'}">
     alert('입력하신 이름이 일치하지 않습니다. 다시 확인해주세요.');
 </script>
+<script src="/js/qna/footer.js"></script>
 </html>

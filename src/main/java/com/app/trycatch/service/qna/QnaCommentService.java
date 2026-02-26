@@ -5,10 +5,13 @@ import com.app.trycatch.domain.qna.QnaCommentVO;
 import com.app.trycatch.dto.file.FileDTO;
 import com.app.trycatch.dto.qna.QnaCommentDTO;
 import com.app.trycatch.repository.file.FileDAO;
+import com.app.trycatch.dto.alarm.AlramDTO;
 import com.app.trycatch.repository.alarm.CorporateAlramDAO;
 import com.app.trycatch.repository.qna.QnaCommentDAO;
 import com.app.trycatch.repository.qna.QnaCommentFileDAO;
+import com.app.trycatch.repository.qna.QnaDAO;
 import com.app.trycatch.service.Alarm.CorporateAlramService;
+import com.app.trycatch.service.Alarm.IndividualAlramService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +32,8 @@ public class QnaCommentService {
     private final QnaCommentFileDAO qnaCommentFileDAO;
     private final CorporateAlramService corporateAlramService;
     private final CorporateAlramDAO corporateAlramDAO;
+    private final IndividualAlramService individualAlramService;
+    private final QnaDAO qnaDAO;
 
     public Map<String, Object> write(Long memberId, Long qnaId, String content, Long parentId, MultipartFile file) {
         // 댓글(부모 없음)은 qna당 1개 제한
@@ -43,18 +48,41 @@ public class QnaCommentService {
                 .build();
         qnaCommentDAO.save(vo);
 
-        // 대댓글인 경우, 부모 댓글 작성자가 기업회원이고 자기 자신이 아니면 알림 발송
+        // 댓글인 경우 → 원글 작성자(개인회원)에게 알림
+        if (parentId == null) {
+            Long postAuthorId = qnaDAO.findMemberIdById(qnaId);
+            if (postAuthorId != null && !postAuthorId.equals(memberId)) {
+                AlramDTO alramDTO = new AlramDTO();
+                alramDTO.setMemberId(postAuthorId);
+                alramDTO.setNotificationType("qna");
+                alramDTO.setNotificationTitle("QnA 댓글 알림");
+                alramDTO.setNotificationContent("회원님의 QnA 게시글에 새로운 댓글이 달렸습니다.");
+                alramDTO.setQnaId(qnaId);
+                individualAlramService.saveNotification(alramDTO);
+            }
+        }
+
+        // 대댓글인 경우 → 부모 댓글 작성자에게 알림 (기업/개인 모두)
         if (parentId != null) {
             Long parentMemberId = qnaCommentDAO.findMemberIdById(parentId);
-            if (parentMemberId != null && !parentMemberId.equals(memberId)
-                    && corporateAlramDAO.existsByCorpId(parentMemberId)) {
-                corporateAlramService.notify(
-                        parentMemberId,
-                        "qna",
-                        "QnA 대댓글 알림",
-                        "회원님의 댓글에 새로운 대댓글이 달렸습니다.",
-                        qnaId
-                );
+            if (parentMemberId != null && !parentMemberId.equals(memberId)) {
+                if (corporateAlramDAO.existsByCorpId(parentMemberId)) {
+                    corporateAlramService.notify(
+                            parentMemberId,
+                            "qna",
+                            "QnA 대댓글 알림",
+                            "회원님의 댓글에 새로운 대댓글이 달렸습니다.",
+                            qnaId
+                    );
+                } else {
+                    AlramDTO alramDTO = new AlramDTO();
+                    alramDTO.setMemberId(parentMemberId);
+                    alramDTO.setNotificationType("qna");
+                    alramDTO.setNotificationTitle("QnA 대댓글 알림");
+                    alramDTO.setNotificationContent("회원님의 댓글에 새로운 대댓글이 달렸습니다.");
+                    alramDTO.setQnaId(qnaId);
+                    individualAlramService.saveNotification(alramDTO);
+                }
             }
         }
 

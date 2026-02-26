@@ -40,8 +40,9 @@ public class MyPageController {
         model.addAttribute("latestWatchPostings", myPageService.getLatestWatchPostings(memberId));
         model.addAttribute("scrapPostings", myPageService.getScrapPostings(memberId));
         model.addAttribute("topPostings", myPageService.getTopPostings(10));
-        model.addAttribute("topPublicPostings", myPageService.getTopPublicPostings(5));
+        model.addAttribute("topPublicPostings", myPageService.getTopPublicPostingsByLatest(5));
         model.addAttribute("top100Postings", myPageService.getTopPostings(5));
+        model.addAttribute("topQnas", myPageService.getTopQnas(3));
         return "mypage/mypage";
     }
 

@@ -395,6 +395,12 @@ if (inputChkAll && chkAll) {
                 checkBoxLabels[idx].classList.toggle("on", isChecked);
             }
         });
+
+        // 전체 선택 시 에러 메시지 즉시 숨김
+        const agreeNotice = document.getElementById("notice_msg_agree");
+        if (agreeNotice && isChecked) {
+            agreeNotice.style.display = "none";
+        }
     });
 }
 
@@ -412,6 +418,13 @@ checkBoxInputs.forEach((input, idx) => {
             if (chkAll) {
                 chkAll.classList.toggle("on", allChecked);
             }
+        }
+
+        // 필수 약관 체크 시 에러 메시지 즉시 숨김
+        const requiredAgrees = document.querySelectorAll(".required .devAgreeCheck");
+        const agreeNotice = document.getElementById("notice_msg_agree");
+        if (agreeNotice && Array.from(requiredAgrees).every((cb) => cb.checked)) {
+            agreeNotice.style.display = "none";
         }
     });
 });
