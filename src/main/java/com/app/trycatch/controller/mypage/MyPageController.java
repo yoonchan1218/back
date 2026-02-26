@@ -32,7 +32,7 @@ public class MyPageController {
     public RedirectView goToMyPageRoot() {
         return new RedirectView("/mypage/mypage");
     }
-
+//    마이페이지 완료
     @GetMapping("mypage")
     public String goToMyPage(Model model) {
         Long memberId = getSessionMemberId();
