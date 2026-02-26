@@ -47,6 +47,8 @@ public class CorpMemberDTO {
     private String updatedDatetime;
     private String logoFilePath;
     private String logoFileName;
+    private Long corpId;
+    private boolean teamMember;
     private String welfareData;
     private List<CorpWelfareRelVO> welfareList;
 

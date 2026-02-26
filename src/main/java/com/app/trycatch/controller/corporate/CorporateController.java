@@ -57,6 +57,20 @@ public class CorporateController {
         return !corporateService.isCorpMember(memberId);
     }
 
+    /** 세션의 회원이 팀원이면 true */
+    private boolean isTeamMember() {
+        Object member = session.getAttribute("member");
+        if (member instanceof CorpMemberDTO dto) return dto.isTeamMember();
+        return false;
+    }
+
+    /** 팀원이면 대표의 corp_id, 대표이면 자기 id 반환 */
+    private Long getCorpId() {
+        Object member = session.getAttribute("member");
+        if (member instanceof CorpMemberDTO dto) return dto.getCorpId();
+        return getMemberId();
+    }
+
     // ── 홈 대시보드 ────────────────────────────────────────────────────
 
     @GetMapping("/home")
@@ -67,9 +81,10 @@ public class CorporateController {
             if (!corporateService.isCorpMember(memberId)) {
                 return MAIN_REDIRECT;
             }
-            model.addAttribute("corpInfo", corporateService.getCorpInfo(memberId));
-            model.addAttribute("programStats", corporateService.getProgramStats(memberId));
-            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(memberId, 6));
+            Long corpId = getCorpId();
+            model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
+            model.addAttribute("programStats", corporateService.getProgramStats(corpId));
+            model.addAttribute("recentPrograms", corporateService.getRecentPrograms(corpId, 6));
         }
         model.addAttribute("recentQnas", corporateService.getRecentQnas(5));
         model.addAttribute("recentSkillLogs", corporateService.getRecentSkillLogs(5));
@@ -83,7 +98,7 @@ public class CorporateController {
     @ResponseBody
     public Map<String, Object> uploadLogo(@RequestParam("file") MultipartFile file) throws IOException {
         if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         String logoUrl = corporateService.uploadCorpLogo(corpId, file);
         return Map.of("success", true, "logoUrl", logoUrl);
     }
@@ -92,7 +107,7 @@ public class CorporateController {
     @ResponseBody
     public Map<String, Object> deleteLogo() {
         if (notCorpMember()) return Map.of("success", false, "message", "기업회원만 접근할 수 있습니다.");
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         corporateService.deleteCorpLogo(corpId);
         return Map.of("success", true);
     }
@@ -103,6 +118,7 @@ public class CorporateController {
     public String profileForm(Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
+        if (isTeamMember()) return "redirect:/corporate/home";
         Long corpId = getMemberId();
         CorpMemberDTO corpInfo = corporateService.getCorpInfo(corpId);
         corpInfo.setWelfareList(corporateService.getWelfareByCorpId(corpId));
@@ -114,6 +130,7 @@ public class CorporateController {
     @PostMapping("/profile")
     public String profileSave(CorpMemberDTO dto) {
         if (notCorpMember()) return MAIN_REDIRECT;
+        if (isTeamMember()) return "redirect:/corporate/home";
         Long corpId = getMemberId();
         dto.setId(corpId);
         // addressId는 폼에 없으므로 기존 데이터에서 조회
@@ -149,6 +166,7 @@ public class CorporateController {
     public String teamMember(@RequestParam(defaultValue = "1") int page, Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
+        if (isTeamMember()) return "redirect:/corporate/home";
         Long corpId = getMemberId();
         model.addAttribute("teamWithPaging", corporateService.getTeamMembers(corpId, page));
         model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
@@ -160,6 +178,7 @@ public class CorporateController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> inviteMember(@RequestParam String invitation_mail) {
         if (notCorpMember()) return ResponseEntity.status(403).body(Map.of("success", false, "message", "권한이 없습니다."));
+        if (isTeamMember()) return ResponseEntity.status(403).body(Map.of("success", false, "message", "팀원은 접근할 수 없습니다."));
         try {
             corporateService.inviteTeamMember(getMemberId(), invitation_mail);
             return ResponseEntity.ok(Map.of("success", true, "message", "팀원 초대가 완료되었습니다."));
@@ -171,6 +190,7 @@ public class CorporateController {
     @PostMapping("/team-member/remove")
     public String removeMember(@RequestParam Long memberId) {
         if (notCorpMember()) return MAIN_REDIRECT;
+        if (isTeamMember()) return "redirect:/corporate/home";
         corporateService.removeTeamMember(memberId, getMemberId());
         return "redirect:/corporate/team-member";
     }
@@ -181,7 +201,7 @@ public class CorporateController {
     public String programApplyForm(Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         model.addAttribute("corpInfo", corporateService.getCorpInfo(corpId));
         model.addAttribute("loginMember", session.getAttribute("member"));
         return "corporate/program-apply";
@@ -191,7 +211,7 @@ public class CorporateController {
     public String programApplySave(ExperienceProgramDTO dto, AddressDTO addressDTO,
                                    @RequestParam(value = "programFiles", required = false) List<MultipartFile> files) {
         if (notCorpMember()) return MAIN_REDIRECT;
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         dto.setCorpId(corpId);
         dto.setExperienceProgramStatus(ExperienceProgramStatus.RECRUITING);
         log.info("프로그램 등록 DTO: {}", dto);
@@ -205,7 +225,7 @@ public class CorporateController {
     public String programUpdateForm(@RequestParam Long id, Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         ExperienceProgramDTO program = corporateService.getProgramDetail(id);
         if (!program.getCorpId().equals(corpId)) return MAIN_REDIRECT;
         model.addAttribute("program", program);
@@ -220,7 +240,7 @@ public class CorporateController {
                                     @RequestParam(value = "programFiles", required = false) List<MultipartFile> files,
                                     @RequestParam(value = "deleteFileIds", required = false) String deleteFileIds) {
         if (notCorpMember()) return MAIN_REDIRECT;
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         dto.setCorpId(corpId);
         log.info("프로그램 수정 DTO: {}", dto);
         corporateService.updateProgram(dto, files != null ? files : new ArrayList<>(), deleteFileIds, addressDTO);
@@ -239,7 +259,7 @@ public class CorporateController {
             Model model) {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         model.addAttribute("programWithPaging",
                 corporateService.getPrograms(corpId, page, TopCount, status, SrchKeyword, sort));
         model.addAttribute("programStats", corporateService.getProgramStats(corpId));
@@ -263,7 +283,7 @@ public class CorporateController {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
         if (programId == null) return "redirect:/corporate/program-management";
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         model.addAttribute("participantWithPaging",
                 corporateService.getParticipants(programId, corpId, status, page));
         model.addAttribute("programId", programId);
@@ -287,7 +307,7 @@ public class CorporateController {
         if (notLoggedIn()) return LOGIN_REDIRECT;
         if (notCorpMember()) return MAIN_REDIRECT;
         if (programId == null) return "redirect:/corporate/program-management";
-        Long corpId = getMemberId();
+        Long corpId = getCorpId();
         model.addAttribute("applicantWithPaging",
                 corporateService.getApplicants(programId, status, keyword, education, gender, page));
         model.addAttribute("programId", programId);

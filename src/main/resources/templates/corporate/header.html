@@ -135,13 +135,13 @@
                                         <li>
                                             <div class="id" th:text="${session.member.memberName}">담당자 이름</div>
                                         </li>
-                                        <li>
+                                        <li th:if="${!session.member.teamMember}">
                                             <a th:href="@{/corporate/profile}">기업정보관리</a>
                                         </li>
                                         <li>
                                             <a th:href="@{/corporate/member-info}">회원정보관리</a>
                                         </li>
-                                        <li>
+                                        <li th:if="${!session.member.teamMember}">
                                             <a th:href="@{/corporate/team-member}">팀원관리</a>
                                         </li>
                                     </ul>
@@ -219,13 +219,13 @@
                         </div>
                         <ul>
                             <!-- 담당자로 로그인 시 -->
-                            <li th:if="${session.member != null}">
+                            <li th:if="${session.member != null and !session.member.teamMember}">
                                 <a th:href="@{/corporate/profile}">기업정보관리</a>
                             </li>
                             <li th:if="${session.member != null}">
                                 <a th:href="@{/corporate/member-info}">회원정보관리</a>
                             </li>
-                            <li th:if="${session.member != null}">
+                            <li th:if="${session.member != null and !session.member.teamMember}">
                                 <a th:href="@{/corporate/team-member}">팀원관리</a>
                             </li>
 

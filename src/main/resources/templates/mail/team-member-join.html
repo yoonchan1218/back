@@ -38,7 +38,7 @@
         <h3 class="skip">팀원 가입 정보</h3>
         <fieldset>
             <legend>팀원 가입</legend>
-            <form action="/js/mail/invite/join" id="frm" method="post" name="frm">
+            <form action="/mail/invite/join" id="frm" method="post" name="frm">
                 <input type="hidden" name="inviteCode" th:value="${inviteCode}">
 
                 <div class="row_group mbr_info">
@@ -200,4 +200,7 @@
 </div>
 </body>
 <script src="/js/mail/team-member-join-event.js"></script>
+<script th:if="${error == 'duplicate'}">
+    alert("이미 가입된 이메일입니다. 다른 이메일로 시도해주세요.");
+</script>
 </html>

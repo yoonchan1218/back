@@ -24,6 +24,9 @@ public interface MemberMapper {
     //    개인 회원 가입
     public void insert(MemberVO memberVO);
 
+    //    팀원 회원 가입 (DTO — useGeneratedKeys용)
+    public void insertTeamMember(MemberDTO memberDTO);
+
     //      기업 회원 가입
     public void insertCorp(MemberVO memberVO);
 

@@ -1,8 +1,21 @@
 // ==========================================
 // 입력정보 경고
-// ★ 아이디(idcheck), 비밀번호(M_Pwd), 인증번호(Certify_Num) 제거
 // ==========================================
 const fields = [
+    {
+        input: "M_Id",
+        selector: ".mbr_id",
+        notice: "notice_msg_id",
+        regexp: /^[a-zA-Z0-9]{4,20}$/,
+        errorMsg: "4~20자의 영문, 숫자만 입력 가능합니다.",
+    },
+    {
+        input: "M_Pw",
+        selector: ".mbr_pw",
+        notice: "notice_msg_pw",
+        regexp: /^.{4,20}$/,
+        errorMsg: "4~20자의 비밀번호를 입력해주세요.",
+    },
     {
         input: "M_Name",
         selector: ".mbr_name",
@@ -122,15 +135,17 @@ mbrBtnRegist.addEventListener("click", (e) => {
         'input[name="individualMemberGender"]:checked',
     );
     const genderNotice = document.getElementById("notice_msg_gender");
-    if (!genderChecked) {
-        genderNotice.innerHTML = "성별을 선택해주세요.";
-        genderNotice.classList.add("failure");
-        genderNotice.style.display = "block";
-        isValid = false;
-    } else {
-        genderNotice.innerHTML = "";
-        genderNotice.classList.remove("failure");
-        genderNotice.style.display = "none";
+    if (genderNotice) {
+        if (!genderChecked) {
+            genderNotice.innerHTML = "성별을 선택해주세요.";
+            genderNotice.classList.add("failure");
+            genderNotice.style.display = "block";
+            isValid = false;
+        } else {
+            genderNotice.innerHTML = "";
+            genderNotice.classList.remove("failure");
+            genderNotice.style.display = "none";
+        }
     }
 
     // 필수 약관 검증
@@ -214,15 +229,16 @@ mbrBtnPolicies.forEach((btn) => {
 const boy = document.getElementById("boy");
 const girl = document.getElementById("girl");
 const noticeMsgGender = document.getElementById("notice_msg_gender");
-const gender = [boy, girl];
 
-gender.forEach((gender) => {
-    gender.addEventListener("click", (e) => {
-        if (boy.checked || girl.checked) {
-            noticeMsgGender.style.display = "none";
-        }
+if (boy && girl && noticeMsgGender) {
+    [boy, girl].forEach((el) => {
+        el.addEventListener("click", () => {
+            if (boy.checked || girl.checked) {
+                noticeMsgGender.style.display = "none";
+            }
+        });
     });
-});
+}
 
 // ==========================================
 // 전화번호 하이픈 자동 포맷팅 (01012345678 → 010-1234-5678)
@@ -248,18 +264,14 @@ if (phoneInput) {
 // 카카오에서 pre-fill된 필드에 focus 스타일 적용
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    const emailInput = document.getElementById("M_Email");
-    if (emailInput && emailInput.value) {
-        const col1 = document.querySelector(".mbr_email .col_1");
-        const col2 = document.querySelector(".mbr_email .col_2");
-        if (col1) col1.classList.add("focus");
-        if (col2) col2.classList.add("focus");
-    }
-    const nameInput = document.getElementById("M_Name");
-    if (nameInput && nameInput.value) {
-        const col1 = document.querySelector(".mbr_name .col_1");
-        const col2 = document.querySelector(".mbr_name .col_2");
-        if (col1) col1.classList.add("focus");
-        if (col2) col2.classList.add("focus");
-    }
+    // 값이 이미 있는 필드에 focus 스타일 적용
+    fields.forEach(({ input, selector }) => {
+        const inputEl = document.getElementById(input);
+        if (inputEl && inputEl.value) {
+            const col1 = document.querySelector(`${selector} .col_1`);
+            const col2 = document.querySelector(`${selector} .col_2`);
+            if (col1) col1.classList.add("focus");
+            if (col2) col2.classList.add("focus");
+        }
+    });
 });
