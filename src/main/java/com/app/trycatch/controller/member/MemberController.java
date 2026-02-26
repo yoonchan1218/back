@@ -68,7 +68,7 @@ public class MemberController {
             session.setAttribute("member", fullMember);
             String reUrl = (String) session.getAttribute("re_url");
             session.removeAttribute("re_url");
-            return "redirect:" + (reUrl != null ? reUrl : "/main/main");
+            return "redirect:" + (reUrl != null ? reUrl : "/qna/list");
         }
 
         model.addAttribute("memberEmail", kakaoInfo.getMemberEmail());
@@ -94,7 +94,7 @@ public class MemberController {
 
     @GetMapping("main")
     public String goMainPage() {
-        return "main/main";
+        return "redirect:/qna/list";
     }
 
     @GetMapping("log-in")
@@ -119,7 +119,7 @@ public class MemberController {
     }
 
     @PostMapping("log-in")
-    public RedirectView login(MemberDTO memberDTO, @RequestParam(value = "re_url", defaultValue = "/main/main") String reUrl, HttpServletResponse response) {
+    public RedirectView login(MemberDTO memberDTO, @RequestParam(value = "re_url", defaultValue = "/qna/list") String reUrl, HttpServletResponse response) {
         session.setAttribute("member", individualMemberService.login(memberDTO));
 
         Cookie rememberMemberIdCookie = new Cookie("remember-member-id", memberDTO.getMemberId());

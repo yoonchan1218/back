@@ -1,9 +1,53 @@
+// 질문·글쓰기 툴팁 토글
+const writeButton = document.querySelector(".select-tooltip.btn-question.qnaSpB");
+const tooltipOpenDiv = document.querySelector(".navi-top-area.has-tooltip");
+
+if (writeButton !== null) {
+    writeButton.addEventListener("click", (e) => {
+        tooltipOpenDiv.classList.toggle("tooltip-open");
+    });
+}
+
 // 충전하기 버튼
 const chargeButton = document.querySelector(
     ".header_button__9mwzc.header_highlight__3hMnE",
 );
 const body = document.querySelector("body");
 const modal = document.createElement("div");
+
+const requestPointCharge = async (payload) => {
+    const response = await fetch("/point/point/charge", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+        return {
+            success: false,
+            message: "별 충전 처리 중 서버 오류가 발생했습니다.",
+        };
+    }
+
+    return response.json();
+};
+
+const requestPointCancel = async (pointDetailId) => {
+    const response = await fetch(`/point/point/cancel/${pointDetailId}`, {
+        method: "POST",
+    });
+
+    if (!response.ok) {
+        return {
+            success: false,
+            message: "구매취소 처리 중 서버 오류가 발생했습니다.",
+        };
+    }
+
+    return response.json();
+};
 
 chargeButton.addEventListener("click", (e) => {
     body.style.overflow = body.style.overflow === "hidden" ? "" : "hidden";
@@ -97,17 +141,8 @@ chargeButton.addEventListener("click", (e) => {
 
     document.body.appendChild(modal);
 
-    modal.addEventListener("click", (e) => {
-        if (e.target.classList.contains("profile_popup_is_highlight__37n_J")) {
-            console.log("들어옴");
-        }
-    });
-
     // 충전 모달
     const popupDimmed = document.querySelector(".profile_popup_dimmed__3axER");
-    const popupContainer = document.querySelector(
-        ".profile_popup_container__1Ekcl",
-    );
     const chargeInput = document.getElementById("charge-coin");
     const deleteButton = document.querySelector(".charge_delete_button__3xtE1");
     const chargeButtons = document.querySelectorAll(".charge_button__3OgjR");
@@ -117,6 +152,19 @@ chargeButton.addEventListener("click", (e) => {
     const infoButton = document.querySelector(
         ".charge_information_area_button__D0_jh",
     );
+
+    function closeChargeModal() {
+        popupDimmed.style.display = "none";
+        body.style.overflow = "";
+    }
+
+    function closeBootpayWindow() {
+        try {
+            Bootpay.destroy();
+        } catch (error) {
+            console.warn("Bootpay 창 닫기 실패:", error);
+        }
+    }
 
     // 숫자만 추출
     function parseNumber(str) {
@@ -158,13 +206,6 @@ chargeButton.addEventListener("click", (e) => {
         });
     });
 
-    // 10의자리 다 떨구기(지금은 필요없음)
-    // chargeInput.addEventListener("blur", (e) => {
-    //     let value = Number(e.target.value.replaceAll(",", ""));
-    //     const rest = value % 1000;
-    //     rest != 0 && (value = parseInt(value - rest));
-    //     e.target.value = value.toLocaleString("ko-KR");
-    // });
 
     // 입력 초기화
     deleteButton.addEventListener("click", (e) => {
@@ -186,15 +227,13 @@ chargeButton.addEventListener("click", (e) => {
 
     // 팝업 닫기
     closeButton.addEventListener("click", (e) => {
-        popupDimmed.style.display = "none";
-        document.body.style.overflow = "";
+        closeChargeModal();
     });
 
     // 딤드 영역 클릭 시 닫기
     popupDimmed.addEventListener("click", (e) => {
         if (e.target === popupDimmed) {
-            popupDimmed.style.display = "none";
-            document.body.style.overflow = "";
+            closeChargeModal();
         }
     });
 
@@ -206,6 +245,7 @@ chargeButton.addEventListener("click", (e) => {
     });
 
     const pay = async () => {
+        const pointAmount = parseNumber(chargeInput.value);
         const price = parseInt(
             totalPrice.textContent.replace(/[^0-9]/g, ""),
             10,
@@ -219,13 +259,15 @@ chargeButton.addEventListener("click", (e) => {
             alert("별 충전은 10개 이상부터 가능합니다.");
             return;
         }
+        const orderId = `POINT-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        submitButton.disabled = true;
 
         try {
             const response = await Bootpay.requestPayment({
                 application_id: "697868f4fc55d934885c2420",
                 price: price,
                 order_name: "별",
-                order_id: "TEST_ORDER_ID",
+                order_id: orderId,
                 pg: "라이트페이",
                 // method: "계좌이체",
                 tax_free: 0,
@@ -254,25 +296,48 @@ chargeButton.addEventListener("click", (e) => {
                     // 가상계좌 입금 완료 처리
                     break;
                 case "done":
-                    // 결제 완료 처리
-                    console.log(response);
+                    {
+                        const result = await requestPointCharge({
+                            pointAmount: pointAmount,
+                            paymentAmount: price,
+                            paymentOrderId: response.order_id || orderId,
+                            paymentReceiptId: response.receipt_id || "",
+                        });
+
+                        closeBootpayWindow();
+
+                        if (!result.success) {
+                            alert(result.message || "결제는 완료되었지만 별 충전에 실패했습니다.");
+                            return;
+                        }
+
+                        alert(result.message || "별이 충전되었습니다.");
+                        closeChargeModal();
+                        window.location.reload();
+                    }
                     break;
                 case "confirm": //payload.extra.separately_confirmed = true; 일 경우 승인 전 해당 이벤트가 호출됨
                     console.log(response.receipt_id);
-                    /**
-                     * 1. 클라이언트 승인을 하고자 할때
-                     * // validationQuantityFromServer(); //예시) 재고확인과 같은 내부 로직을 처리하기 한다.
-                     */
                     const confirmedData = await Bootpay.confirm(); //결제를 승인한다
                     if (confirmedData.event === "done") {
-                        //결제 성공
-                    }
+                        const result = await requestPointCharge({
+                            pointAmount: pointAmount,
+                            paymentAmount: price,
+                            paymentOrderId: confirmedData.order_id || response.order_id || orderId,
+                            paymentReceiptId: confirmedData.receipt_id || response.receipt_id || "",
+                        });
 
-                    /**
-                     * 2. 서버 승인을 하고자 할때
-                     * // requestServerConfirm(); //예시) 서버 승인을 할 수 있도록  API를 호출한다. 서버에서는 재고확인과 로직 검증 후 서버승인을 요청한다.
-                     * Bootpay.destroy(); //결제창을 닫는다.
-                     */
+                        closeBootpayWindow();
+
+                        if (!result.success) {
+                            alert(result.message || "결제는 완료되었지만 별 충전에 실패했습니다.");
+                            return;
+                        }
+
+                        alert(result.message || "별이 충전되었습니다.");
+                        closeChargeModal();
+                        window.location.reload();
+                    }
                     break;
             }
         } catch (e) {
@@ -281,7 +346,7 @@ chargeButton.addEventListener("click", (e) => {
             // e.pg_error_code - PG 오류 코드
             // e.message - 오류 내용
             console.log(e.message);
-            switch (e.event) {
+            switch (e?.event) {
                 case "cancel":
                     // 사용자가 결제창을 닫을때 호출
                     console.log(e.message);
@@ -290,8 +355,14 @@ chargeButton.addEventListener("click", (e) => {
                 case "error":
                     // 결제 승인 중 오류 발생시 호출
                     console.log(e.error_code);
+                    alert("결제 처리 중 오류가 발생했습니다.");
+                    break;
+                default:
+                    alert("결제/충전 처리 중 오류가 발생했습니다.");
                     break;
             }
+        } finally {
+            submitButton.disabled = false;
         }
     };
 
@@ -305,14 +376,30 @@ chargeButton.addEventListener("click", (e) => {
 });
 
 // 구매취소
-const payCancelButton = document.querySelectorAll(".table_button__299bn");
+document.addEventListener("click", async (e) => {
+    const cancelButton = e.target.closest(".table_button__299bn");
+    if (!cancelButton) {
+        return;
+    }
 
-payCancelButton.forEach((payCancelButton) => {
-    payCancelButton.addEventListener("click", (e) => {
-        if (confirm("결제를 취소하시겠습니까?")) {
-            // 여기서 7일 안지났는지, 잔여수량 몇개인지 체크해야함
-            alert("취소되었습니다.");
-            location.href = "";
+    const pointDetailId = parseInt(cancelButton.dataset.pointDetailId, 10);
+    if (!pointDetailId) {
+        alert("취소할 결제 정보를 찾을 수 없습니다.");
+        return;
+    }
+
+    if (!confirm("결제를 취소하시겠습니까?")) {
+        return;
+    }
+
+    try {
+        const result = await requestPointCancel(pointDetailId);
+        alert(result.message || "구매취소 요청이 처리되었습니다.");
+
+        if (result.success) {
+            window.location.reload();
         }
-    });
+    } catch (error) {
+        alert("구매취소 처리 중 오류가 발생했습니다.");
+    }
 });

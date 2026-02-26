@@ -19,8 +19,8 @@ public class PointMapperTests {
 
     // 목록 조회
     @Test
-    public void testSelectAllByMemberId() {
-        List<PointDetailsDTO> list = pointDetailsMapper.selectAllByMemberId(7L);
+    public void testSelectAllByIndividualMemberId() {
+        List<PointDetailsDTO> list = pointDetailsMapper.selectAllByIndividualMemberId(7L);
         list.forEach(dto -> log.info("{}......................", dto));
     }
 
@@ -28,9 +28,10 @@ public class PointMapperTests {
     @Test
     public void testInsertEarn() {
         PointDetailsVO vo = PointDetailsVO.builder()
-                .memberId(7L)
+                .individualMemberId(7L)
                 .pointType(PointType.EARN)
                 .pointAmount(1000)
+                .remainingPointAmount(1000)
                 .paymentAmount(1100)
                 .expireDatetime("2031-02-25 00:00:00")
                 .build();
@@ -43,9 +44,11 @@ public class PointMapperTests {
     @Test
     public void testInsertUse() {
         PointDetailsVO vo = PointDetailsVO.builder()
-                .memberId(7L)
+                .individualMemberId(7L)
                 .pointType(PointType.USE)
                 .pointAmount(100)
+                .remainingPointAmount(0)
+                .paymentAmount(0)
                 .build();
 
         pointDetailsMapper.insert(vo);

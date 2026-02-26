@@ -16,9 +16,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class PointDetailsVO extends Period {
     private Long id;
-    private Long memberId;
+    private Long individualMemberId;
     private PointType pointType;
     private int pointAmount;
-    private Integer paymentAmount;
+    private int remainingPointAmount;
+    private int paymentAmount;
     private String expireDatetime;
+    private String paymentOrderId;
+    private String paymentReceiptId;
+    private String cancelledDatetime;
 }
