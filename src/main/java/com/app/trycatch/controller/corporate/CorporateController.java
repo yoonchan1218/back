@@ -31,7 +31,7 @@ public class CorporateController {
     private final CorporateService corporateService;
 
     private static final String LOGIN_REDIRECT = "redirect:/main/log-in";
-    private static final String MAIN_REDIRECT = "redirect:/main/main";
+    private static final String MAIN_REDIRECT = "redirect:/qna/list";
 
     /**
      * 세션에서 회원 ID 추출 (MemberDTO / IndividualMemberDTO / CorpMemberDTO 모두 지원)

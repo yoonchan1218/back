@@ -12,8 +12,10 @@ import com.app.trycatch.mapper.qna.QnaMapper;
 import com.app.trycatch.repository.file.FileDAO;
 import com.app.trycatch.repository.qna.QnaDAO;
 import com.app.trycatch.repository.qna.QnaFileDAO;
+import com.app.trycatch.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,14 +29,17 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class QnaService {
     private final QnaMapper qnaMapper;
     private final QnaLikesMapper qnaLikesMapper;
     private final QnaDAO qnaDAO;
     private final FileDAO fileDAO;
     private final QnaFileDAO qnaFileDAO;
+    private final PointService pointService;
 
     public void write(QnaVO qnaVO, ArrayList<MultipartFile> files) {
+        pointService.usePoint(qnaVO.getIndividualMemberId(), 5);
         qnaDAO.save(qnaVO);
         String todayPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         boolean firstFile = true;

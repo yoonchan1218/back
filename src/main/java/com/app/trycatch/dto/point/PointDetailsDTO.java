@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
 @ToString
@@ -15,20 +18,29 @@ import lombok.ToString;
 @NoArgsConstructor
 public class PointDetailsDTO {
     private Long id;
-    private Long memberId;
+    private Long individualMemberId;
     private PointType pointType;
     private int pointAmount;
-    private Integer paymentAmount;
+    private String chargeMethod;
+    private int remainingPointAmount;
+    private int paymentAmount;
     private String expireDatetime;
+    private String paymentOrderId;
+    private String paymentReceiptId;
+    private String cancelledDatetime;
+    private boolean cancellable;
     private String createdDatetime;
     private String updatedDatetime;
 
-    public String getPointTypeLabel() {
-        if (pointType == null) return "-";
+    public String getStatusLabel() {
+        if (pointType == null) {
+            return "-";
+        }
+
         return switch (pointType) {
-            case EARN -> "일반충전";
+            case EARN -> "충전";
             case USE -> "사용";
-            case EXPIRE -> "만료";
+            case EXPIRE -> "소멸";
             case PURCHASE_CANCEL -> "구매취소";
         };
     }
@@ -36,13 +48,28 @@ public class PointDetailsDTO {
     public PointDetailsVO toVO() {
         return PointDetailsVO.builder()
                 .id(id)
-                .memberId(memberId)
+                .individualMemberId(individualMemberId)
                 .pointType(pointType)
                 .pointAmount(pointAmount)
+                .remainingPointAmount(remainingPointAmount)
                 .paymentAmount(paymentAmount)
                 .expireDatetime(expireDatetime)
-                .createdDatetime(createdDatetime)
-                .updatedDatetime(updatedDatetime)
+                .paymentOrderId(paymentOrderId)
+                .paymentReceiptId(paymentReceiptId)
+                .cancelledDatetime(cancelledDatetime)
+                .build();
+    }
+
+    public PointDetailsVO toCancelVO(Long individualMemberId, int remainingPointAmount) {
+        return PointDetailsVO.builder()
+                .individualMemberId(individualMemberId)
+                .pointType(PointType.PURCHASE_CANCEL)
+                .pointAmount(-pointAmount)
+                .remainingPointAmount(remainingPointAmount)
+                .paymentAmount(-paymentAmount)
+                .expireDatetime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .paymentOrderId(paymentOrderId)
+                .paymentReceiptId(paymentReceiptId)
                 .build();
     }
 }

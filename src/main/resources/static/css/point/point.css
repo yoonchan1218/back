@@ -2,19 +2,19 @@
     font-family: "Pretendard";
     font-weight: 400;
     font-display: swap;
-    src: url("/static/font/Pretendard-Regular.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Regular.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 600;
     font-display: swap;
-    src: url("/static/font/Pretendard-SemiBold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-SemiBold.subset.woff2") format(woff2);
 }
 @font-face {
     font-family: "Pretendard";
     font-weight: 700;
     font-display: swap;
-    src: url("/static/font/Pretendard-Bold.subset.woff2") format(woff2);
+    src: url("/font/Pretendard-Bold.subset.woff2") format(woff2);
 }
 
 .civ header,
@@ -58412,6 +58412,7 @@ a.content_header__1hIvK:hover .content_name__12yiD {
 }
 
 .side-navigation .navi-top-area {
+    position: relative;
     padding: 0 12px;
 }
 
@@ -58438,7 +58439,7 @@ a.content_header__1hIvK:hover .content_name__12yiD {
 .qnaSpM:after {
     content: "";
     display: inline-block;
-    background-image: url(/static/images/sp_qna_recolor_star20_fixed.png);
+    background-image: url(/images/sp_qna_recolor_star20_fixed.png);
     background-repeat: no-repeat;
     background-position: 0 0;
     vertical-align: middle;
@@ -58478,6 +58479,23 @@ a.content_header__1hIvK:hover .content_name__12yiD {
     top: 80px;
 }
 
+.create-menu-wrap::before {
+    left: 50%;
+    margin-left: -3px;
+}
+
+.create-menu-item {
+    position: relative;
+    display: block;
+    height: 48px;
+    color: #333333;
+    font-size: 14px;
+    letter-spacing: 0px;
+    line-height: 48px;
+    padding-left: 40px;
+    font-weight: bold;
+}
+
 .create-menu-item:link,
 .create-menu-item:visited {
     color: #333;
@@ -58485,6 +58503,10 @@ a.content_header__1hIvK:hover .content_name__12yiD {
 
 .create-menu-item:first-child {
     border-bottom: solid 1px #eee;
+}
+
+.create-menu-item:hover {
+    background-color: #f0f3f9;
 }
 
 .side-navigation .myInfoSec {
