@@ -93,8 +93,8 @@ public class MemberController {
     }
 
     @GetMapping("main")
-    public String goMainPage() {
-        return "redirect:/qna/list";
+    public RedirectView goMainPage() {
+        return new RedirectView("/qna/list");
     }
 
     @GetMapping("log-in")
