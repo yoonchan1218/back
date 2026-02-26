@@ -2,6 +2,7 @@ package com.app.trycatch.service.corporate;
 
 import com.app.trycatch.common.pagination.Criteria;
 import com.app.trycatch.domain.corporate.CorpInviteVO;
+import com.app.trycatch.domain.member.CorpVO;
 import com.app.trycatch.domain.corporate.CorpTeamMemberVO;
 import com.app.trycatch.domain.corporate.CorpWelfareRelVO;
 import com.app.trycatch.domain.member.MemberVO;
@@ -12,6 +13,7 @@ import com.app.trycatch.dto.experience.ApplyDTO;
 import com.app.trycatch.dto.experience.ExperienceProgramDTO;
 import com.app.trycatch.dto.corporate.CorpProgramWithPagingDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.dto.corporate.ParticipantWithPagingDTO;
 import com.app.trycatch.dto.experience.ChallengerDTO;
 import com.app.trycatch.dto.experience.FeedbackDTO;
@@ -232,17 +234,28 @@ public class CorporateService {
         mailService.sendInviteMail(email, inviteCode, corpName);
     }
 
-    /** 팀원 가입 — 회원 생성 + 팀원 연결 + 초대 상태 변경 */
-    public void joinTeamMember(String inviteCode, MemberVO memberVO) {
+    /** 팀원 가입 — 회원 생성 + 기업 정보 복사 + 팀원 연결 + 초대 상태 변경 */
+    public void joinTeamMember(String inviteCode, MemberDTO memberDTO) {
         CorpInviteVO invite = corpInviteDAO.findByInviteCode(inviteCode)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 초대 코드입니다."));
 
-        // tbl_member INSERT
-        memberDAO.save(memberVO);
+        // tbl_member INSERT (DTO — useGeneratedKeys로 id 세팅)
+        memberDAO.saveTeamMember(memberDTO);
+
+        // 초대한 기업의 corp 정보 조회 → 팀원용 tbl_corp INSERT
+        CorpMemberDTO inviterCorp = corpMemberDAO.findById(invite.getCorpId())
+                .orElseThrow(() -> new IllegalArgumentException("초대 기업 정보를 찾을 수 없습니다."));
+        CorpVO teamMemberCorpVO = CorpVO.builder()
+                .id(memberDTO.getId())
+                .corpCompanyName(inviterCorp.getCorpCompanyName())
+                .corpBusinessNumber(inviterCorp.getCorpBusinessNumber())
+                .corpCeoName(inviterCorp.getCorpCeoName())
+                .build();
+        corpMemberDAO.save(teamMemberCorpVO);
 
         // tbl_corp_team_member INSERT (active 상태)
         CorpTeamMemberVO teamMemberVO = CorpTeamMemberVO.builder()
-                .id(memberVO.getId())
+                .id(memberDTO.getId())
                 .corpId(invite.getCorpId())
                 .corpTeamMemberStatus("active")
                 .build();

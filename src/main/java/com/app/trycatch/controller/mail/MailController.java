@@ -1,8 +1,8 @@
 package com.app.trycatch.controller.mail;
 
 import com.app.trycatch.domain.corporate.CorpInviteVO;
-import com.app.trycatch.domain.member.MemberVO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
+import com.app.trycatch.dto.member.MemberDTO;
 import com.app.trycatch.repository.corporate.CorpInviteDAO;
 import com.app.trycatch.repository.member.CorpMemberDAO;
 import com.app.trycatch.service.corporate.CorporateService;
@@ -29,7 +29,7 @@ public class MailController {
 
     // 가입 폼 표시
     @GetMapping("/invite/join")
-    public String joinForm(@RequestParam String code, Model model) {
+    public String joinForm(@RequestParam String code, @RequestParam(required = false) String error, Model model) {
         Optional<CorpInviteVO> inviteOpt = corpInviteDAO.findByInviteCode(code);
         if (inviteOpt.isEmpty()) {
             return "redirect:/mail/invite/fail";
@@ -43,6 +43,7 @@ public class MailController {
         model.addAttribute("inviteCode", code);
         model.addAttribute("email", invite.getInviteEmail());
         model.addAttribute("corpName", corpName);
+        model.addAttribute("error", error);
         return "mail/team-member-join";
     }
 
@@ -55,19 +56,21 @@ public class MailController {
                               @RequestParam String memberPhone,
                               @RequestParam String memberEmail) {
         try {
-            MemberVO memberVO = MemberVO.builder()
-                    .memberId(memberId)
-                    .memberPassword(memberPassword)
-                    .memberName(memberName)
-                    .memberPhone(memberPhone)
-                    .memberEmail(memberEmail)
-                    .build();
+            MemberDTO memberDTO = new MemberDTO();
+            memberDTO.setMemberId(memberId);
+            memberDTO.setMemberPassword(memberPassword);
+            memberDTO.setMemberName(memberName);
+            memberDTO.setMemberPhone(memberPhone);
+            memberDTO.setMemberEmail(memberEmail);
 
-            corporateService.joinTeamMember(inviteCode, memberVO);
+            corporateService.joinTeamMember(inviteCode, memberDTO);
             return "redirect:/mail/invite/success";
         } catch (IllegalArgumentException e) {
             log.warn("팀원 가입 실패: code={}, reason={}", inviteCode, e.getMessage());
             return "redirect:/mail/invite/fail";
+        } catch (org.springframework.dao.DuplicateKeyException e) {
+            log.warn("팀원 가입 실패 - 중복: code={}, reason={}", inviteCode, e.getMessage());
+            return "redirect:/mail/invite/join?code=" + inviteCode + "&error=duplicate";
         }
     }
 

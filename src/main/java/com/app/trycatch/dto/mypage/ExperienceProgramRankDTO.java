@@ -1,9 +1,12 @@
 package com.app.trycatch.dto.mypage;
 
+import com.app.trycatch.dto.experience.ExperienceProgramFileDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +20,5 @@ public class ExperienceProgramRankDTO {
     private int experienceProgramViewCount;
     private Long corpId;
     private String corpCompanyName;
+    private List<ExperienceProgramFileDTO> experienceProgramFiles;
 }

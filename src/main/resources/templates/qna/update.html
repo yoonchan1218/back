@@ -65,13 +65,13 @@
                                 </dd>
                             </dl>
                         </a>
-                        <button
-                            type="button"
+                        <a
+                            href="/point/point"
                             class="myPoint devMainCouponButton"
                         >
                             <span class="point qnaSpB" th:text="${loginMember?.individualMemberPoint}">0</span
                             ><span class="btnCoupon qnaSpA">별 충전</span>
-                        </button>
+                        </a>
                     </div>
                     <div class="myInfoSec logout" th:unless="${loginMember != null}">
                         <a href="" class="myInfo devLoginLayer" devalert="0">

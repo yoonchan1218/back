@@ -84,9 +84,13 @@
                         </dd>
                     </dl>
                 </a>
-                <button type="button" class="myPoint devMainCouponButton">
-                    <span class="point qnaSpB" th:text="${loginMember?.individualMemberPoint}">0</span><span class="btnCoupon qnaSpA">별 교환</span>
-                </button>
+                <a
+                        href="/point/point"
+                        class="myPoint devMainCouponButton"
+                >
+                            <span class="point qnaSpB" th:text="${loginMember?.individualMemberPoint}">0</span
+                            ><span class="btnCoupon qnaSpA">별 충전</span>
+                </a>
             </div>
             <!-- 비로그인 시 사이드 네비게이션 -->
             <div class="myInfoSec logout" th:unless="${loginMember != null}">

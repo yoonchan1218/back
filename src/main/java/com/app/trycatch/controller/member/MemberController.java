@@ -1,8 +1,14 @@
 package com.app.trycatch.controller.member;
 
+import com.app.trycatch.dto.experience.ExperienceProgramFileDTO;
 import com.app.trycatch.dto.member.CorpMemberDTO;
 import com.app.trycatch.dto.member.IndividualMemberDTO;
 import com.app.trycatch.dto.member.MemberDTO;
+import com.app.trycatch.dto.mypage.ExperienceProgramRankDTO;
+import com.app.trycatch.dto.mypage.ScrapPostingDTO;
+import com.app.trycatch.repository.experience.ExperienceProgramFileDAO;
+import com.app.trycatch.repository.mypage.ExperienceProgramRankDAO;
+import com.app.trycatch.repository.mypage.ScrapPostingDAO;
 import com.app.trycatch.service.member.CorpService;
 import com.app.trycatch.service.member.IndividualMemberService;
 import com.app.trycatch.service.oauth.KakaoService;
@@ -19,8 +25,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/main")
@@ -30,6 +39,9 @@ public class MemberController {
     private final IndividualMemberService individualMemberService;
     private final CorpService corpService;
     private final KakaoService kakaoService;
+    private final ExperienceProgramRankDAO experienceProgramRankDAO;
+    private final ExperienceProgramFileDAO experienceProgramFileDAO;
+    private final ScrapPostingDAO scrapPostingDAO;
     private final HttpSession session;
 
     @GetMapping("individual-join")
@@ -90,6 +102,30 @@ public class MemberController {
     public RedirectView logout() {
         session.invalidate();
         return new RedirectView("/main/log-in");
+    }
+
+    @GetMapping("service-introduce")
+    public String goServiceIntroduce(Model model){
+        List<ExperienceProgramRankDTO> programs = experienceProgramRankDAO.findTopByViewCount(10);
+
+        programs.forEach(program -> {
+            List<ExperienceProgramFileDTO> files = experienceProgramFileDAO.findAllByExperienceProgramId(program.getExperienceProgramId());
+            program.setExperienceProgramFiles(files);
+        });
+
+        model.addAttribute("programs", programs);
+
+        Object member = session.getAttribute("member");
+        if (member instanceof IndividualMemberDTO individualMember) {
+            List<ScrapPostingDTO> scraps = scrapPostingDAO.findAllByMemberId(individualMember.getId());
+            Set<Long> scrapProgramIds = scraps.stream()
+                    .filter(s -> s.getScrapStatus() == com.app.trycatch.common.enumeration.member.Status.ACTIVE)
+                    .map(ScrapPostingDTO::getExperienceProgramId)
+                    .collect(Collectors.toSet());
+            model.addAttribute("scrapProgramIds", scrapProgramIds);
+        }
+
+        return "main/service-introduce";
     }
 
     @GetMapping("main")

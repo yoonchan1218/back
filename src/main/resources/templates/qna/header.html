@@ -192,8 +192,7 @@
                                     id="gnbInternship"
                                     class="navItem internship"
                                 >
-                                    <a
-                                        href=""
+                                    <a th:href="@{/skill-log/list}"
                                         class="linkItem"
                                         ><span class="spNav"
                                             >기술 블로그</span
@@ -233,7 +232,7 @@
                                 </li>
                                 <li class="userNav-item star">
                                     <a
-                                        href=""
+                                        th:href="@{/main/log-in(re_url='/point/point')}"
                                         class="txt-button star-button"
                                         >별 포인트</a
                                     >
@@ -265,7 +264,7 @@
                                                         >
                                                     </li>
                                                     <li>
-                                                        <a href=""
+                                                        <a th:href="@{/corporate/program-apply}"
                                                             ><span
                                                                 class="tx"
                                                                 >공고등록</span
@@ -273,21 +272,11 @@
                                                         >
                                                     </li>
                                                     <li>
-                                                        <a href=""
+                                                        <a th:href="@{/corporate/program-management}"
                                                             ><span
                                                                 class="tx"
                                                                 >공고·지원자
                                                                 관리</span
-                                                            ></a
-                                                        >
-                                                    </li>
-                                                    <li>
-                                                        <a href=""
-                                                            ><span
-                                                                class="tx"
-                                                                >기업회원
-                                                                서비스
-                                                                안내</span
                                                             ></a
                                                         >
                                                     </li>
@@ -729,8 +718,7 @@
                                                         </li>
                                                         <li>
                                                             <a
-                                                                href=""
-                                                                onclick=""
+                                                                    th:href="@{/skill-log/dashboard}"
                                                                 ><span
                                                                     class="tx"
                                                                     >내 기술블로그</span
@@ -801,8 +789,8 @@
                                         <div class="lyCol subCol">
                                             <div class="colItem">
                                                 <strong class="titArea">
-                                                    <a href="" class="tit gnbGi"
-                                                        >채험 탐색</a
+                                                    <a href="/ex" class="tit gnbGi"
+                                                        >체험 정보</a
                                                     >
                                                 </strong>
                                                 <div class="listBx">
@@ -888,7 +876,7 @@
                                             <div class="colItem">
                                                 <strong class="titArea corp"
                                                     ><a
-                                                        href=""
+                                                        th:href="@{/skill-log/list}"
                                                         class="tit career"
                                                         >기술 블로그</a
                                                     ></strong
@@ -897,7 +885,7 @@
                                                     <ul class="list-col">
 
                                                         <li>
-                                                            <a href=""
+                                                            <a th:href="@{/skill-log/list}"
                                                                 >기술 블로그</a
                                                             >
                                                         </li>

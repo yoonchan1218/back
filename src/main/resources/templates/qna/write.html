@@ -65,13 +65,13 @@
                                 </dd>
                             </dl>
                         </a>
-                        <button
-                            type="button"
+                        <a
+                            href="/point/point"
                             class="myPoint devMainCouponButton"
                         >
                             <span class="point qnaSpB" th:text="${loginMember?.individualMemberPoint}">0</span
                             ><span class="btnCoupon qnaSpA">별 충전</span>
-                        </button>
+                        </a>
                     </div>
                     <div class="myInfoSec logout" th:unless="${loginMember != null}">
                         <a href="" class="myInfo devLoginLayer" devalert="0">
@@ -206,29 +206,6 @@
                                                 기업명 검색/선택 후,
                                                 질문대상으로 설정하실 수
                                                 있습니다.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <input
-                                                type="checkbox"
-                                                id="lb_targetCheck1"
-                                                data-has-univ="False"
-                                                class="skip"
-                                                checked=""
-                                        />
-                                        <label
-                                                for="lb_targetCheck1"
-                                                class="qnaSpB"
-                                        >동문선배</label
-                                        >
-                                        <div
-                                                class="tooltip-box qnaSpA devQnaWriteUnivTooltip"
-                                                style="display: none"
-                                        >
-                                            <p class="txt">
-                                                동문 선택 후, 질문대상으로
-                                                설정하실 수 있습니다.
                                             </p>
                                         </div>
                                     </li>
@@ -8127,94 +8104,6 @@
                                             </button>
                                         </div>
                                     </li>
-                                    <li>
-                                        <!-- [Dev] 버튼 클릭 시 클래스 on 추가 -->
-                                        <button
-                                                data-univ-name="test"
-                                                data-univ-code="U0110"
-                                                type="button"
-                                                class="btn-select qnaSpA devQnaWriteUnivLayer devQnaWriteUnivDropDownButton"
-                                        >
-                                            test
-                                        </button>
-                                        <!-- layer-box-wrap : 클래스 open 추가 시 레이어 노출 -->
-                                        <div class="layer-box-wrap alumni">
-                                            <p class="layer-header">
-                                                동문 선택
-                                            </p>
-                                            <div class="layer-cont">
-                                                <div
-                                                        class="subtitle-wrap has-tooltip devQnaWriteUnivLayerTooltip"
-                                                >
-                                                    <span class="subtitle"
-                                                    >나의동문</span
-                                                    >
-                                                    <button
-                                                            type="button"
-                                                            class="select-tooltip qnaSpA"
-                                                    >
-                                                        <span class="skip"
-                                                        >나의동문 설명
-                                                            보기</span
-                                                        >
-                                                    </button>
-                                                    <div
-                                                            class="tooltip-layer qnaSpB"
-                                                    >
-                                                        <p class="txt">
-                                                            나의 기본 이력서에
-                                                            등록된 학력(대학교,
-                                                            대학원)
-                                                        </p>
-                                                        <button
-                                                                type="button"
-                                                                class="btn-tooltip-close qnaSpB"
-                                                        >
-                                                            <span class="skip"
-                                                            >닫기</span
-                                                            >
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <ul
-                                                        class="listWrap radioCommWrap"
-                                                >
-                                                    <li
-                                                            class="devUnivItem"
-                                                            data-univ-name="test"
-                                                            data-univ-code="U0110"
-                                                    >
-                                                        <input
-                                                                type="radio"
-                                                                name="lb_university"
-                                                                id="lb_university_1"
-                                                                class="skip"
-                                                                checked=""
-                                                        />
-                                                        <label
-                                                                for="lb_university_1"
-                                                                class="qnaSpB"
-                                                        >
-                                                            <span
-                                                                    class="txt_name"
-                                                            >test</span
-                                                            >
-                                                            <span
-                                                                    class="txt_info"
-                                                            >졸업</span
-                                                            >
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <button
-                                                    type="button"
-                                                    class="btn-layer-close qnaSpB devQnaWriteUnivLayerClose"
-                                            >
-                                                <span class="blind">닫기</span>
-                                            </button>
-                                        </div>
-                                    </li>
                                 </ul>
                             </div>
                             <div class="noticeListArea">
@@ -8276,8 +8165,12 @@
     *휴대폰 번호, 메일 주소, 카카오톡 ID 등 개인정보가 포함된 내용은 비노출 처리될 수 있습니다"></textarea>
                                         </div>
                                     </div>
-                                    <!-- 질문하기, 취소 버튼 -->
+                                    <!-- 별 소모 안내 + 질문하기, 취소 버튼 -->
                                     <div class="btnCommWrap">
+                                        <p class="point-notice" style="margin-bottom: 12px; font-size: 14px; color: #666; text-align: center;">
+                                            질문 등록 시 <span class="qnaSpB" style="font-weight: bold; color: #e8a735;">5</span> 개가 소모됩니다.
+                                            (보유: <span class="qnaSpB" style="font-weight: bold;" th:text="${loginMember?.individualMemberPoint}" id="currentPoint">0</span> 개)
+                                        </p>
                                         <button type="button" class="btnQuestion devQnaWriteButton">
                                             질문하기
                                         </button>

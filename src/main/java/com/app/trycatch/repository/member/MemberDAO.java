@@ -28,6 +28,11 @@ public class MemberDAO {
         memberMapper.insert(memberVO);
     }
 
+    // 팀원 회원 가입 (DTO — useGeneratedKeys로 id 반환)
+    public void saveTeamMember(MemberDTO memberDTO) {
+        memberMapper.insertTeamMember(memberDTO);
+    }
+
     // 기업회원 가입
     public void saveCorp(MemberVO memberVO) {
         memberMapper.insertCorp(memberVO);

@@ -661,54 +661,6 @@ layerBoxJob.addEventListener("click", (e) => {
     if (jobTriggerBtn) { jobTriggerBtn.classList.add("on"); }
 });
 
-// 동문선배(로그인)
-const thirdCheckButton = document.getElementById("lb_targetCheck1");
-const uniCheckDrop = document.querySelector(
-    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton",
-);
-
-const layerBox = document.querySelector(".layer-box-wrap.alumni");
-const layerBoxButton = document.querySelector(
-    ".btn-select.qnaSpA.devQnaWriteUnivLayer.devQnaWriteUnivDropDownButton ",
-);
-const layerBoxCancelButton = document.querySelector(
-    ".btn-layer-close.qnaSpB.devQnaWriteUnivLayerClose",
-);
-const uniLabelTag = document.querySelector(".devUnivItem label");
-
-// 동문선배 이벤트(로그인)
-thirdCheckButton.addEventListener("click", (e) => {
-    uniCheckDrop.classList.toggle("on");
-});
-
-layerBoxButton.addEventListener("click", (e) => {
-    // 다른 드롭다운 닫기
-    document
-        .querySelector(".layer-box-wrap.job.innerScroll")
-        .classList.remove("open");
-    document
-        .querySelector(".layer-box-wrap.job-directInput")
-        .classList.remove("open");
-    document
-        .querySelector(".layer-box-wrap.corporation.innerScroll")
-        .classList.remove("open");
-    // 동문선배 드롭다운 열기
-    layerBox.classList.add("open");
-});
-
-layerBoxCancelButton.addEventListener("click", (e) => {
-    layerBox.classList.remove("open");
-});
-
-uniLabelTag.addEventListener("click", (e) => {
-    const item = e.target.closest(".devUnivItem");
-    if (item) {
-        const univName = item.dataset.univName;
-        document.getElementById("hiddenCollegeFriend").value = univName;
-    }
-    layerBox.classList.remove("open");
-});
-
 // 기업선배 드롭다운
 const layerBoxCorp = document.querySelector(
     ".layer-box-wrap.corporation.innerScroll",
@@ -749,7 +701,12 @@ admitButton.addEventListener("click", (e) => {
         alert("내용을 입력해주세요");
         return;
     }
-    if (!confirm("등록 하시겠습니까?")) {
+    const currentPoint = parseInt(document.getElementById("currentPoint")?.textContent || "0", 10);
+    if (currentPoint < 5) {
+        alert("보유 별이 부족합니다. (필요: 5개, 보유: " + currentPoint + "개)");
+        return;
+    }
+    if (!confirm("별 5개가 소모됩니다. 등록 하시겠습니까?")) {
         return;
     }
     // 폼 제출 직전에 현재 선택된 카테고리를 hidden input에 최종 세팅
